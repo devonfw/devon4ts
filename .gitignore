@@ -60,3 +60,5 @@ typings/
 # next.js build output
 .next
 template/dist/*
+template/database.db
+template/.vscode/launch.json

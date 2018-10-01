@@ -1,32 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Todo } from './models/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, EntityRepository, DeepPartial } from 'typeorm';
+import { Repository, EntityRepository } from 'typeorm';
 import { MapperService } from 'shared/mapper/mapper.service';
-
+import { BaseService } from 'shared/base.service';
+import { TodoParams } from './models/view-models/todo-params.model';
+import { TodoLevel } from './models/todo-level.enum';
 @Injectable()
 @EntityRepository(Todo)
-export class TodoService {
+export class TodoService extends BaseService<Todo> {
   constructor(
     @InjectRepository(Todo) private readonly _todoRepository: Repository<Todo>,
     private readonly _mapperService: MapperService,
-  ) {}
-
-  async find(filter = {}) {
-    return await this._todoRepository.find(filter);
+  ) {
+    super();
+    this._repository = _todoRepository;
+    this._mapper = _mapperService.mapper;
+    this.setTname('Todo');
   }
 
-  async create(item: any) {
-    return await this._todoRepository.save(item);
-  }
-
-  async update(item: any) {
-    return await this._todoRepository.update(item.id, item);
-  }
-
-  async delete(id: number) {
-    const deleted = await this._todoRepository.findOne(id);
-    await this._todoRepository.delete(id);
-    return deleted;
+  async createTodo(params: TodoParams): Promise<Todo> {
+    try {
+      if (params.priority) {
+        if (!Object.values(TodoLevel).includes(params.priority)) {
+          params.priority = TodoLevel.Normal;
+        }
+      }
+      const newTodo = await this._todoRepository.create(params);
+      return await this._todoRepository.save(newTodo);
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
