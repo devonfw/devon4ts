@@ -6,6 +6,9 @@ import { Configuration } from 'shared/configuration/configuration.enum';
 import { SharedModule } from 'shared/shared.module';
 import { TodoModule } from './todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserService } from './user/user.service';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     SharedModule,
     TodoModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
