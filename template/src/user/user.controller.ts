@@ -18,7 +18,6 @@ import { UserService } from './user.service';
 import { UserVm } from './models/view-models/user-vm.model';
 import { ApiException } from 'shared/api-exception.model';
 import { GetOperationId } from 'shared/utilities/get-operation-id';
-import { User } from './models/user.entity';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
@@ -40,22 +39,11 @@ export class UserController {
   @ApiOperation(GetOperationId('User', 'Register'))
   async register(@Body() registerVm: RegisterVm): Promise<UserVm> {
     try {
-      const { username, password, mail } = registerVm;
-      if (!username) {
-        throw new HttpException('Username is required', HttpStatus.BAD_REQUEST);
-      }
-      if (!password) {
-        throw new HttpException('Password is required', HttpStatus.BAD_REQUEST);
-      }
-      if (!mail) {
-        throw new HttpException('Mail is required', HttpStatus.BAD_REQUEST);
-      }
-      registerVm.username = username.toLowerCase();
-      registerVm.mail = mail.toLowerCase();
+      registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
       return this._userService.map<UserVm>(newUser);
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.getStatus());
     }
   }
 
@@ -64,14 +52,20 @@ export class UserController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Login'))
   async login(@Body() loginVm: LoginVm): Promise<LoginResponseVm> {
-    const fields = Object.keys(loginVm);
-    fields.forEach(field => {
-      if (!loginVm[field]) {
-        throw new HttpException(`${field} is required`, HttpStatus.BAD_REQUEST);
-      }
-    });
-
-    return this._userService.login(loginVm);
+    try {
+      const fields = Object.keys(loginVm);
+      fields.forEach(field => {
+        if (!loginVm[field]) {
+          throw new HttpException(
+            `${field} is required`,
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      });
+      return this._userService.login(loginVm);
+    } catch (error) {
+      throw new HttpException(error, error.getStatus());
+    }
   }
 
   @Put('update')
@@ -92,20 +86,18 @@ export class UserController {
 
       if (!exist) {
         throw new HttpException(
-          `${name} Not Found with this id: ${id}`,
+          ` No user Found with this id: ${id}`,
           HttpStatus.NOT_FOUND,
         );
       }
       if (mail && mail.trim() !== '') exist.mail = vm.mail;
-
       const updated = await this._userService.update(id, exist).catch(err => {
         throw new HttpException(err, HttpStatus.BAD_REQUEST);
       });
       if (updated) return this._userService.map<UserVm>(updated);
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.getStatus());
     }
-    return vm;
   }
 
   @Put('upgrade/:id')
@@ -170,7 +162,7 @@ export class UserController {
   @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'ChangePassword'))
-  async changePassword(@Body() user: ChangePasswordVm): Promise<User> {
+  async changePassword(@Body() user: ChangePasswordVm): Promise<UserVm> {
     try {
       const { username, password, newPassword } = user;
 
@@ -183,9 +175,29 @@ export class UserController {
           'An unexpected error has ocurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
-      return result;
+      return await this._userService.map<UserVm>(result);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  validateRegister(register: RegisterVm): RegisterVm {
+    const { username, password, mail } = register;
+    if (!username) {
+      throw new HttpException('Username is required', HttpStatus.BAD_REQUEST);
+    }
+    if (!password) {
+      throw new HttpException('Password is required', HttpStatus.BAD_REQUEST);
+    }
+    if (!mail) {
+      throw new HttpException('Mail is required', HttpStatus.BAD_REQUEST);
+    }
+    if (!mail) {
+      throw new HttpException('Mail is required', HttpStatus.BAD_REQUEST);
+    }
+    register.role = 'User';
+    register.username = username.toLowerCase();
+    register.mail = mail.toLowerCase();
+    return register;
   }
 }

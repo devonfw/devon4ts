@@ -15,4 +15,20 @@ export class ConfigurationService {
   get isDevelopment(): boolean {
     return this.enviromentHosting === 'development';
   }
+
+  get swaggerTitle(): string {
+    return get(Configuration.SWAGGER_TITLE);
+  }
+
+  get swaggerDescription(): string {
+    return get(Configuration.SWAGGER_DESCRIPTION);
+  }
+
+  get swaggerVersion(): string {
+    return get(Configuration.SWAGGER_VERSION);
+  }
+
+  get swaggerBasePath(): string {
+    return get(Configuration.SWAGGER_BASEPATH);
+  }
 }

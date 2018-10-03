@@ -35,36 +35,36 @@ export class UserService extends BaseService<User> {
   async register(registerVm: RegisterVm): Promise<User> {
     const { username, password, mail } = registerVm;
     try {
-      const exist = await this._userRepository.findOne(username);
+      let exist = await this._userRepository
+        .findOne({ username })
+        .catch(err => {
+          throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+        });
       if (exist) {
         throw new HttpException(
-          `This username is already in use: ${username}`,
+          `${username} is already in use`,
           HttpStatus.BAD_REQUEST,
         );
       }
-    } catch (error) {
-      throw new HttpException(error, HttpStatus.BAD_REQUEST);
-    }
 
-    try {
-      const exist = await this._userRepository.findOne(mail);
+      exist = await this._userRepository.findOne({ mail }).catch(err => {
+        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
       if (exist) {
         throw new HttpException(
           `This mail is already associated with an username`,
           HttpStatus.BAD_REQUEST,
         );
       }
-    } catch (error) {
-      throw new HttpException(error, HttpStatus.BAD_REQUEST);
-    }
-    const newUser = this._userRepository.create(registerVm);
-    const salt = await genSalt();
-    newUser.password = await hash(password, salt);
-    try {
-      const result = await this._userRepository.save(newUser);
+      const newUser = this._userRepository.create(registerVm);
+      const salt = await genSalt();
+      newUser.password = await hash(password, salt);
+      const result = await this._userRepository.save(newUser).catch(err => {
+        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
       return result;
     } catch (e) {
-      throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(e, e.getStatus());
     }
   }
 
@@ -85,15 +85,19 @@ export class UserService extends BaseService<User> {
         role: user.role,
       };
 
-      const token = await this._authService.signPayload(payload);
-      const userVm: UserVm = await this.map<UserVm>(user);
+      const token = await this._authService.signPayload(payload).catch(err => {
+        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
+      const userVm: UserVm = await this.map<UserVm>(user).catch(err => {
+        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
 
       return {
         token,
         user: userVm,
       };
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.getStatus());
     }
   }
 
@@ -101,26 +105,24 @@ export class UserService extends BaseService<User> {
     try {
       const { username, password, newPassword } = user;
 
-      const exist = await this.find({ username }).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
-
+      const exist = await this._userRepository.findOne({ username });
       if (!exist) {
         throw new HttpException(
           `No User found with the provided username: ${username}`,
           HttpStatus.NOT_FOUND,
         );
       }
+
       if (!(await this.passwordMatch(password, exist.password))) {
-        throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+        throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
       }
 
-      if (password === newPassword && newPassword.length >= 6) {
+      if (password !== newPassword && newPassword.length >= 6) {
         const salt = await genSalt();
         exist.password = await hash(newPassword, salt);
       } else {
         throw new HttpException(
-          'The new password must have at least 6 characters and differ from the previous one',
+          'The new password must have at least 6 characters and must be different from the previous one',
           HttpStatus.BAD_REQUEST,
         );
       }

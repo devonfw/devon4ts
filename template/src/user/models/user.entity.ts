@@ -12,6 +12,6 @@ export class User extends BaseModel<User> {
   @Column({ type: 'text', nullable: false })
   password: string;
 
-  @Column({ type: 'text', unique: true, default: UserRole.User })
-  role?: string;
+  @Column({ type: 'text', nullable: false, default: UserRole.User })
+  role: string;
 }

@@ -1,4 +1,3 @@
-// This will be the generic base service
 import 'automapper-ts/dist/automapper';
 import { Repository, DeepPartial } from 'typeorm';
 

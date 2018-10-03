@@ -5,6 +5,7 @@ import { ConfigurationService } from '../configuration/configuration.service';
 import { SignOptions, sign } from 'jsonwebtoken';
 import { JwtPayload } from './jwt-payload';
 import { User } from 'user/models/user.entity';
+import { UserVm } from 'user/models/view-models/user-vm.model';
 
 @Injectable()
 export class AuthService {
@@ -27,5 +28,17 @@ export class AuthService {
     return await this._userService.find({ username }).catch(err => {
       return null;
     });
+  }
+
+  async getUser(payload: JwtPayload): Promise<UserVm | null> {
+    const username = payload.username;
+    return await this._userService
+      .find({ username })
+      .then(user => {
+        return this._userService.map<UserVm>(user);
+      })
+      .catch(err => {
+        return null;
+      });
   }
 }

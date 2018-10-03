@@ -12,23 +12,23 @@ async function bootstrap() {
 
   if (hostDomain) {
     const swaggerOptions = new DocumentBuilder()
-      .setTitle('Your App Name')
-      .setDescription('API Documentation')
-      .setVersion('1.0.0')
+      .setTitle(AppModule.appName)
+      .setDescription(AppModule.appDescription)
+      .setVersion(AppModule.appVersion)
       .setHost(hostDomain.split('//')[1])
       .setSchemes(AppModule.isDev ? 'http' : 'https')
-      .setBasePath('/api')
+      .setBasePath(AppModule.appBasePath)
       .addBearerAuth('Authorization', 'header')
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions);
 
-    app.use('/api/docs/swagger.json', (req, res) => {
+    app.use(`${AppModule.appBasePath}/docs/swagger.json`, (req, res) => {
       res.send(swaggerDoc);
     });
 
     SwaggerModule.setup('/api/docs', app, swaggerDoc, {
-      swaggerUrl: `${hostDomain}/api/docs/swagger.json`,
+      swaggerUrl: `${hostDomain}${AppModule.appBasePath}/docs/swagger.json`,
       explorer: true,
       swaggerOptions: {
         docExpansion: 'list',
@@ -43,7 +43,7 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(AppModule.appBasePath);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors();
   await app.listen(AppModule.port);
