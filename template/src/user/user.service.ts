@@ -126,7 +126,9 @@ export class UserService extends BaseService<User> {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const result = await this.update(exist.id, exist);
+      const result = await this.update(exist.id, exist).catch(err => {
+        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
       if (!result)
         throw new HttpException(
           'An unexpected error has ocurred',
@@ -134,7 +136,7 @@ export class UserService extends BaseService<User> {
         );
       return result;
     } catch (e) {
-      throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(e, e.getStatus());
     }
   }
 

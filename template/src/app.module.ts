@@ -7,6 +7,7 @@ import { SharedModule } from 'shared/shared.module';
 import { TodoModule } from './todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -32,8 +33,19 @@ export class AppModule {
   static appVersion: string | undefined;
   static appDescription: string | undefined;
   static appBasePath: string | undefined;
+  static logger: winston.Logger;
 
   constructor(private readonly _configurationService: ConfigurationService) {
+    const SOURCE_PATH = _configurationService.isDevelopment ? 'src' : 'dist';
+
+    module.exports = {
+      type: 'sqlite',
+      database: 'database.db',
+      synchronize: true,
+      logging: false,
+      entities: [`${SOURCE_PATH}/**/**.entity{.ts,.js}`],
+    };
+
     AppModule.port = AppModule.normalizePort(
       _configurationService.get(Configuration.PORT),
     );
@@ -43,6 +55,24 @@ export class AppModule {
     AppModule.appVersion = _configurationService.swaggerVersion;
     AppModule.appDescription = _configurationService.swaggerDescription;
     AppModule.appBasePath = _configurationService.swaggerBasePath;
+    AppModule.logger = winston.createLogger({
+      format: winston.format.combine(
+        winston.format.timestamp({
+          format: 'YYYY-MM-DD hh:mm:ss A ZZ',
+        }),
+        winston.format.json(),
+      ),
+      level: 'info',
+      transports: [
+        new winston.transports.File({
+          filename: `${__dirname}/logs/error.log`,
+          level: 'error',
+        }),
+        new winston.transports.File({
+          filename: `${__dirname}/logs/general.log`,
+        }),
+      ],
+    });
   }
 
   private static normalizePort(param: string | number): string | number {

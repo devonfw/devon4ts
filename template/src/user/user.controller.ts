@@ -26,6 +26,7 @@ import { RolesGuard } from 'shared/guards/roles.guard';
 import { Roles } from 'shared/decorators/role.decorator';
 import { UserRole } from './models/user-role.enum';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+import { AppModule } from 'app.module';
 
 @Controller('users')
 @ApiUseTags('User')
@@ -41,14 +42,16 @@ export class UserController {
     try {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
+      AppModule.logger.log('info', 'User created : ' + registerVm.username);
       return this._userService.map<UserVm>(newUser);
     } catch (error) {
+      error.operation = 'User register';
       throw new HttpException(error, error.getStatus());
     }
   }
 
   @Post('login')
-  @ApiResponse({ status: HttpStatus.CREATED, type: LoginResponseVm })
+  @ApiResponse({ status: HttpStatus.OK, type: LoginResponseVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Login'))
   async login(@Body() loginVm: LoginVm): Promise<LoginResponseVm> {
@@ -96,6 +99,8 @@ export class UserController {
       });
       if (updated) return this._userService.map<UserVm>(updated);
     } catch (error) {
+      error.operation = 'User update';
+      error.request = JSON.stringify(vm);
       throw new HttpException(error, error.getStatus());
     }
   }

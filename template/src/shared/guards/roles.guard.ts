@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UserRole } from 'user/models/user-role.enum';
-import { User } from 'user/models/user.model';
-import { InstanceType } from 'typegoose';
+import { User } from 'user/models/user.entity';
+import { EnumToArray } from '../utilities/enum-to-array';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -24,9 +24,9 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    const user: InstanceType<User> = request.user;
+    const user: User = request.user;
 
-    const hasRole = () => roles.indexOf(user.role) >= 0;
+    const hasRole = () => EnumToArray(UserRole).indexOf(user.role) >= 0;
 
     if (user && user.role && hasRole()) {
       return true;
