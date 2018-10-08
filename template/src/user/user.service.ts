@@ -15,7 +15,6 @@ import { LoginVm } from './models/view-models/login-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { AuthService } from 'shared/auth/auth.service';
 import { JwtPayload } from 'shared/auth/jwt-payload';
-import { UserVm } from './models/view-models/user-vm.model';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
 
 @Injectable()
@@ -142,5 +141,11 @@ export class UserService extends BaseService<User> {
     return await this._userRepository.findOne(filter).catch(err => {
       return null;
     });
+  }
+
+  async getUserId(input = {}): Promise<number> {
+    const exists = await this.find(input);
+    if (exists) return exists.id;
+    return -1;
   }
 }
