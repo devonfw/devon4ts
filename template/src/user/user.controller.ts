@@ -43,7 +43,7 @@ export class UserController {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
       AppModule.logger.log('info', 'User created : ' + registerVm.username);
-      return this._userService.map<UserVm>(newUser);
+      return newUser;
     } catch (error) {
       error.operation = 'User register';
       throw new HttpException(error, error.getStatus());
@@ -79,25 +79,29 @@ export class UserController {
   @ApiOperation(GetOperationId('User', 'Update'))
   async update(@Body() vm: UserVm): Promise<UserVm> {
     try {
-      const { id, mail } = vm;
-      if (!vm || !id) {
+      if (!vm || !vm.id) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
       }
-      const exist = await this._userService.findById(id).catch(err => {
+      const exist = await this._userService.findById(vm.id).catch(err => {
         throw new HttpException(err, HttpStatus.BAD_REQUEST);
       });
 
       if (!exist) {
         throw new HttpException(
-          ` No user Found with this id: ${id}`,
+          ` No user Found with this id: ${vm.id}`,
           HttpStatus.NOT_FOUND,
         );
       }
-      if (mail && mail.trim() !== '') exist.mail = vm.mail;
-      const updated = await this._userService.update(id, exist).catch(err => {
-        throw new HttpException(err, HttpStatus.BAD_REQUEST);
-      });
-      if (updated) return this._userService.map<UserVm>(updated);
+      if (vm.mail && vm.mail.trim() !== '') exist.mail = vm.mail;
+      const updated = await this._userService
+        .update(vm.id, exist)
+        .catch(err => {
+          throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        });
+      if (updated) {
+        const { id, ...result } = updated;
+        return result as UserVm;
+      }
     } catch (error) {
       error.operation = 'User update';
       error.request = JSON.stringify(vm);
@@ -111,23 +115,26 @@ export class UserController {
   @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Upgrade'))
-  async upgrade(@Param('id') id: number): Promise<UserVm> {
+  async upgrade(@Param('id') identificator: number): Promise<UserVm> {
     try {
-      if (!id) {
+      if (!identificator) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
       }
-      const exist = await this._userService.findById(id);
+      const exist = await this._userService.findById(identificator);
 
       if (!exist) {
         throw new HttpException(
-          `No User found with the provided id: ${id}`,
+          `No User found with the provided id: ${identificator}`,
           HttpStatus.NOT_FOUND,
         );
       }
       exist.role = UserRole.Admin;
 
-      const updated = await this._userService.update(id, exist);
-      if (updated) return this._userService.map<UserVm>(updated);
+      const updated = await this._userService.update(identificator, exist);
+      if (updated) {
+        const { id, ...result } = updated;
+        return result as UserVm;
+      }
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -139,23 +146,26 @@ export class UserController {
   @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Downgrade'))
-  async downgrade(@Param('id') id: number): Promise<UserVm> {
+  async downgrade(@Param('id') identificator: number): Promise<UserVm> {
     try {
-      if (!id) {
+      if (!identificator) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
       }
-      const exist = await this._userService.findById(id);
+      const exist = await this._userService.findById(identificator);
 
       if (!exist) {
         throw new HttpException(
-          `No User found with the provided id: ${id}`,
+          `No User found with the provided id: ${identificator}`,
           HttpStatus.NOT_FOUND,
         );
       }
       exist.role = UserRole.User;
 
-      const updated = await this._userService.update(id, exist);
-      if (updated) return this._userService.map<UserVm>(updated);
+      const updated = await this._userService.update(identificator, exist);
+      if (updated) {
+        const { id, ...result } = updated;
+        return result as UserVm;
+      }
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -180,7 +190,8 @@ export class UserController {
           'An unexpected error has ocurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
-      return await this._userService.map<UserVm>(result);
+      const { id, ...resultVm } = result;
+      return resultVm as UserVm;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

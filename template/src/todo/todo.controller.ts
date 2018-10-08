@@ -44,7 +44,7 @@ export class TodoController {
   @ApiResponse({ status: HttpStatus.CREATED, type: TodoVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('Todo', 'Create'))
-  async create(@Body() params: TodoParams) {
+  async create(@Body() params: TodoParams): Promise<TodoVm> {
     try {
       const { description } = params;
       if (!description) {
@@ -54,7 +54,8 @@ export class TodoController {
         );
       }
       const newTodo = await this._todoService.createTodo(params);
-      return this._todoService.map<TodoVm>(newTodo);
+      const { id, ...result } = newTodo;
+      return result as TodoVm;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -66,15 +67,14 @@ export class TodoController {
   @ApiOperation(GetOperationId('Todo', 'Update'))
   async update(@Body() viewmodel: TodoVm): Promise<TodoVm> {
     try {
-      const { id, description, priority, completed } = viewmodel;
-
-      if (!viewmodel || !id) {
+      if (!viewmodel || !viewmodel.id) {
         throw new HttpException('Missing Parameters', HttpStatus.BAD_REQUEST);
       }
 
-      const updated = await this._todoService.update(id, viewmodel);
+      const updated = await this._todoService.update(viewmodel.id, viewmodel);
       if (updated) {
-        return await this._todoService.map<TodoVm>(updated); // This would be mapped
+        const { id, ...result } = updated;
+        return result as TodoVm;
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been updated',
@@ -90,18 +90,19 @@ export class TodoController {
   @ApiResponse({ status: HttpStatus.OK, type: TodoVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('Todo', 'Delete'))
-  async delete(@Param('id') id: number): Promise<TodoVm> {
+  async delete(@Param('id') identifier: number): Promise<TodoVm> {
     try {
-      const exists = await this._todoService.findById(id);
+      const exists = await this._todoService.findById(identifier);
       if (!exists) {
         throw new HttpException(
           'No element found with this id',
           HttpStatus.BAD_REQUEST,
         );
       }
-      const deleted = await this._todoService.deleteById(id);
+      const deleted = await this._todoService.deleteById(identifier);
       if (deleted) {
-        return this._todoService.map<TodoVm>(deleted);
+        const { id, ...result } = deleted;
+        return result as TodoVm;
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been deleted',

@@ -35,7 +35,8 @@ export class AuthService {
     return await this._userService
       .find({ username })
       .then(user => {
-        return this._userService.map<UserVm>(user);
+        const { id, ...result } = user;
+        return result as UserVm;
       })
       .catch(err => {
         return null;

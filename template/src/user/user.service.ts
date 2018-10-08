@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
 import { Repository } from 'typeorm';
 import { BaseService } from 'shared/base.service';
-import { MapperService } from 'shared/mapper/mapper.service';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { genSalt, hash, compare } from 'bcryptjs';
 import { LoginVm } from './models/view-models/login-vm.model';
@@ -23,13 +22,10 @@ import { ChangePasswordVm } from './models/view-models/change-password-vm.model'
 export class UserService extends BaseService<User> {
   constructor(
     @InjectRepository(User) private readonly _userRepository: Repository<User>,
-    private readonly _mapperService: MapperService,
     @Inject(forwardRef(() => AuthService)) readonly _authService: AuthService,
   ) {
     super();
     this._repository = _userRepository;
-    this._mapper = _mapperService.mapper;
-    this.setTname('User');
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
@@ -88,10 +84,7 @@ export class UserService extends BaseService<User> {
       const token = await this._authService.signPayload(payload).catch(err => {
         throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
       });
-      const userVm: UserVm = await this.map<UserVm>(user).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
-
+      const { id, ...userVm } = user;
       return {
         token,
         user: userVm,

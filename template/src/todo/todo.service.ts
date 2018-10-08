@@ -2,7 +2,6 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Todo } from './models/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, EntityRepository } from 'typeorm';
-import { MapperService } from 'shared/mapper/mapper.service';
 import { BaseService } from 'shared/base.service';
 import { TodoParams } from './models/view-models/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
@@ -11,12 +10,9 @@ import { TodoLevel } from './models/todo-level.enum';
 export class TodoService extends BaseService<Todo> {
   constructor(
     @InjectRepository(Todo) private readonly _todoRepository: Repository<Todo>,
-    private readonly _mapperService: MapperService,
   ) {
     super();
     this._repository = _todoRepository;
-    this._mapper = _mapperService.mapper;
-    this.setTname('Todo');
   }
 
   async createTodo(params: TodoParams): Promise<Todo> {

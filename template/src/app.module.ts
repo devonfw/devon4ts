@@ -43,7 +43,7 @@ export class AppModule {
       database: 'database.db',
       synchronize: true,
       logging: false,
-      entities: [`${SOURCE_PATH}/**/**.entity{.ts,.js}`],
+      entities: [`${SOURCE_PATH}/**/**/**.entity{.ts,.js}`],
     };
 
     AppModule.port = AppModule.normalizePort(
