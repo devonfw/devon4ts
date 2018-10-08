@@ -21,17 +21,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: req ? req.url : null,
     });
-    this.log +=
-      'params: ' +
-      JSON.stringify(req.body) +
-      ' headers: ' +
-      JSON.stringify(req.headers) +
-      ' url: ' +
-      req.url +
-      ' response: ' +
-      error.response.message +
-      ' StackTrace: ' +
-      error.stack;
+    this.log = `params: ${JSON.stringify(req.body)} headers: ${JSON.stringify(
+      req.headers,
+    )} url: ${req.url} response: ${error.response.message} StackTrace: ${
+      error.stack
+    }`;
     AppModule.logger.log('error', this.log);
   }
 }

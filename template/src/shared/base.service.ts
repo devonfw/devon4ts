@@ -22,7 +22,7 @@ export abstract class BaseService<T> {
       : sourceKey || this.TName;
     const _destinationKey = isArray
       ? `${destinationKey || this.TName}Vm[]`
-      : destinationKey || this.TName + 'Vm';
+      : destinationKey || `${this.TName}Vm`;
     return this._mapper.map(_sourcekey, _destinationKey, object);
   }
 
