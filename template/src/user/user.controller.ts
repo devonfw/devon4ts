@@ -43,9 +43,9 @@ export class UserController {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
       AppModule.logger.log('info', 'User created : ' + registerVm.username);
-      return newUser;
+      const { id, ...result } = newUser;
+      return result as UserVm;
     } catch (error) {
-      error.operation = 'User register';
       throw new HttpException(error, error.getStatus());
     }
   }
@@ -65,7 +65,7 @@ export class UserController {
           );
         }
       });
-      return this._userService.login(loginVm);
+      return await this._userService.login(loginVm);
     } catch (error) {
       throw new HttpException(error, error.getStatus());
     }
