@@ -8,13 +8,13 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
 import { Repository } from 'typeorm';
-import { BaseService } from 'shared/base.service';
+import { BaseService } from '../shared/base.service';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { genSalt, hash, compare } from 'bcryptjs';
 import { LoginVm } from './models/view-models/login-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
-import { AuthService } from 'shared/auth/auth.service';
-import { JwtPayload } from 'shared/auth/jwt-payload';
+import { AuthService } from '../shared/auth/auth.service';
+import { JwtPayload } from '../shared/auth/jwt-payload';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
 
 @Injectable()

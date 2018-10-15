@@ -1,6 +1,6 @@
 import { TodoLevel } from '../todo-level.enum';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { EnumToArray } from 'shared/utilities/enum-to-array';
+import { EnumToArray } from '../../../shared/utilities/enum-to-array';
 
 export class TodoParams {
   @ApiModelProperty()

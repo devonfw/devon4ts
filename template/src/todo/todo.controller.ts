@@ -18,9 +18,9 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { TodoVm } from './models/view-models/todo-vm.model';
-import { ApiException } from 'shared/api-exception.model';
+import { ApiException } from '../shared/api-exception.model';
 import { TodoParams } from './models/view-models/todo-params.model';
-import { GetOperationId } from 'shared/utilities/get-operation-id';
+import { GetOperationId } from '../shared/utilities/get-operation-id';
 
 @Controller('todo')
 @ApiUseTags('Todo')

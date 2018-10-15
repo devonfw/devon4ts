@@ -16,17 +16,17 @@ import {
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserVm } from './models/view-models/user-vm.model';
-import { ApiException } from 'shared/api-exception.model';
-import { GetOperationId } from 'shared/utilities/get-operation-id';
+import { ApiException } from '../shared/api-exception.model';
+import { GetOperationId } from '../shared/utilities/get-operation-id';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'shared/guards/roles.guard';
-import { Roles } from 'shared/decorators/role.decorator';
+import { RolesGuard } from '../shared/guards/roles.guard';
+import { Roles } from '../shared/decorators/role.decorator';
 import { UserRole } from './models/user-role.enum';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
-import { AppModule } from 'app.module';
+import { AppModule } from '../app.module';
 
 @Controller('users')
 @ApiUseTags('User')

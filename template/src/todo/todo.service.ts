@@ -2,9 +2,10 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Todo } from './models/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, EntityRepository } from 'typeorm';
-import { BaseService } from 'shared/base.service';
+import { BaseService } from '../shared/base.service';
 import { TodoParams } from './models/view-models/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
+
 @Injectable()
 @EntityRepository(Todo)
 export class TodoService extends BaseService<Todo> {

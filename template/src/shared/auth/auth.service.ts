@@ -1,11 +1,11 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
-import { UserService } from 'user/user.service';
+import { UserService } from '../../user/user.service';
 import { Configuration } from '../configuration/configuration.enum';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { SignOptions, sign } from 'jsonwebtoken';
 import { JwtPayload } from './jwt-payload';
-import { User } from 'user/models/user.entity';
-import { UserVm } from 'user/models/view-models/user-vm.model';
+import { User } from '../../user/models/user.entity';
+import { UserVm } from '../../user/models/view-models/user-vm.model';
 
 @Injectable()
 export class AuthService {
