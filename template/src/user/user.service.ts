@@ -65,13 +65,13 @@ export class UserService extends BaseService<User> {
 
   async login(loginVm: LoginVm): Promise<LoginResponseVm> {
     try {
-      const { username, password } = loginVm;
+      const { username } = loginVm;
       const user = await this._userRepository.findOne({ username });
       if (!user) {
         throw new HttpException('Username not found', HttpStatus.BAD_REQUEST);
       }
 
-      if (!(await this.passwordMatch(password, user.password))) {
+      if (!(await this.passwordMatch(loginVm.password, user.password))) {
         throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
       }
 
@@ -83,7 +83,7 @@ export class UserService extends BaseService<User> {
       const token = await this._authService.signPayload(payload).catch(err => {
         throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
       });
-      const { id, ...userVm } = user;
+      const { id, password, ...userVm } = user;
       return {
         token,
         user: userVm,
