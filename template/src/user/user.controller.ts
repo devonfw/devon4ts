@@ -179,9 +179,9 @@ export class UserController {
   @ApiOperation(GetOperationId('User', 'ChangePassword'))
   async changePassword(@Body() user: ChangePasswordVm): Promise<UserVm> {
     try {
-      const { username, password, newPassword } = user;
+      const { username, newPassword } = user;
 
-      if (!username || !password || !newPassword) {
+      if (!username || !user.password || !newPassword) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
       }
       const result = await this._userService.changePassword(user);
@@ -190,7 +190,7 @@ export class UserController {
           'An unexpected error has ocurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
-      const { id, ...resultVm } = result;
+      const { id, password, ...resultVm } = result;
       return resultVm as UserVm;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
