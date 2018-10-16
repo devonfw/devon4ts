@@ -12,7 +12,8 @@ export abstract class BaseService<T> {
   }
 
   async delete(item: T): Promise<T | null> {
-    return await this._repository.delete(item);
+    const deleted = await this._repository.delete(item);
+    if (deleted) return item;
   }
 
   async deleteById(id: any): Promise<T | null> {
