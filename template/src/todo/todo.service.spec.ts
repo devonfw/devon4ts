@@ -8,7 +8,7 @@ describe('TodoService', () => {
   let service: TodoService;
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      components: [
+      providers: [
         {
           provide: getRepositoryToken(Todo),
           useClass: TodoRepository,

@@ -16,7 +16,7 @@ export class AuthService {
     @Inject(forwardRef(() => UserService)) readonly _userService: UserService,
     private readonly _configurationService: ConfigurationService,
   ) {
-    this.jwtOptions = { expiresIn: '12h' };
+    this.jwtOptions = { expiresIn: '8h', algorithm: 'RS256' };
     this.jwtKey = _configurationService.get(Configuration.JWT_KEY);
   }
 
@@ -25,21 +25,6 @@ export class AuthService {
   }
   async validatePayload(payload: JwtPayload): Promise<User | null> {
     const username = payload.username;
-    return await this._userService.find({ username }).catch(err => {
-      return null;
-    });
-  }
-
-  async getUser(payload: JwtPayload): Promise<UserVm | null> {
-    const username = payload.username;
-    return await this._userService
-      .find({ username })
-      .then(user => {
-        const { id, ...result } = user;
-        return result as UserVm;
-      })
-      .catch(err => {
-        return null;
-      });
+    return await this._userService.find({ username });
   }
 }
