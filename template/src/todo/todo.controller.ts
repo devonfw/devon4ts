@@ -32,9 +32,14 @@ export class TodoController {
   @ApiResponse({ status: HttpStatus.OK, type: TodoVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('Todo', 'GetAll'))
-  async getTodos(): Promise<Todo[]> {
+  async getTodos(): Promise<TodoVm[]> {
     try {
-      return await this._todoService.findAll();
+      const result: TodoVm[] = [];
+      const retrieved = await this._todoService.findAll();
+      for (const element of retrieved) {
+        result.push(element as TodoVm);
+      }
+      return result;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -47,7 +52,7 @@ export class TodoController {
   async create(@Body() params: TodoParams): Promise<TodoVm> {
     try {
       const { description } = params;
-      if (!description) {
+      if (!description || description.trim() === '') {
         throw new HttpException(
           'Description is required',
           HttpStatus.BAD_REQUEST,
