@@ -12,13 +12,13 @@ export abstract class BaseService<T> {
   }
 
   async delete(item: T): Promise<T | null> {
-    const deleted = await this._repository.delete(item);
+    const deleted = await this._repository.remove(item);
     if (deleted) return item;
   }
 
   async deleteById(id: any): Promise<T | null> {
     const exists = await this._repository.findOne(id);
-    const deleted = await this._repository.delete(id);
+    const deleted = await this._repository.remove(id);
     if (deleted) return exists;
     return null;
   }
