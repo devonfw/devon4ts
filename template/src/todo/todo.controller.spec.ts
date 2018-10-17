@@ -6,7 +6,7 @@ import { TodoLevel } from './models/todo-level.enum';
 import { TodoRepository } from './todo.repository';
 import { HttpException } from '@nestjs/common';
 
-describe('Todo Controller', () => {
+describe('Todo Controller UnitTests', () => {
   let controller: TodoController;
   let service: TodoService;
   let repo: TodoRepository;
