@@ -5,7 +5,6 @@ import { ConfigurationService } from '../configuration/configuration.service';
 import { SignOptions, sign } from 'jsonwebtoken';
 import { JwtPayload } from './jwt-payload';
 import { User } from '../../user/models/user.entity';
-import { UserVm } from '../../user/models/view-models/user-vm.model';
 
 @Injectable()
 export class AuthService {
