@@ -25,16 +25,15 @@ export class UserService extends BaseService<User> {
   ) {
     super();
     this._repository = _userRepository;
+    process.on('unhandledRejection', error => {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    });
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
     const { username, password, mail } = registerVm;
     try {
-      let exist = await this._userRepository
-        .findOne({ username })
-        .catch(err => {
-          throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
+      let exist = await this._userRepository.findOne({ username });
       if (exist) {
         throw new HttpException(
           `${username} is already in use`,
@@ -42,9 +41,7 @@ export class UserService extends BaseService<User> {
         );
       }
 
-      exist = await this._userRepository.findOne({ mail }).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
+      exist = await this._userRepository.findOne({ mail });
       if (exist) {
         throw new HttpException(
           `This mail is already associated with an username`,
@@ -54,9 +51,7 @@ export class UserService extends BaseService<User> {
       const newUser = this._userRepository.create(registerVm);
       const salt = await genSalt();
       newUser.password = await hash(password, salt);
-      const result = await this._userRepository.save(newUser).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
+      const result = await this._userRepository.save(newUser);
       return result;
     } catch (e) {
       throw new HttpException(e, e.getStatus());
@@ -98,16 +93,14 @@ export class UserService extends BaseService<User> {
       const { username, password, newPassword } = user;
 
       const exist = await this._userRepository.findOne({ username });
-      if (!exist) {
+      if (!exist)
         throw new HttpException(
           `No User found with the provided username: ${username}`,
           HttpStatus.NOT_FOUND,
         );
-      }
 
-      if (!(await this.passwordMatch(password, exist.password))) {
+      if (!(await this.passwordMatch(password, exist.password)))
         throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
-      }
 
       if (password !== newPassword && newPassword.length >= 6) {
         const salt = await genSalt();
@@ -118,9 +111,7 @@ export class UserService extends BaseService<User> {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const result = await this.update(exist.id, exist).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
+      const result = await this.update(exist.id, exist);
       if (!result)
         throw new HttpException(
           'An unexpected error has ocurred',
@@ -133,10 +124,9 @@ export class UserService extends BaseService<User> {
   }
 
   async passwordMatch(input: string, password: string): Promise<boolean> {
-    return await compare(input, password).catch(err => {
-      return false;
-    });
+    return await compare(input, password);
   }
+
   async find(filter = {}): Promise<User> {
     return await this._userRepository.findOne(filter).catch(err => {
       return null;
