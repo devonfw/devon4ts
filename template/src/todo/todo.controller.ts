@@ -10,7 +10,6 @@ import {
   Param,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { Todo } from './models/todo.entity';
 import {
   ApiUseTags,
   ApiBearerAuth,
