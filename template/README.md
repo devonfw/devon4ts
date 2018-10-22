@@ -1,8 +1,20 @@
-# template
+## devon4node
 
-## Description
+Back-end template for projects based on node.js and Nest with TypeScript.
 
-server template for Devon4Node
+Simple start point for projects including:
+
+- Exception filtering.
+- Customizable winston logger.
+- Testing framework using Jest.
+- Basic User management.
+- Example of a Todo entity.
+- Authentication JWT implemented.
+- Extendable CRUD base service.
+- Configuration service.
+- Extendable Base Entity.
+- Extendable Base ViewModel.
+- Customizable Api exception model.
 
 ## Installation
 
@@ -35,4 +47,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
