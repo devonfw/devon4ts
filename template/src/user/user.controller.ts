@@ -26,7 +26,6 @@ import { RolesGuard } from '../shared/guards/roles.guard';
 import { Roles } from '../shared/decorators/role.decorator';
 import { UserRole } from './models/user-role.enum';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
-import { AppModule } from '../app.module';
 
 @Controller('users')
 @ApiUseTags('User')
@@ -43,7 +42,7 @@ export class UserController {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
       const { id, password, ...result } = newUser;
-      return result as UserVm;
+      return result;
     } catch (error) {
       throw new HttpException(error, error.getStatus());
     }
@@ -132,7 +131,7 @@ export class UserController {
       const updated = await this._userService.update(identificator, exist);
       if (updated) {
         const { id, ...result } = updated;
-        return result as UserVm;
+        return result;
       }
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -163,7 +162,7 @@ export class UserController {
       const updated = await this._userService.update(identificator, exist);
       if (updated) {
         const { id, ...result } = updated;
-        return result as UserVm;
+        return result;
       }
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -190,7 +189,7 @@ export class UserController {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       const { id, password, ...resultVm } = result;
-      return resultVm as UserVm;
+      return resultVm;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
