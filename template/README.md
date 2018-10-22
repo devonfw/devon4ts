@@ -9,13 +9,16 @@ Simple start point for projects including:
 - Testing framework using Jest.
 - Basic User management.
 - Example of a Todo entity.
-- Authentication JWT implemented.
+- JWT authentication implemented.
 - Extensible CRUD base service.
-- Configuration service.
+- Enviroment-dependent Configuration service.
 - Extensible Base Entity.
 - Extensible Base ViewModel.
 - Customizable Api exception model.
 - Externalized Swagger configuration.
+- Example of custom User Role decorator.
+- Example of custom pipe.
+- Mocked services.
 
 ## Installation
 
