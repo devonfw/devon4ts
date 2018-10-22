@@ -42,7 +42,6 @@ export class UserController {
     try {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
-      AppModule.logger.log('info', 'User created : ' + registerVm.username);
       const { id, password, ...result } = newUser;
       return result as UserVm;
     } catch (error) {
@@ -200,16 +199,13 @@ export class UserController {
   validateRegister(register: RegisterVm): RegisterVm {
     const { username, password, mail } = register;
     if (!username) {
-      throw new HttpException('Username is required', HttpStatus.BAD_REQUEST);
+      throw new HttpException('username is required', HttpStatus.BAD_REQUEST);
     }
     if (!password) {
-      throw new HttpException('Password is required', HttpStatus.BAD_REQUEST);
+      throw new HttpException('password is required', HttpStatus.BAD_REQUEST);
     }
     if (!mail) {
-      throw new HttpException('Mail is required', HttpStatus.BAD_REQUEST);
-    }
-    if (!mail) {
-      throw new HttpException('Mail is required', HttpStatus.BAD_REQUEST);
+      throw new HttpException('mail is required', HttpStatus.BAD_REQUEST);
     }
     register.role = 'User';
     register.username = username.toLowerCase();

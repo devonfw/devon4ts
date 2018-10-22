@@ -5,16 +5,12 @@ import { LoginVm } from '../../src/user/models/view-models/login-vm.model';
 import { LoginResponseVm } from '../../src/user/models/view-models/login-response-vm.model';
 import { UserVm } from '../../src/user/models/view-models/user-vm.model';
 import { ChangePasswordVm } from '../../src/user/models/view-models/change-password-vm.model';
-import { AuthServiceMock } from './auth.service.mock';
-import { Repository } from 'typeorm';
+import { UserRepository } from '../../src/user/user.repository';
 
 export class UserServiceMock extends BaseService<User> {
-  constructor(
-    private readonly _userRepository: Repository<User>,
-    private readonly _authService: AuthServiceMock,
-  ) {
+  constructor() {
     super();
-    this._repository = _userRepository;
+    this._repository = new UserRepository();
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
@@ -43,6 +39,25 @@ export class UserServiceMock extends BaseService<User> {
     return result;
   }
 
+  async update(id: number, user: UserVm): Promise<User> {
+    let roleUpdated = 'User';
+    if (user.role) {
+      roleUpdated = user.role;
+    }
+    return {
+      id: 1,
+      username: 'test',
+      mail: user.mail,
+      password: 'test',
+      role: roleUpdated,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      hasId: () => true,
+      save: () => null,
+      remove: () => null,
+      reload: null,
+    };
+  }
   async changePassword(object: ChangePasswordVm): Promise<User> {
     return {
       id: 1,
@@ -64,9 +79,37 @@ export class UserServiceMock extends BaseService<User> {
   }
 
   async find(filter = {}): Promise<User> {
-    return await this._userRepository.findOne(filter).catch(err => {
-      return null;
-    });
+    const result: User = {
+      id: 1,
+      username: 'test',
+      mail: 'test@mail.com',
+      password: 'test',
+      role: 'User',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      hasId: () => true,
+      save: () => null,
+      remove: () => null,
+      reload: null,
+    };
+    return result;
+  }
+
+  async findById(id: number): Promise<User> {
+    const result: User = {
+      id: 1,
+      username: 'test',
+      mail: 'test@mail.com',
+      password: 'test',
+      role: 'User',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      hasId: () => true,
+      save: () => null,
+      remove: () => null,
+      reload: null,
+    };
+    if (id === 1) return result;
   }
 
   async getUserId(input = {}): Promise<number> {
