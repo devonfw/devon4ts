@@ -10,11 +10,12 @@ Simple start point for projects including:
 - Basic User management.
 - Example of a Todo entity.
 - Authentication JWT implemented.
-- Extendable CRUD base service.
+- Extensible CRUD base service.
 - Configuration service.
-- Extendable Base Entity.
-- Extendable Base ViewModel.
+- Extensible Base Entity.
+- Extensible Base ViewModel.
 - Customizable Api exception model.
+- Externalized Swagger configuration.
 
 ## Installation
 
