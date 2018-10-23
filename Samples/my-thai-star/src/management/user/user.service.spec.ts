@@ -20,6 +20,7 @@ describe('UserService', () => {
     mail: 'test@mail.com',
     password: 'test',
     role: 'User',
+    favourites: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     hasId: () => true,
