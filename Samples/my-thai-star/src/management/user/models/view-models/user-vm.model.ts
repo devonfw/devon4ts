@@ -1,6 +1,6 @@
-import { BaseModelVM } from '../../../shared/base.model';
+import { BaseModelVM } from '../../../../shared/base.model';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { EnumToArray } from '../../../shared/utilities/enum-to-array';
+import { EnumToArray } from '../../../../shared/utilities/enum-to-array';
 import { UserRole } from '../user-role.enum';
 
 export class UserVm extends BaseModelVM {
@@ -10,10 +10,10 @@ export class UserVm extends BaseModelVM {
   @ApiModelProperty()
   mail: string;
 
-  @ApiModelProperty({
+  @ApiModelPropertyOptional({
     enum: EnumToArray(UserRole),
     default: UserRole.Customer,
     example: UserRole.Customer,
   })
-  role: string;
+  role?: string;
 }

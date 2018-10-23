@@ -3,8 +3,8 @@ import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
 import { UserRepository } from './user.repository';
-import { AuthService } from '../shared/auth/auth.service';
-import { AuthServiceMock } from '../../test/mocks/auth.service.mock';
+import { AuthService } from '../../shared/auth/auth.service';
+import { AuthServiceMock } from '../../../test/mocks/auth.service.mock';
 import { HttpException } from '@nestjs/common';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
@@ -91,48 +91,6 @@ describe('UserService', () => {
       await service
         .login(login)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-  });
-
-  describe('change password', () => {
-    const input: ChangePasswordVm = {
-      username: 'test',
-      password: 'testpassword',
-      newPassword: 'test1password',
-    };
-    it('should return an error as user does not exist', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => false);
-      await service
-        .changePassword(input)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-    it('should return an error as the passwords do not match', async () => {
-      mocked.password = '!testpassword';
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      jest.spyOn(service, 'passwordMatch').mockImplementationOnce(() => false);
-      await service
-        .changePassword(input)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-    it('should return an error as the new password is equal to the previous one', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      await service
-        .changePassword(input)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-    it('should return an error as the new password does not fit the criteria', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      input.newPassword = '12345';
-      await service
-        .changePassword(input)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-    it('should return the new user', async () => {
-      input.newPassword = 'test1password';
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      jest.spyOn(service, 'passwordMatch').mockImplementationOnce(() => true);
-      jest.spyOn(service, 'update').mockImplementation(() => mocked);
-      expect(await service.changePassword(input)).toEqual(mocked);
     });
   });
 

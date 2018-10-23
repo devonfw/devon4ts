@@ -1,12 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { UserServiceMock } from '../../test/mocks/user.service.mock';
+import { UserServiceMock } from '../../../test/mocks/user.service.mock';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { HttpException } from '@nestjs/common';
 import { LoginVm } from './models/view-models/login-vm.model';
-import { UserVm } from './models/view-models/user-vm.model';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+
 describe('User Controller', () => {
   let module: TestingModule;
   let controller: UserController;
@@ -27,7 +26,7 @@ describe('User Controller', () => {
         username: 'test',
         password: 'test',
         mail: 'mail@test.com',
-        role: 'Customer',
+        role: 'User',
       };
       const result = await controller.register(input);
       expect(result.username).toEqual(input.username);
@@ -39,7 +38,7 @@ describe('User Controller', () => {
         username: 'tEst',
         password: 'test',
         mail: 'Mail@test.com',
-        role: 'Customer',
+        role: 'User',
       };
       const result = await controller.register(input);
       expect(result.username).toEqual(input.username.toLowerCase());
@@ -50,7 +49,7 @@ describe('User Controller', () => {
         username: '',
         password: 'test',
         mail: 'Mail@test.com',
-        role: 'Customer',
+        role: 'User',
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
@@ -62,7 +61,7 @@ describe('User Controller', () => {
         username: 'test',
         password: '',
         mail: 'Mail@test.com',
-        role: 'Customer',
+        role: 'User',
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
@@ -74,7 +73,7 @@ describe('User Controller', () => {
         username: 'test',
         password: 'test',
         mail: '',
-        role: 'Customer',
+        role: 'User',
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
@@ -94,40 +93,6 @@ describe('User Controller', () => {
       expect(result.token).toEqual('LoginToken');
       expect(result.user.mail).toEqual('mail@test.com');
       expect(result.user.username).toEqual(input.username);
-    });
-  });
-  describe('update', () => {
-    it('Should return an error because no id', async () => {
-      const input: UserVm = {
-        username: 'test',
-        mail: 'mail@test.com',
-        role: 'Customer',
-      };
-      await controller.update(input).catch(error => {
-        expect(error).toBeInstanceOf(HttpException);
-      });
-    });
-    it('Should return an error because no user found', async () => {
-      const input: UserVm = {
-        id: 2,
-        username: 'test',
-        mail: 'mail@test.com',
-        role: 'Customer',
-      };
-      await controller.update(input).catch(error => {
-        expect(error).toBeInstanceOf(HttpException);
-      });
-    });
-    it('Should return an updated User (does not update the username)', async () => {
-      const input: UserVm = {
-        id: 1,
-        username: 'updated',
-        mail: 'updated@test.com',
-        role: 'Customer',
-      };
-      const result = await controller.update(input);
-      expect(result.username).toEqual('test');
-      expect(result.mail).toEqual(input.mail);
     });
   });
 });

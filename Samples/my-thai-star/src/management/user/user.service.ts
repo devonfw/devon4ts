@@ -8,13 +8,13 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.entity';
 import { Repository } from 'typeorm';
-import { BaseService } from '../shared/base.service';
+import { BaseService } from '../../shared/base.service';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { genSalt, hash, compare } from 'bcryptjs';
 import { LoginVm } from './models/view-models/login-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
-import { AuthService } from '../shared/auth/auth.service';
-import { JwtPayload } from '../shared/auth/jwt-payload';
+import { AuthService } from '../../shared/auth/auth.service';
+import { JwtPayload } from '../../shared/auth/jwt-payload';
 import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
 
 @Injectable()
@@ -85,41 +85,6 @@ export class UserService extends BaseService<User> {
       };
     } catch (error) {
       throw new HttpException(error, error.getStatus());
-    }
-  }
-
-  async changePassword(user: ChangePasswordVm): Promise<User> {
-    try {
-      const { username, password, newPassword } = user;
-
-      const exist = await this._userRepository.findOne({ username });
-      if (!exist)
-        throw new HttpException(
-          `No User found with the provided username: ${username}`,
-          HttpStatus.NOT_FOUND,
-        );
-
-      if (!(await this.passwordMatch(password, exist.password)))
-        throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
-
-      if (password !== newPassword && newPassword.length >= 6) {
-        const salt = await genSalt();
-        exist.password = await hash(newPassword, salt);
-      } else {
-        throw new HttpException(
-          'The new password must have at least 6 characters and must be different from the previous one',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const result = await this.update(exist.id, exist);
-      if (!result)
-        throw new HttpException(
-          'An unexpected error has ocurred',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      return result;
-    } catch (e) {
-      throw new HttpException(e, e.getStatus());
     }
   }
 

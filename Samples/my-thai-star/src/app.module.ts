@@ -5,7 +5,9 @@ import { ConfigurationService } from './shared/configuration/configuration.servi
 import { Configuration } from './shared/configuration/configuration.enum';
 import { SharedModule } from './shared/shared.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
+import { UserModule } from './management/user/user.module';
+import { ImageModule } from './management/image/image.module';
+import { DishModule } from './management/dish/dish.module';
 import * as winston from 'winston';
 
 @Module({
@@ -19,6 +21,8 @@ import * as winston from 'winston';
     }),
     SharedModule,
     UserModule,
+    ImageModule,
+    DishModule,
   ],
   controllers: [AppController],
   providers: [AppService],

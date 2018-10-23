@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UserService } from '../../user/user.service';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { JwtPayload } from './jwt-payload';
 import { sign } from 'jsonwebtoken';
+import { UserService } from '../../management/user/user.service';
 
-jest.mock('../../user/user.service');
+jest.mock('../../management/user/user.service');
 describe('AuthService', () => {
   let service: AuthService;
   let user: any;
