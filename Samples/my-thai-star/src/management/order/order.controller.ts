@@ -1,4 +1,6 @@
 import { Controller } from '@nestjs/common';
+import { ApiUseTags } from '@nestjs/swagger';
 
-@Controller('order')
+@Controller('ordermanagement/v1')
+@ApiUseTags('Order')
 export class OrderController {}

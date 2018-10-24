@@ -1,7 +1,5 @@
 import { BaseModelVM } from 'shared/base.model';
-import { User } from 'management/user/models/user.entity';
 import { ApiModelPropertyOptional, ApiModelProperty } from '@nestjs/swagger';
-import { Column } from 'typeorm';
 
 export class BookingVm extends BaseModelVM {
   @ApiModelPropertyOptional()
@@ -17,15 +15,13 @@ export class BookingVm extends BaseModelVM {
   @ApiModelProperty()
   expirationDate: Date;
   @ApiModelProperty()
-  creationDate: Date;
-  @ApiModelProperty()
   canceled: boolean;
   @ApiModelProperty()
   idReservationType: number;
   @ApiModelPropertyOptional()
   tableId?: number;
-  @Column({ type: 'nvarchar', length: 255 })
+  @ApiModelProperty()
   email: string;
-  @Column({ type: 'int' })
+  @ApiModelProperty()
   assistants: number;
 }
