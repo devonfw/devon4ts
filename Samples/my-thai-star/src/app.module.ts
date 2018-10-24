@@ -10,6 +10,7 @@ import { ImageModule } from './management/image/image.module';
 import { DishModule } from './management/dish/dish.module';
 import { OrderModule } from './management/order/order.module';
 import * as winston from 'winston';
+import { BookingModule } from 'management/booking/booking.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import * as winston from 'winston';
     ImageModule,
     DishModule,
     OrderModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

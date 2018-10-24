@@ -21,6 +21,7 @@ describe('UserService', () => {
     password: 'test',
     role: 'User',
     favourites: [],
+    bookings: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     hasId: () => true,

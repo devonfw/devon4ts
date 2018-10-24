@@ -1,15 +1,13 @@
 import { BaseModelVM } from 'shared/base.model';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class ImageVm extends BaseModelVM {
+export class InvitedGuestVm extends BaseModelVM {
   @ApiModelProperty()
-  content: string;
+  bookingId: string;
   @ApiModelProperty()
-  name: string;
+  guestToken: string;
   @ApiModelProperty()
-  mimeType: string;
+  email: string;
   @ApiModelProperty()
-  extension: string;
-  @ApiModelProperty()
-  contentType: number;
+  accepted: boolean;
 }

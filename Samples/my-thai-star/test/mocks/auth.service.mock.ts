@@ -1,6 +1,6 @@
 import { SignOptions, sign } from 'jsonwebtoken';
 import { JwtPayload } from '../../src/shared/auth/jwt-payload';
-import { User } from '../../src/user/models/user.entity';
+import { User } from '../../src/management/user/models/user.entity';
 
 export class AuthServiceMock {
   private jwtOptions: SignOptions;
@@ -21,6 +21,8 @@ export class AuthServiceMock {
       mail: 'test@mail.com',
       password: 'password',
       role: 'User',
+      favourites: [],
+      bookings: [],
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,

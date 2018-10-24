@@ -14,15 +14,15 @@ import { Category } from 'model/category/category.entity';
 @Entity()
 export class Dish extends BaseModel<Dish> {
   @Column({ type: 'nvarchar', length: 120 })
-  Name: string;
+  name: string;
   @Column({ type: 'nvarchar', length: 4000 })
-  Description: string;
+  description: string;
   @Column({ type: 'decimal', precision: 26 })
-  Price: number;
+  price: number;
 
   @OneToOne(type => Image, { eager: true })
   @JoinColumn({ name: 'Image_id', referencedColumnName: 'id' })
-  Image: Image;
+  image: Image;
 
   @ManyToMany(type => Ingredient, { eager: true })
   @JoinTable({
