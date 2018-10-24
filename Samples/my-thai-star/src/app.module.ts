@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './management/user/user.module';
 import { ImageModule } from './management/image/image.module';
 import { DishModule } from './management/dish/dish.module';
+import { OrderModule } from './management/order/order.module';
 import * as winston from 'winston';
 
 @Module({
@@ -23,6 +24,7 @@ import * as winston from 'winston';
     UserModule,
     ImageModule,
     DishModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
