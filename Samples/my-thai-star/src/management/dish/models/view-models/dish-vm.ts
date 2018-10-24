@@ -1,5 +1,4 @@
 import { ApiModelPropertyOptional, ApiModelProperty } from '@nestjs/swagger';
-import { ImageVm } from 'image/models/view-models/image-vm';
 import { Entity } from 'typeorm';
 import { BaseModelVM } from 'shared/base.model';
 

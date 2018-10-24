@@ -26,7 +26,7 @@ describe('User Controller', () => {
         username: 'test',
         password: 'test',
         mail: 'mail@test.com',
-        role: 'User',
+        role: 'Customer',
       };
       const result = await controller.register(input);
       expect(result.username).toEqual(input.username);
@@ -38,7 +38,7 @@ describe('User Controller', () => {
         username: 'tEst',
         password: 'test',
         mail: 'Mail@test.com',
-        role: 'User',
+        role: 'Customer',
       };
       const result = await controller.register(input);
       expect(result.username).toEqual(input.username.toLowerCase());
@@ -61,7 +61,7 @@ describe('User Controller', () => {
         username: 'test',
         password: '',
         mail: 'Mail@test.com',
-        role: 'User',
+        role: 'Customer',
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
@@ -73,7 +73,7 @@ describe('User Controller', () => {
         username: 'test',
         password: 'test',
         mail: '',
-        role: 'User',
+        role: 'Customer',
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);

@@ -22,7 +22,7 @@ import { RegisterVm } from './models/view-models/register-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
 
-@Controller('users')
+@Controller('usermanagement/v1')
 @ApiUseTags('User')
 @ApiBearerAuth()
 export class UserController {
@@ -36,7 +36,7 @@ export class UserController {
     try {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
-      const { id, password, ...result } = newUser;
+      const { password, ...result } = newUser;
       return result;
     } catch (error) {
       throw new HttpException(error, error.getStatus());
@@ -75,7 +75,7 @@ export class UserController {
     if (!mail) {
       throw new HttpException('mail is required', HttpStatus.BAD_REQUEST);
     }
-    register.role = 'User';
+    register.role = 'Customer';
     register.username = username.toLowerCase();
     register.mail = mail.toLowerCase();
     return register;

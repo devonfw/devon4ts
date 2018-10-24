@@ -15,7 +15,6 @@ import { LoginVm } from './models/view-models/login-vm.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { AuthService } from '../../shared/auth/auth.service';
 import { JwtPayload } from '../../shared/auth/jwt-payload';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
 
 @Injectable()
 export class UserService extends BaseService<User> {
@@ -78,7 +77,7 @@ export class UserService extends BaseService<User> {
       const token = await this._authService.signPayload(payload).catch(err => {
         throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
       });
-      const { id, password, ...userVm } = user;
+      const { password, ...userVm } = user;
       return {
         token,
         user: userVm,
