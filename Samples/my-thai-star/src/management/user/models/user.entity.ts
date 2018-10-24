@@ -1,5 +1,5 @@
 import { UserRole } from './user-role.enum';
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { BaseModel } from '../../../shared/base.model';
 import { Dish } from 'management/dish/models/dish.entity';
 
@@ -16,7 +16,11 @@ export class User extends BaseModel<User> {
   @Column({ type: 'text', nullable: false, default: UserRole.Customer })
   role: string;
 
-  @ManyToMany(type => Dish, { eager: true, nullable: true })
+  @ManyToMany(type => Dish, { eager: true })
   @JoinTable({ name: 'UserFavourite' })
   favourites: Array<Dish>;
+
+  /*@OneToMany(type => Booking, {eager: true})
+  bookings: Array<Booking>;
+  */
 }

@@ -9,7 +9,6 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Ingredient } from 'model/ingredient/ingredient.entity';
-import { List } from 'lodash';
 import { Category } from 'model/category/category.entity';
 
 @Entity()
