@@ -2,7 +2,7 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { UserService } from '../../management/user/user.service';
 import { Configuration } from '../configuration/configuration.enum';
 import { ConfigurationService } from '../configuration/configuration.service';
-import { SignOptions, sign } from 'jsonwebtoken';
+import { SignOptions, sign, decode } from 'jsonwebtoken';
 import { JwtPayload } from './jwt-payload';
 import { User } from '../../management/user/models/user.entity';
 
@@ -10,20 +10,33 @@ import { User } from '../../management/user/models/user.entity';
 export class AuthService {
   private readonly jwtOptions: SignOptions;
   private readonly jwtKey: string | undefined;
-
+  private currentUser: User;
   constructor(
     @Inject(forwardRef(() => UserService)) readonly _userService: UserService,
     private readonly _configurationService: ConfigurationService,
   ) {
     this.jwtOptions = { expiresIn: '8h' };
     this.jwtKey = _configurationService.get(Configuration.JWT_KEY);
+    this.currentUser = null;
   }
 
   async signPayload(payload: JwtPayload): Promise<string> {
     return sign(payload, this.jwtKey, this.jwtOptions);
   }
   async validatePayload(payload: JwtPayload): Promise<User | null> {
-    const username = payload.username;
-    return await this._userService.find({ username });
+    const name = payload.name;
+    return await this._userService.find({ name });
+  }
+
+  async deSerializeToken(token: string) {
+    return await decode(token);
+  }
+
+  setCurrentUser(user: User) {
+    this.currentUser = user;
+  }
+
+  async getCurrentUser(): Promise<User> {
+    return this.currentUser;
   }
 }

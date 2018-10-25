@@ -36,7 +36,7 @@ export class UserServiceMock extends BaseService<User> {
       username: loginVm.username,
       mail: 'mail@test.com',
     };
-    const result: LoginResponseVm = { token: 'LoginToken', user: usermock };
+    const result: LoginResponseVm = { name: 'name', role: 'CUSTOMER' };
     return result;
   }
 

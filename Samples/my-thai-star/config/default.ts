@@ -6,5 +6,5 @@ export default {
   SWAGGER_TITLE: 'My Thai Star',
   SWAGGER_DESCRIPTION: 'API Documentation',
   SWAGGER_VERSION: '0.0.1',
-  SWAGGER_BASEPATH: '/mythaistar/services/rest',
+  SWAGGER_BASEPATH: '/mythaistar',
 };

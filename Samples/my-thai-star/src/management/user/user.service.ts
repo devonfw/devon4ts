@@ -62,7 +62,7 @@ export class UserService extends BaseService<User> {
       const { username } = loginVm;
       const user = await this._userRepository.findOne({ username });
       if (!user) {
-        throw new HttpException('Username not found', HttpStatus.BAD_REQUEST);
+        throw new HttpException('name not found', HttpStatus.BAD_REQUEST);
       }
 
       if (!(await this.passwordMatch(loginVm.password, user.password))) {
@@ -70,18 +70,17 @@ export class UserService extends BaseService<User> {
       }
 
       const payload: JwtPayload = {
-        username: user.username,
+        name: user.username,
         role: user.role,
       };
 
-      const token = await this._authService.signPayload(payload).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
-      const { password, ...userVm } = user;
-      return {
-        token,
-        user: userVm,
-      };
+      const authToken = await this._authService
+        .signPayload(payload)
+        .catch(err => {
+          throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+        });
+      this._authService.setCurrentUser(user);
+      return { token: authToken, name: user.username, role: user.role };
     } catch (error) {
       throw new HttpException(error, error.getStatus());
     }

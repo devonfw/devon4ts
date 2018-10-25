@@ -4,7 +4,7 @@ export class ChangePasswordVm {
   @ApiModelProperty()
   username: string;
   @ApiModelProperty()
-  password: string;
+  oldPassword: string;
   @ApiModelProperty()
   newPassword: string;
 }

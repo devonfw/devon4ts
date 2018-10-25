@@ -16,13 +16,13 @@ describe('AuthService', () => {
     }).compile();
     service = module.get<AuthService>(AuthService);
     user = {
-      username: 'tester',
+      name: 'tester',
       mail: 'tester',
       password: 'superpasword',
       role: 'Customer',
     };
     payload = {
-      username: user.username,
+      name: user.name,
       role: user.role,
     };
   });
