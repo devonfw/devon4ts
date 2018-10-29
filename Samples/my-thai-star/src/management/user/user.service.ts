@@ -24,9 +24,6 @@ export class UserService extends BaseService<User> {
   ) {
     super();
     this._repository = _userRepository;
-    process.on('unhandledRejection', error => {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    });
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
@@ -40,7 +37,7 @@ export class UserService extends BaseService<User> {
         );
       }
 
-      exist = await this._userRepository.findOne({ mail });
+      exist = await this._userRepository.findOne({ email: mail });
       if (exist) {
         throw new HttpException(
           `This mail is already associated with an username`,
@@ -53,7 +50,7 @@ export class UserService extends BaseService<User> {
       const result = await this._userRepository.save(newUser);
       return result;
     } catch (e) {
-      throw new HttpException(e, e.getStatus());
+      throw e;
     }
   }
 
@@ -74,15 +71,11 @@ export class UserService extends BaseService<User> {
         role: user.role,
       };
 
-      const authToken = await this._authService
-        .signPayload(payload)
-        .catch(err => {
-          throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
-      this._authService.setCurrentUser(user);
+      const authToken = await this._authService.signPayload(payload);
+      await this._authService.setCurrentUser(user);
       return { token: authToken, name: user.username, role: user.role };
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 

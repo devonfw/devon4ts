@@ -32,7 +32,7 @@ export class AuthService {
     return await decode(token);
   }
 
-  setCurrentUser(user: User) {
+  async setCurrentUser(user: User) {
     this.currentUser = user;
   }
 

@@ -4,14 +4,11 @@ import { Column, Entity } from 'typeorm';
 @Entity()
 export class Category extends BaseModel<Category> {
   @Column({ type: 'nvarchar', length: 120 })
-  Name: string;
+  name: string;
 
   @Column({ type: 'nvarchar', length: 255 })
-  Description: string;
-
-  @Column({ type: 'bigint' })
-  Group: number;
+  description: string;
 
   @Column({ type: 'int' })
-  ShowOrder: number;
+  showOrder: number;
 }

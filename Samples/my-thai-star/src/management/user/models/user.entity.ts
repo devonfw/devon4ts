@@ -1,5 +1,12 @@
 import { UserRole } from './user-role.enum';
-import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { BaseModel } from '../../../shared/base.model';
 import { Dish } from 'management/dish/models/dish.entity';
 import { Booking } from 'management/booking/models/booking.entity';
@@ -9,7 +16,7 @@ export class User extends BaseModel<User> {
   @Column({ type: 'text', unique: true, nullable: false })
   username: string;
   @Column({ type: 'text', unique: true, nullable: false })
-  mail: string;
+  email: string;
 
   @Column({ type: 'text', nullable: false })
   password: string;
@@ -18,9 +25,13 @@ export class User extends BaseModel<User> {
   role: string;
 
   @ManyToMany(type => Dish, { eager: true })
-  @JoinTable({ name: 'UserFavourite' })
+  @JoinTable({
+    name: 'UserFavourite',
+    joinColumn: { name: 'idUser' },
+    inverseJoinColumn: { name: 'idDish' },
+  })
   favourites: Array<Dish>;
 
-  @OneToMany(type => Booking, booking => booking.user, { lazy: true })
+  @OneToMany(type => Booking, booking => booking.user, { eager: true })
   bookings: Array<Booking>;
 }
