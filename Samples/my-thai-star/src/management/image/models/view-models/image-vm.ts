@@ -9,7 +9,5 @@ export class ImageVm extends BaseModelVM {
   @ApiModelProperty()
   mimeType: string;
   @ApiModelProperty()
-  extension: string;
-  @ApiModelProperty()
   contentType: number;
 }

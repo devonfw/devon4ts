@@ -9,8 +9,6 @@ export class Image extends BaseModel<Image> {
   name: string;
   @Column({ type: 'nvarchar', length: 10 })
   mimeType: string;
-  @Column({ type: 'nvarchar', length: 20 })
-  extension: string;
   @Column({ type: 'int' })
   contentType: number;
 }
