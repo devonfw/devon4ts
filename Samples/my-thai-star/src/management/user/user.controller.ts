@@ -4,7 +4,6 @@ import {
   HttpStatus,
   Body,
   HttpException,
-  Res,
   Req,
 } from '@nestjs/common';
 import {
@@ -22,7 +21,7 @@ import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
 import { Request } from 'express';
 
-@Controller('')
+@Controller()
 @ApiUseTags('User')
 @ApiBearerAuth()
 export class UserController {
@@ -39,7 +38,7 @@ export class UserController {
       const { password, ...result } = newUser;
       return result;
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
@@ -63,25 +62,29 @@ export class UserController {
       req.res.set('Authorization', token);
       req.res.send();
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
   validateRegister(register: RegisterVm): RegisterVm {
-    const { username, password, mail, role } = register;
-    if (!name) {
-      throw new HttpException('name is required', HttpStatus.BAD_REQUEST);
+    try {
+      const { username, password, email, role } = register;
+      if (!username) {
+        throw new HttpException('name is required', HttpStatus.BAD_REQUEST);
+      }
+      if (!password) {
+        throw new HttpException('password is required', HttpStatus.BAD_REQUEST);
+      }
+      if (!email) {
+        throw new HttpException('mail is required', HttpStatus.BAD_REQUEST);
+      }
+      if (!role) register.role = 'Customer';
+      register.role = role.toUpperCase();
+      register.username = username.toLowerCase();
+      register.email = email.toLowerCase();
+      return register;
+    } catch (e) {
+      throw e;
     }
-    if (!password) {
-      throw new HttpException('password is required', HttpStatus.BAD_REQUEST);
-    }
-    if (!mail) {
-      throw new HttpException('mail is required', HttpStatus.BAD_REQUEST);
-    }
-    if (!role) register.role = 'Customer';
-    register.role = role.toUpperCase();
-    register.username = username.toLowerCase();
-    register.mail = mail.toLowerCase();
-    return register;
   }
 }

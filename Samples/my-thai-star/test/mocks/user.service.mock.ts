@@ -16,7 +16,7 @@ export class UserServiceMock extends BaseService<User> {
     const result: User = {
       id: 1,
       username: registerVm.username,
-      mail: registerVm.mail,
+      email: registerVm.email,
       password: registerVm.password,
       role: 'Customer',
       createdAt: new Date(),
@@ -34,7 +34,7 @@ export class UserServiceMock extends BaseService<User> {
   async login(loginVm: LoginVm): Promise<LoginResponseVm> {
     const usermock: UserVm = {
       username: loginVm.username,
-      mail: 'mail@test.com',
+      email: 'mail@test.com',
     };
     const result: LoginResponseVm = { name: 'name', role: 'CUSTOMER' };
     return result;
@@ -48,7 +48,7 @@ export class UserServiceMock extends BaseService<User> {
     const result: User = {
       id: 1,
       username: 'test',
-      mail: 'test@mail.com',
+      email: 'test@mail.com',
       password: 'test',
       role: 'Customer',
       favourites: [],
@@ -67,7 +67,7 @@ export class UserServiceMock extends BaseService<User> {
     const result: User = {
       id: 1,
       username: 'test',
-      mail: 'test@mail.com',
+      email: 'test@mail.com',
       password: 'test',
       role: 'Customer',
       favourites: [],

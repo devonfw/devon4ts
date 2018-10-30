@@ -10,14 +10,12 @@ import { User } from '../../management/user/models/user.entity';
 export class AuthService {
   private readonly jwtOptions: SignOptions;
   private readonly jwtKey: string | undefined;
-  private currentUser: User;
   constructor(
     @Inject(forwardRef(() => UserService)) readonly _userService: UserService,
     private readonly _configurationService: ConfigurationService,
   ) {
     this.jwtOptions = { expiresIn: '8h' };
     this.jwtKey = _configurationService.get(Configuration.JWT_KEY);
-    this.currentUser = null;
   }
 
   async signPayload(payload: JwtPayload): Promise<string> {
@@ -29,14 +27,6 @@ export class AuthService {
   }
 
   async deSerializeToken(token: string) {
-    return await decode(token);
-  }
-
-  async setCurrentUser(user: User) {
-    this.currentUser = user;
-  }
-
-  async getCurrentUser(): Promise<User> {
-    return this.currentUser;
+    if (token) return await decode(token.split('Bearer ')[1]);
   }
 }

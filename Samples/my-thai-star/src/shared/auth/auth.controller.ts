@@ -15,12 +15,9 @@ export class AuthController {
   @Get('currentuser')
   async getCurrentUser(@Req() req: Request) {
     try {
-      const user = await this._authService.getCurrentUser();
-      const response = {
-        name: user.username,
-        role: user.role,
-      };
-      req.res.send(response);
+      req.res.send(
+        await this._authService.deSerializeToken(req.get('Authorization')),
+      );
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

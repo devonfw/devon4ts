@@ -27,7 +27,7 @@ export class UserService extends BaseService<User> {
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
-    const { username, password, mail } = registerVm;
+    const { username, password, email } = registerVm;
     try {
       let exist = await this._userRepository.findOne({ username });
       if (exist) {
@@ -37,7 +37,7 @@ export class UserService extends BaseService<User> {
         );
       }
 
-      exist = await this._userRepository.findOne({ email: mail });
+      exist = await this._userRepository.findOne({ email });
       if (exist) {
         throw new HttpException(
           `This mail is already associated with an username`,
@@ -72,7 +72,6 @@ export class UserService extends BaseService<User> {
       };
 
       const authToken = await this._authService.signPayload(payload);
-      await this._authService.setCurrentUser(user);
       return { token: authToken, name: user.username, role: user.role };
     } catch (error) {
       throw error;

@@ -18,7 +18,7 @@ export class AuthServiceMock {
     const result: User = {
       id: 1,
       username: 'test',
-      mail: 'test@mail.com',
+      email: 'test@mail.com',
       password: 'password',
       role: 'User',
       favourites: [],

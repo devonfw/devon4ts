@@ -26,8 +26,10 @@
     "@nestjs/swagger": "^2.5.0",
     "@nestjs/typeorm": "^5.2.2",
     "@nestjs/websockets": "^5.3.8",
+    "@types/helmet": "0.0.42",
     "bcryptjs": "^2.4.3",
     "config": "^2.0.1",
+    "helmet": "^3.14.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "npm": "^6.4.1",
@@ -86,6 +88,9 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "moduleDirectories": ["node_modules", "src"]
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }

@@ -12,12 +12,12 @@ import { ApiUseTags } from '@nestjs/swagger';
 import { ImageService } from './image.service';
 import { ImageVm } from './models/view-models/image-vm';
 
-@Controller('services/rest/imagemanagement/v1/')
+@Controller('services/rest/imagemanagement/v1/image')
 @ApiUseTags('Image')
 export class ImageController {
   constructor(private readonly _imageService: ImageService) {}
 
-  @Get('image/:id')
+  @Get(':id')
   async getImage(@Param('id') id): Promise<ImageVm> {
     try {
       const result = await this._imageService.findById(id);
@@ -28,7 +28,7 @@ export class ImageController {
     }
   }
 
-  @Post('image')
+  @Post()
   async saveImage(@Body() image: ImageVm): Promise<ImageVm> {
     try {
       await this._imageService.saveImage(image);
@@ -38,7 +38,7 @@ export class ImageController {
     }
   }
 
-  @Delete('/image/:id')
+  @Delete(':id')
   async deleteImage(@Param('id') id): Promise<boolean> {
     try {
       return !!(await this._imageService.deleteById(id));

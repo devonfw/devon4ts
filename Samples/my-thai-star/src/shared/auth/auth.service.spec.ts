@@ -17,7 +17,7 @@ describe('AuthService', () => {
     service = module.get<AuthService>(AuthService);
     user = {
       name: 'tester',
-      mail: 'tester',
+      email: 'tester',
       password: 'superpasword',
       role: 'Customer',
     };

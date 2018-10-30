@@ -17,7 +17,7 @@ describe('UserService', () => {
   const mocked: User = {
     id: 1,
     username: 'test',
-    mail: 'test@mail.com',
+    email: 'test@mail.com',
     password: 'test',
     role: 'User',
     favourites: [],

@@ -8,7 +8,7 @@ export class UserVm extends BaseModelVM {
   username: string;
 
   @ApiModelProperty()
-  mail: string;
+  email: string;
 
   @ApiModelPropertyOptional({
     enum: EnumToArray(UserRole),

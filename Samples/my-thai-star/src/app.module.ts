@@ -11,16 +11,9 @@ import { DishModule } from './management/dish/dish.module';
 import { OrderModule } from './management/order/order.module';
 import * as winston from 'winston';
 import { BookingModule } from 'management/booking/booking.module';
-
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.db',
-      synchronize: true,
-      logging: false,
-      entities: ['./**/*.entity{.ts,.js}'],
-    }),
+    TypeOrmModule.forRoot(),
     SharedModule,
     UserModule,
     ImageModule,
@@ -43,14 +36,6 @@ export class AppModule {
 
   constructor(private readonly _configurationService: ConfigurationService) {
     const SOURCE_PATH = _configurationService.isDevelopment ? 'src' : 'dist';
-
-    module.exports = {
-      type: 'sqlite',
-      database: 'database.db',
-      synchronize: true,
-      logging: false,
-      entities: [`${SOURCE_PATH}/**/**/**.entity{.ts,.js}`],
-    };
 
     AppModule.port = AppModule.normalizePort(
       _configurationService.get(Configuration.PORT),
