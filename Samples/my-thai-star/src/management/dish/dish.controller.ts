@@ -1,6 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
+import { DishResponse } from 'shared/interfaces';
 
-@Controller('dishmanagement/v1')
+@Controller('/services/rest/dishmanagement/v1')
 @ApiUseTags('Dish')
 export class DishController {}

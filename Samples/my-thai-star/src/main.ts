@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'shared/filters/http-exception.filter';
 import * as helmet from 'helmet';
-import { getConnectionManager } from 'typeorm';
 
 declare const module: any;
 async function bootstrap() {
