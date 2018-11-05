@@ -1,6 +1,6 @@
 import { BaseModelVM } from '../../../../shared/base.model';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { EnumToArray } from '../../../../shared/utilities/enum-to-array';
+import { EnumToArray } from '../../../../shared/utilities/to-array';
 import { UserRole } from '../user-role.enum';
 
 export class UserVm extends BaseModelVM {

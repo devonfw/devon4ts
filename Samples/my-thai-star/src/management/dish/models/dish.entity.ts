@@ -20,23 +20,23 @@ export class Dish extends BaseModel<Dish> {
   @Column({ type: 'decimal', precision: 26 })
   price: number;
 
-  @OneToOne(type => Image)
+  @OneToOne(type => Image, { eager: true })
   @JoinColumn({ name: 'idImage' })
-  image: Image;
+  image?: Image;
 
-  @ManyToMany(type => Ingredient, { lazy: true })
+  @ManyToMany(type => Ingredient, { eager: true })
   @JoinTable({
     name: 'DishIngredient',
     joinColumn: { name: 'idDish' },
     inverseJoinColumn: { name: 'idIngredient' },
   })
-  extras: Array<Ingredient>;
+  extras?: Array<Ingredient>;
 
-  @ManyToMany(type => Category, { lazy: true })
+  @ManyToMany(type => Category, { eager: true })
   @JoinTable({
     name: 'DishCategory',
     joinColumn: { name: 'idDish' },
     inverseJoinColumn: { name: 'idCategory' },
   })
-  categories: Array<Category>;
+  categories?: Array<Category>;
 }

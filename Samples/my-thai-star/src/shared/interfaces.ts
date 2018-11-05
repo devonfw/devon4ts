@@ -1,5 +1,3 @@
-import { Dish } from 'management/dish/models/dish.entity';
-
 // FILTERS
 
 export class Filter {
@@ -43,7 +41,7 @@ export interface DishView {
   dish: PlateView;
   image: { content: string };
   extras: ExtraView[];
-  categories?: { id: string }[];
+  categories?: any[];
 }
 
 export interface PlateView {

@@ -3,11 +3,15 @@ import { BaseModelVM } from 'shared/base.model';
 
 export class DishVm extends BaseModelVM {
   @ApiModelProperty()
-  Name: string;
+  name: string;
   @ApiModelProperty()
-  Description: string;
+  description: string;
   @ApiModelProperty()
-  Price: number;
+  price: number;
   @ApiModelPropertyOptional()
-  Image_id?: number;
+  image_id?: number;
+  @ApiModelPropertyOptional()
+  categories?: number[];
+  @ApiModelPropertyOptional()
+  extras?: number[];
 }

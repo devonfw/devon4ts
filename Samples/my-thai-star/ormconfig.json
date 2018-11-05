@@ -2,7 +2,6 @@
   "type": "sqlite",
   "database": "database.db",
   "logging": false,
-  "synchronize": true,
-  "entities": ["src/**/*.entity{.ts,.js}"],
-  "migrations": ["migration/**/*.ts"]
+  "synchronize": false,
+  "entities": ["./src/**/*.entity{.ts,.js}"]
 }

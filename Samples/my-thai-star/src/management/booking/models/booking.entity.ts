@@ -10,12 +10,13 @@ import {
 import { User } from 'management/user/models/user.entity';
 import { Table } from 'model/table/table.entity';
 import { InvitedGuest } from 'model/invitedGuest/invitedGuest.entity';
+import { userInfo } from 'os';
 
 @Entity()
 export class Booking extends BaseModel<Booking> {
-  @ManyToOne(type => User, { eager: true })
-  @JoinColumn({ name: 'UserId', referencedColumnName: 'id' })
+  @ManyToOne(type => User, user => user.bookings)
   user: User;
+
   @Column({ type: 'nvarchar', length: 120 })
   name: string;
   @Column({ type: 'nvarchar', length: 60 })
