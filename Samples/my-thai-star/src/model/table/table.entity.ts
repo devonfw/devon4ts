@@ -4,5 +4,5 @@ import { Entity, Column } from 'typeorm';
 @Entity()
 export class Table extends BaseModel<Table> {
   @Column({ type: 'bigint', nullable: false })
-  SeatsNumber: number;
+  seatsNumber: number;
 }

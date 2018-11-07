@@ -15,17 +15,17 @@ import { Ingredient } from 'model/ingredient/ingredient.entity';
 @Entity()
 export class OrderLine extends BaseModel<OrderLine> {
   @Column({ type: 'int' })
-  Amount: number;
+  amount: number;
   @Column({ type: 'nvarchar', length: 255 })
-  Comment: string;
+  comment: string;
 
   @ManyToOne(type => Order, { eager: true })
   @JoinColumn({ name: 'IdOrder' })
-  Order: Order;
+  order: Order;
 
   @OneToOne(type => Dish, { eager: true })
   @JoinColumn({ name: 'IdDish' })
-  Dish: Dish;
+  dish: Dish;
 
   @ManyToMany(type => Ingredient, { eager: true })
   @JoinTable({
@@ -33,5 +33,5 @@ export class OrderLine extends BaseModel<OrderLine> {
     joinColumn: { name: 'IdOrderLine', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'IdIngredient', referencedColumnName: 'id' },
   })
-  Extras: Array<Ingredient>;
+  extras: Array<Ingredient>;
 }

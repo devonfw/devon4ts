@@ -6,8 +6,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from './../../management/user/models/user-role.enum';
-import { User } from './../../management/user/models/user.entity';
+import { UserRole } from 'management/user/models/user-role.enum';
+import { User } from 'management/user/models/user.entity';
 import { EnumToArray } from '../utilities/to-array';
 
 @Injectable()

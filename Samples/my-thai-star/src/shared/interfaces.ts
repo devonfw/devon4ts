@@ -1,3 +1,5 @@
+import { BookingDTO } from 'management/booking/models/view-models/booking-vm';
+
 // FILTERS
 
 export class Filter {
@@ -10,12 +12,9 @@ export class Filter {
   categories: { id: string }[];
 }
 
-export class FilterCockpit {
+export class FilterReservations {
   pagination?: Pagination;
-  sort?: Sorting[];
-  bookingDate: string;
-  email: string;
-  bookingToken: number;
+  sort?: { name: string; direction: string }[];
 }
 
 export class Pagination {
@@ -64,6 +63,7 @@ export interface DishResponse {
 }
 
 // BOOKING
+
 export class BookingInfo {
   booking: ReservationInfo;
   invitedGuests?: {
@@ -98,6 +98,20 @@ export class OrderLineInfo {
 export class OrderListInfo {
   booking: { bookingToken: string };
   orderLines: OrderInfo[];
+}
+
+export interface BookingResponse {
+  pagination: Pagination;
+  result: BookingView[];
+}
+
+export class BookingView {
+  booking: BookingDTO;
+  invitedGuests: any[];
+  order: any;
+  orders: Array<any>;
+  table: any;
+  user: any;
 }
 
 // LOGIN

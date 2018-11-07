@@ -1,6 +1,47 @@
-import { Controller } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { Controller, Post, Body, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  CreateBookingVm,
+  BookingDTO,
+  BookingResponseVm,
+} from './models/view-models/booking-vm';
+import { BookingService } from './booking.service';
+import { ApiException } from 'shared/api-exception.model';
+import { GetOperationId } from 'shared/utilities/get-operation-id';
+import { FilterReservations, BookingResponse } from 'shared/interfaces';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'shared/guards/roles.guard';
+import { Roles } from 'shared/decorators/role.decorator';
+import { UserRole } from '../user/models/user-role.enum';
 
-@Controller('bookingmanagement/v1')
+@Controller('/services/rest/bookingmanagement/v1/booking')
 @ApiUseTags('Booking')
-export class BookingController {}
+export class BookingController {
+  constructor(private readonly _service: BookingService) {}
+
+  @Post()
+  @ApiResponse({ status: HttpStatus.OK, type: BookingDTO })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+  @ApiOperation(GetOperationId('Booking', 'Create'))
+  async createBooking(@Body() input: CreateBookingVm): Promise<BookingDTO> {
+    try {
+      return await this._service.createBooking(input);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @Post('search')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.Waiter)
+  @ApiResponse({ status: HttpStatus.OK, type: BookingResponseVm })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+  @ApiOperation(GetOperationId('Booking', 'Search'))
+  async getAll(@Body() filter: FilterReservations): Promise<BookingResponse> {
+    try {
+      return await this._service.findBookings(filter);
+    } catch (e) {
+      throw e;
+    }
+  }
+}

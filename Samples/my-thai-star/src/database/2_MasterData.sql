@@ -1,3 +1,8 @@
+--
+-- File generated with SQLiteStudio v3.2.1 on mi. nov. 7 11:39:12 2018
+--
+-- Text encoding used: System
+--
 PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
@@ -5,33 +10,218 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS booking;
 
 CREATE TABLE booking (
-    id                INTEGER        PRIMARY KEY AUTOINCREMENT
-                                     NOT NULL,
-    createdAt         DATETIME       NOT NULL
-                                     DEFAULT (datetime('now') ),
-    updatedAt         DATETIME       NOT NULL
-                                     DEFAULT (datetime('now') ),
-    name              NVARCHAR (120) NOT NULL,
-    reservationToken  NVARCHAR (60)  NOT NULL,
-    comments          NVARCHAR (255) NOT NULL,
-    bookingDate       DATETIME       NOT NULL,
-    expirationDate    DATETIME       NOT NULL,
-    creationDate      DATETIME       NOT NULL,
-    canceled          INTEGER        NOT NULL,
-    idReservationType INTEGER        NOT NULL,
-    email             NVARCHAR (255) NOT NULL,
-    assistants        INTEGER        NOT NULL,
-    UserId            INTEGER,
-    TableId           INTEGER,
-    CONSTRAINT FK_c7ef65e2b9d2195bfb22e293323 FOREIGN KEY (
-        UserId
+    id             INTEGER         NOT NULL
+                                   PRIMARY KEY AUTOINCREMENT,
+    createdAt      DATETIME        NOT NULL
+                                   DEFAULT (datetime('now') ),
+    updatedAt      DATETIME        NOT NULL
+                                   DEFAULT (datetime('now') ),
+    name           NVARCHAR (120)  NOT NULL,
+    bookingToken   NVARCHAR (60)   NOT NULL,
+    comment        NVARCHAR (4000),
+    email          NVARCHAR (255)  NOT NULL,
+    bookingDate    DATETIME        NOT NULL,
+    expirationDate DATETIME        NOT NULL,
+    canceled       BOOLEAN         NOT NULL
+                                   DEFAULT (0),
+    bookingType    INTEGER         NOT NULL,
+    assistants     INTEGER,
+    userId         INTEGER,
+    tableId        INTEGER,
+    idOrder        INTEGER,
+    CONSTRAINT UQ_7a2aa2d03295b1a33bc69c770cb UNIQUE (
+        idOrder
+    ),
+    CONSTRAINT FK_a123f9a7d1a907765283be0004d FOREIGN KEY (
+        idOrder
     )
-    REFERENCES UserProfile (id),
+    REFERENCES [order] (id),
     CONSTRAINT FK_a825560a7211ae22525457d4251 FOREIGN KEY (
-        TableId
+        tableId
     )
-    REFERENCES [table] (id) 
+    REFERENCES [table] (id) ON DELETE NO ACTION
+                            ON UPDATE NO ACTION,
+    CONSTRAINT FK_336b3f4a235460dc93645fbf222 FOREIGN KEY (
+        userId
+    )
+    REFERENCES UserProfile (id) ON DELETE NO ACTION
+                                ON UPDATE NO ACTION
 );
+
+INSERT INTO booking (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        bookingToken,
+                        comment,
+                        email,
+                        bookingDate,
+                        expirationDate,
+                        canceled,
+                        bookingType,
+                        assistants,
+                        userId,
+                        tableId,
+                        idOrder
+                    )
+                    VALUES (
+                        0,
+                        '2018-11-06 12:01:08',
+                        '2018-11-06 12:01:08',
+                        'user0',
+                        'CB_20170509_123502555Z',
+                        'Booking Type CSR',
+                        'user0@mail.com',
+                        '2018-11-06 12:01:08',
+                        '2019-11-06 12:01:08',
+                        'false',
+                        0,
+                        3,
+                        0,
+                        0,
+                        0
+                    );
+
+INSERT INTO booking (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        bookingToken,
+                        comment,
+                        email,
+                        bookingDate,
+                        expirationDate,
+                        canceled,
+                        bookingType,
+                        assistants,
+                        userId,
+                        tableId,
+                        idOrder
+                    )
+                    VALUES (
+                        1,
+                        '2018-11-06 12:01:56',
+                        '2018-11-06 12:01:56',
+                        'user1',
+                        'CB_20170510_123502575Z',
+                        'Booking Type GSR',
+                        'user1@mail.com',
+                        '2018-11-06 12:01:08',
+                        '2019-11-06 12:01:08',
+                        'false',
+                        1,
+                        NULL,
+                        0,
+                        1,
+                        1
+                    );
+
+INSERT INTO booking (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        bookingToken,
+                        comment,
+                        email,
+                        bookingDate,
+                        expirationDate,
+                        canceled,
+                        bookingType,
+                        assistants,
+                        userId,
+                        tableId,
+                        idOrder
+                    )
+                    VALUES (
+                        2,
+                        '2018-11-06 12:08:51',
+                        '2018-11-06 12:08:51',
+                        'user2',
+                        'CB_20170510_123502595Z',
+                        'Booking Type GSR',
+                        'user2@mail.com',
+                        '2018-11-06 12:01:08',
+                        '2019-11-06 12:01:08',
+                        'false',
+                        0,
+                        5,
+                        NULL,
+                        2,
+                        NULL
+                    );
+
+INSERT INTO booking (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        bookingToken,
+                        comment,
+                        email,
+                        bookingDate,
+                        expirationDate,
+                        canceled,
+                        bookingType,
+                        assistants,
+                        userId,
+                        tableId,
+                        idOrder
+                    )
+                    VALUES (
+                        3,
+                        '2018-11-06 12:08:52',
+                        '2018-11-06 12:08:52',
+                        'host1',
+                        'CB_20170510_123502655Z',
+                        'Booking Type GSR',
+                        'host1@mail.com',
+                        '2018-11-06 12:01:08',
+                        '2019-11-06 12:01:08',
+                        'false',
+                        1,
+                        NULL,
+                        NULL,
+                        3,
+                        NULL
+                    );
+
+INSERT INTO booking (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        name,
+                        bookingToken,
+                        comment,
+                        email,
+                        bookingDate,
+                        expirationDate,
+                        canceled,
+                        bookingType,
+                        assistants,
+                        userId,
+                        tableId,
+                        idOrder
+                    )
+                    VALUES (
+                        4,
+                        '2018-11-06 12:08:52',
+                        '2018-11-06 12:08:52',
+                        'host1',
+                        'CB_20170510_123503600Z',
+                        'Booking Type GSR',
+                        'host1@mail.com',
+                        '2018-11-06 12:01:08',
+                        '2019-11-06 12:01:08',
+                        'false',
+                        1,
+                        NULL,
+                        NULL,
+                        3,
+                        NULL
+                    );
 
 
 -- Table: category
@@ -319,7 +509,7 @@ INSERT INTO dish (
                      '2018-10-31 09:55:23',
                      '2018-10-31 09:55:23',
                      'Thai Roasted',
-                     'This recipe takes that same approach, but instead of lemon as the primary flavor, we�re mixing up a Thai-inspired sauce of lime, a little brown sugar, Sriracha, soy, fish sauce, ginger, and garlic. It may sound like a lot of ingredients, but I bet you have most of these sitting in your pantry already!',
+                     'This recipe takes that same approach, but instead of lemon as the primary flavor, we?re mixing up a Thai-inspired sauce of lime, a little brown sugar, Sriracha, soy, fish sauce, ginger, and garlic. It may sound like a lot of ingredients, but I bet you have most of these sitting in your pantry already!',
                      22.15,
                      5
                  );
@@ -723,64 +913,400 @@ INSERT INTO ingredient (
 DROP TABLE IF EXISTS invited_guest;
 
 CREATE TABLE invited_guest (
-    id               INTEGER       PRIMARY KEY AUTOINCREMENT
-                                   NOT NULL,
-    createdAt        DATETIME      NOT NULL
-                                   DEFAULT (datetime('now') ),
-    updatedAt        DATETIME      NOT NULL
-                                   DEFAULT (datetime('now') ),
-    guestToken       NVARCHAR (60) NOT NULL,
-    email            NVARCHAR (60) NOT NULL,
-    accepted         INTEGER       NOT NULL,
-    modificationDate DATETIME      NOT NULL,
-    bookingId        INTEGER,
+    id         INTEGER       NOT NULL
+                             PRIMARY KEY AUTOINCREMENT,
+    createdAt  DATETIME      NOT NULL
+                             DEFAULT (datetime('now') ),
+    updatedAt  DATETIME      NOT NULL
+                             DEFAULT (datetime('now') ),
+    guestToken NVARCHAR (60),
+    email      NVARCHAR (60),
+    accepted   BOOLEAN       NOT NULL
+                             DEFAULT 'false',
+    bookingId  INTEGER       NOT NULL,
     CONSTRAINT FK_a89240d5c570e3e977b1069cd46 FOREIGN KEY (
         bookingId
     )
     REFERENCES booking (id) 
 );
 
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              0,
+                              '2018-11-06 11:25:27',
+                              '2018-11-06 11:25:27',
+                              'GB_20170510_02350266501Z',
+                              'guest0@mail.com',
+                              1,
+                              3
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              1,
+                              '2018-11-06 11:25:29',
+                              '2018-11-06 11:25:29',
+                              'GB_20170510_02350266501Z',
+                              'guest1@mail.com',
+                              1,
+                              3
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              2,
+                              '2018-11-06 11:25:30',
+                              '2018-11-06 11:25:30',
+                              'GB_20170510_02350266501Z',
+                              'guest2@mail.com',
+                              0,
+                              3
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              3,
+                              '2018-11-06 11:25:30',
+                              '2018-11-06 11:25:30',
+                              'GB_20170510_02350266501Z',
+                              'guest3@mail.com',
+                              0,
+                              3
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              4,
+                              '2018-11-06 11:25:31',
+                              '2018-11-06 11:25:31',
+                              'GB_20170510_02350266501Z',
+                              'guest4@mail.com',
+                              1,
+                              3
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              5,
+                              '2018-11-06 11:25:38',
+                              '2018-11-06 11:25:38',
+                              'GB_20170510_52350266501Z',
+                              'guest5@mail.com',
+                              1,
+                              4
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              6,
+                              '2018-11-06 11:25:38',
+                              '2018-11-06 11:25:38',
+                              'GB_20170510_52350266501Z',
+                              'guest6@mail.com',
+                              0,
+                              4
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              7,
+                              '2018-11-06 11:25:39',
+                              '2018-11-06 11:25:39',
+                              'GB_20170510_52350266501Z',
+                              'guest7@mail.com',
+                              1,
+                              4
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              8,
+                              '2018-11-06 11:25:40',
+                              '2018-11-06 11:25:40',
+                              'GB_20170510_52350266501Z',
+                              'guest8@mail.com',
+                              1,
+                              4
+                          );
+
+INSERT INTO invited_guest (
+                              id,
+                              createdAt,
+                              updatedAt,
+                              guestToken,
+                              email,
+                              accepted,
+                              bookingId
+                          )
+                          VALUES (
+                              9,
+                              '2018-11-06 11:25:44',
+                              '2018-11-06 11:25:44',
+                              'GB_20170510_52350266501Z',
+                              'guest9@mail.com',
+                              0,
+                              4
+                          );
+
 
 -- Table: order
 DROP TABLE IF EXISTS [order];
 
 CREATE TABLE [order] (
-    id                INTEGER  PRIMARY KEY AUTOINCREMENT
-                               NOT NULL,
-    createdAt         DATETIME NOT NULL
-                               DEFAULT (datetime('now') ),
-    updatedAt         DATETIME NOT NULL
-                               DEFAULT (datetime('now') ),
-    idReservation     INTEGER,
-    idInvitationGuest INTEGER,
+    id             INTEGER  PRIMARY KEY AUTOINCREMENT
+                            NOT NULL,
+    createdAt      DATETIME NOT NULL
+                            DEFAULT (datetime('now') ),
+    updatedAt      DATETIME NOT NULL
+                            DEFAULT (datetime('now') ),
+    idReservation  INTEGER,
+    idInvitedGuest INTEGER,
+    idHost         INTEGER,
+    CONSTRAINT UQ_614de43818a6ba8efcb89641413 UNIQUE (
+        idInvitedGuest
+    ),
+    CONSTRAINT UQ_c480abd99996fe05c3019a2df47 UNIQUE (
+        idHost
+    ),
+    CONSTRAINT FK_614de43818a6ba8efcb89641413 FOREIGN KEY (
+        idInvitedGuest
+    )
+    REFERENCES invited_guest (id) ON DELETE NO ACTION
+                                  ON UPDATE NO ACTION,
     CONSTRAINT FK_e708a09afc2475ecea3f15dba92 FOREIGN KEY (
         idReservation
     )
-    REFERENCES booking (id),
-    CONSTRAINT FK_30ae2aedbdba30761c3ac4cd751 FOREIGN KEY (
-        idInvitationGuest
+    REFERENCES booking (id) ON DELETE NO ACTION
+                            ON UPDATE NO ACTION,
+    CONSTRAINT FK_3f1fe55b0be60428c51d1c594a1 FOREIGN KEY (
+        idHost
     )
-    REFERENCES invited_guest (id) 
+    REFERENCES booking (id) 
 );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        0,
+                        '2018-11-06 12:13:07',
+                        '2018-11-06 12:13:07',
+                        0,
+                        NULL,
+                        0
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        1,
+                        '2018-11-06 12:13:12',
+                        '2018-11-06 12:13:12',
+                        3,
+                        0,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        2,
+                        '2018-11-06 12:13:12',
+                        '2018-11-06 12:13:12',
+                        3,
+                        1,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        3,
+                        '2018-11-06 12:13:13',
+                        '2018-11-06 12:13:13',
+                        3,
+                        2,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        4,
+                        '2018-11-06 12:13:13',
+                        '2018-11-06 12:13:13',
+                        3,
+                        3,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        5,
+                        '2018-11-06 12:13:14',
+                        '2018-11-06 12:13:14',
+                        3,
+                        4,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        6,
+                        '2018-11-06 12:13:25',
+                        '2018-11-06 12:13:25',
+                        4,
+                        8,
+                        NULL
+                    );
+
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        7,
+                        '2018-11-06 12:13:27',
+                        '2018-11-06 12:13:27',
+                        4,
+                        9,
+                        NULL
+                    );
 
 
 -- Table: order_line
 DROP TABLE IF EXISTS order_line;
 
 CREATE TABLE order_line (
-    id        INTEGER        PRIMARY KEY AUTOINCREMENT
-                             NOT NULL,
+    id        INTEGER        NOT NULL
+                             PRIMARY KEY AUTOINCREMENT,
     createdAt DATETIME       NOT NULL
                              DEFAULT (datetime('now') ),
     updatedAt DATETIME       NOT NULL
                              DEFAULT (datetime('now') ),
-    Amount    INTEGER        NOT NULL,
-    Comment   NVARCHAR (255) NOT NULL,
+    amount    INTEGER        NOT NULL,
+    comment   NVARCHAR (255),
     IdOrder   INTEGER,
-    IdDish    INTEGER,
-    CONSTRAINT REL_ca7905bc269f87127e0fa9ba71 UNIQUE (
-        IdDish
-    ),
+    IdDish    INTEGER        REFERENCES dish (id) DEFERRABLE,
     CONSTRAINT FK_d7ede940754037f4a34bcadd6ff FOREIGN KEY (
         IdOrder
     )
@@ -790,6 +1316,234 @@ CREATE TABLE order_line (
     )
     REFERENCES dish (id) 
 );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           0,
+                           '2018-11-06 12:22:15',
+                           '2018-11-06 12:22:15',
+                           0,
+                           'please not too spicy',
+                           0,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           1,
+                           '2018-11-06 12:22:18',
+                           '2018-11-06 12:22:18',
+                           4,
+                           NULL,
+                           0,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           2,
+                           '2018-11-06 12:22:18',
+                           '2018-11-06 12:22:18',
+                           2,
+                           NULL,
+                           0,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           3,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           4,
+                           NULL,
+                           1,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           4,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           2,
+                           NULL,
+                           1,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           5,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           3,
+                           NULL,
+                           1,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           6,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           2,
+                           NULL,
+                           2,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           7,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           5,
+                           NULL,
+                           3,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           8,
+                           '2018-11-06 12:22:19',
+                           '2018-11-06 12:22:19',
+                           5,
+                           NULL,
+                           4,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           9,
+                           '2018-11-06 12:22:20',
+                           '2018-11-06 12:22:20',
+                           3,
+                           NULL,
+                           5,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           10,
+                           '2018-11-06 12:22:20',
+                           '2018-11-06 12:22:20',
+                           5,
+                           NULL,
+                           6,
+                           1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           11,
+                           '2018-11-06 12:22:20',
+                           '2018-11-06 12:22:20',
+                           3,
+                           NULL,
+                           7,
+                           1
+                       );
 
 
 -- Table: OrderDishExtraIngredient
@@ -812,6 +1566,60 @@ CREATE TABLE OrderDishExtraIngredient (
     )
 );
 
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         5,
+                                         0
+                                     );
+
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         4,
+                                         0
+                                     );
+
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         2,
+                                         1
+                                     );
+
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         2,
+                                         0
+                                     );
+
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         1,
+                                         1
+                                     );
+
+INSERT INTO OrderDishExtraIngredient (
+                                         IdOrderLine,
+                                         IdIngredient
+                                     )
+                                     VALUES (
+                                         0,
+                                         1
+                                     );
+
 
 -- Table: table
 DROP TABLE IF EXISTS [table];
@@ -823,8 +1631,125 @@ CREATE TABLE [table] (
                          DEFAULT (datetime('now') ),
     updatedAt   DATETIME NOT NULL
                          DEFAULT (datetime('now') ),
-    SeatsNumber BIGINT   NOT NULL
+    seatsNumber BIGINT   NOT NULL
 );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        0,
+                        '2018-11-06 11:22:53',
+                        '2018-11-06 11:22:53',
+                        4
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        1,
+                        '2018-11-06 11:23:01',
+                        '2018-11-06 11:23:01',
+                        4
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        2,
+                        '2018-11-06 11:23:05',
+                        '2018-11-06 11:23:05',
+                        4
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        3,
+                        '2018-11-06 11:23:08',
+                        '2018-11-06 11:23:08',
+                        4
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        4,
+                        '2018-11-06 11:23:13',
+                        '2018-11-06 11:23:13',
+                        6
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        5,
+                        '2018-11-06 11:23:20',
+                        '2018-11-06 11:23:20',
+                        6
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        6,
+                        '2018-11-06 11:23:22',
+                        '2018-11-06 11:23:22',
+                        6
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        7,
+                        '2018-11-06 11:23:27',
+                        '2018-11-06 11:23:27',
+                        8
+                    );
+
+INSERT INTO [table] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        seatsNumber
+                    )
+                    VALUES (
+                        8,
+                        '2018-11-06 11:23:31',
+                        '2018-11-06 11:23:31',
+                        8
+                    );
 
 
 -- Table: UserFavourite
@@ -881,7 +1806,7 @@ INSERT INTO UserProfile (
                             role
                         )
                         VALUES (
-                            1,
+                            0,
                             '2018-10-30 12:17:06',
                             '2018-10-30 12:17:06',
                             'user0',
@@ -900,7 +1825,7 @@ INSERT INTO UserProfile (
                             role
                         )
                         VALUES (
-                            2,
+                            1,
                             '2018-10-30 12:17:22',
                             '2018-10-30 12:17:22',
                             'waiter',
