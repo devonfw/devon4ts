@@ -5,11 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBookingVm, BookingDTO } from './models/view-models/booking-vm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UserService } from 'management/user/user.service';
-import {
-  FilterReservations,
-  BookingResponse,
-  BookingView,
-} from 'shared/interfaces';
+import { CustomFilter, BookingResponse, BookingView } from 'shared/interfaces';
 
 @Injectable()
 export class BookingService extends BaseService<Booking> {
@@ -39,7 +35,7 @@ export class BookingService extends BaseService<Booking> {
     }
   }
 
-  async findBookings(filter: FilterReservations): Promise<BookingResponse> {
+  async findBookings(filter: CustomFilter): Promise<BookingResponse> {
     try {
       const response: BookingResponse = {
         pagination: {
@@ -49,9 +45,11 @@ export class BookingService extends BaseService<Booking> {
         },
         result: [],
       };
+      const offset = (filter.pagination.page - 1) * filter.pagination.size;
       const total = await this._repository.count();
-      response.pagination.total = Math.ceil(total / filter.pagination.size);
-      const query = await this.createQuery(filter);
+      // Math.ceil(total / filter.pagination.size); if it must return total pages instead of total elements left
+      response.pagination.total = total - offset;
+      const query = await this.createQuery(filter, offset);
       const reservations = await query.getMany();
       for (const element of reservations) {
         const resultElement: BookingView = {
@@ -79,7 +77,8 @@ export class BookingService extends BaseService<Booking> {
   }
 
   async createQuery(
-    filter: FilterReservations,
+    filter: CustomFilter,
+    offset: number,
   ): Promise<SelectQueryBuilder<Booking>> {
     try {
       const query = await this._repository.createQueryBuilder('booking');
@@ -95,7 +94,7 @@ export class BookingService extends BaseService<Booking> {
           query.addOrderBy(`booking.${filter.sort[0].name}`, 'DESC');
         }
       }
-      query.offset((filter.pagination.page - 1) * filter.pagination.size);
+      query.skip(offset);
       query.take(filter.pagination.size);
       return query;
     } catch (error) {
@@ -104,24 +103,34 @@ export class BookingService extends BaseService<Booking> {
   }
 
   async toDTO(input: Booking): Promise<BookingDTO> {
-    const response: BookingDTO = new BookingDTO();
-    response.id = input.id;
-    response.name = input.name;
-    response.expirationDate = input.expirationDate;
-    response.email = input.email;
-    response.bookingDate = input.bookingDate;
-    response.bookingToken = input.bookingToken;
-    if (input.assistants) response.assistants = input.assistants;
-    response.canceled = input.canceled;
-    response.creationDate = input.createdAt;
-    if (input.comment) response.comment = input.comment;
-    if (input.bookingType === 0) {
-      response.bookingType = 'COMMON';
-    } else {
-      response.bookingType = 'INVITED';
+    try {
+      if (input instanceof Booking) {
+        const response: BookingDTO = new BookingDTO();
+        response.id = input.id;
+        response.name = input.name;
+        response.expirationDate = input.expirationDate.getTime().toString();
+        response.email = input.email;
+        response.bookingDate = input.bookingDate.getTime().toString();
+        response.bookingToken = input.bookingToken;
+        if (input.assistants) response.assistants = input.assistants;
+        response.canceled = input.canceled;
+        response.creationDate = input.createdAt.getTime().toString();
+        if (input.comment) response.comment = input.comment;
+        if (input.bookingType === 0) {
+          response.bookingType = 'COMMON';
+        } else {
+          response.bookingType = 'INVITED';
+        }
+        if (input.user) response.userId = input.user.id;
+        if (input.table) response.tableId = input.table.id;
+        return response;
+      }
+    } catch (error) {
+      return null;
     }
-    if (input.user) response.userId = input.user.id;
-    if (input.table) response.tableId = input.table.id;
-    return response;
+  }
+
+  async findOne(filter: {}): Promise<Booking> {
+    return await this._repository.findOne(filter);
   }
 }

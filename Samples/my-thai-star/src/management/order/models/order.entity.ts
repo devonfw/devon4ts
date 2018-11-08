@@ -6,11 +6,11 @@ import { InvitedGuest } from 'model/invitedGuest/invitedGuest.entity';
 
 @Entity()
 export class Order extends BaseModel<Order> {
-  @ManyToOne(type => Booking, { eager: true, nullable: true })
+  @ManyToOne(type => Booking, { nullable: true })
   @JoinColumn({ name: 'idReservation' })
   booking: Booking;
 
-  @OneToOne(type => InvitedGuest, { eager: true, nullable: true })
+  @OneToOne(type => InvitedGuest, { nullable: true })
   @JoinColumn({ name: 'idInvitedGuest' })
   invitedGuest: InvitedGuest;
 

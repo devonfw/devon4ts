@@ -24,7 +24,7 @@ export class BookingDTO {
   @ApiModelPropertyOptional()
   id?: number;
   @ApiModelPropertyOptional()
-  creationDate?: Date;
+  creationDate?: string;
   @ApiModelPropertyOptional()
   assistants?: number;
   @ApiModelPropertyOptional()
@@ -38,11 +38,11 @@ export class BookingDTO {
   @ApiModelPropertyOptional()
   canceled: boolean;
   @ApiModelProperty()
-  bookingDate: Date;
+  bookingDate: string;
   @ApiModelProperty()
   bookingType: string;
   @ApiModelProperty()
-  expirationDate: Date;
+  expirationDate: string;
   @ApiModelPropertyOptional()
   userId?: number;
   @ApiModelPropertyOptional()

@@ -8,7 +8,7 @@ import {
 import { BookingService } from './booking.service';
 import { ApiException } from 'shared/api-exception.model';
 import { GetOperationId } from 'shared/utilities/get-operation-id';
-import { FilterReservations, BookingResponse } from 'shared/interfaces';
+import { CustomFilter, BookingResponse } from 'shared/interfaces';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'shared/guards/roles.guard';
 import { Roles } from 'shared/decorators/role.decorator';
@@ -37,7 +37,7 @@ export class BookingController {
   @ApiResponse({ status: HttpStatus.OK, type: BookingResponseVm })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('Booking', 'Search'))
-  async getAll(@Body() filter: FilterReservations): Promise<BookingResponse> {
+  async getAll(@Body() filter: CustomFilter): Promise<BookingResponse> {
     try {
       return await this._service.findBookings(filter);
     } catch (e) {

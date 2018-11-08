@@ -12,7 +12,14 @@ export class Filter {
   categories: { id: string }[];
 }
 
-export class FilterReservations {
+export class CustomFilter {
+  pagination?: Pagination;
+  sort?: { name: string; direction: string }[];
+}
+
+export class CustomOrderFilter {
+  bookingToken?: string;
+  email?: string;
   pagination?: Pagination;
   sort?: { name: string; direction: string }[];
 }
@@ -114,6 +121,18 @@ export class BookingView {
   user: any;
 }
 
+export class OrderResult {
+  pagination: Pagination;
+  result: OrderView[];
+}
+
+export class OrderView {
+  booking: any;
+  host: any;
+  invitedGuest: any;
+  order: any;
+  orderLines: any;
+}
 // LOGIN
 export class LoginInfo {
   username: string;

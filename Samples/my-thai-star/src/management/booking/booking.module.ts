@@ -8,5 +8,6 @@ import { Booking } from './models/booking.entity';
   imports: [TypeOrmModule.forFeature([Booking])],
   providers: [BookingService],
   controllers: [BookingController],
+  exports: [BookingService],
 })
 export class BookingModule {}
