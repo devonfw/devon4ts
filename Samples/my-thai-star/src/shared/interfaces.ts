@@ -1,4 +1,5 @@
 import { BookingDTO } from 'management/booking/models/view-models/booking-vm';
+import { ApiModelProperty } from '@nestjs/swagger';
 
 // FILTERS
 
@@ -144,4 +145,21 @@ export class LoginInfo {
 export class Role {
   name: string;
   permission: number;
+}
+
+// CANCEL
+
+export class InvitationResponse {
+  @ApiModelProperty()
+  id: number;
+  @ApiModelProperty()
+  modificationCounter: number;
+  @ApiModelProperty()
+  accepted: boolean;
+  @ApiModelProperty()
+  guestToken: string;
+  @ApiModelProperty()
+  modificationDate: any;
+  @ApiModelProperty()
+  revision: any;
 }

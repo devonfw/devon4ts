@@ -16,7 +16,7 @@ import { Ingredient } from 'model/ingredient/ingredient.entity';
 export class OrderLine extends BaseModel<OrderLine> {
   @Column({ type: 'int' })
   amount: number;
-  @Column({ type: 'nvarchar', length: 255 })
+  @Column({ type: 'nvarchar', length: 255, nullable: true })
   comment: string;
 
   @ManyToOne(type => Order, { eager: true })
@@ -27,7 +27,11 @@ export class OrderLine extends BaseModel<OrderLine> {
   @JoinColumn({ name: 'IdDish' })
   dish: Dish;
 
-  @ManyToMany(type => Ingredient, { eager: true })
+  @ManyToMany(type => Ingredient, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable({
     name: 'OrderDishExtraIngredient',
     joinColumn: { name: 'IdOrderLine', referencedColumnName: 'id' },

@@ -38,17 +38,32 @@ export class Booking extends BaseModel<Booking> {
   bookingType: number;
   @Column({ type: 'int', nullable: true })
   assistants?: number;
-  @OneToOne(type => Order, { eager: true, nullable: true })
-  @JoinColumn({ name: 'idOrder', referencedColumnName: 'id' })
+  @OneToOne(type => Order, {
+    eager: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'idOrder',
+    referencedColumnName: 'id',
+  })
   order?: Order;
 
-  @ManyToOne(type => Table, { eager: true, nullable: true })
+  @ManyToOne(type => Table, {
+    eager: true,
+    nullable: true,
+  })
   @JoinColumn({ name: 'tableId', referencedColumnName: 'id' })
   table?: Table;
   @OneToMany(type => InvitedGuest, invitedGuest => invitedGuest.booking, {
     nullable: true,
   })
   invitedGuests?: Array<InvitedGuest>;
-  @OneToMany(type => Order, order => order.booking, { nullable: true })
+  @OneToMany(type => Order, order => order.booking, {
+    nullable: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   orders?: Array<Order>;
 }

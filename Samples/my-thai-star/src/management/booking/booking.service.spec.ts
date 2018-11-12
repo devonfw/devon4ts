@@ -5,6 +5,7 @@ import { Booking } from './models/booking.entity';
 import { Repository } from 'typeorm';
 import { UserService } from './../../management/user/user.service';
 import { UserServiceMock } from '../../../test/mocks/user.service.mock';
+import { EmailService } from '../../shared/email/email.service';
 
 describe('BookingService', () => {
   let service: BookingService;
@@ -21,6 +22,7 @@ describe('BookingService', () => {
           provide: UserService,
           useClass: UserServiceMock,
         },
+        { provide: EmailService, useValue: new EmailService() },
       ],
     }).compile();
     service = module.get<BookingService>(BookingService);

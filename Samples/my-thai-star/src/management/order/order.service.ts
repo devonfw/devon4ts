@@ -46,7 +46,7 @@ export class OrderService extends BaseService<Order> {
       entity.booking = exists;
       entity = await this._repository.save(entity);
       exists.order = entity;
-      await this._repository.update(exists.id, exists);
+      await this._bookingService.update(exists.id, exists);
       if (input.orderLines.length !== 0) {
         const orderLines = Array<OrderLine>();
         for (const element of input.orderLines) {

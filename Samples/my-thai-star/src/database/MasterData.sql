@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.2.1 on mi. nov. 7 11:39:12 2018
+-- File generated with SQLiteStudio v3.2.1 on lu. nov. 12 08:44:55 2018
 --
 -- Text encoding used: System
 --
@@ -10,14 +10,14 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS booking;
 
 CREATE TABLE booking (
-    id             INTEGER         NOT NULL
-                                   PRIMARY KEY AUTOINCREMENT,
+    id             INTEGER         PRIMARY KEY AUTOINCREMENT
+                                   NOT NULL,
     createdAt      DATETIME        NOT NULL
                                    DEFAULT (datetime('now') ),
     updatedAt      DATETIME        NOT NULL
                                    DEFAULT (datetime('now') ),
     name           NVARCHAR (120)  NOT NULL,
-    bookingToken   NVARCHAR (60)   NOT NULL,
+    bookingToken   NVARCHAR (60),
     comment        NVARCHAR (4000),
     email          NVARCHAR (255)  NOT NULL,
     bookingDate    DATETIME        NOT NULL,
@@ -29,23 +29,21 @@ CREATE TABLE booking (
     userId         INTEGER,
     tableId        INTEGER,
     idOrder        INTEGER,
-    CONSTRAINT UQ_7a2aa2d03295b1a33bc69c770cb UNIQUE (
+    CONSTRAINT REL_a123f9a7d1a907765283be0004 UNIQUE (
         idOrder
     ),
-    CONSTRAINT FK_a123f9a7d1a907765283be0004d FOREIGN KEY (
-        idOrder
-    )
-    REFERENCES [order] (id),
-    CONSTRAINT FK_a825560a7211ae22525457d4251 FOREIGN KEY (
-        tableId
-    )
-    REFERENCES [table] (id) ON DELETE NO ACTION
-                            ON UPDATE NO ACTION,
     CONSTRAINT FK_336b3f4a235460dc93645fbf222 FOREIGN KEY (
         userId
     )
-    REFERENCES UserProfile (id) ON DELETE NO ACTION
-                                ON UPDATE NO ACTION
+    REFERENCES UserProfile (id),
+    CONSTRAINT FK_a123f9a7d1a907765283be0004d FOREIGN KEY (
+        idOrder
+    )
+    REFERENCES [order] (id) ON DELETE CASCADE,
+    CONSTRAINT FK_c7d32a3c5c0a2a6649afd7f7f47 FOREIGN KEY (
+        tableId
+    )
+    REFERENCES [table] (id) 
 );
 
 INSERT INTO booking (
@@ -75,7 +73,7 @@ INSERT INTO booking (
                         'user0@mail.com',
                         '2018-11-06 12:01:08',
                         '2019-11-06 12:01:08',
-                        'false',
+                        0,
                         0,
                         3,
                         0,
@@ -110,7 +108,7 @@ INSERT INTO booking (
                         'user1@mail.com',
                         '2018-11-06 12:01:08',
                         '2019-11-06 12:01:08',
-                        'false',
+                        0,
                         1,
                         NULL,
                         0,
@@ -145,7 +143,7 @@ INSERT INTO booking (
                         'user2@mail.com',
                         '2018-11-06 12:01:08',
                         '2019-11-06 12:01:08',
-                        'false',
+                        0,
                         0,
                         5,
                         NULL,
@@ -180,7 +178,7 @@ INSERT INTO booking (
                         'host1@mail.com',
                         '2018-11-06 12:01:08',
                         '2019-11-06 12:01:08',
-                        'false',
+                        0,
                         1,
                         NULL,
                         NULL,
@@ -215,7 +213,7 @@ INSERT INTO booking (
                         'host1@mail.com',
                         '2018-11-06 12:01:08',
                         '2019-11-06 12:01:08',
-                        'false',
+                        0,
                         1,
                         NULL,
                         NULL,
@@ -390,14 +388,13 @@ CREATE TABLE dish (
     description NVARCHAR (4000) NOT NULL,
     price       DECIMAL (26)    NOT NULL,
     idImage     INTEGER,
-    CONSTRAINT UQ_0c12bf1bd05ce897cd7dfe78e2d UNIQUE (
+    CONSTRAINT REL_0c12bf1bd05ce897cd7dfe78e2 UNIQUE (
         idImage
     ),
     CONSTRAINT FK_0c12bf1bd05ce897cd7dfe78e2d FOREIGN KEY (
         idImage
     )
-    REFERENCES image (id) ON DELETE NO ACTION
-                          ON UPDATE NO ACTION
+    REFERENCES image (id) 
 );
 
 INSERT INTO dish (
@@ -913,8 +910,8 @@ INSERT INTO ingredient (
 DROP TABLE IF EXISTS invited_guest;
 
 CREATE TABLE invited_guest (
-    id         INTEGER       NOT NULL
-                             PRIMARY KEY AUTOINCREMENT,
+    id         INTEGER       PRIMARY KEY AUTOINCREMENT
+                             NOT NULL,
     createdAt  DATETIME      NOT NULL
                              DEFAULT (datetime('now') ),
     updatedAt  DATETIME      NOT NULL
@@ -922,7 +919,7 @@ CREATE TABLE invited_guest (
     guestToken NVARCHAR (60),
     email      NVARCHAR (60),
     accepted   BOOLEAN       NOT NULL
-                             DEFAULT 'false',
+                             DEFAULT (0),
     bookingId  INTEGER       NOT NULL,
     CONSTRAINT FK_a89240d5c570e3e977b1069cd46 FOREIGN KEY (
         bookingId
@@ -1134,26 +1131,26 @@ CREATE TABLE [order] (
     idReservation  INTEGER,
     idInvitedGuest INTEGER,
     idHost         INTEGER,
-    CONSTRAINT UQ_614de43818a6ba8efcb89641413 UNIQUE (
+    CONSTRAINT REL_614de43818a6ba8efcb8964141 UNIQUE (
         idInvitedGuest
     ),
-    CONSTRAINT UQ_c480abd99996fe05c3019a2df47 UNIQUE (
+    CONSTRAINT REL_3f1fe55b0be60428c51d1c594a UNIQUE (
         idHost
     ),
-    CONSTRAINT FK_614de43818a6ba8efcb89641413 FOREIGN KEY (
-        idInvitedGuest
-    )
-    REFERENCES invited_guest (id) ON DELETE NO ACTION
-                                  ON UPDATE NO ACTION,
     CONSTRAINT FK_e708a09afc2475ecea3f15dba92 FOREIGN KEY (
         idReservation
     )
-    REFERENCES booking (id) ON DELETE NO ACTION
-                            ON UPDATE NO ACTION,
+    REFERENCES booking (id) ON DELETE CASCADE
+                            ON UPDATE CASCADE,
+    CONSTRAINT FK_614de43818a6ba8efcb89641413 FOREIGN KEY (
+        idInvitedGuest
+    )
+    REFERENCES invited_guest (id) ON UPDATE CASCADE,
     CONSTRAINT FK_3f1fe55b0be60428c51d1c594a1 FOREIGN KEY (
         idHost
     )
-    REFERENCES booking (id) 
+    REFERENCES booking (id) ON DELETE CASCADE
+                            ON UPDATE CASCADE
 );
 
 INSERT INTO [order] (
@@ -1234,8 +1231,8 @@ INSERT INTO [order] (
                     )
                     VALUES (
                         4,
-                        '2018-11-06 12:13:13',
-                        '2018-11-06 12:13:13',
+                        '2018-11-06 12:08:52.000',
+                        '2018-11-08 10:37:54',
                         3,
                         3,
                         NULL
@@ -1251,8 +1248,8 @@ INSERT INTO [order] (
                     )
                     VALUES (
                         5,
-                        '2018-11-06 12:13:14',
-                        '2018-11-06 12:13:14',
+                        '2018-11-08 13:00:10.000',
+                        '2018-11-08 13:00:46',
                         3,
                         4,
                         NULL
@@ -1292,13 +1289,30 @@ INSERT INTO [order] (
                         NULL
                     );
 
+INSERT INTO [order] (
+                        id,
+                        createdAt,
+                        updatedAt,
+                        idReservation,
+                        idInvitedGuest,
+                        idHost
+                    )
+                    VALUES (
+                        9,
+                        '2018-11-08 10:37:43.000',
+                        '2018-11-08 10:38:16',
+                        4,
+                        NULL,
+                        4
+                    );
+
 
 -- Table: order_line
 DROP TABLE IF EXISTS order_line;
 
 CREATE TABLE order_line (
-    id        INTEGER        NOT NULL
-                             PRIMARY KEY AUTOINCREMENT,
+    id        INTEGER        PRIMARY KEY AUTOINCREMENT
+                             NOT NULL,
     createdAt DATETIME       NOT NULL
                              DEFAULT (datetime('now') ),
     updatedAt DATETIME       NOT NULL
@@ -1306,11 +1320,12 @@ CREATE TABLE order_line (
     amount    INTEGER        NOT NULL,
     comment   NVARCHAR (255),
     IdOrder   INTEGER,
-    IdDish    INTEGER        REFERENCES dish (id) DEFERRABLE,
+    IdDish    INTEGER,
     CONSTRAINT FK_d7ede940754037f4a34bcadd6ff FOREIGN KEY (
         IdOrder
     )
-    REFERENCES [order] (id),
+    REFERENCES [order] (id) ON DELETE CASCADE
+                            ON UPDATE CASCADE,
     CONSTRAINT FK_ca7905bc269f87127e0fa9ba710 FOREIGN KEY (
         IdDish
     )
@@ -1543,6 +1558,25 @@ INSERT INTO order_line (
                            NULL,
                            7,
                            1
+                       );
+
+INSERT INTO order_line (
+                           id,
+                           createdAt,
+                           updatedAt,
+                           amount,
+                           comment,
+                           IdOrder,
+                           IdDish
+                       )
+                       VALUES (
+                           13,
+                           '2018-11-08 10:38:15',
+                           '2018-11-08 10:38:15',
+                           1,
+                           '',
+                           9,
+                           0
                        );
 
 

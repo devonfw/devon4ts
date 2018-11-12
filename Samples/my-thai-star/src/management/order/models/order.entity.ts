@@ -6,7 +6,7 @@ import { InvitedGuest } from 'model/invitedGuest/invitedGuest.entity';
 
 @Entity()
 export class Order extends BaseModel<Order> {
-  @ManyToOne(type => Booking, { nullable: true })
+  @ManyToOne(type => Booking, { nullable: true, onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'idReservation' })
   booking: Booking;
 
@@ -16,10 +16,12 @@ export class Order extends BaseModel<Order> {
 
   @OneToMany(type => OrderLine, orderLine => orderLine.order, {
     nullable: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   orderLines: Array<OrderLine>;
 
-  @OneToOne(type => Booking, { nullable: true })
+  @OneToOne(type => Booking, { nullable: true, onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'idHost', referencedColumnName: 'id' })
   host: Booking;
 }

@@ -6,6 +6,7 @@ import { CreateBookingVm, BookingDTO } from './models/view-models/booking-vm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { UserService } from 'management/user/user.service';
 import { CustomFilter, BookingResponse, BookingView } from 'shared/interfaces';
+import { EmailService } from 'shared/email/email.service';
 
 @Injectable()
 export class BookingService extends BaseService<Booking> {
@@ -13,6 +14,7 @@ export class BookingService extends BaseService<Booking> {
     @InjectRepository(Booking)
     private readonly _bookingRepository: Repository<Booking>,
     @Inject(UserService) private readonly _userService: UserService,
+    @Inject(EmailService) private readonly _emailService: EmailService,
   ) {
     super();
     this._repository = _bookingRepository;
@@ -29,6 +31,7 @@ export class BookingService extends BaseService<Booking> {
       const user = await this._userService.find({ email: params.email });
       if (user) entity.user = user;
       entity = await this._repository.save(entity);
+      this._emailService.sendConfirmationEmail(entity);
       return this.toDTO(entity);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);

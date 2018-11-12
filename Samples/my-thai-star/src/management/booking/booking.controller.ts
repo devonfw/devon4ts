@@ -1,4 +1,12 @@
-import { Controller, Post, Body, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpStatus,
+  UseGuards,
+  Get,
+  Param,
+} from '@nestjs/common';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import {
   CreateBookingVm,
@@ -8,7 +16,11 @@ import {
 import { BookingService } from './booking.service';
 import { ApiException } from 'shared/api-exception.model';
 import { GetOperationId } from 'shared/utilities/get-operation-id';
-import { CustomFilter, BookingResponse } from 'shared/interfaces';
+import {
+  CustomFilter,
+  BookingResponse,
+  InvitationResponse,
+} from 'shared/interfaces';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'shared/guards/roles.guard';
 import { Roles } from 'shared/decorators/role.decorator';
@@ -42,6 +54,19 @@ export class BookingController {
       return await this._service.findBookings(filter);
     } catch (e) {
       throw e;
+    }
+  }
+
+  @Get('cancel/:token')
+  @ApiResponse({ status: HttpStatus.OK, type: InvitationResponse })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+  @ApiOperation(GetOperationId('Booking', 'Cancel'))
+  async cancelBooking(@Param('token') token: string): Promise<any> {
+    try {
+      const booking = await this._service.findOne({ bookingToken: token });
+      return await this._service.deleteById(booking.id);
+    } catch (error) {
+      return error;
     }
   }
 }
