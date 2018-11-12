@@ -38,14 +38,14 @@ async function bootstrap() {
     });
   }
 
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
-
   app.setGlobalPrefix(AppModule.appBasePath);
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+    exposedHeaders: 'Authorization',
+    allowedHeaders: 'authorization, content-type',
+  });
   await app.listen(AppModule.port);
 }
 bootstrap();

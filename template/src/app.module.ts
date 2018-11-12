@@ -38,14 +38,6 @@ export class AppModule {
   constructor(private readonly _configurationService: ConfigurationService) {
     const SOURCE_PATH = _configurationService.isDevelopment ? 'src' : 'dist';
 
-    module.exports = {
-      type: 'sqlite',
-      database: 'database.db',
-      synchronize: true,
-      logging: false,
-      entities: [`${SOURCE_PATH}/**/**/**.entity{.ts,.js}`],
-    };
-
     AppModule.port = AppModule.normalizePort(
       _configurationService.get(Configuration.PORT),
     );

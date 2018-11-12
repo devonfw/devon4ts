@@ -18,7 +18,7 @@ export abstract class BaseService<T> {
 
   async deleteById(id: any): Promise<T | null> {
     const exists = await this._repository.findOne(id);
-    const deleted = await this._repository.remove(id);
+    const deleted = await this._repository.remove(exists);
     if (deleted) return exists;
     return null;
   }
