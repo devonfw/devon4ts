@@ -16,9 +16,9 @@ Simple start point for projects including:
 - Extensible Base ViewModel.
 - Customizable Api exception model.
 - Externalized Swagger configuration.
-- Example of custom User Role decorator.
+- Example of custom decorator.
 - Example of custom pipe.
-- Mocked services.
+- Mocked services for Isolated Unit Testing.
 
 ## Installation
 
