@@ -54,7 +54,7 @@ describe('User Controller', () => {
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message.message).toContain('username');
+        expect(error.message).toContain('username');
       });
     });
     it('Should throw a missing password HttpException', async () => {
@@ -66,7 +66,7 @@ describe('User Controller', () => {
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message.message).toContain('password');
+        expect(error.message).toContain('password');
       });
     });
     it('Should throw a missing mail HttpException', async () => {
@@ -78,7 +78,7 @@ describe('User Controller', () => {
       };
       await controller.register(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
-        expect(error.message.message).toContain('mail');
+        expect(error.message).toContain('mail');
       });
     });
   });

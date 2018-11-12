@@ -86,7 +86,7 @@ export class TodoController {
         );
       }
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 
@@ -114,7 +114,7 @@ export class TodoController {
         );
       }
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 }

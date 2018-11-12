@@ -44,7 +44,7 @@ export class UserController {
       const { id, password, ...result } = newUser;
       return result;
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
@@ -65,7 +65,7 @@ export class UserController {
       });
       return await this._userService.login(loginVm);
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
@@ -101,9 +101,7 @@ export class UserController {
         return result as UserVm;
       }
     } catch (error) {
-      error.operation = 'User update';
-      error.request = JSON.stringify(vm);
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
@@ -134,7 +132,7 @@ export class UserController {
         return result;
       }
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 
@@ -165,7 +163,7 @@ export class UserController {
         return result;
       }
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 
@@ -191,7 +189,7 @@ export class UserController {
       const { id, password, ...resultVm } = result;
       return resultVm;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 

@@ -25,9 +25,6 @@ export class UserService extends BaseService<User> {
   ) {
     super();
     this._repository = _userRepository;
-    process.on('unhandledRejection', error => {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    });
   }
 
   async register(registerVm: RegisterVm): Promise<User> {
@@ -54,7 +51,7 @@ export class UserService extends BaseService<User> {
       const result = await this._userRepository.save(newUser);
       return result;
     } catch (e) {
-      throw new HttpException(e, e.getStatus());
+      throw e;
     }
   }
 
@@ -84,7 +81,7 @@ export class UserService extends BaseService<User> {
         user: userVm,
       };
     } catch (error) {
-      throw new HttpException(error, error.getStatus());
+      throw error;
     }
   }
 
@@ -119,7 +116,7 @@ export class UserService extends BaseService<User> {
         );
       return result;
     } catch (e) {
-      throw new HttpException(e, e.getStatus());
+      throw e;
     }
   }
 
