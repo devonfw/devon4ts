@@ -10,7 +10,7 @@ async function bootstrap() {
     ? `${AppModule.host}:${AppModule.port}`
     : AppModule.host;
 
-  if (hostDomain) {
+  if (AppModule.isDev) {
     const swaggerOptions = new DocumentBuilder()
       .setTitle(AppModule.appName)
       .setDescription(AppModule.appDescription)
