@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'shared/filters/http-exception.filter';
+import * as helmet from 'helmet';
 
 declare const module: any;
 async function bootstrap() {
@@ -40,6 +41,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(AppModule.appBasePath);
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.use(helmet());
   app.enableCors({
     origin: '*',
     credentials: true,
