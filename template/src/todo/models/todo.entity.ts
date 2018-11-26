@@ -5,11 +5,11 @@ import { TodoLevel } from './todo-level.enum';
 @Entity()
 export class Todo extends BaseModel<Todo> {
   @Column({ type: 'text', length: 200 })
-  description: string;
+  description!: string;
 
   @Column({ type: 'text', default: TodoLevel.Normal })
-  priority: string;
+  priority!: string;
 
   @Column({ type: 'boolean', default: false })
-  completed: boolean;
+  completed!: boolean;
 }

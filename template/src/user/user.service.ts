@@ -124,9 +124,9 @@ export class UserService extends BaseService<User> {
     return await compare(input, password);
   }
 
-  async find(filter = {}): Promise<User> {
+  async find(filter = {}): Promise<User | undefined> {
     return await this._userRepository.findOne(filter).catch(err => {
-      return null;
+      return undefined;
     });
   }
 

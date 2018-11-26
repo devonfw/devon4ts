@@ -5,10 +5,10 @@ import { UserRole } from '../user-role.enum';
 
 export class UserVm extends BaseModelVM {
   @ApiModelProperty()
-  username: string;
+  username!: string;
 
   @ApiModelProperty()
-  mail: string;
+  mail!: string;
 
   @ApiModelPropertyOptional({
     enum: EnumToArray(UserRole),

@@ -5,13 +5,13 @@ import { BaseModel } from '../../shared/base.model';
 @Entity()
 export class User extends BaseModel<User> {
   @Column({ type: 'text', unique: true, nullable: false })
-  username: string;
+  username!: string;
   @Column({ type: 'text', unique: true, nullable: false })
-  mail: string;
+  mail!: string;
 
   @Column({ type: 'text', nullable: false })
-  password: string;
+  password!: string;
 
   @Column({ type: 'text', nullable: false, default: UserRole.User })
-  role: string;
+  role!: string;
 }

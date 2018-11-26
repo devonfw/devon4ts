@@ -4,7 +4,7 @@ import { EnumToArray } from '../../../shared/utilities/enum-to-array';
 
 export class TodoParams {
   @ApiModelProperty()
-  description: string;
+  description!: string;
   @ApiModelPropertyOptional({
     enum: EnumToArray(TodoLevel),
     example: TodoLevel.Normal,

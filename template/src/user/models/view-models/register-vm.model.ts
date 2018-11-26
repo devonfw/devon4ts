@@ -5,11 +5,11 @@ import { EnumToArray } from '../../../shared/utilities/enum-to-array';
 
 export class RegisterVm extends LoginVm {
   @ApiModelProperty()
-  mail: string;
+  mail!: string;
   @ApiModelProperty({
     default: UserRole.User,
     example: UserRole.User,
     enum: EnumToArray(UserRole),
   })
-  role: string;
+  role!: string;
 }

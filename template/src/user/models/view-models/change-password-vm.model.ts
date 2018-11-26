@@ -2,9 +2,9 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class ChangePasswordVm {
   @ApiModelProperty()
-  username: string;
+  username!: string;
   @ApiModelProperty()
-  password: string;
+  password!: string;
   @ApiModelProperty()
-  newPassword: string;
+  newPassword!: string;
 }

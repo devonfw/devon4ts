@@ -99,6 +99,11 @@ export class UserController {
       if (updated) {
         const { id, ...result } = updated;
         return result as UserVm;
+      } else {
+        throw new HttpException(
+          'The user could not be updated',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     } catch (error) {
       throw error;
@@ -130,6 +135,11 @@ export class UserController {
       if (updated) {
         const { id, ...result } = updated;
         return result;
+      } else {
+        throw new HttpException(
+          'The user could not be upgraded',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     } catch (error) {
       throw error;
@@ -161,6 +171,11 @@ export class UserController {
       if (updated) {
         const { id, ...result } = updated;
         return result;
+      } else {
+        throw new HttpException(
+          'The user could not be downgraded',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     } catch (error) {
       throw error;

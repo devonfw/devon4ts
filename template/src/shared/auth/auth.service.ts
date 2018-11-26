@@ -20,9 +20,10 @@ export class AuthService {
   }
 
   async signPayload(payload: JwtPayload): Promise<string> {
-    return sign(payload, this.jwtKey, this.jwtOptions);
+    if (this.jwtKey) return sign(payload, this.jwtKey, this.jwtOptions);
+    return '';
   }
-  async validatePayload(payload: JwtPayload): Promise<User | null> {
+  async validatePayload(payload: JwtPayload): Promise<User | undefined> {
     const username = payload.username;
     return await this._userService.find({ username });
   }

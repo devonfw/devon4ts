@@ -10,24 +10,13 @@ import { UserModule } from './user/user.module';
 import * as winston from 'winston';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.db',
-      synchronize: true,
-      logging: false,
-      entities: ['./**/*.entity{.ts,.js}'],
-    }),
-    SharedModule,
-    TodoModule,
-    UserModule,
-  ],
+  imports: [TypeOrmModule.forRoot(), SharedModule, TodoModule, UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
   static host: string | undefined;
-  static port: string | number;
+  static port: string | number | undefined;
   static isDev: boolean;
   static appName: string | undefined;
   static appVersion: string | undefined;
@@ -67,10 +56,15 @@ export class AppModule {
     });
   }
 
-  private static normalizePort(param: string | number): string | number {
-    const portNumber: number =
-      typeof param === 'string' ? parseInt(param, 10) : param;
-    if (isNaN(portNumber)) return param;
-    else if (portNumber >= 0) return portNumber;
+  private static normalizePort(
+    param: string | number | undefined,
+  ): string | number | undefined {
+    if (param) {
+      const portNumber: number =
+        typeof param === 'string' ? parseInt(param, 10) : param;
+      if (isNaN(portNumber)) return param;
+      else if (portNumber >= 0) return portNumber;
+    }
+    return param;
   }
 }
