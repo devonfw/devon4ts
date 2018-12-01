@@ -15,22 +15,23 @@ import * as winston from 'winston';
   providers: [AppService],
 })
 export class AppModule {
-  static host: string | undefined;
-  static port: string | number | undefined;
+  static host: string;
+  static port: string | number;
   static isDev: boolean;
-  static appName: string | undefined;
-  static appVersion: string | undefined;
-  static appDescription: string | undefined;
-  static appBasePath: string | undefined;
+  static appName: string;
+  static appVersion: string;
+  static appDescription: string;
+  static appBasePath: string;
   static logger: winston.Logger;
 
   constructor(private readonly _configurationService: ConfigurationService) {
     const SOURCE_PATH = _configurationService.isDevelopment ? 'src' : 'dist';
 
     AppModule.port = AppModule.normalizePort(
-      _configurationService.get(Configuration.PORT),
+      _configurationService.get(Configuration.PORT) || 8080,
     );
-    AppModule.host = _configurationService.get(Configuration.HOST);
+    AppModule.host =
+      _configurationService.get(Configuration.HOST) || 'localhost';
     AppModule.isDev = _configurationService.isDevelopment;
     AppModule.appName = _configurationService.swaggerTitle;
     AppModule.appVersion = _configurationService.swaggerVersion;
@@ -56,15 +57,13 @@ export class AppModule {
     });
   }
 
-  private static normalizePort(
-    param: string | number | undefined,
-  ): string | number | undefined {
+  private static normalizePort(param: string | number): string | number {
     if (param) {
       const portNumber: number =
         typeof param === 'string' ? parseInt(param, 10) : param;
       if (isNaN(portNumber)) return param;
       else if (portNumber >= 0) return portNumber;
     }
-    return param;
+    return 8080;
   }
 }

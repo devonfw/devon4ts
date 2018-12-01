@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { HttpExceptionFilter } from 'shared/filters/http-exception.filter';
+import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import * as helmet from 'helmet';
 
 declare const module: any;
@@ -17,16 +17,19 @@ async function bootstrap() {
       .setDescription(AppModule.appDescription)
       .setVersion(AppModule.appVersion)
       .setHost(hostDomain.split('//')[1])
-      .setSchemes(AppModule.isDev ? 'http' : 'https')
+      .setSchemes('http')
       .setBasePath(AppModule.appBasePath)
       .addBearerAuth('Authorization', 'header')
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions);
 
-    app.use(`${AppModule.appBasePath}/docs/swagger.json`, (req, res) => {
-      res.send(swaggerDoc);
-    });
+    app.use(
+      `${AppModule.appBasePath}/docs/swagger.json`,
+      (req: any, res: any) => {
+        res.send(swaggerDoc);
+      },
+    );
 
     SwaggerModule.setup('/api/docs', app, swaggerDoc, {
       swaggerUrl: `${hostDomain}${AppModule.appBasePath}/docs/swagger.json`,

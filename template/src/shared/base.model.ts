@@ -8,13 +8,13 @@ import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
 export class BaseModel<T> extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }
 
 export class BaseModelVM {

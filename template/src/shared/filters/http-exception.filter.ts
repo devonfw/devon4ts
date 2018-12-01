@@ -5,7 +5,7 @@ import {
   Catch,
   HttpException,
 } from '@nestjs/common';
-import { AppModule } from 'app.module';
+import { AppModule } from '../../app.module';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
