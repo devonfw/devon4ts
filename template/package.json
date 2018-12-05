@@ -9,7 +9,7 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "prestart:prod": "rm -rf dist && tsc",
-    "start:prod": "set NODE_ENV=production&& node dist/main.js",
+    "start:prod": "node dist/main.js",
     "start:hmr": "node dist/server",
     "test": "jest",
     "test:watch": "jest --watch",
