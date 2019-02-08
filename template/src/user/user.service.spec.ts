@@ -6,9 +6,9 @@ import { UserRepository } from './user.repository';
 import { AuthService } from '../shared/auth/auth.service';
 import { AuthServiceMock } from '../../test/mocks/auth.service.mock';
 import { HttpException } from '@nestjs/common';
-import { RegisterVm } from './models/view-models/register-vm.model';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+import { RegisterDTO } from './models/dto/register.dto';
+import { LoginDTO } from './models/dto/login.dto';
+import { ChangePasswordDTO } from './models/dto/change-password.dto';
 import { hash } from 'bcryptjs';
 
 describe('UserService', () => {
@@ -23,9 +23,12 @@ describe('UserService', () => {
     createdAt: new Date(),
     updatedAt: new Date(),
     hasId: () => true,
-    save: () => null,
-    remove: () => null,
-    reload: null,
+    save: () => new Promise<User>(resolve => resolve(undefined)),
+    remove: () => new Promise<User>(resolve => resolve(undefined)),
+    reload: () =>
+      new Promise<void>(() => {
+        // nothing to do here
+      }),
   };
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -49,44 +52,48 @@ describe('UserService', () => {
   });
 
   describe('register', () => {
-    const input: RegisterVm = {
+    const input: RegisterDTO = {
       mail: 'mail@mail.com',
       role: 'User',
       username: 'test',
       password: 'test',
     };
     it('should return an Error as input exists', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => true);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => new User());
       await service
         .register(input)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
     });
     it('should return the user', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => false);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
       jest.spyOn(repo, 'create').mockImplementation(() => mocked);
-      jest.spyOn(repo, 'save').mockImplementation(() => mocked);
-      expect(await service.register(mocked)).toEqual(mocked);
+      jest.spyOn(repo, 'save').mockImplementation(async () => {
+        return mocked;
+      });
+      expect(await service.register(input)).toEqual(mocked);
     });
   });
 
   describe('login', () => {
-    const login: LoginVm = {
+    const login: LoginDTO = {
       username: 'test',
       password: 'test',
     };
     it('should return error as user does not exist', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => false);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
       await service
         .login(login)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
     });
     it('should return the User and token', async () => {
-      jest.spyOn(service, 'passwordMatch').mockImplementationOnce(() => true);
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
+      jest
+        .spyOn(service, 'passwordMatch')
+        .mockImplementationOnce(async () => true);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
       expect(await service.login(login)).toBeDefined();
     });
     it('should return an error as passwords do not match', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
       login.password = 'otherpassword';
       await service
         .login(login)
@@ -95,33 +102,35 @@ describe('UserService', () => {
   });
 
   describe('change password', () => {
-    const input: ChangePasswordVm = {
+    const input: ChangePasswordDTO = {
       username: 'test',
       password: 'testpassword',
       newPassword: 'test1password',
     };
     it('should return an error as user does not exist', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => false);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
       await service
         .changePassword(input)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
     });
     it('should return an error as the passwords do not match', async () => {
       mocked.password = '!testpassword';
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      jest.spyOn(service, 'passwordMatch').mockImplementationOnce(() => false);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
+      jest
+        .spyOn(service, 'passwordMatch')
+        .mockImplementationOnce(async () => false);
       await service
         .changePassword(input)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
     });
     it('should return an error as the new password is equal to the previous one', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
       await service
         .changePassword(input)
         .catch(error => expect(error).toBeInstanceOf(HttpException));
     });
     it('should return an error as the new password does not fit the criteria', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
       input.newPassword = '12345';
       await service
         .changePassword(input)
@@ -129,9 +138,11 @@ describe('UserService', () => {
     });
     it('should return the new user', async () => {
       input.newPassword = 'test1password';
-      jest.spyOn(repo, 'findOne').mockImplementation(() => mocked);
-      jest.spyOn(service, 'passwordMatch').mockImplementationOnce(() => true);
-      jest.spyOn(service, 'update').mockImplementation(() => mocked);
+      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
+      jest
+        .spyOn(service, 'passwordMatch')
+        .mockImplementationOnce(async () => true);
+      jest.spyOn(service, 'update').mockImplementation(async () => mocked);
       expect(await service.changePassword(input)).toEqual(mocked);
     });
   });

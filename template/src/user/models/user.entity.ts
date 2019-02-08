@@ -3,7 +3,7 @@ import { Entity, Column } from 'typeorm';
 import { BaseModel } from '../../shared/base.model';
 
 @Entity()
-export class User extends BaseModel<User> {
+export class User extends BaseModel {
   @Column({ type: 'text', unique: true, nullable: false })
   username!: string;
   @Column({ type: 'text', unique: true, nullable: false })

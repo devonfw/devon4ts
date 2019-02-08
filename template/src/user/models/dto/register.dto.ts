@@ -1,15 +1,14 @@
-import { LoginVm } from './login-vm.model';
+import { LoginDTO } from './login.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 import { UserRole } from '../user-role.enum';
-import { EnumToArray } from '../../../shared/utilities/enum-to-array';
 
-export class RegisterVm extends LoginVm {
+export class RegisterDTO extends LoginDTO {
   @ApiModelProperty()
   mail!: string;
   @ApiModelProperty({
     default: UserRole.User,
     example: UserRole.User,
-    enum: EnumToArray(UserRole),
+    enum: ['Admin', 'User'],
   })
   role!: string;
 }

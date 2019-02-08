@@ -1,11 +1,12 @@
 import { User } from '../../src/user/models/user.entity';
 import { BaseService } from '../../src/shared/base.service';
-import { RegisterVm } from '../../src/user/models/view-models/register-vm.model';
-import { LoginVm } from '../../src/user/models/view-models/login-vm.model';
-import { LoginResponseVm } from '../../src/user/models/view-models/login-response-vm.model';
-import { UserVm } from '../../src/user/models/view-models/user-vm.model';
-import { ChangePasswordVm } from '../../src/user/models/view-models/change-password-vm.model';
+import { RegisterDTO } from '../../src/user/models/dto/register.dto';
+import { LoginDTO } from '../../src/user/models/dto/login.dto';
+import { LoginResponseDTO } from '../../src/user/models/dto/login-response.dto';
+import { UserDTO } from '../../src/user/models/dto/user.dto';
+import { ChangePasswordDTO } from '../../src/user/models/dto/change-password.dto';
 import { UserRepository } from '../../src/user/user.repository';
+import { UserRole } from '../../src/user/models/user-role.enum';
 
 export class UserServiceMock extends BaseService<User> {
   constructor() {
@@ -13,34 +14,37 @@ export class UserServiceMock extends BaseService<User> {
     this._repository = new UserRepository();
   }
 
-  async register(registerVm: RegisterVm): Promise<User> {
+  async register(register: RegisterDTO): Promise<User> {
     const result: User = {
       id: 1,
-      username: registerVm.username,
-      mail: registerVm.mail,
-      password: registerVm.password,
+      username: register.username,
+      mail: register.mail,
+      password: register.password,
       role: 'User',
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
     return result;
   }
 
-  async login(loginVm: LoginVm): Promise<LoginResponseVm> {
-    const usermock: UserVm = {
-      username: loginVm.username,
+  async login(login: LoginDTO): Promise<LoginResponseDTO> {
+    const usermock: UserDTO = {
+      username: login.username,
       mail: 'mail@test.com',
     };
-    const result: LoginResponseVm = { token: 'LoginToken', user: usermock };
+    const result: LoginResponseDTO = { token: 'LoginToken', user: usermock };
     return result;
   }
 
-  async update(id: number, user: UserVm): Promise<User> {
-    let roleUpdated = 'User';
+  async update(_id: number, user: UserDTO): Promise<User> {
+    let roleUpdated: string = UserRole.User;
     if (user.role) {
       roleUpdated = user.role;
     }
@@ -53,12 +57,15 @@ export class UserServiceMock extends BaseService<User> {
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
   }
-  async changePassword(object: ChangePasswordVm): Promise<User> {
+  async changePassword(object: ChangePasswordDTO): Promise<User> {
     return {
       id: 1,
       username: 'test',
@@ -68,9 +75,12 @@ export class UserServiceMock extends BaseService<User> {
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
   }
 
@@ -78,7 +88,7 @@ export class UserServiceMock extends BaseService<User> {
     return input === password;
   }
 
-  async find(filter = {}): Promise<User> {
+  async find(_filter = {}): Promise<User> {
     const result: User = {
       id: 1,
       username: 'test',
@@ -88,14 +98,17 @@ export class UserServiceMock extends BaseService<User> {
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
     return result;
   }
 
-  async findById(id: number): Promise<User> {
+  async findById(id: number): Promise<User | undefined> {
     const result: User = {
       id: 1,
       username: 'test',
@@ -105,16 +118,25 @@ export class UserServiceMock extends BaseService<User> {
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
-    if (id === 1) return result;
+    if (id === 1) {
+      return result;
+    }
+
+    return undefined;
   }
 
   async getUserId(input = {}): Promise<number> {
     const exists = await this.find(input);
-    if (exists) return exists.id;
+    if (exists) {
+      return exists.id;
+    }
     return -1;
   }
 }

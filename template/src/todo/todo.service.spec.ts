@@ -1,7 +1,8 @@
-import { TodoService } from './todo.service';
-import { TodoRepository } from './todo.repository';
-import { TodoParams } from './models/view-models/todo-params.model';
+import { TodoParams } from './models/dto/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
+import { Todo } from './models/todo.entity';
+import { TodoRepository } from './todo.repository';
+import { TodoService } from './todo.service';
 
 describe('TodoService UnitTests', () => {
   let service: TodoService;
@@ -23,8 +24,8 @@ describe('TodoService UnitTests', () => {
       priority: TodoLevel.Low,
       description: 'description',
     };
-    jest.spyOn(repo, 'create').mockImplementation(() => saved);
-    jest.spyOn(repo, 'save').mockImplementation(() => saved);
+    jest.spyOn(repo, 'create').mockImplementation(() => saved as Todo);
+    jest.spyOn(repo, 'save').mockImplementation(async () => saved as Todo);
     expect(await service.createTodo(input)).toEqual(saved);
   });
 });

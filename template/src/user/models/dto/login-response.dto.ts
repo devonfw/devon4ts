@@ -1,9 +1,9 @@
-import { UserVm } from './user-vm.model';
+import { UserDTO } from './user.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class LoginResponseVm {
+export class LoginResponseDTO {
   @ApiModelProperty()
   token!: string;
   @ApiModelProperty()
-  user!: UserVm;
+  user!: UserDTO;
 }

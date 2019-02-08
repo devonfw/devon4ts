@@ -1,15 +1,15 @@
 import {
   ArgumentsHost,
-  HttpStatus,
-  ExceptionFilter,
   Catch,
+  ExceptionFilter,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
-import { AppModule } from '../../app.module';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private log!: string;
+
   catch(error: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const req = ctx.getRequest();
@@ -35,6 +35,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     )} url: ${req.url} response: ${error.response.message} StackTrace: ${
       error.stack
     }`;
-    AppModule.logger.log('error', this.log);
+
+    // tslint:disable-next-line:no-console
+    console.log(this.log);
   }
 }

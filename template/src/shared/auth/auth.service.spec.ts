@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
+import { sign } from 'jsonwebtoken';
 import { UserService } from '../../user/user.service';
 import { ConfigurationService } from '../configuration/configuration.service';
+import { AuthService } from './auth.service';
 import { JwtPayload } from './jwt-payload';
-import { UserRepository } from '../../user/user.repository';
-import { sign } from 'jsonwebtoken';
-import { User } from '../../user/models/user.entity';
 jest.mock('../../user/user.service');
 describe('AuthService', () => {
   let service: AuthService;

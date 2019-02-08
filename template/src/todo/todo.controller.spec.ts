@@ -1,10 +1,11 @@
 import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
-import { TodoVm } from './models/view-models/todo-vm.model';
-import { TodoParams } from './models/view-models/todo-params.model';
+import { TodoDTO } from './models/dto/todo.dto';
+import { TodoParams } from './models/dto/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
 import { TodoRepository } from './todo.repository';
 import { HttpException } from '@nestjs/common';
+import { Todo } from './models/todo.entity';
 
 describe('Todo Controller UnitTests', () => {
   let controller: TodoController;
@@ -29,19 +30,21 @@ describe('Todo Controller UnitTests', () => {
   });
 
   it('getTodos', async () => {
-    const result: TodoVm[] = [
+    const result: TodoDTO[] = [
       {
         description: 'Todo created',
         priority: TodoLevel.Normal,
         completed: false,
       },
     ];
-    jest.spyOn(service, 'findAll').mockImplementation(() => result);
+    jest
+      .spyOn(service, 'findAll')
+      .mockImplementation(async () => result as Todo[]);
     expect(await controller.getTodos()).toEqual(result);
   });
 
   it('Creating Todo', async () => {
-    const result: TodoVm = {
+    const result: TodoDTO = {
       description: 'Todo created',
       priority: TodoLevel.Normal,
       completed: false,
@@ -49,36 +52,40 @@ describe('Todo Controller UnitTests', () => {
     let input: TodoParams = {
       description: 'Todo created',
     };
-    jest.spyOn(service, 'createTodo').mockImplementation(() => result);
+    jest
+      .spyOn(service, 'createTodo')
+      .mockImplementation(async () => result as Todo);
     expect(await controller.create(input)).toEqual(result);
     input = { description: '   ' };
     await controller
       .create(input)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
     await controller
-      .create(null)
+      .create(input)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
   });
 
   it('Updating Todo', async () => {
-    const updated: TodoVm = {
+    const updated: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    const result: TodoVm = {
+    const result: TodoDTO = {
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    let input: TodoVm = {
+    let input: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    jest.spyOn(service, 'update').mockImplementation(() => updated);
+    jest
+      .spyOn(service, 'update')
+      .mockImplementation(async () => updated as Todo);
     expect(await controller.update(input)).toEqual(result);
     input = {
       priority: TodoLevel.Normal,
@@ -89,37 +96,41 @@ describe('Todo Controller UnitTests', () => {
       .update(input)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
     await controller
-      .update(null)
+      .update(input)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
   });
 
   it('Deleting Todo', async () => {
-    const deleted: TodoVm = {
+    const deleted: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    const result: TodoVm = {
+    const result: TodoDTO = {
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    const input: TodoVm = {
+    const input: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
     };
-    jest.spyOn(service, 'findById').mockImplementation(() => deleted);
-    jest.spyOn(service, 'deleteById').mockImplementation(() => deleted);
-    expect(await controller.delete(input.id)).toEqual(result);
-    jest.spyOn(service, 'findById').mockImplementation(() => null);
+    jest
+      .spyOn(service, 'findById')
+      .mockImplementation(async () => deleted as Todo);
+    jest
+      .spyOn(service, 'deleteById')
+      .mockImplementation(async () => deleted as Todo);
+    expect(await controller.delete(input.id!)).toEqual(result);
+    jest.spyOn(service, 'findById').mockImplementation(async () => undefined);
     await controller
       .delete(0)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
     await controller
-      .delete(null)
+      .delete(132123)
       .catch(error => expect(error).toBeInstanceOf(HttpException));
   });
 });

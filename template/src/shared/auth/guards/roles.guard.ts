@@ -6,9 +6,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from '../../user/models/user-role.enum';
-import { User } from '../../user/models/user.entity';
-import { EnumToArray } from '../utilities/enum-to-array';
+import { UserRole } from '../../../user/models/user-role.enum';
+import { User } from '../../../user/models/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -26,9 +25,9 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: User = request.user;
 
-    const hasRole = () => EnumToArray(UserRole).indexOf(user.role) >= 0;
+    const hasRole = UserRole[user.role] >= 0;
 
-    if (user && user.role && hasRole()) {
+    if (user && user.role && hasRole) {
       return true;
     }
 

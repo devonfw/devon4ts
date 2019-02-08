@@ -1,25 +1,25 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Todo } from './models/todo.entity';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, EntityRepository } from 'typeorm';
-import { BaseService } from '../shared/base.service';
-import { TodoParams } from './models/view-models/todo-params.model';
+import { EntityRepository, Repository } from 'typeorm';
+import { TodoParams } from './models/dto/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
+import { Todo } from './models/todo.entity';
 
 @Injectable()
 @EntityRepository(Todo)
-export class TodoService extends BaseService<Todo> {
+export class TodoService {
   constructor(
     @InjectRepository(Todo) private readonly _todoRepository: Repository<Todo>,
-  ) {
-    super();
-    this._repository = _todoRepository;
-  }
+  ) {}
 
   async createTodo(params: TodoParams): Promise<Todo> {
     try {
       if (params.priority) {
-        if (!Object.values(TodoLevel).includes(params.priority)) {
+        if (
+          Object.keys(TodoLevel).filter(value => {
+            return value === params.priority;
+          }).length === 0
+        ) {
           params.priority = TodoLevel.Normal;
         }
       }
@@ -28,5 +28,33 @@ export class TodoService extends BaseService<Todo> {
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async findAll(filter = {}) {
+    return await this._todoRepository.find(filter);
+  }
+  async findById(id: any) {
+    return await this._todoRepository.findOne(id);
+  }
+  async delete(item: Todo) {
+    const exists = await this._todoRepository.findOne(item);
+    if (exists) {
+      return await this._todoRepository.remove(item);
+    }
+    return exists;
+  }
+  async deleteById(id: any) {
+    const exists = await this._todoRepository.findOne(id);
+    if (exists) {
+      return await this._todoRepository.remove(exists);
+    }
+    return exists;
+  }
+  async update(id: any, item: Partial<Todo>) {
+    const exists = await this._todoRepository.findOne(id);
+    if (exists) {
+      await this._todoRepository.update(id, item);
+    }
+    return exists;
   }
 }

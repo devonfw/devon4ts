@@ -1,33 +1,29 @@
 import {
-  Injectable,
   forwardRef,
-  Inject,
   HttpException,
   HttpStatus,
+  Inject,
+  Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './models/user.entity';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { Repository } from 'typeorm';
-import { BaseService } from '../shared/base.service';
-import { RegisterVm } from './models/view-models/register-vm.model';
-import { genSalt, hash, compare } from 'bcryptjs';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { AuthService } from '../shared/auth/auth.service';
 import { JwtPayload } from '../shared/auth/jwt-payload';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+import { ChangePasswordDTO } from './models/dto/change-password.dto';
+import { LoginResponseDTO } from './models/dto/login-response.dto';
+import { LoginDTO } from './models/dto/login.dto';
+import { RegisterDTO } from './models/dto/register.dto';
+import { User } from './models/user.entity';
 
 @Injectable()
-export class UserService extends BaseService<User> {
+export class UserService {
   constructor(
     @InjectRepository(User) private readonly _userRepository: Repository<User>,
     @Inject(forwardRef(() => AuthService)) readonly _authService: AuthService,
-  ) {
-    super();
-    this._repository = _userRepository;
-  }
+  ) {}
 
-  async register(registerVm: RegisterVm): Promise<User> {
+  async register(registerVm: RegisterDTO): Promise<User> {
     const { username, password, mail } = registerVm;
     try {
       let exist = await this._userRepository.findOne({ username });
@@ -55,7 +51,7 @@ export class UserService extends BaseService<User> {
     }
   }
 
-  async login(loginVm: LoginVm): Promise<LoginResponseVm> {
+  async login(loginVm: LoginDTO): Promise<LoginResponseDTO> {
     try {
       const { username } = loginVm;
       const user = await this._userRepository.findOne({ username });
@@ -85,19 +81,21 @@ export class UserService extends BaseService<User> {
     }
   }
 
-  async changePassword(user: ChangePasswordVm): Promise<User> {
+  async changePassword(user: ChangePasswordDTO): Promise<User> {
     try {
       const { username, password, newPassword } = user;
 
       const exist = await this._userRepository.findOne({ username });
-      if (!exist)
+      if (!exist) {
         throw new HttpException(
           `No User found with the provided username: ${username}`,
           HttpStatus.NOT_FOUND,
         );
+      }
 
-      if (!(await this.passwordMatch(password, exist.password)))
+      if (!(await this.passwordMatch(password, exist.password))) {
         throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
+      }
 
       if (password !== newPassword && newPassword.length >= 6) {
         const salt = await genSalt();
@@ -109,11 +107,12 @@ export class UserService extends BaseService<User> {
         );
       }
       const result = await this.update(exist.id, exist);
-      if (!result)
+      if (!result) {
         throw new HttpException(
           'An unexpected error has ocurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
+      }
       return result;
     } catch (e) {
       throw e;
@@ -125,14 +124,44 @@ export class UserService extends BaseService<User> {
   }
 
   async find(filter = {}): Promise<User | undefined> {
-    return await this._userRepository.findOne(filter).catch(err => {
+    return await this._userRepository.findOne(filter).catch(_err => {
       return undefined;
     });
   }
 
   async getUserId(input = {}): Promise<number> {
     const exists = await this.find(input);
-    if (exists) return exists.id;
+    if (exists) {
+      return exists.id;
+    }
     return -1;
+  }
+
+  async findAll(filter = {}) {
+    return await this._userRepository.find(filter);
+  }
+  async findById(id: any) {
+    return await this._userRepository.findOne(id);
+  }
+  async delete(item: User) {
+    const exists = await this._userRepository.findOne(item);
+    if (exists) {
+      return await this._userRepository.remove(item);
+    }
+    return exists;
+  }
+  async deleteById(id: any) {
+    const exists = await this._userRepository.findOne(id);
+    if (exists) {
+      return await this._userRepository.remove(exists);
+    }
+    return exists;
+  }
+  async update(id: any, item: Partial<User>) {
+    const exists = await this._userRepository.findOne(id);
+    if (exists) {
+      await this._userRepository.update(id, item);
+    }
+    return exists;
   }
 }

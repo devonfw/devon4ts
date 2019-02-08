@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
-export class BaseModel<T> extends BaseEntity {
+export class BaseModel extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -17,7 +17,7 @@ export class BaseModel<T> extends BaseEntity {
   updatedAt!: Date;
 }
 
-export class BaseModelVM {
+export class BaseModelDTO {
   @ApiModelPropertyOptional({ type: String, format: 'date-time' })
   createdAt?: Date;
 

@@ -1,31 +1,31 @@
 import {
-  Controller,
-  Post,
-  HttpStatus,
   Body,
+  Controller,
   HttpException,
+  HttpStatus,
+  Param,
+  Post,
   Put,
   UseGuards,
-  Param,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
-  ApiUseTags,
   ApiBearerAuth,
-  ApiResponse,
   ApiOperation,
+  ApiResponse,
+  ApiUseTags,
 } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { UserVm } from './models/view-models/user-vm.model';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utilities/get-operation-id';
-import { RegisterVm } from './models/view-models/register-vm.model';
-import { LoginResponseVm } from './models/view-models/login-response-vm.model';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../shared/guards/roles.guard';
-import { Roles } from '../shared/decorators/role.decorator';
+import { ChangePasswordDTO } from './models/dto/change-password.dto';
+import { UserDTO } from './models/dto/user.dto';
 import { UserRole } from './models/user-role.enum';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+import { UserService } from './user.service';
+import { LoginResponseDTO } from './models/dto/login-response.dto';
+import { RegisterDTO } from './models/dto/register.dto';
+import { LoginDTO } from './models/dto/login.dto';
+import { RolesGuard } from '../shared/auth/guards/roles.guard';
+import { Roles } from '../shared/auth/decorators/role.decorator';
 
 @Controller('users')
 @ApiUseTags('User')
@@ -34,10 +34,10 @@ export class UserController {
   constructor(private readonly _userService: UserService) {}
 
   @Post('register')
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Register'))
-  async register(@Body() registerVm: RegisterVm): Promise<UserVm> {
+  async register(@Body() registerVm: RegisterDTO): Promise<UserDTO> {
     try {
       registerVm = this.validateRegister(registerVm);
       const newUser = await this._userService.register(registerVm);
@@ -49,10 +49,10 @@ export class UserController {
   }
 
   @Post('login')
-  @ApiResponse({ status: HttpStatus.OK, type: LoginResponseVm })
+  @ApiResponse({ status: HttpStatus.OK, type: LoginResponseDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Login'))
-  async login(@Body() loginVm: LoginVm): Promise<LoginResponseVm> {
+  async login(@Body() loginVm: LoginDTO): Promise<LoginResponseDTO> {
     try {
       const fields = Object.keys(loginVm);
       fields.forEach(field => {
@@ -72,10 +72,10 @@ export class UserController {
   @Put('update')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.Admin, UserRole.User)
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Update'))
-  async update(@Body() vm: UserVm): Promise<UserVm> {
+  async update(@Body() vm: UserDTO): Promise<UserDTO> {
     try {
       if (!vm || !vm.id) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
@@ -90,7 +90,9 @@ export class UserController {
           HttpStatus.NOT_FOUND,
         );
       }
-      if (vm.mail && vm.mail.trim() !== '') exist.mail = vm.mail;
+      if (vm.mail && vm.mail.trim() !== '') {
+        exist.mail = vm.mail;
+      }
       const updated = await this._userService
         .update(vm.id, exist)
         .catch(err => {
@@ -98,7 +100,7 @@ export class UserController {
         });
       if (updated) {
         const { id, ...result } = updated;
-        return result as UserVm;
+        return result as UserDTO;
       } else {
         throw new HttpException(
           'The user could not be updated',
@@ -113,10 +115,10 @@ export class UserController {
   @Put('upgrade/:id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.Admin)
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Upgrade'))
-  async upgrade(@Param('id') identificator: number): Promise<UserVm> {
+  async upgrade(@Param('id') identificator: number): Promise<UserDTO> {
     try {
       if (!identificator) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
@@ -149,10 +151,10 @@ export class UserController {
   @Put('downgrade/:id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.Admin)
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'Downgrade'))
-  async downgrade(@Param('id') identificator: number): Promise<UserVm> {
+  async downgrade(@Param('id') identificator: number): Promise<UserDTO> {
     try {
       if (!identificator) {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
@@ -185,10 +187,10 @@ export class UserController {
   @Put('change-password')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.Admin, UserRole.User)
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(GetOperationId('User', 'ChangePassword'))
-  async changePassword(@Body() user: ChangePasswordVm): Promise<UserVm> {
+  async changePassword(@Body() user: ChangePasswordDTO): Promise<UserDTO> {
     try {
       const { username, newPassword } = user;
 
@@ -196,11 +198,12 @@ export class UserController {
         throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
       }
       const result = await this._userService.changePassword(user);
-      if (!result)
+      if (!result) {
         throw new HttpException(
           'An unexpected error has ocurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
+      }
       const { id, password, ...resultVm } = result;
       return resultVm;
     } catch (error) {
@@ -208,7 +211,7 @@ export class UserController {
     }
   }
 
-  validateRegister(register: RegisterVm): RegisterVm {
+  validateRegister(register: RegisterDTO): RegisterDTO {
     const { username, password, mail } = register;
     if (!username) {
       throw new HttpException('username is required', HttpStatus.BAD_REQUEST);

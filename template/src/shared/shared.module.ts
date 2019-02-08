@@ -1,13 +1,13 @@
-import { Module, Global } from '@nestjs/common';
-import { ConfigurationService } from './configuration/configuration.service';
-import { UserModule } from '../user/user.module';
+import { Global, Module } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { JwtStrategyService } from './auth/strategies/jwt-strategy.service';
+import { ConfigurationModule } from './configuration/configuration.module';
+import { UserModule } from '../user/user.module';
 
 @Global()
 @Module({
-  providers: [ConfigurationService, AuthService, JwtStrategyService],
-  exports: [ConfigurationService, AuthService],
-  imports: [UserModule],
+  providers: [AuthService, JwtStrategyService],
+  exports: [AuthService],
+  imports: [UserModule, ConfigurationModule],
 })
 export class SharedModule {}

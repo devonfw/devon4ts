@@ -2,11 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserServiceMock } from '../../test/mocks/user.service.mock';
-import { RegisterVm } from './models/view-models/register-vm.model';
 import { HttpException } from '@nestjs/common';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { UserVm } from './models/view-models/user-vm.model';
-import { ChangePasswordVm } from './models/view-models/change-password-vm.model';
+import { RegisterDTO } from './models/dto/register.dto';
+import { LoginDTO } from './models/dto/login.dto';
+import { UserDTO } from './models/dto/user.dto';
+import { ChangePasswordDTO } from './models/dto/change-password.dto';
+
 describe('User Controller', () => {
   let module: TestingModule;
   let controller: UserController;
@@ -23,7 +24,7 @@ describe('User Controller', () => {
 
   describe('register', () => {
     it('Should return a new User', async () => {
-      const input: RegisterVm = {
+      const input: RegisterDTO = {
         username: 'test',
         password: 'test',
         mail: 'mail@test.com',
@@ -35,7 +36,7 @@ describe('User Controller', () => {
       expect(result.role).toEqual(input.role);
     });
     it('Should return a new User with username and mail to lower', async () => {
-      const input: RegisterVm = {
+      const input: RegisterDTO = {
         username: 'tEst',
         password: 'test',
         mail: 'Mail@test.com',
@@ -46,7 +47,7 @@ describe('User Controller', () => {
       expect(result.mail).toEqual(input.mail.toLocaleLowerCase());
     });
     it('Should throw a missing username HttpException', async () => {
-      const input: RegisterVm = {
+      const input: RegisterDTO = {
         username: '',
         password: 'test',
         mail: 'Mail@test.com',
@@ -58,7 +59,7 @@ describe('User Controller', () => {
       });
     });
     it('Should throw a missing password HttpException', async () => {
-      const input: RegisterVm = {
+      const input: RegisterDTO = {
         username: 'test',
         password: '',
         mail: 'Mail@test.com',
@@ -70,7 +71,7 @@ describe('User Controller', () => {
       });
     });
     it('Should throw a missing mail HttpException', async () => {
-      const input: RegisterVm = {
+      const input: RegisterDTO = {
         username: 'test',
         password: 'test',
         mail: '',
@@ -84,7 +85,7 @@ describe('User Controller', () => {
   });
   describe('login', () => {
     it('Should return a LoginResponse with a token', async () => {
-      const input: LoginVm = {
+      const input: LoginDTO = {
         username: 'test',
         password: 'test',
       };
@@ -98,19 +99,19 @@ describe('User Controller', () => {
   });
   describe('update', () => {
     it('Should return an error because no id', async () => {
-      const input: UserVm = { username: 'test', mail: 'mail@test.com' };
+      const input: UserDTO = { username: 'test', mail: 'mail@test.com' };
       await controller.update(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
       });
     });
     it('Should return an error because no user found', async () => {
-      const input: UserVm = { id: 2, username: 'test', mail: 'mail@test.com' };
+      const input: UserDTO = { id: 2, username: 'test', mail: 'mail@test.com' };
       await controller.update(input).catch(error => {
         expect(error).toBeInstanceOf(HttpException);
       });
     });
     it('Should return an updated User (does not update the username)', async () => {
-      const input: UserVm = {
+      const input: UserDTO = {
         id: 1,
         username: 'updated',
         mail: 'updated@test.com',
@@ -144,7 +145,7 @@ describe('User Controller', () => {
   });
   describe('Change password', () => {
     it('Should return an User with the password updated', async () => {
-      const input: ChangePasswordVm = {
+      const input: ChangePasswordDTO = {
         username: 'test',
         password: 'test',
         newPassword: 'updated',
