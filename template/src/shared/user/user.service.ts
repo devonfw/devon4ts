@@ -1,26 +1,15 @@
-import {
-  forwardRef,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { Repository } from 'typeorm';
-import { AuthService } from '../shared/auth/auth.service';
-import { JwtPayload } from '../shared/auth/jwt-payload';
 import { ChangePasswordDTO } from './models/dto/change-password.dto';
-import { LoginResponseDTO } from './models/dto/login-response.dto';
-import { LoginDTO } from './models/dto/login.dto';
-import { RegisterDTO } from './models/dto/register.dto';
+import { RegisterDTO } from '../auth/model/register.dto';
 import { User } from './models/user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly _userRepository: Repository<User>,
-    @Inject(forwardRef(() => AuthService)) readonly _authService: AuthService,
   ) {}
 
   async register(registerVm: RegisterDTO): Promise<User> {
@@ -48,36 +37,6 @@ export class UserService {
       return result;
     } catch (e) {
       throw e;
-    }
-  }
-
-  async login(loginVm: LoginDTO): Promise<LoginResponseDTO> {
-    try {
-      const { username } = loginVm;
-      const user = await this._userRepository.findOne({ username });
-      if (!user) {
-        throw new HttpException('Username not found', HttpStatus.BAD_REQUEST);
-      }
-
-      if (!(await this.passwordMatch(loginVm.password, user.password))) {
-        throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
-      }
-
-      const payload: JwtPayload = {
-        username: user.username,
-        role: user.role,
-      };
-
-      const token = await this._authService.signPayload(payload).catch(err => {
-        throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
-      });
-      const { id, password, ...userVm } = user;
-      return {
-        token,
-        user: userVm,
-      };
-    } catch (error) {
-      throw error;
     }
   }
 
@@ -119,8 +78,8 @@ export class UserService {
     }
   }
 
-  async passwordMatch(input: string, password: string): Promise<boolean> {
-    return await compare(input, password);
+  passwordMatch(input: string, password: string): Promise<boolean> {
+    return compare(input, password);
   }
 
   async find(filter = {}): Promise<User | undefined> {

@@ -6,8 +6,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from '../../../user/models/user-role.enum';
-import { User } from '../../../user/models/user.entity';
+import { UserRole } from '../../user/models/user-role.enum';
+import { User } from '../../user/models/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

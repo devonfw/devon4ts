@@ -1,4 +1,4 @@
-import { UserDTO } from './user.dto';
+import { UserDTO } from '../../user/models/dto/user.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class LoginResponseDTO {

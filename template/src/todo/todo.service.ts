@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { TodoParams } from './models/dto/todo-params.model';
 import { TodoLevel } from './models/todo-level.enum';
 import { Todo } from './models/todo.entity';
 
 @Injectable()
-@EntityRepository(Todo)
 export class TodoService {
   constructor(
     @InjectRepository(Todo) private readonly _todoRepository: Repository<Todo>,
@@ -33,9 +32,11 @@ export class TodoService {
   async findAll(filter = {}) {
     return await this._todoRepository.find(filter);
   }
+
   async findById(id: any) {
     return await this._todoRepository.findOne(id);
   }
+
   async delete(item: Todo) {
     const exists = await this._todoRepository.findOne(item);
     if (exists) {
@@ -43,6 +44,7 @@ export class TodoService {
     }
     return exists;
   }
+
   async deleteById(id: any) {
     const exists = await this._todoRepository.findOne(id);
     if (exists) {
@@ -50,6 +52,7 @@ export class TodoService {
     }
     return exists;
   }
+
   async update(id: any, item: Partial<Todo>) {
     const exists = await this._todoRepository.findOne(id);
     if (exists) {

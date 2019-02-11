@@ -4,7 +4,6 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -15,59 +14,21 @@ import {
   ApiResponse,
   ApiUseTags,
 } from '@nestjs/swagger';
-import { ApiException } from '../shared/api-exception.model';
-import { GetOperationId } from '../shared/utilities/get-operation-id';
+import { ApiException } from '../api-exception.model';
+import { Roles } from '../auth/decorators/role.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { RegisterDTO } from '../auth/model/register.dto';
+import { GetOperationId } from '../utilities/get-operation-id';
 import { ChangePasswordDTO } from './models/dto/change-password.dto';
 import { UserDTO } from './models/dto/user.dto';
 import { UserRole } from './models/user-role.enum';
 import { UserService } from './user.service';
-import { LoginResponseDTO } from './models/dto/login-response.dto';
-import { RegisterDTO } from './models/dto/register.dto';
-import { LoginDTO } from './models/dto/login.dto';
-import { RolesGuard } from '../shared/auth/guards/roles.guard';
-import { Roles } from '../shared/auth/decorators/role.decorator';
 
 @Controller('users')
 @ApiUseTags('User')
 @ApiBearerAuth()
 export class UserController {
   constructor(private readonly _userService: UserService) {}
-
-  @Post('register')
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserDTO })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('User', 'Register'))
-  async register(@Body() registerVm: RegisterDTO): Promise<UserDTO> {
-    try {
-      registerVm = this.validateRegister(registerVm);
-      const newUser = await this._userService.register(registerVm);
-      const { id, password, ...result } = newUser;
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  @Post('login')
-  @ApiResponse({ status: HttpStatus.OK, type: LoginResponseDTO })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('User', 'Login'))
-  async login(@Body() loginVm: LoginDTO): Promise<LoginResponseDTO> {
-    try {
-      const fields = Object.keys(loginVm);
-      fields.forEach(field => {
-        if (!loginVm[field]) {
-          throw new HttpException(
-            `${field} is required`,
-            HttpStatus.BAD_REQUEST,
-          );
-        }
-      });
-      return await this._userService.login(loginVm);
-    } catch (error) {
-      throw error;
-    }
-  }
 
   @Put('update')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -209,22 +170,5 @@ export class UserController {
     } catch (error) {
       throw error;
     }
-  }
-
-  validateRegister(register: RegisterDTO): RegisterDTO {
-    const { username, password, mail } = register;
-    if (!username) {
-      throw new HttpException('username is required', HttpStatus.BAD_REQUEST);
-    }
-    if (!password) {
-      throw new HttpException('password is required', HttpStatus.BAD_REQUEST);
-    }
-    if (!mail) {
-      throw new HttpException('mail is required', HttpStatus.BAD_REQUEST);
-    }
-    register.role = 'User';
-    register.username = username.toLowerCase();
-    register.mail = mail.toLowerCase();
-    return register;
   }
 }

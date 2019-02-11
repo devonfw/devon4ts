@@ -1,6 +1,6 @@
 import { SignOptions, sign } from 'jsonwebtoken';
-import { JwtPayload } from '../../src/shared/auth/jwt-payload';
-import { User } from '../../src/user/models/user.entity';
+import { JwtPayload } from '../../src/shared/auth/model/jwt-payload.interface';
+import { User } from '../../src/shared/user/models/user.entity';
 
 export class AuthServiceMock {
   private jwtOptions: SignOptions;

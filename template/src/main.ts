@@ -5,13 +5,12 @@ import { AppModule } from './app.module';
 import { ConfigurationModule } from './shared/configuration/configuration.module';
 import { ConfigurationService } from './shared/configuration/configuration.service';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.select(ConfigurationModule).get(ConfigurationService);
-  const hostDomain = config.isDev
-    ? `${config.host}:${config.port}`
-    : config.host;
+  const hostDomain = `${config.host}:${config.port}`;
 
   if (config.isDev) {
     const swaggerOptions = new DocumentBuilder()
@@ -48,6 +47,11 @@ async function bootstrap() {
 
   app.setGlobalPrefix(config.swaggerConfig.basepath);
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   app.use(helmet());
   app.enableCors({
     origin: '*',

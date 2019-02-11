@@ -1,15 +1,14 @@
+import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { hash } from 'bcryptjs';
+import { AuthServiceMock } from '../../../test/mocks/auth.service.mock';
+import { AuthService } from '../auth/auth.service';
+import { RegisterDTO } from '../auth/model/register.dto';
+import { ChangePasswordDTO } from './models/dto/change-password.dto';
 import { User } from './models/user.entity';
 import { UserRepository } from './user.repository';
-import { AuthService } from '../shared/auth/auth.service';
-import { AuthServiceMock } from '../../test/mocks/auth.service.mock';
-import { HttpException } from '@nestjs/common';
-import { RegisterDTO } from './models/dto/register.dto';
-import { LoginDTO } from './models/dto/login.dto';
-import { ChangePasswordDTO } from './models/dto/change-password.dto';
-import { hash } from 'bcryptjs';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -74,32 +73,33 @@ describe('UserService', () => {
     });
   });
 
-  describe('login', () => {
-    const login: LoginDTO = {
-      username: 'test',
-      password: 'test',
-    };
-    it('should return error as user does not exist', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
-      await service
-        .login(login)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-    it('should return the User and token', async () => {
-      jest
-        .spyOn(service, 'passwordMatch')
-        .mockImplementationOnce(async () => true);
-      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
-      expect(await service.login(login)).toBeDefined();
-    });
-    it('should return an error as passwords do not match', async () => {
-      jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
-      login.password = 'otherpassword';
-      await service
-        .login(login)
-        .catch(error => expect(error).toBeInstanceOf(HttpException));
-    });
-  });
+  // TODO: Move this to auth.service.spec
+  // describe('login', () => {
+  //   const login: LoginDTO = {
+  //     username: 'test',
+  //     password: 'test',
+  //   };
+  //   it('should return error as user does not exist', async () => {
+  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
+  //     await service
+  //       .login(login)
+  //       .catch(error => expect(error).toBeInstanceOf(HttpException));
+  //   });
+  //   it('should return the User and token', async () => {
+  //     jest
+  //       .spyOn(service, 'passwordMatch')
+  //       .mockImplementationOnce(async () => true);
+  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
+  //     expect(await service.login(login)).toBeDefined();
+  //   });
+  //   it('should return an error as passwords do not match', async () => {
+  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
+  //     login.password = 'otherpassword';
+  //     await service
+  //       .login(login)
+  //       .catch(error => expect(error).toBeInstanceOf(HttpException));
+  //   });
+  // });
 
   describe('change password', () => {
     const input: ChangePasswordDTO = {

@@ -1,19 +1,12 @@
-import { User } from '../../src/user/models/user.entity';
-import { BaseService } from '../../src/shared/base.service';
-import { RegisterDTO } from '../../src/user/models/dto/register.dto';
-import { LoginDTO } from '../../src/user/models/dto/login.dto';
-import { LoginResponseDTO } from '../../src/user/models/dto/login-response.dto';
-import { UserDTO } from '../../src/user/models/dto/user.dto';
-import { ChangePasswordDTO } from '../../src/user/models/dto/change-password.dto';
-import { UserRepository } from '../../src/user/user.repository';
-import { UserRole } from '../../src/user/models/user-role.enum';
+import { ChangePasswordDTO } from '../../src/shared/user/models/dto/change-password.dto';
+import { LoginResponseDTO } from '../../src/shared/auth/model/login-response.dto';
+import { LoginDTO } from '../../src/shared/auth/model/login.dto';
+import { RegisterDTO } from '../../src/shared/auth/model/register.dto';
+import { UserDTO } from '../../src/shared/user/models/dto/user.dto';
+import { UserRole } from '../../src/shared/user/models/user-role.enum';
+import { User } from '../../src/shared/user/models/user.entity';
 
-export class UserServiceMock extends BaseService<User> {
-  constructor() {
-    super();
-    this._repository = new UserRepository();
-  }
-
+export class UserServiceMock {
   async register(register: RegisterDTO): Promise<User> {
     const result: User = {
       id: 1,

@@ -1,4 +1,4 @@
-import { BaseModelDTO } from '../../../shared/base.model';
+import { BaseModelDTO } from '../../../base.model';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '../user-role.enum';
 
