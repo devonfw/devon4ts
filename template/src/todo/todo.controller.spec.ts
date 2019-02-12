@@ -1,11 +1,8 @@
-import { TodoController } from './todo.controller';
-import { TodoService } from './todo.service';
-import { TodoDTO } from './models/dto/todo.dto';
-import { TodoParams } from './models/dto/todo-params.model';
-import { TodoLevel } from './models/todo-level.enum';
-import { TodoRepository } from './todo.repository';
 import { HttpException } from '@nestjs/common';
-import { Todo } from './models/todo.entity';
+import { Todo, TodoDTO, TodoLevel, TodoParams } from './models';
+import { TodoController } from './todo.controller';
+import { TodoRepository } from './todo.repository';
+import { TodoService } from './todo.service';
 
 describe('Todo Controller UnitTests', () => {
   let controller: TodoController;

@@ -1,7 +1,7 @@
 import { LoginDTO } from './login.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 import { UserRole } from '../../user/models/user-role.enum';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsIn } from 'class-validator';
 
 export class RegisterDTO extends LoginDTO {
   @ApiModelProperty()
@@ -14,5 +14,6 @@ export class RegisterDTO extends LoginDTO {
     enum: ['Admin', 'User'],
   })
   @IsNotEmpty()
+  @IsIn(Object.keys(UserRole))
   role!: string;
 }

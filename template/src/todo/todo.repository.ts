@@ -1,4 +1,4 @@
-import { Todo } from './models/todo.entity';
+import { Todo } from './models';
 import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(Todo)

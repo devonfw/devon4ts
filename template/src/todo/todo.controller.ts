@@ -1,25 +1,24 @@
 import {
-  Controller,
-  Get,
-  HttpStatus,
   Body,
-  Post,
-  HttpException,
-  Put,
+  Controller,
   Delete,
+  Get,
+  HttpException,
+  HttpStatus,
   Param,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { TodoService } from './todo.service';
 import {
-  ApiUseTags,
   ApiBearerAuth,
-  ApiResponse,
   ApiOperation,
+  ApiResponse,
+  ApiUseTags,
 } from '@nestjs/swagger';
-import { TodoDTO } from './models/dto/todo.dto';
 import { ApiException } from '../shared/api-exception.model';
-import { TodoParams } from './models/dto/todo-params.model';
-import { GetOperationId } from '../shared/utilities/get-operation-id';
+import { getOperationId } from '../shared/utilities/get-operation-id';
+import { TodoDTO, TodoParams } from './models';
+import { TodoService } from './todo.service';
 
 @Controller('todo')
 @ApiUseTags('Todo')
@@ -30,7 +29,7 @@ export class TodoController {
   @Get()
   @ApiResponse({ status: HttpStatus.OK, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'GetAll'))
+  @ApiOperation(getOperationId('Todo', 'GetAll'))
   async getTodos(): Promise<TodoDTO[]> {
     try {
       const result: TodoDTO[] = [];
@@ -47,7 +46,7 @@ export class TodoController {
   @Post()
   @ApiResponse({ status: HttpStatus.CREATED, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Create'))
+  @ApiOperation(getOperationId('Todo', 'Create'))
   async create(@Body() params: TodoParams): Promise<TodoDTO> {
     try {
       const { description } = params;
@@ -68,7 +67,7 @@ export class TodoController {
   @Put()
   @ApiResponse({ status: HttpStatus.CREATED, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Update'))
+  @ApiOperation(getOperationId('Todo', 'Update'))
   async update(@Body() viewmodel: TodoDTO): Promise<TodoDTO> {
     try {
       if (!viewmodel || !viewmodel.id) {
@@ -93,7 +92,7 @@ export class TodoController {
   @Delete(':id')
   @ApiResponse({ status: HttpStatus.OK, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Delete'))
+  @ApiOperation(getOperationId('Todo', 'Delete'))
   async delete(@Param('id') identifier: number): Promise<TodoDTO> {
     try {
       const exists = await this._todoService.findById(identifier);

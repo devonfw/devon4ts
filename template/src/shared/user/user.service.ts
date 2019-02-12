@@ -2,9 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { Repository } from 'typeorm';
-import { ChangePasswordDTO } from './models/dto/change-password.dto';
 import { RegisterDTO } from '../auth/model/register.dto';
-import { User } from './models/user.entity';
+import { User, ChangePasswordDTO } from './models';
 
 @Injectable()
 export class UserService {

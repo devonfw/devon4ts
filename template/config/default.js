@@ -1,6 +1,4 @@
-import { Config } from './types';
-
-const def: Config = {
+module.exports = {
   isDev: true,
   host: 'localhost',
   port: 8081,
@@ -11,6 +9,4 @@ const def: Config = {
     version: '0.0.1',
     basepath: 'api',
   },
-};
-
-export default def;
+}

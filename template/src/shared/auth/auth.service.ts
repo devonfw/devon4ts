@@ -1,12 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../user/models/user.entity';
-import { LoginResponseDTO } from './model/login-response.dto';
-import { LoginDTO } from './model/login.dto';
+import { User, UserDTO } from '../user/models';
 import { UserService } from '../user/user.service';
-import { JwtPayload } from './model/jwt-payload.interface';
-import { RegisterDTO } from './model/register.dto';
-import { UserDTO } from '../user/models/dto/user.dto';
+import { JwtPayload, LoginDTO, LoginResponseDTO, RegisterDTO } from './model';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +13,7 @@ export class AuthService {
 
   async login(login: LoginDTO): Promise<LoginResponseDTO> {
     try {
-      const user = await this.validateUser(login);
+      const user = await this.validateLogin(login);
       if (!user) {
         throw new HttpException(
           'Invalid login or password.',
@@ -65,7 +61,7 @@ export class AuthService {
     return this.jwtService.sign(user);
   }
 
-  async validateUser(payload: LoginDTO): Promise<User | undefined> {
+  async validateLogin(payload: LoginDTO): Promise<User | undefined> {
     const user = await this.userService.find({ username: payload.username });
 
     if (
@@ -75,6 +71,10 @@ export class AuthService {
       return user;
     }
     return undefined;
+  }
+
+  async validateUser(payload: JwtPayload): Promise<User | undefined> {
+    return await this.userService.find({ username: payload.username });
   }
 
   private transformRegister(register: RegisterDTO): RegisterDTO {

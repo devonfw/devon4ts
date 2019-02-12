@@ -1,6 +1,4 @@
-import { TodoParams } from './models/dto/todo-params.model';
-import { TodoLevel } from './models/todo-level.enum';
-import { Todo } from './models/todo.entity';
+import { TodoParams, TodoLevel, Todo } from './models';
 import { TodoRepository } from './todo.repository';
 import { TodoService } from './todo.service';
 

@@ -6,9 +6,12 @@ import { ConfigurationModule } from './shared/configuration/configuration.module
 import { ConfigurationService } from './shared/configuration/configuration.service';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
+import { WistonLogger } from './shared/logger/wiston.logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new WistonLogger(),
+  });
   const config = app.select(ConfigurationModule).get(ConfigurationService);
   const hostDomain = `${config.host}:${config.port}`;
 

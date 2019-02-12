@@ -6,8 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from '../../user/models/user-role.enum';
-import { User } from '../../user/models/user.entity';
+import { User, UserRole } from '../../user/models';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -25,7 +24,7 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: User = request.user;
 
-    const hasRole = UserRole[user.role] >= 0;
+    const hasRole = UserRole[user.role] !== undefined;
 
     if (user && user.role && hasRole) {
       return true;

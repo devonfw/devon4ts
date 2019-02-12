@@ -4,7 +4,7 @@ import { get } from 'config';
 
 @Injectable()
 export class ConfigurationService implements Config {
-  get(name: string) {
+  get(name: string): any {
     return process.env[name] || get(name);
   }
 

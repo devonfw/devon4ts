@@ -1,6 +1,4 @@
-import { Config } from './types';
-
-const production: Config = {
+module.exports = {
   isDev: false,
   host: 'localhost',
   port: 8080,
@@ -12,5 +10,3 @@ const production: Config = {
     basepath: 'api',
   },
 };
-
-export default production;

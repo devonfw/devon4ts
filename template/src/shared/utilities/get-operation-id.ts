@@ -1,6 +1,6 @@
-export function GetOperationId(model: string, operation: string) {
-  const _model = ToTitleCase(model).replace(/\s/g, '');
-  const _operation = ToTitleCase(operation).replace(/\s/g, '');
+export function getOperationId(model: string, operation: string) {
+  const _model = toTitleCase(model).replace(/\s/g, '');
+  const _operation = toTitleCase(operation).replace(/\s/g, '');
 
   return {
     title: '',
@@ -8,7 +8,7 @@ export function GetOperationId(model: string, operation: string) {
   };
 }
 
-function ToTitleCase(str: string): string {
+function toTitleCase(str: string): string {
   return str
     .toLowerCase()
     .split(' ')
