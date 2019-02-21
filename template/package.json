@@ -68,12 +68,6 @@
     "webpack-cli": "^2.1.5",
     "webpack-node-externals": "^1.7.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test",
-      "...": "..."
-    }
-  },
   "jest": {
     "moduleFileExtensions": [
       "js",
