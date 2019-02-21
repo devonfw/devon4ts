@@ -73,34 +73,6 @@ describe('UserService', () => {
     });
   });
 
-  // TODO: Move this to auth.service.spec
-  // describe('login', () => {
-  //   const login: LoginDTO = {
-  //     username: 'test',
-  //     password: 'test',
-  //   };
-  //   it('should return error as user does not exist', async () => {
-  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => undefined);
-  //     await service
-  //       .login(login)
-  //       .catch(error => expect(error).toBeInstanceOf(HttpException));
-  //   });
-  //   it('should return the User and token', async () => {
-  //     jest
-  //       .spyOn(service, 'passwordMatch')
-  //       .mockImplementationOnce(async () => true);
-  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
-  //     expect(await service.login(login)).toBeDefined();
-  //   });
-  //   it('should return an error as passwords do not match', async () => {
-  //     jest.spyOn(repo, 'findOne').mockImplementation(async () => mocked);
-  //     login.password = 'otherpassword';
-  //     await service
-  //       .login(login)
-  //       .catch(error => expect(error).toBeInstanceOf(HttpException));
-  //   });
-  // });
-
   describe('change password', () => {
     const input: ChangePasswordDTO = {
       username: 'test',

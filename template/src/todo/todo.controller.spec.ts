@@ -32,6 +32,8 @@ describe('Todo Controller UnitTests', () => {
         description: 'Todo created',
         priority: TodoLevel.Normal,
         completed: false,
+        createdAt: undefined,
+        updatedAt: undefined,
       },
     ];
     jest
@@ -68,17 +70,24 @@ describe('Todo Controller UnitTests', () => {
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     const result: TodoDTO = {
+      id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     let input: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     jest
       .spyOn(service, 'update')
@@ -103,17 +112,24 @@ describe('Todo Controller UnitTests', () => {
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     const result: TodoDTO = {
+      id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     const input: TodoDTO = {
       id: 1,
       description: 'Todo updated',
       priority: TodoLevel.Normal,
       completed: false,
+      createdAt: undefined,
+      updatedAt: undefined,
     };
     jest
       .spyOn(service, 'findById')

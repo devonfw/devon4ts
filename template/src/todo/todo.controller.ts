@@ -19,6 +19,8 @@ import { ApiException } from '../shared/api-exception.model';
 import { getOperationId } from '../shared/utilities/get-operation-id';
 import { TodoDTO, TodoParams } from './models';
 import { TodoService } from './todo.service';
+import { plainToClass } from 'class-transformer';
+import { Todo } from './models/todo.entity';
 
 @Controller('todo')
 @ApiUseTags('Todo')
@@ -32,12 +34,9 @@ export class TodoController {
   @ApiOperation(getOperationId('Todo', 'GetAll'))
   async getTodos(): Promise<TodoDTO[]> {
     try {
-      const result: TodoDTO[] = [];
-      const retrieved = await this._todoService.findAll();
-      for (const element of retrieved) {
-        result.push(element as TodoDTO);
-      }
-      return result;
+      return plainToClass(TodoDTO, await this._todoService.findAll(), {
+        strategy: 'excludeAll',
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -49,16 +48,11 @@ export class TodoController {
   @ApiOperation(getOperationId('Todo', 'Create'))
   async create(@Body() params: TodoParams): Promise<TodoDTO> {
     try {
-      const { description } = params;
-      if (!description || description.trim() === '') {
-        throw new HttpException(
-          'Description is required',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const newTodo = await this._todoService.createTodo(params);
-      const { id, ...result } = newTodo;
-      return result as TodoDTO;
+      const newTodo: Todo = await this._todoService.createTodo(params);
+
+      return plainToClass(TodoDTO, newTodo, {
+        strategy: 'excludeAll',
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -70,14 +64,11 @@ export class TodoController {
   @ApiOperation(getOperationId('Todo', 'Update'))
   async update(@Body() viewmodel: TodoDTO): Promise<TodoDTO> {
     try {
-      if (!viewmodel || !viewmodel.id) {
-        throw new HttpException('Missing Parameters', HttpStatus.BAD_REQUEST);
-      }
-
       const updated = await this._todoService.update(viewmodel.id, viewmodel);
       if (updated) {
-        const { id, ...result } = updated;
-        return result as TodoDTO;
+        return plainToClass(TodoDTO, updated, {
+          strategy: 'excludeAll',
+        });
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been updated',
@@ -95,17 +86,11 @@ export class TodoController {
   @ApiOperation(getOperationId('Todo', 'Delete'))
   async delete(@Param('id') identifier: number): Promise<TodoDTO> {
     try {
-      const exists = await this._todoService.findById(identifier);
-      if (!exists) {
-        throw new HttpException(
-          'No element found with this id',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
       const deleted = await this._todoService.deleteById(identifier);
       if (deleted) {
-        const { id, ...result } = deleted;
-        return result as TodoDTO;
+        return plainToClass(TodoDTO, deleted, {
+          strategy: 'excludeAll',
+        });
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been deleted',

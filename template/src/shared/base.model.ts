@@ -1,10 +1,12 @@
+import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import {
   BaseEntity,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiModelPropertyOptional } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class BaseModel extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -19,11 +21,16 @@ export class BaseModel extends BaseEntity {
 
 export class BaseModelDTO {
   @ApiModelPropertyOptional({ type: String, format: 'date-time' })
+  @Expose()
   createdAt?: Date;
 
   @ApiModelPropertyOptional({ type: String, format: 'date-time' })
+  @Expose()
   updatedAt?: Date;
 
   @ApiModelPropertyOptional()
+  @Expose()
+  @IsNotEmpty()
+  @IsNumber()
   id?: number;
 }

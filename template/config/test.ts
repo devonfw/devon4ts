@@ -1,4 +1,5 @@
-module.exports = {
+import { Config } from './types';
+const test: Config = {
   isDev: false,
   host: 'localhost',
   port: 8080,
@@ -10,3 +11,5 @@ module.exports = {
     basepath: 'api',
   },
 };
+
+export default test;

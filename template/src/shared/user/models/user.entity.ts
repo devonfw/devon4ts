@@ -1,6 +1,7 @@
 import { UserRole } from './user-role.enum';
 import { Entity, Column } from 'typeorm';
 import { BaseModel } from '../../base.model';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User extends BaseModel {
@@ -10,6 +11,7 @@ export class User extends BaseModel {
   mail!: string;
 
   @Column({ type: 'text', nullable: false })
+  @Exclude()
   password!: string;
 
   @Column({ type: 'text', nullable: false, default: UserRole.User })

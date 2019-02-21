@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { join } from 'path';
 import * as winston from 'winston';
 
-export class WistonLogger extends Logger {
+export class WinstonLogger extends Logger {
   logger: winston.Logger = winston.createLogger({
     format: winston.format.combine(
       winston.format.timestamp({

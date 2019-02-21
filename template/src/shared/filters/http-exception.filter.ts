@@ -4,11 +4,14 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  LoggerService,
 } from '@nestjs/common';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private log!: string;
+
+  constructor(private readonly loggerService: LoggerService) {}
 
   catch(error: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -36,7 +39,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error.stack
     }`;
 
-    // tslint:disable-next-line:no-console
-    console.log(this.log);
+    this.loggerService.error(error, this.log);
   }
 }

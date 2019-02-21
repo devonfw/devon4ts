@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
@@ -5,12 +6,12 @@ import { AppModule } from './app.module';
 import { ConfigurationModule } from './shared/configuration/configuration.module';
 import { ConfigurationService } from './shared/configuration/configuration.service';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
-import { ValidationPipe } from '@nestjs/common';
-import { WistonLogger } from './shared/logger/wiston.logger';
+import { WinstonLogger } from './shared/logger/winston.logger';
 
 async function bootstrap() {
+  const myLogger = new WinstonLogger();
   const app = await NestFactory.create(AppModule, {
-    logger: new WistonLogger(),
+    logger: myLogger,
   });
   const config = app.select(ConfigurationModule).get(ConfigurationService);
   const hostDomain = `${config.host}:${config.port}`;
@@ -49,7 +50,10 @@ async function bootstrap() {
   }
 
   app.setGlobalPrefix(config.swaggerConfig.basepath);
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(
+    new HttpExceptionFilter(myLogger),
+    // new AllExceptionFilter(myLogger),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

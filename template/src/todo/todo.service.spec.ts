@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { TodoParams, TodoLevel, Todo } from './models';
 import { TodoRepository } from './todo.repository';
 import { TodoService } from './todo.service';
