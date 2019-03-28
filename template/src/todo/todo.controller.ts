@@ -1,25 +1,26 @@
 import {
-  Controller,
-  Get,
-  HttpStatus,
   Body,
-  Post,
-  HttpException,
-  Put,
+  Controller,
   Delete,
+  Get,
+  HttpException,
+  HttpStatus,
   Param,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { TodoService } from './todo.service';
 import {
-  ApiUseTags,
   ApiBearerAuth,
-  ApiResponse,
   ApiOperation,
+  ApiResponse,
+  ApiUseTags,
 } from '@nestjs/swagger';
-import { TodoVm } from './models/view-models/todo-vm.model';
 import { ApiException } from '../shared/api-exception.model';
-import { TodoParams } from './models/view-models/todo-params.model';
-import { GetOperationId } from '../shared/utilities/get-operation-id';
+import { getOperationId } from '../shared/utilities/get-operation-id';
+import { TodoDTO, TodoParams } from './models';
+import { TodoService } from './todo.service';
+import { plainToClass } from 'class-transformer';
+import { Todo } from './models/todo.entity';
 
 @Controller('todo')
 @ApiUseTags('Todo')
@@ -28,57 +29,46 @@ export class TodoController {
   constructor(private readonly _todoService: TodoService) {}
 
   @Get()
-  @ApiResponse({ status: HttpStatus.OK, type: TodoVm })
+  @ApiResponse({ status: HttpStatus.OK, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'GetAll'))
-  async getTodos(): Promise<TodoVm[]> {
+  @ApiOperation(getOperationId('Todo', 'GetAll'))
+  async getTodos(): Promise<TodoDTO[]> {
     try {
-      const result: TodoVm[] = [];
-      const retrieved = await this._todoService.findAll();
-      for (const element of retrieved) {
-        result.push(element as TodoVm);
-      }
-      return result;
+      return plainToClass(TodoDTO, await this._todoService.findAll(), {
+        strategy: 'excludeAll',
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post()
-  @ApiResponse({ status: HttpStatus.CREATED, type: TodoVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Create'))
-  async create(@Body() params: TodoParams): Promise<TodoVm> {
+  @ApiOperation(getOperationId('Todo', 'Create'))
+  async create(@Body() params: TodoParams): Promise<TodoDTO> {
     try {
-      const { description } = params;
-      if (!description || description.trim() === '') {
-        throw new HttpException(
-          'Description is required',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      const newTodo = await this._todoService.createTodo(params);
-      const { id, ...result } = newTodo;
-      return result as TodoVm;
+      const newTodo: Todo = await this._todoService.createTodo(params);
+
+      return plainToClass(TodoDTO, newTodo, {
+        strategy: 'excludeAll',
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Put()
-  @ApiResponse({ status: HttpStatus.CREATED, type: TodoVm })
+  @ApiResponse({ status: HttpStatus.CREATED, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Update'))
-  async update(@Body() viewmodel: TodoVm): Promise<TodoVm> {
+  @ApiOperation(getOperationId('Todo', 'Update'))
+  async update(@Body() viewmodel: TodoDTO): Promise<TodoDTO> {
     try {
-      if (!viewmodel || !viewmodel.id) {
-        throw new HttpException('Missing Parameters', HttpStatus.BAD_REQUEST);
-      }
-
       const updated = await this._todoService.update(viewmodel.id, viewmodel);
       if (updated) {
-        const { id, ...result } = updated;
-        return result as TodoVm;
+        return plainToClass(TodoDTO, updated, {
+          strategy: 'excludeAll',
+        });
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been updated',
@@ -91,22 +81,16 @@ export class TodoController {
   }
 
   @Delete(':id')
-  @ApiResponse({ status: HttpStatus.OK, type: TodoVm })
+  @ApiResponse({ status: HttpStatus.OK, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
-  @ApiOperation(GetOperationId('Todo', 'Delete'))
-  async delete(@Param('id') identifier: number): Promise<TodoVm> {
+  @ApiOperation(getOperationId('Todo', 'Delete'))
+  async delete(@Param('id') identifier: number): Promise<TodoDTO> {
     try {
-      const exists = await this._todoService.findById(identifier);
-      if (!exists) {
-        throw new HttpException(
-          'No element found with this id',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
       const deleted = await this._todoService.deleteById(identifier);
       if (deleted) {
-        const { id, ...result } = deleted;
-        return result as TodoVm;
+        return plainToClass(TodoDTO, deleted, {
+          strategy: 'excludeAll',
+        });
       } else {
         throw new HttpException(
           'An internal error has occurred and the object has not been deleted',

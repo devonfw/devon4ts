@@ -3,7 +3,7 @@ import { Entity, Column } from 'typeorm';
 import { TodoLevel } from './todo-level.enum';
 
 @Entity()
-export class Todo extends BaseModel<Todo> {
+export class Todo extends BaseModel {
   @Column({ type: 'text', length: 200 })
   description!: string;
 

@@ -1,38 +1,45 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import * as helmet from 'helmet';
+import { AppModule } from './app.module';
+import { ConfigurationModule } from './shared/configuration/configuration.module';
+import { ConfigurationService } from './shared/configuration/configuration.service';
+import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
+import { WinstonLogger } from './shared/logger/winston.logger';
 
-declare const module: any;
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const hostDomain = AppModule.isDev
-    ? `${AppModule.host}:${AppModule.port}`
-    : AppModule.host;
+  const myLogger = new WinstonLogger();
+  const app = await NestFactory.create(AppModule, {
+    logger: myLogger,
+  });
+  const config = app.select(ConfigurationModule).get(ConfigurationService);
+  const hostDomain = `${config.host}:${config.port}`;
 
-  if (AppModule.isDev) {
+  if (config.isDev) {
     const swaggerOptions = new DocumentBuilder()
-      .setTitle(AppModule.appName)
-      .setDescription(AppModule.appDescription)
-      .setVersion(AppModule.appVersion)
+      .setTitle(config.swaggerConfig.title)
+      .setDescription(config.swaggerConfig.description)
+      .setVersion(config.swaggerConfig.version)
       .setHost(hostDomain.split('//')[1])
       .setSchemes('http')
-      .setBasePath(AppModule.appBasePath)
+      .setBasePath(config.swaggerConfig.basepath)
       .addBearerAuth('Authorization', 'header')
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions);
 
     app.use(
-      `${AppModule.appBasePath}/docs/swagger.json`,
-      (req: any, res: any) => {
+      `${config.swaggerConfig.basepath}/docs/swagger.json`,
+      (_req: any, res: any) => {
         res.send(swaggerDoc);
       },
     );
 
     SwaggerModule.setup('/api/docs', app, swaggerDoc, {
-      swaggerUrl: `${hostDomain}${AppModule.appBasePath}/docs/swagger.json`,
+      swaggerUrl: `${hostDomain}${
+        config.swaggerConfig.basepath
+      }/docs/swagger.json`,
       explorer: true,
       swaggerOptions: {
         docExpansion: 'list',
@@ -42,8 +49,16 @@ async function bootstrap() {
     });
   }
 
-  app.setGlobalPrefix(AppModule.appBasePath);
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.setGlobalPrefix(config.swaggerConfig.basepath);
+  app.useGlobalFilters(
+    new HttpExceptionFilter(myLogger),
+    // new AllExceptionFilter(myLogger),
+  );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   app.use(helmet());
   app.enableCors({
     origin: '*',
@@ -51,6 +66,6 @@ async function bootstrap() {
     exposedHeaders: 'Authorization',
     allowedHeaders: 'authorization, content-type',
   });
-  await app.listen(AppModule.port);
+  await app.listen(config.port);
 }
 bootstrap();

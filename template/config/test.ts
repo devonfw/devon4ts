@@ -1,10 +1,15 @@
-export default {
-  HOST: 'http://localhost',
-  PORT: 8080,
-  DB_URI: 'DBURI',
-  JWT_KEY: 'key',
-  SWAGGER_TITLE: 'Your App Title',
-  SWAGGER_DESCRIPTION: 'API Documentation',
-  SWAGGER_VERSION: '0.0.1',
-  SWAGGER_BASEPATH: 'api',
+import { Config } from './types';
+const test: Config = {
+  isDev: false,
+  host: 'localhost',
+  port: 8080,
+  jwtKey: 'key',
+  swaggerConfig: {
+    title: 'Your App Title',
+    description: 'API Documentation',
+    version: '0.0.1',
+    basepath: 'api',
+  },
 };
+
+export default test;

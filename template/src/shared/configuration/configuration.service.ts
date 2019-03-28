@@ -1,32 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration } from './configuration.enum';
+import { Config, SwaggerConfig } from '../../../config/types';
 import { get } from 'config';
 
 @Injectable()
-export class ConfigurationService {
-  private enviromentHosting: string = process.env.NODE_ENV || 'development';
-
-  get(name: string) {
+export class ConfigurationService implements Config {
+  get(name: string): any {
     return process.env[name] || get(name);
   }
 
-  get isDevelopment(): boolean {
-    return this.enviromentHosting === 'development';
+  get isDev(): boolean {
+    return this.get('isDev');
   }
 
-  get swaggerTitle(): string {
-    return get(Configuration.SWAGGER_TITLE);
+  get host(): string {
+    return this.get('host');
   }
 
-  get swaggerDescription(): string {
-    return get(Configuration.SWAGGER_DESCRIPTION);
+  get port(): number {
+    return this.get('port');
   }
 
-  get swaggerVersion(): string {
-    return get(Configuration.SWAGGER_VERSION);
+  get jwtKey(): string {
+    return this.get('jwtKey');
   }
 
-  get swaggerBasePath(): string {
-    return get(Configuration.SWAGGER_BASEPATH);
+  get swaggerConfig(): SwaggerConfig {
+    return this.get('swaggerConfig');
   }
 }

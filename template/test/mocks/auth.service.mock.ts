@@ -1,6 +1,6 @@
 import { SignOptions, sign } from 'jsonwebtoken';
-import { JwtPayload } from '../../src/shared/auth/jwt-payload';
-import { User } from '../../src/user/models/user.entity';
+import { JwtPayload } from '../../src/shared/auth/model/jwt-payload.interface';
+import { User } from '../../src/shared/user/models/user.entity';
 
 export class AuthServiceMock {
   private jwtOptions: SignOptions;
@@ -12,9 +12,9 @@ export class AuthServiceMock {
   }
 
   async signPayload(payload: JwtPayload): Promise<string> {
-    return sign(payload, this.jwtKey, this.jwtOptions);
+    return sign(payload, this.jwtKey!, this.jwtOptions);
   }
-  async validatePayload(payload: JwtPayload): Promise<User> {
+  async validatePayload(_payload: JwtPayload): Promise<User> {
     const result: User = {
       id: 1,
       username: 'test',
@@ -24,9 +24,12 @@ export class AuthServiceMock {
       createdAt: new Date(),
       updatedAt: new Date(),
       hasId: () => true,
-      save: () => null,
-      remove: () => null,
-      reload: null,
+      save: () => new Promise<User>(resolve => resolve(undefined)),
+      remove: () => new Promise<User>(resolve => resolve(undefined)),
+      reload: () =>
+        new Promise<void>(() => {
+          // nothing to do here
+        }),
     };
     return result;
   }
