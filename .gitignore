@@ -64,3 +64,6 @@ template/database.db
 template/.vscode/launch.json
 Samples/my-thai-star/.vscode/launch.json
 template/database.db
+
+testing/
+**/testing/

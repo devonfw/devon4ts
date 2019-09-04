@@ -1,0 +1,21 @@
+{
+  "folders": [{
+      "path": "./packages/devon4node"
+    },
+    {
+      "path": "./packages/schematics"
+    },
+    {
+      "path": "./packages/mailer"
+    },
+    {
+      "path": "packages/common"
+    },
+    {
+      "path": "./documentation"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true
+  }
+}

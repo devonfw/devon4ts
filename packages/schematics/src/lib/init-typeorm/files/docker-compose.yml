@@ -1,0 +1,45 @@
+version: '3'
+services:<% if (db === 'mysql') { %>
+  mysql:
+    image: 'mysql:5.7.10'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'admin'
+      MYSQL_USER: 'test'
+      MYSQL_PASSWORD: 'test'
+      MYSQL_DATABASE: 'test'<% } %><% if (db === 'mariadb') { %>
+  mariadb:
+    image: 'mariadb:10.1.16'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'admin'
+      MYSQL_USER: 'test'
+      MYSQL_PASSWORD: 'test'
+      MYSQL_DATABASE: 'test'<% } %><% if (db === 'postgres') { %>
+  postgres:
+    image: "postgres:9.6.1"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_DB: "test"<% } %><% if (db === 'cockroachdb') { %>
+  cockroachdb:
+    image: "cockroachdb/cockroach:v2.1.4"
+    command: start --insecure
+    ports:
+      - "26257:26257"<% } %><% if (db === 'mssql') { %>
+  mssql:
+    image: 'microsoft/mssql-server-linux:rc2'
+    ports:
+      - '1433:1433'
+    environment:
+      SA_PASSWORD: 'Admin12345'
+      ACCEPT_EULA: 'Y'<% } %><% if (db === 'mongodb') { %>
+  mongodb:
+    image: 'mongo:4.0.6'
+    container_name: 'typeorm-mongodb'
+    ports:
+      - '27017:27017'<% } %>

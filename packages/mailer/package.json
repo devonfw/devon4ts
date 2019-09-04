@@ -1,0 +1,62 @@
+{
+  "name": "@devon4node/mailer",
+  "version": "1.0.0",
+  "description": "devon4node module that allows you to send emails in a easy way.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "prepublish:npm": "npm run build",
+    "publish:npm": "npm publish --access public",
+    "prepublish:next": "npm run build",
+    "publish:next": "npm publish --access public --tag next",
+    "test": "jest"
+  },
+  "keywords": [
+    "nestjs",
+    "devon4node",
+    "devonfw"
+  ],
+  "author": {
+    "name": "Capgemini",
+    "url": "https://www.capgemini.com/"
+  },
+  "contributors": [
+    "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "nodemailer": "^6.3.1"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^6.8.3",
+    "@nestjs/core": "^6.8.3",
+    "@nestjs/platform-express": "^6.8.3",
+    "@nestjs/testing": "^6.8.3",
+    "@types/jest": "^24.0.19",
+    "@types/node": "^12.11.1",
+    "@types/nodemailer": "^6.2.1",
+    "@types/supertest": "^2.0.8",
+    "prettier": "^1.18.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.3",
+    "typescript": "^3.6.4"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^6.8.0",
+    "@nestjs/core": "^6.8.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.3"
+  },
+  "optionalDependencies": {
+    "handlebars": "^4.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonfw/devon4node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devonfw/devon4node/issues"
+  },
+  "homepage": "https://github.com/devonfw/devon4node"
+}
