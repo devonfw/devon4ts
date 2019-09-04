@@ -51,3 +51,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Login
+
+If you want to login, you can use username `admin` and password `admin`.
