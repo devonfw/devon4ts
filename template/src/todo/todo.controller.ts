@@ -40,16 +40,18 @@ export class TodoController {
       let filter: FindManyOptions<ObjectLiteral> = {};
       let orderValue, whereValue: any;
 
-      if (params.order && params.order !== 'undefined') {
-        orderValue = JSON.parse(params.order);
+      if (params) {
+        if (params.order && params.order !== 'undefined') {
+          orderValue = JSON.parse(params.order);
+        }
+        if (params.where && params.where !== 'undefined') {
+          whereValue = JSON.parse(params.where);
+        }
+        filter = {
+          order: orderValue,
+          where: whereValue,
+        };
       }
-      if (params.where && params.where !== 'undefined') {
-        whereValue = JSON.parse(params.where);
-      }
-      filter = {
-        order: orderValue,
-        where: whereValue,
-      };
 
       return plainToClass(TodoDTO, await this._todoService.findAll(filter), {
         strategy: 'excludeAll',
