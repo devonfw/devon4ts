@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -21,6 +22,8 @@ import { TodoDTO, TodoParams } from './models';
 import { TodoService } from './todo.service';
 import { plainToClass } from 'class-transformer';
 import { Todo } from './models/todo.entity';
+import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
+import { ObjectLiteral } from 'typeorm/common/ObjectLiteral';
 
 @Controller('todo')
 @ApiUseTags('Todo')
@@ -32,9 +35,23 @@ export class TodoController {
   @ApiResponse({ status: HttpStatus.OK, type: TodoDTO })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
   @ApiOperation(getOperationId('Todo', 'GetAll'))
-  async getTodos(): Promise<TodoDTO[]> {
+  async getTodos(@Query() params?: any): Promise<TodoDTO[]> {
     try {
-      return plainToClass(TodoDTO, await this._todoService.findAll(), {
+      let filter: FindManyOptions<ObjectLiteral> = {};
+      let orderValue, whereValue: any;
+
+      if (params.order && params.order !== 'undefined') {
+        orderValue = JSON.parse(params.order);
+      }
+      if (params.where && params.where !== 'undefined') {
+        whereValue = JSON.parse(params.where);
+      }
+      filter = {
+        order: orderValue,
+        where: whereValue,
+      };
+
+      return plainToClass(TodoDTO, await this._todoService.findAll(filter), {
         strategy: 'excludeAll',
       });
     } catch (error) {
