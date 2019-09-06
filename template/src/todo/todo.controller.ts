@@ -25,10 +25,12 @@ import { Todo } from './models/todo.entity';
 import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
 import { ObjectLiteral } from 'typeorm/common/ObjectLiteral';
 
+import { Where } from 'src/shared/interfaces/where';
+
 @Controller('todo')
 @ApiUseTags('Todo')
 @ApiBearerAuth()
-export class TodoController {
+export class TodoController<Entity> {
   constructor(private readonly _todoService: TodoService) {}
 
   @Get()
@@ -38,7 +40,8 @@ export class TodoController {
   async getTodos(@Query() params?: any): Promise<TodoDTO[]> {
     try {
       let filter: FindManyOptions<ObjectLiteral> = {};
-      let orderValue, whereValue: any;
+      let orderValue: object = {};
+      let whereValue: Where<Entity> = {};
 
       if (params) {
         if (params.order && params.order !== 'undefined') {
