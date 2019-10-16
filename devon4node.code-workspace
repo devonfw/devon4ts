@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "path": "./packages/devon4node"
+    },
+    {
+      "path": "./packages/schematics"
+    },
+    {
+      "path": "./packages/mailer"
+    },
+    {
+      "path": "./samples/todo-app"
+    },
+    {
+      "path": "./documentation"
+    },
+    {
+      "path": "./.travis.yml"
+    }
+  ]
+}
