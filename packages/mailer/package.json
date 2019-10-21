@@ -49,7 +49,7 @@
     "rxjs": "^6.5.3"
   },
   "optionalDependencies": {
-    "handlebars": "^4.4.3"
+    "handlebars": "^4.4.5"
   },
   "repository": {
     "type": "git",
