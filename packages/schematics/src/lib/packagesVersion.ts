@@ -21,6 +21,8 @@ export const packagesVersion = {
   typesPassportJwt: '^3.0.2',
   typesBcrypt: '^3.0.0',
   typesHelmet: '^0.0.44',
+  lodash: '^4.17.15',
+  typesLodash: '^4.14.144',
   dbpackages: {
     postgres: ['pg', '^7.3.0'],
     cockroachdb: ['pg', '^7.3.0'],
