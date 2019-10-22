@@ -31,10 +31,10 @@ agent "handler function" as handler
 
 cli ..> middleware
 middleware ..> guard
-guard ..> interceptor
+guard ..> interceptor : intercept the\n request
 interceptor ..> pipe
 pipe ..> handler
-handler ..> interceptor
+handler ..> interceptor : intercept the response
 interceptor ..> cli
 
 @enduml
