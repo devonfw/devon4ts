@@ -67,6 +67,8 @@ function updatePackageJson(path: string): Rule {
     content.devDependencies['@types/passport-jwt'] =
       packagesVersion.typesPassportJwt;
     content.devDependencies['@types/bcrypt'] = packagesVersion.typesBcrypt;
+    content.dependencies.lodash = packagesVersion.lodash;
+    content.devDependencies['@types/lodash'] = packagesVersion.typesLodash;
 
     host.overwrite(packageJsonPath, JSON.stringify(content, null, 2));
     return host;
