@@ -3,7 +3,7 @@ import { IConfig } from '../app/core/configuration/model';
 const def: IConfig = {
   isDev: true,
   host: 'localhost',
-  port: 3000,
+  port: 8081,
   clientUrl: 'localhost:4200',
   globalPrefix: 'v1',
   database: require('../../ormconfig.json'),

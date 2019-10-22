@@ -6,8 +6,10 @@ import {
   HttpCode,
   Post,
   Request,
+  Response,
   UseGuards,
 } from '@nestjs/common';
+import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { classToPlain } from 'class-transformer';
 import { User } from '../../user/model/entity/user.entity';
@@ -19,8 +21,10 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
   @HttpCode(200)
-  async login(@Body() body: any) {
-    return await this.authService.login(body);
+  async login(@Body() body: any, @Response() res: eResponse) {
+    const token = await this.authService.login(body);
+    res.setHeader('Authorization', 'Bearer ' + token);
+    res.status(200).send();
   }
 
   @Post('register')
