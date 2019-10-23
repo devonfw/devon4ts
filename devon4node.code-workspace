@@ -12,6 +12,9 @@
       "path": "packages/common"
     },
     {
+      "path": "./scripts"
+    },
+    {
       "path": "./documentation"
     }
   ],
