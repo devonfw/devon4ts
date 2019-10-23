@@ -23,13 +23,14 @@ interface ISchematicOption {
   required?: boolean;
 }
 
-const aliases: any = {
+const paramAliases: any = {
   name: 'n',
   path: 'p',
 };
 
 export const command = 'generate [schematic]';
 export const describe = 'Generate code using a schematic.';
+export const aliases = ['g'];
 
 const schematicPath = join(
   __dirname,
@@ -278,8 +279,8 @@ function generateYargsOptions(schematicOptions: ISchematicOption[]) {
       newOption.default = element.default;
     }
 
-    if (aliases[element.name]) {
-      newOption.alias = aliases[element.name];
+    if (paramAliases[element.name]) {
+      newOption.alias = paramAliases[element.name];
     }
 
     result[element.name] = newOption;

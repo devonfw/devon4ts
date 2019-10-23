@@ -4,9 +4,9 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
-## devon4node Common
+## devon4node CLI
 
-This package contains the devon4node common libraries. Those libraries will help you build devon4node applications.
+This package contains the devon4node CLI. This will allow you to manage your devon4node applications, from creating new projects, generating new components or managing the status of the database.
 
 ## Documentation
 
