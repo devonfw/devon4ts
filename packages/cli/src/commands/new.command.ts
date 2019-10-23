@@ -216,7 +216,7 @@ async function askSpecificModules(
     }
 
     if (modules.controller) {
-      modules.crud.split(',').forEach((element: string) => {
+      modules.controller.split(',').forEach((element: string) => {
         newAllInOne.push({
           name: 'controller',
           options: {
@@ -228,7 +228,7 @@ async function askSpecificModules(
     }
 
     if (modules.service) {
-      modules.crud.split(',').forEach((element: string) => {
+      modules.service.split(',').forEach((element: string) => {
         newAllInOne.push({
           name: 'service',
           options: {

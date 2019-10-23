@@ -24,9 +24,10 @@ interface IServiceOptions {
 export function main(options: IServiceOptions): Rule {
   const name = strings.dasherize(basename(options.name as Path));
   const projectPath = options.path || '.';
-  const path = normalize(
-    join(projectPath as Path, 'src/app', options.name, '..'),
-  );
+  const path: Path = strings.dasherize(
+    normalize(join(projectPath as Path, 'src/app', options.name, '..')),
+  ) as Path;
+
   return chain([
     mergeWith(
       apply(url('./files'), [
