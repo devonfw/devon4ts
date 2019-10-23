@@ -31,11 +31,14 @@ interface IControllerOptions {
 
 export function main(options: IControllerOptions): Rule {
   const name = strings.dasherize(basename(options.name as Path));
-  const fullName = join(dirname(options.name as Path), pluralize.plural(name));
-  const projectPath = options.path || '.';
-  const path = normalize(
-    join(projectPath as Path, 'src/app', options.name, '..'),
+  const fullName = strings.dasherize(
+    join(dirname(options.name as Path), pluralize.plural(name)),
   );
+  const projectPath = options.path || '.';
+  const path: Path = strings.dasherize(
+    normalize(join(projectPath as Path, 'src/app', options.name, '..')),
+  ) as Path;
+
   return chain([
     mergeWith(
       apply(url('./files'), [

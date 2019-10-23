@@ -1,28 +1,32 @@
-# Getting Started With Schematics
+# devon4node
 
-This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
+[devonfw](https://www.devonfw.com/) is a platform which provides solutions to building business applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions. devonfw is 100% Open Source (Apache License version 2.0) since the beginning of 2018.
 
-### Testing
+devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
-To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
+## devon4node Schematics
 
-Check the documentation with
-```bash
-schematics --help
-```
+This package contains the devon4node schematics. Those schematics are responsible for generating code for devon4node.
 
-### Unit Testing
+## Documentation
 
-`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
+You can find all documentation in our [wiki](https://github.com/devonfw/devon4node/wiki).
 
-### Publishing
+## Code of conduct
 
-To publish, simply do:
+Visit [code of conduct document](https://github.com/devonfw/devon4node/blob/develop/CODE_OF_CONDUCT.md).
 
-```bash
-npm run build
-npm publish
-```
+## Terms of use
 
-That's it!
- 
+Visit [terms of use document](https://github.com/devonfw/devon4node/blob/develop/TERMS_OF_USE.asciidoc).
+
+## Contributing guide
+
+Visit [contributing guide document](https://github.com/devonfw/devon4node/blob/develop/CONTRIBUTING.asciidoc).
+
+## Samples
+
+- [TODO example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a TODO management application.
+- [Employee example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a employee management application.
+- [Components example](https://github.com/devonfw/devon4node/tree/develop/samples/employee): simple backend example which will show you the execution order of the devon4node components.
+- [My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.

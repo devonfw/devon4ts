@@ -1,6 +1,6 @@
 {
   "folders": [{
-      "path": "./packages/devon4node"
+      "path": "./packages/cli"
     },
     {
       "path": "./packages/schematics"
@@ -10,6 +10,9 @@
     },
     {
       "path": "packages/common"
+    },
+    {
+      "path": "./scripts"
     },
     {
       "path": "./documentation"
