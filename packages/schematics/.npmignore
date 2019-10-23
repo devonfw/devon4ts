@@ -3,6 +3,8 @@
 !*.d.ts
 !**/files/*.ts
 !**/files/**/*.ts
+*.js.map
+**/*.js.map
 
 .vscode/
 
