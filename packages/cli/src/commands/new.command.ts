@@ -22,6 +22,7 @@ interface ICollectionToRun {
 
 export const command = 'new [name]';
 export const describe = 'Create a new devon4node application, based on NestJS.';
+export const aliases = ['n'];
 
 /**
  * Ask for general modules.

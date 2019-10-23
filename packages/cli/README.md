@@ -26,10 +26,7 @@ Visit [contributing guide document](https://github.com/devonfw/devon4node/blob/d
 
 ## Samples
 
-[TODO example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a TODO management application.
-
-[Employee example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a employee management application.
-
-[Components example](https://github.com/devonfw/devon4node/tree/develop/samples/employee): simple backend example which will show you the execution order of the devon4node components.
-
-[My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.
+- [TODO example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a TODO management application.
+- [Employee example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a employee management application.
+- [Components example](https://github.com/devonfw/devon4node/tree/develop/samples/employee): simple backend example which will show you the execution order of the devon4node components.
+- [My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.
