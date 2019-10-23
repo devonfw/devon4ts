@@ -4,9 +4,9 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
-## devon4node Common
+## devon4node CLI
 
-This package contains the devon4node common libraries. Those libraries will help you build devon4node applications.
+This package contains the devon4node CLI. This will allow you to manage your devon4node applications, from creating new projects, generating new components or managing the status of the database.
 
 ## Documentation
 
@@ -27,6 +27,9 @@ Visit [contributing guide document](https://github.com/devonfw/devon4node/blob/d
 ## Samples
 
 [TODO example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a TODO management application.
+
 [Employee example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a employee management application.
+
 [Components example](https://github.com/devonfw/devon4node/tree/develop/samples/employee): simple backend example which will show you the execution order of the devon4node components.
+
 [My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.
