@@ -23,6 +23,7 @@ import {
   addEntryToObjctLiteralVariable,
 } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
+import { existsConfigModule } from '../../utils/tree-utils';
 
 export interface ITypeormOptions {
   db:
@@ -89,14 +90,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
       return tree;
     }
 
-    const config = new ModuleFinder(tree).find({
-      name: 'configuration',
-      path: join(
-        '.' as Path,
-        project || '.',
-        'src/app/core/configuration',
-      ) as Path,
-    });
+    const config = existsConfigModule(tree, project || '.');
 
     let fileContent: string | undefined = tree.read(module)!.toString('utf-8');
 
@@ -145,10 +139,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
 
 function addDatabaseConfiguration(project: string | undefined): Rule {
   return (tree: Tree): Tree => {
-    const config = new ModuleFinder(tree).find({
-      name: 'configuration',
-      path: join('.' as Path, project || '.', 'src/app/core/') as Path,
-    });
+    const config = existsConfigModule(tree, project || '.');
     if (!config) {
       return tree;
     }

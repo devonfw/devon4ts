@@ -138,6 +138,26 @@ async function askSpecificModules(
     message: 'Do you want to add an application module?',
   });
   let repeat = moreModules.continue;
+  let extraChoices: any = [
+    { name: 'Service', value: 'service', short: 'service' },
+    { name: 'Controller', value: 'controller', short: 'controller' },
+  ];
+  if (useTypeorm) {
+    extraChoices = [
+      {
+        name: 'Crud controller (also adds crud service and entity)',
+        value: 'crud',
+        short: 'crud',
+      },
+      new Separator(),
+      ...extraChoices,
+      {
+        name: 'Entity',
+        value: 'entity',
+        short: 'entity',
+      },
+    ];
+  }
 
   while (repeat) {
     const modules = await inquirer.prompt([
@@ -150,23 +170,7 @@ async function askSpecificModules(
         name: 'extras',
         type: 'checkbox',
         message: 'Add aditional components to module',
-        choices: [
-          {
-            name: 'Crud controller (also adds crud service and entity)',
-            value: 'crud',
-            short: 'crud',
-            when: useTypeorm,
-          },
-          new Separator(),
-          { name: 'Service', value: 'service', short: 'service' },
-          { name: 'Controller', value: 'controller', short: 'controller' },
-          {
-            name: 'Entity',
-            value: 'entity',
-            short: 'entity',
-            when: useTypeorm,
-          },
-        ],
+        choices: extraChoices,
       },
       {
         name: 'crud',
@@ -175,12 +179,12 @@ async function askSpecificModules(
       },
       {
         name: 'controller',
-        message: 'Extra controllers (Separated by commas)',
+        message: 'Controllers (Separated by commas)',
         when: ans => ans.extras.includes('controller'),
       },
       {
         name: 'service',
-        message: 'Extra services (Separated by commas)',
+        message: 'Services (Separated by commas)',
         when: ans => ans.extras.includes('service'),
       },
       {
@@ -394,12 +398,23 @@ export async function generateCodeInteractive(
 
   allInOne.push(...generalModules);
 
-  const useTypeorm = allInOne.reduce((previous, current) => {
-    if (current.name === 'typeorm') {
-      return true;
+  let useTypeorm: boolean = allInOne.reduce(
+    (previous: boolean, current: ICollectionToRun) => {
+      if (current.name === 'typeorm') {
+        return true;
+      }
+      return previous;
+    },
+    false,
+  );
+  if (!useTypeorm) {
+    try {
+      const fileContent: string = readFileSync('package.json').toString();
+      useTypeorm = fileContent.includes('"typeorm"');
+    } catch (e) {
+      // nothing to do
     }
-    return previous;
-  }, false);
+  }
 
   allInOne.push(...(await askSpecificModules(useTypeorm, basePath)));
 
