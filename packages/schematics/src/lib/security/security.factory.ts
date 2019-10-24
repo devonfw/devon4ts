@@ -2,10 +2,7 @@ import { Path } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
 import { packagesVersion } from '../packagesVersion';
-import {
-  addDefaultImports,
-  insertLinesToFunctionBefore,
-} from '../../utils/ast-utils';
+import { addDefaultImports, insertLinesToFunctionBefore } from '../../utils/ast-utils';
 
 export interface ISecurityInitializer {
   path?: string;
@@ -35,12 +32,7 @@ function updateMain(project: string | undefined): Rule {
     let content = tree.read(filePath)!.toString('utf-8');
 
     content = addDefaultImports(content, 'helmet', 'helmet');
-    content = insertLinesToFunctionBefore(
-      content,
-      'bootstrap',
-      'app.listen',
-      'app.use(helmet());',
-    );
+    content = insertLinesToFunctionBefore(content, 'bootstrap', 'app.listen', 'app.use(helmet());');
     content = insertLinesToFunctionBefore(
       content,
       'bootstrap',

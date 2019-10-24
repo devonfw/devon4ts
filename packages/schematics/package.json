@@ -5,6 +5,7 @@
   "scripts": {
     "prebuild": "rm -f node_modules/@nestjs/schematics/utils/module.finder.ts && yarn copy:schemas",
     "build": "tsc -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\" \"test/**/*.ts\"",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
@@ -40,6 +41,7 @@
     "@types/node": "^12.11.5",
     "@types/pluralize": "^0.0.29",
     "jasmine": "^3.5.0",
+    "prettier": "^1.18.2",
     "tslint": "^5.20.0"
   }
 }

@@ -3,11 +3,7 @@ import { join, Path } from '@angular-devkit/core';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { basename } from 'path';
 
-export function addBarrels(
-  tree: Tree,
-  path: string,
-  barrels: string | string[],
-): Tree {
+export function addBarrels(tree: Tree, path: string, barrels: string | string[]): Tree {
   const exportSentence = 'export * from ';
   const indexPath = join(path as Path, 'index.ts');
 

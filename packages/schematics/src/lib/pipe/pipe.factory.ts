@@ -4,9 +4,7 @@ import { join, Path, strings, basename, dirname } from '@angular-devkit/core';
 
 export function main(options: PipeOptions) {
   const newOptions = { ...options };
-  newOptions.name = options.name.startsWith('app/')
-    ? options.name
-    : 'app/' + options.name;
+  newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {
     newOptions.path = join(options.path as Path, 'src');
   }
@@ -23,9 +21,7 @@ export function main(options: PipeOptions) {
     ),
     move(
       strings.dasherize(join(path as Path, dir, base + '.pipe.spec.ts')),
-      strings.dasherize(
-        join(path as Path, dir, 'pipes', base + '.pipe.spec.ts'),
-      ),
+      strings.dasherize(join(path as Path, dir, 'pipes', base + '.pipe.spec.ts')),
     ),
   ]);
 }

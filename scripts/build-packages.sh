@@ -5,4 +5,6 @@ for Dir in ../packages/*/; do
   cd $currentDir/$Dir
   yarn
   yarn build
+  yarn format
+  yarn lint
 done
