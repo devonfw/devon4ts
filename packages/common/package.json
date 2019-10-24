@@ -9,7 +9,9 @@
     "publish:npm": "npm publish --access public",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write \"**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "keywords": [
     "nestjs",
@@ -37,6 +39,7 @@
     "prettier": "^1.18.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.3",
+    "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   },
   "peerDependencies": {

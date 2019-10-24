@@ -7,10 +7,7 @@ import { WinstonLogger } from '../shared/logger/winston.logger';
 @Module({
   imports: [],
   controllers: [],
-  providers: [
-    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
-    WinstonLogger,
-  ],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],
   exports: [WinstonLogger],
 })
 export class CoreModule {}

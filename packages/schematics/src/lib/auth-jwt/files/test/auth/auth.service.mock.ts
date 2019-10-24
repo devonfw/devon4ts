@@ -8,10 +8,7 @@ export class AuthServiceMock {
     role: 0,
   };
 
-  async validateUser(
-    username: string,
-    pass: string,
-  ): Promise<User | undefined> {
+  async validateUser(username: string, pass: string): Promise<User | undefined> {
     if (username === this.user.username && pass === this.user.password) {
       return this.user as User;
     }

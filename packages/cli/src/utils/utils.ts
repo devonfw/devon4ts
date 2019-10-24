@@ -6,17 +6,10 @@ import { writeFile } from 'fs';
 import fetch from 'node-fetch';
 import { join, resolve } from 'path';
 
-export function mapSchematicOptions(
-  collectionName: string,
-  options: Input[],
-): string[] {
+export function mapSchematicOptions(collectionName: string, options: Input[]): string[] {
   return options.reduce(
     (schematicOptions: string[], option: Input) => {
-      if (
-        option.name !== 'skip-install' &&
-        option.value !== 'package-manager' &&
-        option.value !== 'collection'
-      ) {
+      if (option.name !== 'skip-install' && option.value !== 'package-manager' && option.value !== 'collection') {
         schematicOptions.push('--' + option.name);
         if (typeof option.value !== 'boolean') {
           schematicOptions.push(option.value);
@@ -28,16 +21,10 @@ export function mapSchematicOptions(
   );
 }
 
-export function executeCollection(
-  schematicOptions: string[],
-): Promise<null | string> {
+export function executeCollection(schematicOptions: string[]): Promise<null | string> {
   return new Promise<null | string>((res, reject) => {
     const extension = process.platform === 'win32' ? '.cmd' : '';
-    const programPath = join(
-      __dirname,
-      '../../node_modules/.bin/',
-      'schematics' + extension,
-    );
+    const programPath = join(__dirname, '../../node_modules/.bin/', 'schematics' + extension);
 
     const child: ChildProcess = spawn(programPath, schematicOptions, {
       cwd: process.cwd(),

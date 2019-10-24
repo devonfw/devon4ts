@@ -7,15 +7,9 @@ import { User } from '../../user/model';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersService: UserService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly usersService: UserService, private readonly jwtService: JwtService) {}
 
-  async validateUser(
-    username: string,
-    pass: string,
-  ): Promise<User | undefined> {
+  async validateUser(username: string, pass: string): Promise<User | undefined> {
     const user = await this.usersService.findOne(username);
     if (user && (await compare(pass, user.password!))) {
       return classToPlain(user) as User;

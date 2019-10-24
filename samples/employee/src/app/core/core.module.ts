@@ -21,10 +21,7 @@ import { AuthModule } from './auth/auth.module';
     ConfigurationModule,
   ],
   controllers: [],
-  providers: [
-    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
-    WinstonLogger,
-  ],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],
   exports: [AuthModule, ConfigurationModule, WinstonLogger],
 })
 export class CoreModule {}

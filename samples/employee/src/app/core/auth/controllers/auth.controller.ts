@@ -1,14 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Request,
-  Response,
-  UseGuards,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, Request, Response, UseGuards } from '@nestjs/common';
 import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { classToPlain } from 'class-transformer';

@@ -12,9 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new WinstonLogger(),
   });
-  const configModule = app
-    .select(ConfigurationModule)
-    .get(ConfigurationService);
+  const configModule = app.select(ConfigurationModule).get(ConfigurationService);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -38,11 +36,7 @@ async function bootstrap() {
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup(
-      (configModule.globalPrefix || '') + '/api',
-      app,
-      swaggerDoc,
-    );
+    SwaggerModule.setup((configModule.globalPrefix || '') + '/api', app, swaggerDoc);
   }
   app.setGlobalPrefix(configModule.globalPrefix);
   await app.listen(configModule.port);
