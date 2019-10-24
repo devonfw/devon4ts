@@ -17,6 +17,7 @@ import {
 } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 import { noop } from 'rxjs';
+import { existsConfigModule } from '../../utils/tree-utils';
 import {
   addPropToInterface,
   addEntryToObjctLiteralVariable,
@@ -73,14 +74,6 @@ function updatePackageJson(path: string): Rule {
     host.overwrite(packageJsonPath, JSON.stringify(content, null, 2));
     return host;
   };
-}
-
-function existsConfigModule(tree: Tree, project: string): boolean {
-  const module = new ModuleFinder(tree).find({
-    name: 'core',
-    path: join('.' as Path, project || '.', 'src/app/core/') as Path,
-  });
-  return !!module;
 }
 
 function addAuthToCoreModule(project: string): Rule {

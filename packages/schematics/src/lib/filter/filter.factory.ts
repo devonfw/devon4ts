@@ -18,12 +18,16 @@ export function main(options: FilterOptions) {
   return chain([
     externalSchematic('@nestjs/schematics', 'filter', newOptions),
     move(
-      join(path as Path, dir, base + '.filter.ts'),
-      join(path as Path, dir, 'filters', base + '.filter.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.filter.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'filters', base + '.filter.ts'),
+      ),
     ),
     move(
-      join(path as Path, dir, base + '.filter.spec.ts'),
-      join(path as Path, dir, 'filters', base + '.filter.spec.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.filter.spec.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'filters', base + '.filter.spec.ts'),
+      ),
     ),
   ]);
 }

@@ -17,6 +17,7 @@ import {
 } from '../../utils/ast-utils';
 import { mergeDockerFiles } from '../../utils/merge';
 import { packagesVersion } from '../packagesVersion';
+import { existsConfigModule } from '../../utils/tree-utils';
 import {
   addImports,
   addGetterToClass,
@@ -80,10 +81,7 @@ function updatePackageJson(path: string) {
 
 function addMailerToProject(path: string) {
   return (tree: Tree): Tree => {
-    const config = new ModuleFinder(tree).find({
-      name: 'configuration',
-      path: join(path as Path, 'src/app/core/', 'configuration') as Path,
-    });
+    const config = existsConfigModule(tree, path || '.');
     if (!config) {
       addMailerToCoreModule(path, tree, false);
       return tree;

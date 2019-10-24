@@ -18,12 +18,16 @@ export function main(options: MiddlewareOptions) {
   return chain([
     externalSchematic('@nestjs/schematics', 'middleware', newOptions),
     move(
-      join(path as Path, dir, base + '.middleware.ts'),
-      join(path as Path, dir, 'middlewares', base + '.middleware.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.middleware.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'middlewares', base + '.middleware.ts'),
+      ),
     ),
     move(
-      join(path as Path, dir, base + '.middleware.spec.ts'),
-      join(path as Path, dir, 'middlewares', base + '.middleware.spec.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.middleware.spec.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'middlewares', base + '.middleware.spec.ts'),
+      ),
     ),
   ]);
 }

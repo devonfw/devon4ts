@@ -1,16 +1,14 @@
-import { Rule, chain, Tree } from '@angular-devkit/schematics';
 import { join, Path } from '@angular-devkit/core';
-import { packagesVersion } from '../packagesVersion';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import {
   addEntryToObjctLiteralVariable,
   addGetterToClass,
-} from '../../utils/ast-utils';
-import {
   addImports,
-  insertLinesToFunctionBefore,
   addPropToInterface,
+  insertLinesToFunctionBefore,
 } from '../../utils/ast-utils';
+import { existsConfigModule } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.isDev) {
     const options = new DocumentBuilder()
@@ -75,10 +73,7 @@ function updatePackageJson(project: string): Rule {
 
 function updateMain(project: string) {
   return (tree: Tree): Tree => {
-    const config = new ModuleFinder(tree).find({
-      name: 'configuration',
-      path: join('.' as Path, project || '.', 'src/app/core/') as Path,
-    });
+    const config = existsConfigModule(tree, project || '.');
 
     const mainPath = join(project as Path, 'src/main.ts');
     let main = tree.read(mainPath)!.toString();

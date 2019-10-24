@@ -18,12 +18,16 @@ export function main(options: InterceptorOptions) {
   return chain([
     externalSchematic('@nestjs/schematics', 'interceptor', newOptions),
     move(
-      join(path as Path, dir, base + '.interceptor.ts'),
-      join(path as Path, dir, 'interceptors', base + '.interceptor.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.interceptor.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'interceptors', base + '.interceptor.ts'),
+      ),
     ),
     move(
-      join(path as Path, dir, base + '.interceptor.spec.ts'),
-      join(path as Path, dir, 'interceptors', base + '.interceptor.spec.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.interceptor.spec.ts')),
+      strings.dasherize(
+        join(path as Path, dir, 'interceptors', base + '.interceptor.spec.ts'),
+      ),
     ),
   ]);
 }
