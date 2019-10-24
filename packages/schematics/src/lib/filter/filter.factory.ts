@@ -4,9 +4,7 @@ import { Path, join, basename, strings, dirname } from '@angular-devkit/core';
 
 export function main(options: FilterOptions) {
   const newOptions = { ...options };
-  newOptions.name = options.name.startsWith('app/')
-    ? options.name
-    : 'app/' + options.name;
+  newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {
     newOptions.path = join(options.path as Path, 'src');
   }
@@ -19,15 +17,11 @@ export function main(options: FilterOptions) {
     externalSchematic('@nestjs/schematics', 'filter', newOptions),
     move(
       strings.dasherize(join(path as Path, dir, base + '.filter.ts')),
-      strings.dasherize(
-        join(path as Path, dir, 'filters', base + '.filter.ts'),
-      ),
+      strings.dasherize(join(path as Path, dir, 'filters', base + '.filter.ts')),
     ),
     move(
       strings.dasherize(join(path as Path, dir, base + '.filter.spec.ts')),
-      strings.dasherize(
-        join(path as Path, dir, 'filters', base + '.filter.spec.ts'),
-      ),
+      strings.dasherize(join(path as Path, dir, 'filters', base + '.filter.spec.ts')),
     ),
   ]);
 }

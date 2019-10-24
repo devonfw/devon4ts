@@ -11,11 +11,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
-import {
-  addImports,
-  addToModuleDecorator,
-  insertLinesToFunctionBefore,
-} from '../../utils/ast-utils';
+import { addImports, addToModuleDecorator, insertLinesToFunctionBefore } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -23,22 +19,10 @@ import { packagesVersion } from '../packagesVersion';
 export function devon4nodeApplication(_options: any): Rule {
   return chain([
     externalSchematic('@nestjs/schematics', 'application', _options),
-    move(
-      `./${_options.name}/src/app.controller.spec.ts`,
-      `./${_options.name}/src/app/app.controller.spec.ts`,
-    ),
-    move(
-      `./${_options.name}/src/app.controller.ts`,
-      `./${_options.name}/src/app/app.controller.ts`,
-    ),
-    move(
-      `./${_options.name}/src/app.module.ts`,
-      `./${_options.name}/src/app/app.module.ts`,
-    ),
-    move(
-      `./${_options.name}/src/app.service.ts`,
-      `./${_options.name}/src/app/app.service.ts`,
-    ),
+    move(`./${_options.name}/src/app.controller.spec.ts`, `./${_options.name}/src/app/app.controller.spec.ts`),
+    move(`./${_options.name}/src/app.controller.ts`, `./${_options.name}/src/app/app.controller.ts`),
+    move(`./${_options.name}/src/app.module.ts`, `./${_options.name}/src/app/app.module.ts`),
+    move(`./${_options.name}/src/app.service.ts`, `./${_options.name}/src/app/app.service.ts`),
     mergeWith(
       apply(url('./files'), [
         template({
@@ -49,24 +33,23 @@ export function devon4nodeApplication(_options: any): Rule {
       ]),
     ),
     (host: Tree): Tree => {
-      host.overwrite(
-        join(_options.name, 'tsconfig.json'),
-        updateTsConfig(host, _options),
-      );
+      host.overwrite(join(_options.name, 'tsconfig.json'), updateTsConfig(host, _options));
       return host;
     },
     (host: Tree): Tree => {
-      host.overwrite(
-        join(_options.name, 'nest-cli.json'),
-        updateNestCliJson(host, _options),
-      );
+      host.overwrite(join(_options.name, 'nest-cli.json'), updateNestCliJson(host, _options));
       return host;
     },
     (host: Tree): Tree => {
-      host.overwrite(
-        join(_options.name, 'package.json'),
-        updatePackageJson(host, _options),
-      );
+      host.overwrite(join(_options.name, 'package.json'), updatePackageJson(host, _options));
+      return host;
+    },
+    (host: Tree): Tree => {
+      host.overwrite(join(_options.name, '.prettierrc'), updatePrettier(host, _options));
+      return host;
+    },
+    (host: Tree): Tree => {
+      host.overwrite(join(_options.name, 'tslint.json'), updateTsLint(host, _options));
       return host;
     },
     addDeclarationToModule(_options.name),
@@ -76,9 +59,7 @@ export function devon4nodeApplication(_options: any): Rule {
 
 function updateMain(project: string) {
   return (host: Tree): Tree => {
-    let mainFile = host
-      .read(join(project as Path, 'src/main.ts'))!
-      .toString('utf-8');
+    let mainFile = host.read(join(project as Path, 'src/main.ts'))!.toString('utf-8');
 
     mainFile = mainFile.replace('./app.module', './app/app.module');
     mainFile = mainFile.replace(
@@ -112,11 +93,7 @@ function updateMain(project: string) {
       "app.setGlobalPrefix('v1');",
     );
 
-    mainFile = addImports(
-      mainFile,
-      'WinstonLogger',
-      './app/shared/logger/winston.logger',
-    );
+    mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
 
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
 
@@ -129,9 +106,7 @@ function updateMain(project: string) {
 }
 
 function updateTsConfig(host: Tree, _options: any): string {
-  const content = JSON.parse(
-    host.read(join(_options.name, 'tsconfig.json'))!.toString('utf-8'),
-  );
+  const content = JSON.parse(host.read(join(_options.name, 'tsconfig.json'))!.toString('utf-8'));
   content.compilerOptions.strict = true;
   content.compilerOptions.skipLibCheck = true;
   content.compilerOptions.skipDefaultLibCheck = true;
@@ -144,9 +119,7 @@ function updateTsConfig(host: Tree, _options: any): string {
 }
 
 function updatePackageJson(host: Tree, _options: any): string {
-  const content = JSON.parse(
-    host.read(join(_options.name, 'package.json'))!.toString('utf-8'),
-  );
+  const content = JSON.parse(host.read(join(_options.name, 'package.json'))!.toString('utf-8'));
 
   content.dependencies.winston = packagesVersion.winston;
   content.dependencies['class-transformer'] = packagesVersion.classTransformer;
@@ -156,10 +129,27 @@ function updatePackageJson(host: Tree, _options: any): string {
   return JSON.stringify(content, null, 2);
 }
 
+function updatePrettier(host: Tree, _options: any): string {
+  const content = JSON.parse(host.read(join(_options.name, '.prettierrc'))!.toString('utf-8'));
+
+  content.printWidth = 120;
+
+  return JSON.stringify(content, null, 2);
+}
+
+function updateTsLint(host: Tree, _options: any): string {
+  const content = JSON.parse(host.read(join(_options.name, 'tslint.json'))!.toString('utf-8'));
+
+  content['interface-name'] = [true];
+  content['variable-name'] = {
+    options: ['ban-keywords', 'check-format', 'allow-pascal-case', 'allow-leading-underscore'],
+  };
+
+  return JSON.stringify(content, null, 2);
+}
+
 function updateNestCliJson(host: Tree, _options: any): string {
-  const content = JSON.parse(
-    host.read(join(_options.name, 'nest-cli.json'))!.toString('utf-8'),
-  );
+  const content = JSON.parse(host.read(join(_options.name, 'nest-cli.json'))!.toString('utf-8'));
 
   content.collection = '@devon4node/schematics';
 

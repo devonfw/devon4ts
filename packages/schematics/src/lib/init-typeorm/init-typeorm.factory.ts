@@ -13,28 +13,13 @@ import {
 } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { mergeDockerFiles } from '../../utils/merge';
-import {
-  addImports,
-  addPropToInterface,
-  addGetterToClass,
-} from '../../utils/ast-utils';
-import {
-  addToModuleDecorator,
-  addEntryToObjctLiteralVariable,
-} from '../../utils/ast-utils';
+import { addImports, addPropToInterface, addGetterToClass } from '../../utils/ast-utils';
+import { addToModuleDecorator, addEntryToObjctLiteralVariable } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 import { existsConfigModule } from '../../utils/tree-utils';
 
 export interface ITypeormOptions {
-  db:
-    | 'postgres'
-    | 'cockroachdb'
-    | 'mariadb'
-    | 'mysql'
-    | 'sqlite'
-    | 'oracle'
-    | 'mssql'
-    | 'mongodb';
+  db: 'postgres' | 'cockroachdb' | 'mariadb' | 'mysql' | 'sqlite' | 'oracle' | 'mssql' | 'mongodb';
   path?: string;
 }
 
@@ -54,10 +39,7 @@ export function initTypeorm(options: ITypeormOptions): Rule {
         ]),
       ),
       (host: Tree): Tree => {
-        host.overwrite(
-          join((options.path || '.') as Path, 'package.json'),
-          updatePackageJson(host, options),
-        );
+        host.overwrite(join((options.path || '.') as Path, 'package.json'), updatePackageJson(host, options));
         return host;
       },
       addTypeormToCoreModule(options.path),
@@ -67,15 +49,10 @@ export function initTypeorm(options: ITypeormOptions): Rule {
 }
 
 function updatePackageJson(host: Tree, options: ITypeormOptions): string {
-  const content = JSON.parse(
-    host
-      .read(join((options.path || '.') as Path, 'package.json'))!
-      .toString('utf-8'),
-  );
+  const content = JSON.parse(host.read(join((options.path || '.') as Path, 'package.json'))!.toString('utf-8'));
   content.dependencies['@nestjs/typeorm'] = packagesVersion.nestjsTypeorm;
   content.dependencies.typeorm = packagesVersion.typeorm;
-  content.dependencies[packagesVersion.dbpackages[options.db][0]] =
-    packagesVersion.dbpackages[options.db][1];
+  content.dependencies[packagesVersion.dbpackages[options.db][0]] = packagesVersion.dbpackages[options.db][1];
 
   return JSON.stringify(content, null, 2);
 }
@@ -108,11 +85,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
         false,
       );
     } else {
-      fileContent = addImports(
-        fileContent,
-        'ConfigurationService',
-        './configuration/services',
-      );
+      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services');
       fileContent = addToModuleDecorator(
         fileContent,
         'CoreModule',
@@ -160,11 +133,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
   );
 
   let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(
-    configServiceContent,
-    'ConnectionOptions',
-    'typeorm',
-  );
+  configServiceContent = addImports(configServiceContent, 'ConnectionOptions', 'typeorm');
   configServiceContent = addGetterToClass(
     configServiceContent,
     'ConfigurationService',
@@ -177,32 +146,18 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
 }
 
 function updateConfigTypeFile(project: string | undefined, tree: Tree) {
-  const typesFile: Path = join(
-    (project || '.') as Path,
-    'src/app/core/configuration/model/types.ts',
-  );
+  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = addImports(
-    typesFileContent,
-    'ConnectionOptions',
-    'typeorm',
-  );
-  typesFileContent = addPropToInterface(
-    typesFileContent,
-    'IConfig',
-    'database',
-    'ConnectionOptions',
-  );
+  typesFileContent = addImports(typesFileContent, 'ConnectionOptions', 'typeorm');
+  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'database', 'ConnectionOptions');
 
   tree.overwrite(typesFile, typesFileContent);
 }
 
 function updateConfigFiles(project: string | undefined, tree: Tree) {
   const configDir: Path = join((project || '.') as Path, 'src/config');
-  const ormconfigContent = tree
-    .read(join((project || '.') as Path, 'ormconfig.json'))!
-    .toString('utf-8');
+  const ormconfigContent = tree.read(join((project || '.') as Path, 'ormconfig.json'))!.toString('utf-8');
 
   tree.getDir(configDir).subfiles.forEach(file => {
     tree.overwrite(
@@ -211,9 +166,7 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
         tree.read(join(configDir, file))!.toString('utf-8'),
         'def',
         'database',
-        file === 'default.ts'
-          ? 'require("../../ormconfig.json")'
-          : ormconfigContent,
+        file === 'default.ts' ? 'require("../../ormconfig.json")' : ormconfigContent,
       ),
     );
   });

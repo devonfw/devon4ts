@@ -1,22 +1,8 @@
 import { join, Path, strings } from '@angular-devkit/core';
-import {
-  apply,
-  branchAndMerge,
-  chain,
-  mergeWith,
-  move,
-  Rule,
-  template,
-  Tree,
-  url,
-} from '@angular-devkit/schematics';
+import { apply, branchAndMerge, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { packagesVersion } from '../packagesVersion';
-import {
-  addImports,
-  insertLinesToFunctionAfter,
-  addToModuleDecorator,
-} from '../../utils/ast-utils';
+import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
 
 interface IConfigOptions {
   name: string;
@@ -29,9 +15,7 @@ export function configModule(options: IConfigOptions): Rule {
   }
 
   return (host: Tree): Rule => {
-    options.name = JSON.parse(
-      host.read((options.path || '.') + '/package.json')!.toString('utf-8'),
-    ).name;
+    options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
 
     return chain([
       branchAndMerge(
@@ -46,10 +30,7 @@ export function configModule(options: IConfigOptions): Rule {
         ),
       ),
       (tree: Tree): Tree => {
-        tree.overwrite(
-          (options.path || '.') + '/package.json',
-          updatePackageJson(tree, options),
-        );
+        tree.overwrite((options.path || '.') + '/package.json', updatePackageJson(tree, options));
         return tree;
       },
       addToModule(options.path),
@@ -60,13 +41,8 @@ export function configModule(options: IConfigOptions): Rule {
 
 function updateMain(project: string): Rule {
   return (tree: Tree): Tree => {
-    let content = tree
-      .read((project || '.') + '/src/main.ts')!
-      .toString('utf-8');
-    content = content.replace(
-      'await app.listen(3000);',
-      'await app.listen(configModule.port);',
-    );
+    let content = tree.read((project || '.') + '/src/main.ts')!.toString('utf-8');
+    content = content.replace('await app.listen(3000);', 'await app.listen(configModule.port);');
     content = content.replace(
       // tslint:disable-next-line: quotemark
       "app.setGlobalPrefix('v1');",
@@ -80,17 +56,9 @@ function updateMain(project: string): Rule {
       'const configModule = app.select(ConfigurationModule).get(ConfigurationService);',
     );
 
-    content = addImports(
-      content,
-      'ConfigurationModule',
-      './app/core/configuration/configuration.module',
-    );
+    content = addImports(content, 'ConfigurationModule', './app/core/configuration/configuration.module');
 
-    content = addImports(
-      content,
-      'ConfigurationService',
-      './app/core/configuration/services',
-    );
+    content = addImports(content, 'ConfigurationService', './app/core/configuration/services');
 
     if (content) {
       tree.overwrite((project || '.') + '/src/main.ts', content);
@@ -100,9 +68,7 @@ function updateMain(project: string): Rule {
 }
 
 function updatePackageJson(host: Tree, _options: any): string {
-  const content = JSON.parse(
-    host.read((_options.path || '.') + '/package.json')!.toString('utf-8'),
-  );
+  const content = JSON.parse(host.read((_options.path || '.') + '/package.json')!.toString('utf-8'));
   content.dependencies.config = packagesVersion.config;
   content.devDependencies['@types/config'] = packagesVersion.typesConfig;
 

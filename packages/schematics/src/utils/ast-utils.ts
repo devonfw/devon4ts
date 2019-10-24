@@ -9,11 +9,7 @@ import {
   SourceFile,
 } from 'ts-morph';
 
-export function addImports(
-  fileContent: string,
-  importValues: string,
-  importFrom: string,
-): string {
+export function addImports(fileContent: string, importValues: string, importFrom: string): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -29,18 +25,12 @@ export function addImports(
   return tsFile.getText();
 }
 
-function addImportsFromTsFile(
-  tsFile: SourceFile,
-  importFrom: string,
-  importValues: string,
-) {
+function addImportsFromTsFile(tsFile: SourceFile, importFrom: string, importValues: string) {
   const importsDeclaration = tsFile
     .getImportDeclarations()
     .filter(e => e.getModuleSpecifier().getLiteralValue() === importFrom);
   if (importsDeclaration && importsDeclaration.length) {
-    const namedImports = importsDeclaration[0]
-      .getNamedImports()
-      .filter(e => e.getText() === importValues);
+    const namedImports = importsDeclaration[0].getNamedImports().filter(e => e.getText() === importValues);
     if (namedImports) {
       if (!namedImports.length) {
         importsDeclaration[0].addNamedImport(importValues);
@@ -56,11 +46,7 @@ function addImportsFromTsFile(
   }
 }
 
-export function addDefaultImports(
-  fileContent: string,
-  importValues: string,
-  importFrom: string,
-): string {
+export function addDefaultImports(fileContent: string, importValues: string, importFrom: string): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -101,24 +87,17 @@ export function addToModuleDecorator(
     addImportsFromTsFile(
       tsFile,
       moduleToInsert,
-      moduleNameToInsert.includes('.')
-        ? moduleNameToInsert.split('.')[0]
-        : moduleNameToInsert,
+      moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert,
     );
 
     const tsClass: ClassDeclaration = tsFile.getClassOrThrow(moduleNameToAdd);
-    const decorator = tsClass
-      .getDecorators()
-      .filter(value => value.getName() === 'Module')[0];
+    const decorator = tsClass.getDecorators().filter(value => value.getName() === 'Module')[0];
     const argument = decorator.getArguments()[0] as ObjectLiteralExpression;
     const importsArg = argument.getProperty(property);
 
     if (importsArg) {
       const importsArgs = importsArg.getStructure() as PropertyAssignmentStructure;
-      importsArgs.initializer = (importsArgs.initializer as string).replace(
-        '[',
-        '[ ' + moduleNameToInsert + ',',
-      );
+      importsArgs.initializer = (importsArgs.initializer as string).replace('[', '[ ' + moduleNameToInsert + ',');
       argument.getProperty(property)!.set(importsArgs as any);
     } else {
       argument.addProperty({
@@ -135,11 +114,7 @@ export function addToModuleDecorator(
         const exportsArgs = exportsArg.getStructure() as PropertyAssignmentStructure;
         exportsArgs.initializer = (exportsArgs.initializer as string).replace(
           '[',
-          '[ ' +
-            (moduleNameToInsert.includes('.')
-              ? moduleNameToInsert.split('.')[0]
-              : moduleNameToInsert) +
-            ',',
+          '[ ' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ',',
         );
         argument.getProperty('exports')!.set(exportsArgs as any);
       } else {
@@ -147,16 +122,11 @@ export function addToModuleDecorator(
           kind: 29,
           name: 'exports',
           initializer:
-            '[' +
-            (moduleNameToInsert.includes('.')
-              ? moduleNameToInsert.split('.')[0]
-              : moduleNameToInsert) +
-            ']',
+            '[' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ']',
         });
       }
     }
   } catch (e) {
-    console.log(e);
     return undefined;
   }
 
@@ -217,9 +187,7 @@ export function insertLinesToFunctionBefore(
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
 
   const bootstrapFunction = tsFile.getFunction(functionName);
-  const statement = bootstrapFunction!.getStatement(node =>
-    node.getText().includes(lineContains),
-  );
+  const statement = bootstrapFunction!.getStatement(node => node.getText().includes(lineContains));
 
   if (statement) {
     const statementIndex = statement.getChildIndex();
@@ -229,11 +197,7 @@ export function insertLinesToFunctionBefore(
   return tsFile.getFullText();
 }
 
-export function addTypeormFeatureToModule(
-  moduleToAddContent: string,
-  moduleNameToAdd: string,
-  entityName: string,
-) {
+export function addTypeormFeatureToModule(moduleToAddContent: string, moduleNameToAdd: string, entityName: string) {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -246,9 +210,7 @@ export function addTypeormFeatureToModule(
 
   try {
     const tsClass: ClassDeclaration = tsFile.getClassOrThrow(moduleNameToAdd);
-    const decorator = tsClass
-      .getDecorators()
-      .filter(value => value.getName() === 'Module')[0];
+    const decorator = tsClass.getDecorators().filter(value => value.getName() === 'Module')[0];
     const argument = decorator.getArguments()[0] as ObjectLiteralExpression;
     const importsArg = argument.getProperty('imports');
 
@@ -256,10 +218,7 @@ export function addTypeormFeatureToModule(
       const importsArgs = importsArg.getStructure() as PropertyAssignmentStructure;
       const initializer: string = importsArgs.initializer as string;
       if (!initializer.includes('TypeOrmModule.forFeature')) {
-        importsArgs.initializer = initializer.replace(
-          '[',
-          '[ TypeOrmModule.forFeature([' + entityName + ']),\n\r',
-        );
+        importsArgs.initializer = initializer.replace('[', '[ TypeOrmModule.forFeature([' + entityName + ']),\n\r');
         argument.getProperty('imports')!.set(importsArgs as any);
       } else {
         const regex = /TypeOrmModule\.forFeature\(\[([\s\S]*)\]\)/m;
@@ -306,9 +265,7 @@ export function addEntryToObjctLiteralVariable(
   const varDeclaration = tsFile.getVariableDeclaration(varName);
 
   if (varDeclaration) {
-    const object = varDeclaration.getInitializerIfKind(
-      SyntaxKind.ObjectLiteralExpression,
-    );
+    const object = varDeclaration.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
     if (object && !object.getProperty(propName)) {
       object.addPropertyAssignment({
@@ -321,12 +278,7 @@ export function addEntryToObjctLiteralVariable(
   return tsFile.getText();
 }
 
-export function addPropToInterface(
-  fileContent: string,
-  interfaceName: string,
-  propName: string,
-  propType: string,
-) {
+export function addPropToInterface(fileContent: string, interfaceName: string, propName: string, propType: string) {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
