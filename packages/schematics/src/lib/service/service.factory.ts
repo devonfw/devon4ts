@@ -1,15 +1,5 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
-import {
-  apply,
-  chain,
-  filter,
-  mergeWith,
-  move,
-  noop,
-  Rule,
-  template,
-  url,
-} from '@angular-devkit/schematics';
+import { apply, chain, filter, mergeWith, move, noop, Rule, template, url } from '@angular-devkit/schematics';
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { addToModuleDecorator } from '../../utils/ast-utils';
@@ -24,9 +14,7 @@ interface IServiceOptions {
 export function main(options: IServiceOptions): Rule {
   const name = strings.dasherize(basename(options.name as Path));
   const projectPath = options.path || '.';
-  const path: Path = strings.dasherize(
-    normalize(join(projectPath as Path, 'src/app', options.name, '..')),
-  ) as Path;
+  const path: Path = strings.dasherize(normalize(join(projectPath as Path, 'src/app', options.name, '..'))) as Path;
 
   return chain([
     mergeWith(
@@ -49,9 +37,7 @@ export function main(options: IServiceOptions): Rule {
 
 function updateModule(serviceName: string, modulePath: Path) {
   return (tree: Tree): Tree => {
-    const moduleName = strings.classify(
-      basename(modulePath as Path) + '-module',
-    );
+    const moduleName = strings.classify(basename(modulePath as Path) + '-module');
     const module = new ModuleFinder(tree).find({
       name: basename(modulePath as Path),
       path: modulePath as Path,

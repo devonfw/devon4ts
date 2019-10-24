@@ -32,10 +32,7 @@ export const command = 'generate [schematic]';
 export const describe = 'Generate code using a schematic.';
 export const aliases = ['g'];
 
-const schematicPath = join(
-  __dirname,
-  '../../node_modules/@devon4node/schematics/',
-);
+const schematicPath = join(__dirname, '../../node_modules/@devon4node/schematics/');
 
 const SCHEMATICS_FILE = 'schematics.devon4node.json';
 const tmpDir = process.env.TEMP || '/var/tmp';
@@ -63,8 +60,7 @@ export function builder(args: yargs.Argv) {
     .option('interactive', {
       alias: 'i',
       type: 'boolean',
-      description:
-        'Generate code using the interactive mode (same as new command).',
+      description: 'Generate code using the interactive mode (same as new command).',
     })
     .option('skip-install', {
       alias: 's',
@@ -104,19 +100,11 @@ export async function handler(args: yargs.Arguments) {
  * We show this information when we ask for help (--help)
  */
 function generateOptionsFile(): ISchematicsFile {
-  const packageFile: any = JSON.parse(
-    readFileSync(join(schematicPath, 'package.json')).toString(),
-  );
+  const packageFile: any = JSON.parse(readFileSync(join(schematicPath, 'package.json')).toString());
   try {
-    const schematicsFile: ISchematicsFile = JSON.parse(
-      readFileSync(join(tmpDir, SCHEMATICS_FILE)).toString(),
-    );
+    const schematicsFile: ISchematicsFile = JSON.parse(readFileSync(join(tmpDir, SCHEMATICS_FILE)).toString());
 
-    if (
-      schematicsFile &&
-      packageFile &&
-      packageFile.version === schematicsFile.version
-    ) {
+    if (schematicsFile && packageFile && packageFile.version === schematicsFile.version) {
       return schematicsFile;
     }
   } catch (e) {
@@ -135,30 +123,13 @@ function generateOptionsFile(): ISchematicsFile {
 
   if (collection.extends) {
     const packageExtends = JSON.parse(
-      readFileSync(
-        join(
-          __dirname,
-          '../../node_modules/',
-          collection.extends,
-          'package.json',
-        ),
-      ).toString(),
+      readFileSync(join(__dirname, '../../node_modules/', collection.extends, 'package.json')).toString(),
     );
 
-    const schematicsExtendsFile = join(
-      __dirname,
-      '../../node_modules/',
-      collection.extends,
-      packageExtends.schematics,
-    );
-    const schematicsExtends = JSON.parse(
-      readFileSync(schematicsExtendsFile).toString(),
-    ).schematics;
+    const schematicsExtendsFile = join(__dirname, '../../node_modules/', collection.extends, packageExtends.schematics);
+    const schematicsExtends = JSON.parse(readFileSync(schematicsExtendsFile).toString()).schematics;
 
-    parseSchematics(
-      schematicsExtends,
-      join(dirname(schematicsExtendsFile)),
-    ).forEach(elem => {
+    parseSchematics(schematicsExtends, join(dirname(schematicsExtendsFile))).forEach(elem => {
       newSchematics[elem.name] = elem;
     });
   }
@@ -179,18 +150,13 @@ function generateOptionsFile(): ISchematicsFile {
  * @param schematics The schematics collection file.
  * @param schematicsFolder The folder where the schematics are stored.
  */
-function parseSchematics(
-  schematics: any,
-  schematicsFolder: string,
-): ISchematicElement[] {
+function parseSchematics(schematics: any, schematicsFolder: string): ISchematicElement[] {
   const elements: ISchematicElement[] = [];
   Object.keys(schematics).forEach(e => {
     elements.push({
       name: e,
       description: schematics[e].description,
-      options: schematics[e].schema
-        ? parseSchematicOptions(join(schematicsFolder, schematics[e].schema))
-        : [],
+      options: schematics[e].schema ? parseSchematicOptions(join(schematicsFolder, schematics[e].schema)) : [],
     });
   });
 
@@ -209,9 +175,7 @@ function parseSchematicOptions(schemaPath: string): ISchematicOption[] {
       type: schemaTypeToYargsType(schema.properties[e].type),
       description: schema.properties[e].description,
       default: schema.properties[e].default,
-      required: schema.required
-        ? (schema.required as string[]).includes(e)
-        : false,
+      required: schema.required ? (schema.required as string[]).includes(e) : false,
     };
   });
 
@@ -246,18 +210,12 @@ function schemaTypeToYargsType(type: string) {
  * @param schematicName schematic name
  * @param schematicOptions schematic options
  */
-function generateBuilder(
-  schematicName: string,
-  schematicOptions: ISchematicOption[],
-) {
+function generateBuilder(schematicName: string, schematicOptions: ISchematicOption[]) {
   return (argv: yargs.Argv) => {
     return argv
       .usage(`Usage: $0 devon4node generate ${schematicName} [Options]`)
       .options(generateYargsOptions(schematicOptions))
-      .example(
-        `$0 devon4node generate ${schematicName}`,
-        `Generate all files for ${schematicName}`,
-      )
+      .example(`$0 devon4node generate ${schematicName}`, `Generate all files for ${schematicName}`)
       .version(false);
   };
 }
@@ -301,19 +259,13 @@ function generateYargsOptions(schematicOptions: ISchematicOption[]) {
  * @param schematicName schematic name
  * @param schemaOptions schematic options
  */
-function generateHandler(
-  schematicName: string,
-  schemaOptions: ISchematicOption[],
-) {
+function generateHandler(schematicName: string, schemaOptions: ISchematicOption[]) {
   return async (argv: yargs.Arguments) => {
     let schematicCollection = '@devon4node/schematics';
     try {
       schematicCollection =
-        JSON.parse(
-          readFileSync(
-            join((argv.path as string) || '.', 'nest-cli.json'),
-          ).toString(),
-        ).collection || schematicCollection;
+        JSON.parse(readFileSync(join((argv.path as string) || '.', 'nest-cli.json')).toString()).collection ||
+        schematicCollection;
     } catch (e) {
       // do nothing
     }

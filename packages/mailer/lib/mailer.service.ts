@@ -1,9 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { Transporter, SentMessageInfo, SendMailOptions } from 'nodemailer';
-import {
-  MAILER_OPTIONS_PROVIDER_NAME,
-  MAILER_TRANSPORT_PROVIDER_NAME,
-} from './mailer.constants';
+import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
 import { MailerModuleOptions, IHandlebarsOptions } from './mailer.types';
 import * as fs from 'fs-extra';
 import { join } from 'path';
@@ -47,11 +44,7 @@ export class MailerService implements OnModuleInit {
   }
 
   async sendPlainMail(emailOptions: SendMailOptions): Promise<SentMessageInfo>;
-  async sendPlainMail(
-    to: string,
-    subject: string,
-    mail: string,
-  ): Promise<SentMessageInfo>;
+  async sendPlainMail(to: string, subject: string, mail: string): Promise<SentMessageInfo>;
   async sendPlainMail(
     firstParam: string | SendMailOptions,
     secondParam?: string,
@@ -144,41 +137,26 @@ export class MailerService implements OnModuleInit {
         withFileTypes: true,
       });
       templates
-        .filter(
-          value =>
-            value.name.endsWith(this.hbsOptions!.extension!) && value.isFile(),
-        )
+        .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
         .forEach(element => {
-          this.templates[
-            element.name.substr(0, element.name.indexOf('.'))
-          ] = this.hbs.compile(
-            fs
-              .readFileSync(join(this.hbsOptions.templatesDir, element.name))
-              .toString(),
+          this.templates[element.name.substr(0, element.name.indexOf('.'))] = this.hbs.compile(
+            fs.readFileSync(join(this.hbsOptions.templatesDir, element.name)).toString(),
           );
         });
     }
   }
 
   private addPartials() {
-    if (
-      this.hbsOptions.partialsDir &&
-      fs.existsSync(this.hbsOptions.partialsDir)
-    ) {
+    if (this.hbsOptions.partialsDir && fs.existsSync(this.hbsOptions.partialsDir)) {
       const partials = fs.readdirSync(this.hbsOptions!.partialsDir, {
         withFileTypes: true,
       });
       partials
-        .filter(
-          value =>
-            value.name.endsWith(this.hbsOptions!.extension!) && value.isFile(),
-        )
+        .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
         .forEach(element => {
           this.hbs.registerPartial(
             element.name.substr(0, element.name.indexOf('.')),
-            fs
-              .readFileSync(join(this.hbsOptions.partialsDir!, element.name))
-              .toString(),
+            fs.readFileSync(join(this.hbsOptions.partialsDir!, element.name)).toString(),
           );
         });
     }

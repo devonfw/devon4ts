@@ -1,8 +1,8 @@
-import { GuardOptions } from '@nestjs/schematics/lib/guard/guard.schema';
+import { PipeOptions } from '@nestjs/schematics/lib/pipe/pipe.schema';
 import { externalSchematic, move, chain } from '@angular-devkit/schematics';
 import { join, Path, strings, basename, dirname } from '@angular-devkit/core';
 
-export function main(options: GuardOptions) {
+export function main(options: PipeOptions) {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {
@@ -14,14 +14,14 @@ export function main(options: GuardOptions) {
   const base = strings.dasherize(basename(newOptions.name as Path));
 
   return chain([
-    externalSchematic('@nestjs/schematics', 'guard', newOptions),
+    externalSchematic('@nestjs/schematics', 'pipe', newOptions),
     move(
-      strings.dasherize(join(path as Path, dir, base + '.guard.ts')),
-      strings.dasherize(join(path as Path, dir, 'guards', base + '.guard.ts')),
+      strings.dasherize(join(path as Path, dir, base + '.pipe.ts')),
+      strings.dasherize(join(path as Path, dir, 'pipes', base + '.pipe.ts')),
     ),
     move(
-      strings.dasherize(join(path as Path, dir, base + '.guard.spec.ts')),
-      strings.dasherize(join(path as Path, dir, 'guards', base + '.guard.spec.ts')),
+      strings.dasherize(join(path as Path, dir, base + '.pipe.spec.ts')),
+      strings.dasherize(join(path as Path, dir, 'pipes', base + '.pipe.spec.ts')),
     ),
   ]);
 }

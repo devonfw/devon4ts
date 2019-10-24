@@ -70,8 +70,6 @@ interface IHelperFunction {
 export type MailerModuleAsyncOptions = IMailerModuleAsyncOptions;
 
 interface IMailerModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
-  useFactory: (
-    ...args: any[]
-  ) => Promise<MailerModuleOptions> | MailerModuleOptions;
+  useFactory: (...args: any[]) => Promise<MailerModuleOptions> | MailerModuleOptions;
   inject?: any[];
 }

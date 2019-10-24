@@ -7,9 +7,7 @@ interface IAllInOne {
 }
 
 export function allInOne(options: IAllInOne): Rule {
-  const schematics = JSON.parse(
-    readFileSync(options.path || DEFAULT_PATH).toString('utf-8'),
-  );
+  const schematics = JSON.parse(readFileSync(options.path || DEFAULT_PATH).toString('utf-8'));
 
   const rules = schematics.map((e: any) => {
     return schematic(e.name, e.options);

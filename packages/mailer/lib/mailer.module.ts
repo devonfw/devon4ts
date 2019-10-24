@@ -1,10 +1,7 @@
 import { DynamicModule, Module, OnModuleDestroy } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import * as nodemailer from 'nodemailer';
-import {
-  MAILER_TRANSPORT_PROVIDER_NAME,
-  MAILER_OPTIONS_PROVIDER_NAME,
-} from './mailer.constants';
+import { MAILER_TRANSPORT_PROVIDER_NAME, MAILER_OPTIONS_PROVIDER_NAME } from './mailer.constants';
 import { MailerService } from './mailer.service';
 import { MailerModuleOptions, MailerModuleAsyncOptions } from './mailer.types';
 
@@ -46,9 +43,7 @@ export class MailerModule implements OnModuleDestroy {
   static forRootAsync(options: MailerModuleAsyncOptions): DynamicModule {
     const transportProvider = {
       provide: MAILER_TRANSPORT_PROVIDER_NAME,
-      useFactory: (
-        mailerOptions: MailerModuleOptions,
-      ): nodemailer.Transporter => {
+      useFactory: (mailerOptions: MailerModuleOptions): nodemailer.Transporter => {
         const opts = mailerOptions || this.defaultOptions;
         return nodemailer.createTransport(opts.mailOptions);
       },
@@ -70,9 +65,7 @@ export class MailerModule implements OnModuleDestroy {
   }
 
   onModuleDestroy() {
-    const transport = this.moduleRef.get<nodemailer.Transporter>(
-      MAILER_TRANSPORT_PROVIDER_NAME,
-    );
+    const transport = this.moduleRef.get<nodemailer.Transporter>(MAILER_TRANSPORT_PROVIDER_NAME);
     transport.close();
   }
 }

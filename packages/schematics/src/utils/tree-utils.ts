@@ -1,11 +1,9 @@
 import { Tree } from '@angular-devkit/schematics';
 import { join, Path } from '@angular-devkit/core';
+import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { basename } from 'path';
 
-export function addBarrels(
-  tree: Tree,
-  path: string,
-  barrels: string | string[],
-): Tree {
+export function addBarrels(tree: Tree, path: string, barrels: string | string[]): Tree {
   const exportSentence = 'export * from ';
   const indexPath = join(path as Path, 'index.ts');
 
@@ -37,4 +35,13 @@ export function addBarrels(
   tree.overwrite(indexPath, content);
 
   return tree;
+}
+
+export function existsConfigModule(tree: Tree, path: string): boolean {
+  const config = new ModuleFinder(tree).find({
+    name: 'configuration',
+    path: join('.' as Path, path || '.', 'src/app/core/configuration') as Path,
+  });
+
+  return !!config && basename(config) === 'configuration.module.ts';
 }

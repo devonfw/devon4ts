@@ -1,27 +1,11 @@
-import {
-  Rule,
-  chain,
-  Tree,
-  mergeWith,
-  apply,
-  url,
-  template,
-  move,
-  forEach,
-} from '@angular-devkit/schematics';
+import { Rule, chain, Tree, mergeWith, apply, url, template, move, forEach } from '@angular-devkit/schematics';
 import { join, Path } from '@angular-devkit/core';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
-import {
-  addPropToInterface,
-  addToModuleDecorator,
-} from '../../utils/ast-utils';
+import { addPropToInterface, addToModuleDecorator } from '../../utils/ast-utils';
 import { mergeDockerFiles } from '../../utils/merge';
 import { packagesVersion } from '../packagesVersion';
-import {
-  addImports,
-  addGetterToClass,
-  addEntryToObjctLiteralVariable,
-} from '../../utils/ast-utils';
+import { existsConfigModule } from '../../utils/tree-utils';
+import { addImports, addGetterToClass, addEntryToObjctLiteralVariable } from '../../utils/ast-utils';
 
 interface IMailerOptions {
   path?: string;
@@ -69,8 +53,7 @@ function updatePackageJson(path: string) {
     const packageJsonPath = join(path as Path, 'package.json');
     const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
 
-    packageJson.dependencies['@devon4node/mailer'] =
-      packagesVersion.devon4nodeMailer;
+    packageJson.dependencies['@devon4node/mailer'] = packagesVersion.devon4nodeMailer;
 
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
@@ -80,10 +63,7 @@ function updatePackageJson(path: string) {
 
 function addMailerToProject(path: string) {
   return (tree: Tree): Tree => {
-    const config = new ModuleFinder(tree).find({
-      name: 'configuration',
-      path: join(path as Path, 'src/app/core/', 'configuration') as Path,
-    });
+    const config = existsConfigModule(tree, path || '.');
     if (!config) {
       addMailerToCoreModule(path, tree, false);
       return tree;
@@ -98,11 +78,7 @@ function addMailerToProject(path: string) {
   };
 }
 
-function addMailerToCoreModule(
-  path: string,
-  tree: Tree,
-  existsConfig: boolean,
-) {
+function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean) {
   const core = new ModuleFinder(tree).find({
     name: 'core',
     path: join(path as Path, 'src/app/core') as Path,
@@ -118,11 +94,7 @@ function addMailerToCoreModule(
   }
 
   if (existsConfig) {
-    coreContent = addImports(
-      coreContent,
-      'ConfigurationService',
-      './configuration/services',
-    );
+    coreContent = addImports(coreContent, 'ConfigurationService', './configuration/services');
     coreContent = addToModuleDecorator(
       coreContent,
       'CoreModule',
@@ -154,17 +126,10 @@ function addMailerToCoreModule(
 }
 
 function updateConfigurationService(project: string, tree: Tree) {
-  const configServicePath = join(
-    project as Path,
-    'src/app/core/configuration/services/configuration.service.ts',
-  );
+  const configServicePath = join(project as Path, 'src/app/core/configuration/services/configuration.service.ts');
 
   let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(
-    configServiceContent,
-    'MailerModuleOptions',
-    '@devon4node/mailer',
-  );
+  configServiceContent = addImports(configServiceContent, 'MailerModuleOptions', '@devon4node/mailer');
   configServiceContent = addGetterToClass(
     configServiceContent,
     'ConfigurationService',
@@ -177,23 +142,11 @@ function updateConfigurationService(project: string, tree: Tree) {
 }
 
 function updateConfigTypeFile(project: string | undefined, tree: Tree) {
-  const typesFile: Path = join(
-    (project || '.') as Path,
-    'src/app/core/configuration/model/types.ts',
-  );
+  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = addImports(
-    typesFileContent,
-    'MailerModuleOptions',
-    '@devon4node/mailer',
-  );
-  typesFileContent = addPropToInterface(
-    typesFileContent,
-    'IConfig',
-    'mailerConfig',
-    'MailerModuleOptions',
-  );
+  typesFileContent = addImports(typesFileContent, 'MailerModuleOptions', '@devon4node/mailer');
+  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'mailerConfig', 'MailerModuleOptions');
 
   tree.overwrite(typesFile, typesFileContent);
 }
@@ -205,12 +158,7 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
     let fileContent = tree.read(join(configDir, file))!.toString('utf-8');
     fileContent = addImports(fileContent, 'join', 'path');
 
-    fileContent = addEntryToObjctLiteralVariable(
-      fileContent,
-      'def',
-      'mailerConfig',
-      defaultMailerValues,
-    );
+    fileContent = addEntryToObjctLiteralVariable(fileContent, 'def', 'mailerConfig', defaultMailerValues);
 
     tree.overwrite(join(configDir, file), fileContent);
   });

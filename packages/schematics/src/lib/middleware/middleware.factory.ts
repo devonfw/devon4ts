@@ -4,9 +4,7 @@ import { MiddlewareOptions } from '@nestjs/schematics/lib/middleware/middleware.
 
 export function main(options: MiddlewareOptions) {
   const newOptions = { ...options };
-  newOptions.name = options.name.startsWith('app/')
-    ? options.name
-    : 'app/' + options.name;
+  newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {
     newOptions.path = join(options.path as Path, 'src');
   }
@@ -18,12 +16,12 @@ export function main(options: MiddlewareOptions) {
   return chain([
     externalSchematic('@nestjs/schematics', 'middleware', newOptions),
     move(
-      join(path as Path, dir, base + '.middleware.ts'),
-      join(path as Path, dir, 'middlewares', base + '.middleware.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.middleware.ts')),
+      strings.dasherize(join(path as Path, dir, 'middlewares', base + '.middleware.ts')),
     ),
     move(
-      join(path as Path, dir, base + '.middleware.spec.ts'),
-      join(path as Path, dir, 'middlewares', base + '.middleware.spec.ts'),
+      strings.dasherize(join(path as Path, dir, base + '.middleware.spec.ts')),
+      strings.dasherize(join(path as Path, dir, 'middlewares', base + '.middleware.spec.ts')),
     ),
   ]);
 }
