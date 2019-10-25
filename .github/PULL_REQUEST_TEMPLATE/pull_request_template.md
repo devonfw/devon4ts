@@ -1,5 +1,0 @@
-**Adresses/Fixes** #<ISSUENO>.
-
-**Implements**
-
-* 
