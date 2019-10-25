@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import * as yargs from 'yargs';
-import { executeCollection, prettifyCode } from '../utils/utils';
+import { executeCollection, prettifyCode, installPackages } from '../utils/utils';
 import { generateCodeInteractive } from './new.command';
 
 interface ISchematicsFile {
@@ -27,6 +27,8 @@ const paramAliases: any = {
   name: 'n',
   path: 'p',
 };
+
+const installAfterGenerate = ['typeorm', 'config-module', 'crud', 'mailer', 'swagger', 'auth-jwt', 'security'];
 
 export const command = 'generate [schematic]';
 export const describe = 'Generate code using a schematic.';
@@ -281,6 +283,10 @@ function generateHandler(schematicName: string, schemaOptions: ISchematicOption[
     });
 
     await executeCollection(args);
+
+    if (installAfterGenerate.includes(schematicName)) {
+      installPackages(argv.path as string);
+    }
 
     prettifyCode(argv.path as string);
   };
