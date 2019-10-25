@@ -1,0 +1,73 @@
+:toc: macro
+toc::[]
+
+= devon4node Samples
+
+In the folder /samples, you can find some devon4node examples that could be useful for you in order to understand better the framework.
+
+The samples are:
+
+* link:https://github.com/devonfw/devon4node/tree/develop/samples/todo[Todo]
+* link:https://github.com/devonfw/devon4node/tree/develop/samples/employee[Employee]
+* link:https://github.com/devonfw/devon4node/tree/develop/samples/components-example[Components example]
+
+Also, we have another realistic example in the link:https://github.com/devonfw/my-thai-star/tree/develop/node[My Thai Star repository]. This example is the implementation of My Thai Star backend, which is compatible with the frontend made with Angular. To do that, this node implementation exposes the same API as Java backend. Take care with this example, as we need to follow the Java API, some components do not follow the devon4node patterns and code conventions.
+
+== Todo example
+
+This example is the backend part of an TO-DO application. It exposes and API where you can create, read, update and delete a TO-DO list.
+
+In order to start the application, run the following commands in the todo folder:
+
+[source,bash]
+----
+$ yarn
+$ yarn build
+$ yarn start
+----
+
+Now, you can acces to the application using the url `http://localhost:3000/v1/todo/todos`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:3000/v1/api`.
+
+Also, in this example we show you how to control the access to you application by implementing an authentication mechanism using JWT and rol based strategy. In order to access to the list of todos (`http://localhost:3000/v1/todo/todos`), first you need to call to `POST http://localhost:3000/v1/auth/login` and in the body you need to send the user information:
+
+----
+{
+  "username": "user",
+  "password": "password"
+}
+----
+
+It will return a JWT token for the user `user`. The rol of this user is USER, so you can only access to the methods GET, POST and DELETE of the endpoint `http://localhost:3000/v1/todo/todos`. If you login with the user admin/admin, you will be able to access to the methods UPDATE and PATCH.
+
+== Employee example
+
+This is an example of employee management application. With the application you can create, read, update and delete employees.
+
+In order to start the application, run the following commands in the todo folder:
+
+[source,bash]
+----
+$ yarn
+$ yarn build
+$ yarn start
+----
+
+Now, you can acces to the application using the url `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
+
+This is a simple example without authentication. With this example you can learn how to work with database migrations. You can find them in the folder /src/migrations. The TypeORM is configured in order to execute the migrations every time that you start this application (`"migrationsRun": true` at ormconfig.json). You can also execute the migration manually by typing the command `devon4node db migration:run`, or revert executing `devon4node db migration:revert`. Take into account that the database that this application is using is an in-memory sqlite, so every time that you stop the application all data is lost.
+
+== Components example
+
+This example allow you to understand better the execution order of the components of a devon4node application (guards, pipes, interceptors, filters, middlewares).
+
+In order to start the application, run the following commands in the todo folder:
+
+[source,bash]
+----
+$ yarn
+$ yarn build
+$ yarn start
+----
+
+In order to see the execution order, you can call to `http://localhost:3000/v1`. It will show you the execution order of all components except the filters. If you want to know the execution order while a filter is applied, call to the endpoint with the following queries: `?hello=error`, `?hello=controller`, `?hello=global`.
+
