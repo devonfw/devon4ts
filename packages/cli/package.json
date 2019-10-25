@@ -1,0 +1,60 @@
+{
+  "name": "@devon4node/cli",
+  "version": "1.0.0",
+  "description": "devon4node CLI",
+  "bin": {
+    "devon4node": "./bin/devon4node",
+    "d4n": "./bin/devon4node"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:prod": "tsc -p tsconfig.prod.json",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "npm run build && jasmine src/**/*.spec.js",
+    "prepublish:npm": "npm run build",
+    "publish:npm": "npm publish --access public",
+    "prepublish:next": "npm run build",
+    "publish:next": "npm publish --access public --tag next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devonfw/devon4node"
+  },
+  "contributors": [
+    "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/devonfw/devon4node/issues"
+  },
+  "homepage": "https://github.com/devonfw/devon4node",
+  "keywords": [
+    "devon4node",
+    "CLI"
+  ],
+  "author": {
+    "name": "Capgemini",
+    "url": "https://www.capgemini.com/"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^12.11.5",
+    "@types/node-fetch": "^2.5.2",
+    "@types/yargs": "^13.0.3",
+    "prettier": "^1.18.2",
+    "tslint": "^5.20.0"
+  },
+  "dependencies": {
+    "@angular-devkit/schematics-cli": "^0.803.13",
+    "@devon4node/schematics": "1.0.0-beta.1",
+    "@nestjs/cli": "^6.10.5",
+    "chalk": "^2.4.2",
+    "inquirer": "^7.0.0",
+    "node-fetch": "^2.6.0",
+    "rxjs": "^6.5.3",
+    "tmp-promise": "^2.0.2",
+    "typeorm": "^0.2.20",
+    "yargs": "^14.2.0"
+  }
+}

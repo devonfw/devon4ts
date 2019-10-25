@@ -1,0 +1,13 @@
+# Ignores TypeScript files, but keeps definitions.
+*.ts
+!*.d.ts
+.github/
+.vscode/
+
+src/
+node_modules/
+
+tsconfig*
+yarn-error.log
+
+testing/

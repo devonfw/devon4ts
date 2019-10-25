@@ -1,0 +1,74 @@
+:toc: macro
+toc::[]
+
+= Key Principles
+
+devon4node is built following some basic principles like:
+
+- link:https://en.wikipedia.org/wiki/SOLID[SOLID]
+- link:https://en.wikipedia.org/wiki/Software_design_pattern[Patterns]
+- link:https://en.wikipedia.org/wiki/Open-source_model[Open]
+
+But key principles that best define devon4node (and are inherited from NestJS) are:
+
+- Simplicity (aka link:https://en.wikipedia.org/wiki/KISS_principle[KISS])
+- Reusability
+- Productivity
+
+== Simplicity
+
+In devon4node we tryed to do everything as simple as possible. Following this princible we will be able to do easy to mantain applications.
+
+For example, in order to expose all CRUD operations for an entity, you only need to create a controller like:
+
+[source,typescript]
+----
+@Crud({
+  model: {
+    type: Employee,
+  },
+})
+@CrudType(Employee)
+@Controller('employee/employees')
+export class EmployeeCrudController {
+  constructor(public service: EmployeeCrudService) {}
+}
+----
+
+You can find this code in the link:samples[employee example]. Only with this code your exposing the full CRUD operations for the employee entity. As you can see, it's an empty class with some decorators and the `EmployeeCrudService` inyected as dependency. Simple, isn't it? The `EmployeeCrudService` is also simple:
+
+[source,typescript]
+----
+@Injectable()
+export class EmployeeCrudService extends TypeOrmCrudService<Employee> {
+  constructor(@InjectRepository(Employee) repo: Repository<Employee>) {
+    super(repo);
+  }
+}
+----
+
+Another empty class which extends from `TypeOrmCrudService<Employee>` and injects the Employee Repository as dependency. Nothing else.
+
+With these examples you can get an idea of how simple it can be to code a devon4node application .
+
+== Reusability
+
+NestJS (and devon4node) applications are designed in a modular way. This allows you to isolate some functionality in a module, and then reuse it in every application that you need. This is the same behaviour that Angular has. You can see it in the NestJS modules like link:https://github.com/nestjs/typeorm[TypeORM], link:https://github.com/nestjs/swagger[Swagger] and others. Also, in devon4node we have the link:https://www.npmjs.com/package/@devon4node/mailer[Mailer module].
+
+In your applications, you only need to import those modules and then you will be able to use the functionality that they implement. Example
+
+[source,typescript]
+----
+@Module({
+  imports: [ AuthModule, ConfigurationModule ],
+})
+export class SomeModule {}
+----
+
+== Productivity
+
+devon4node is designed to create secure enterprise applications. But also, it allow you to do it in a fast way. To increase the productivity devon4node, devon4node provide a CLI with some commands in order to generate some boilerplate code.
+
+For example, to create a module you need to create a new file for a module (or copy it) and write the code, then you need to import it in the AppModule. This is a easy example, but you can introduce some errors: forget to import it in the AppModule, introduce errors with the copy/paste and so on. By using the command `devon4node g module --name <module-name>` it will do everything for you. Just a simple command. In this specific case probably you do not see any advantage, but there are other complex cases where you can generate more complex code with the `devon4node` command.
+
+See link:guides-cli[CLI] and link:guides-code-generation[code generation] in order to know how to increase your productivity creating devon4node applications.

@@ -1,0 +1,322 @@
+:toc: macro
+toc::[]
+
+= devon4node CLI
+
+|====
+| *Arguments*    | *Description*
+|--help, -h      | Shows help
+|-v, --version   | Shows version number
+|====
+
+== new
+
+|========
+| *Arguments*           | *Description*
+| --no-interactive, -n  | Execute the command without ask anything to the user 
+| --dry-run, -d         | Allow to test changes before execute command.  
+| --skip-git, -g        | Allow to skip git repository initialization.  
+| --skip-install, -s    | Allow to skip package installation.  
+|========
+
+== generate
+
+|========
+| *Arguments*           | *Description* 
+| --skip-install, -s    | Allow to skip package installation. 
+| --dry-run, -d         | Allow to test changes before execute command. 
+| --path, -p            | Path to project.  
+|========
+
+=== application
+Create a devon4node application.
+
+|========
+| *Arguments*           | *Description*
+| --skip-install, -s    | Allow to skip package installation. 
+| --dry-run, -d, -d     | Allow to test changes before execute command. 
+| --path, -p            | Path to project.  
+| --name, -n            | The name of the application.  
+|========
+
+=== angular-app
+Create a new Angular application.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command. 
+| --path, -p            | Path to project.  
+| --initApp             | Flag to skip the angular application generation.  
+| --name, -n            | The name of the application.  
+|========
+
+=== class
+Create a new class.
+
+|========
+| *Arguments*           | *Description*
+|--dry-run, -d, -d      | Allow to test changes before execute command.
+|--path, -p, -p         | The path to create the class.
+|--name, -n             | The name of the class.
+|--flat                 | Flag to indicate if a directory is created.
+|--spec                 | Specifies if a spec file is generated.
+|--language             | Nest class language (ts/js).
+|--sourceRoot           | Nest controller source root directory.
+|========
+
+=== controller
+Create a Nest controller.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command. 
+| --path, -p, -p        | The path to create the controller.  
+| --name, -n            |  The name of the controller.  
+| --spec                | Specifies if a spec file is generated. 
+|========
+
+=== decorator
+Create a Nest decorator.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command. 
+| --path, -p, -p        | The path to create the decorator.  
+| --name, -n            | The name of the decorator.  
+| --language            | Nest decorator language (ts/js).  
+| --sourceRoot          | Nest decorator source root directory.  
+| --flat                | Flag to indicate if a directory is created.
+|========
+
+=== filter
+Create a Nest filter.
+
+|========
+| *Arguments*           | *Description*
+|--dry-run, -d, -d      | Allow to test changes before execute command.
+|--path, -p, -p         | The path to create the filter.
+|--name, -n             | The name of the filter.
+|--language             | Nest filter language (ts/js).
+|--sourceRoot           | Nest filter source root directory.
+|--flat                 | Flag to indicate if a directory is created.
+|--spec                 | Specifies if a spec file is generated.
+|========
+
+=== gateway
+Create a Nest gateway.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command.
+| --path, -p, -p        | The path to create the gateway.
+| --name, -n            | The name of the gateway.
+| --language            | Nest gateway language (ts/js).
+| --sourceRoot          | Nest gateway source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
+|========
+
+=== guard
+Create a Nest guard.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command.
+| --path, -p, -p        | The path to create the guard.
+| --name, -n            | The name of the guard.
+| --language            | Nest guard language (ts/js).
+| --sourceRoot          | Nest guard source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
+|========
+
+=== interceptor
+Create a Nest interceptor.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command.
+| --path, -p, -p        | The path to create the interceptor.
+| --name, -n            | The name of the interceptor.
+| --language            | Nest interceptor language (ts/js). 
+| --sourceRoot          | Nest interceptor source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
+|========
+
+=== interface
+Create a Nest interface.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command.
+| --path, -p, -p        | The path to create the interface.
+| --name, -n            | The name of the interface.
+| --sourceRoot          | Nest interface source root directory
+| --flat                | Flag to indicate if a directory is created.
+|========
+
+=== middleware
+Create a Nest middleware.
+
+|========
+| *Arguments*           | *Description*
+| --dry-run, -d, -d     | Allow to test changes before execute command.
+| --path, -p, -p        | The path to create the middleware.
+| --name, -n            | The name of the middleware.
+| --language            | Nest middleware language (ts/js).
+| --sourceRoot          | Nest middleware source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
+|========
+
+=== module
+Create a Nest module.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== pipe
+Create a Nest pipe.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== provider
+Create a Nest provider.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== service
+Create a Nest service.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== resolver
+Create a Nest resolver.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== configuration
+Create a Nest CLI configuration.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== library
+Create a Nest library (mono-repo).
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== sub-app
+Create a Nest application (mono-repo).
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== typeorm
+Initialice typeorm into your current project in a correct way.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== entity
+Add a TypeOrm entity to your project
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== config-module
+Add the config module to the project.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== crud
+Generate CRUD methods for a entity.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== mailer
+Add @devon4node/mailer module to project.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== swagger
+Add swagger module to project.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== auth-jwt
+Add the auth JWT module to the project.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== all-in-one
+Execute multiple schematics at the same time.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+=== security
+Add cors and helmet to your project.
+
+|========
+| *Arguments*           | *Description*
+|========
+
+
+== db
+
+
+###-begin-devon4node-completions-###
+#
+# yargs command completion script
+#
+# Installation: bin\devon4node completion >> ~/.bashrc
+#    or bin\devon4node completion >> ~/.bash_profile on OSX.
+#
+_yargs_completions()
+{
+  local cur_word args type_list
+
+  cur_word="${COMP_WORDS[COMP_CWORD]}"
+  args=("${COMP_WORDS[@]}")
+
+  # ask yargs to generate completions.
+  type_list=$(devon4node --get-yargs-completions "${args[@]}")
+
+  COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
+
+  # if no match was found, fall back to filename completion
+  if [ ${#COMPREPLY[@]} -eq 0 ]; then
+    COMPREPLY=()
+  fi
+
+  return 0
+}
+complete -o default -F _yargs_completions devon4node
