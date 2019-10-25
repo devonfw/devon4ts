@@ -1,0 +1,44 @@
+@startuml modules
+
+title Dependency Injection wtih global module
+
+left to right direction
+skinparam rectangle {
+	roundCorner<<module>> 25
+	roundCorner<<global>> 25
+}
+
+rectangle moduleA <<module>> [
+  Module A
+]
+
+rectangle moduleB <<module>> [
+  Module B
+]
+
+rectangle moduleC <<global>> [
+  Module C
+]
+
+rectangle moduleD <<module>> [
+  Module D
+]
+
+rectangle moduleE <<module>> [
+  Module E
+]
+
+rectangle moduleF <<module>> [
+  Module F
+]
+
+moduleA --> moduleB
+moduleA --> moduleE
+moduleA --> moduleF
+moduleB --> moduleD
+moduleA --> moduleC
+moduleB --> moduleC
+moduleD --> moduleC
+moduleE --> moduleC
+moduleF --> moduleC
+@enduml

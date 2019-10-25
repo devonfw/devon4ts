@@ -1,7 +1,6 @@
 {
-  "folders": [
-    {
-      "path": "./packages/devon4node"
+  "folders": [{
+      "path": "./packages/cli"
     },
     {
       "path": "./packages/schematics"
@@ -10,7 +9,10 @@
       "path": "./packages/mailer"
     },
     {
-      "path": "./samples/todo-app"
+      "path": "packages/common"
+    },
+    {
+      "path": "./scripts"
     },
     {
       "path": "./documentation"
@@ -18,5 +20,8 @@
     {
       "path": "./.travis.yml"
     }
-  ]
+  ],
+  "settings": {
+    "editor.formatOnSave": true
+  }
 }
