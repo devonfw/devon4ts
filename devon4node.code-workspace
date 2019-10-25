@@ -16,6 +16,9 @@
     },
     {
       "path": "./documentation"
+    },
+    {
+      "path": "./.travis.yml"
     }
   ],
   "settings": {
