@@ -1,0 +1,39 @@
+:toc: macro
+toc::[]
+
+= devon4node
+
+link:https://www.devonfw.com/[devonfw] is a platform which provides solutions to building business applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions. devonfw is 100% Open Source (Apache License version 2.0) since the beginning of 2018.
+
+devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
+
+devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications. It uses progressive TypeScript and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).
+
+include::devon4node-architecture[leveloffset=1]
+
+== Layers
+
+include::layer-controller[leveloffset=2]
+include::layer-service[leveloffset=2]
+include::layer-dataaccess[leveloffset=2]
+
+== Guides
+
+include::guides-key-principles[leveloffset=2]
+include::guides-cli[leveloffset=2]
+include::guides-code-generation[leveloffset=2]
+include::guides-coding-conventions[leveloffset=2]
+include::guides-dependency-injection[leveloffset=2]
+include::guides-configuration-module[leveloffset=2]
+include::guides-auth-jwt[leveloffset=2]
+include::guides-swagger[leveloffset=2]
+include::guides-typeorm[leveloffset=2]
+include::guides-entities[leveloffset=2]
+include::guides-serializer[leveloffset=2]
+include::guides-validation[leveloffset=2]
+include::guides-logger[leveloffset=2]
+include::guides-mailer[leveloffset=2]
+
+== devon4node applications
+
+include::samples[leveloffset=2]

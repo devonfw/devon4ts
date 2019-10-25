@@ -1,0 +1,24 @@
+{
+  "folders": [{
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/schematics"
+    },
+    {
+      "path": "./packages/mailer"
+    },
+    {
+      "path": "packages/common"
+    },
+    {
+      "path": "./scripts"
+    },
+    {
+      "path": "./documentation"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true
+  }
+}

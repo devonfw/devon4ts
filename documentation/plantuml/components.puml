@@ -1,0 +1,40 @@
+@startuml componets
+agent client as cli
+
+rectangle middleware [
+  global middleware
+  ----
+  module middleware
+]
+
+rectangle guard [
+  global guard
+  ----
+  controller guard
+]
+
+rectangle interceptor [
+  global interceptor
+  ----
+  controller interceptor
+  ----
+  handler interceptor
+]
+
+rectangle pipe [
+  global pipe
+  ----
+  handler pipe
+]
+
+agent "handler function" as handler
+
+cli ..> middleware
+middleware ..> guard
+guard ..> interceptor : intercept the\n request
+interceptor ..> pipe
+pipe ..> handler
+handler ..> interceptor : intercept the response
+interceptor ..> cli
+
+@enduml
