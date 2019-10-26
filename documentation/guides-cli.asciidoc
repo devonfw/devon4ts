@@ -13,19 +13,19 @@ toc::[]
 
 |========
 | *Arguments*           | *Description*
-| --no-interactive, -n  | Execute the command without ask anything to the user 
-| --dry-run, -d         | Allow to test changes before execute command.  
-| --skip-git, -g        | Allow to skip git repository initialization.  
-| --skip-install, -s    | Allow to skip package installation.  
+| --no-interactive, -n  | Execute the command without ask anything to the user
+| --dry-run             | Allow to test changes before execute command.
+| --skip-git, -g        | Allow to skip git repository initialization.
+| --skip-install, -s    | Allow to skip package installation.
 |========
 
 == generate
 
 |========
-| *Arguments*           | *Description* 
-| --skip-install, -s    | Allow to skip package installation. 
-| --dry-run, -d         | Allow to test changes before execute command. 
-| --path, -p            | Path to project.  
+| *Arguments*           | *Description*
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run             | Allow to test changes before execute command.
+| --path,               | Path to project.
 |========
 
 === application
@@ -33,10 +33,10 @@ Create a devon4node application.
 
 |========
 | *Arguments*           | *Description*
-| --skip-install, -s    | Allow to skip package installation. 
-| --dry-run, -d, -d     | Allow to test changes before execute command. 
-| --path, -p            | Path to project.  
-| --name, -n            | The name of the application.  
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path,               | Path to project.
+| --name, -n            | The name of the application.
 |========
 
 === angular-app
@@ -44,10 +44,10 @@ Create a new Angular application.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command. 
-| --path, -p            | Path to project.  
-| --initApp             | Flag to skip the angular application generation.  
-| --name, -n            | The name of the application.  
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path,               | Path to project.
+| --initApp             | Flag to skip the angular application generation.
+| --name, -n            | The name of the application.
 |========
 
 === class
@@ -55,8 +55,8 @@ Create a new class.
 
 |========
 | *Arguments*           | *Description*
-|--dry-run, -d, -d      | Allow to test changes before execute command.
-|--path, -p, -p         | The path to create the class.
+|--dry-run, -d          | Allow to test changes before execute command.
+|--path, -p             | The path to create the class.
 |--name, -n             | The name of the class.
 |--flat                 | Flag to indicate if a directory is created.
 |--spec                 | Specifies if a spec file is generated.
@@ -69,10 +69,10 @@ Create a Nest controller.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command. 
-| --path, -p, -p        | The path to create the controller.  
-| --name, -n            |  The name of the controller.  
-| --spec                | Specifies if a spec file is generated. 
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the controller.
+| --name, -n            |  The name of the controller.
+| --spec                | Specifies if a spec file is generated.
 |========
 
 === decorator
@@ -80,11 +80,11 @@ Create a Nest decorator.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command. 
-| --path, -p, -p        | The path to create the decorator.  
-| --name, -n            | The name of the decorator.  
-| --language            | Nest decorator language (ts/js).  
-| --sourceRoot          | Nest decorator source root directory.  
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the decorator.
+| --name, -n            | The name of the decorator.
+| --language            | Nest decorator language (ts/js).
+| --sourceRoot          | Nest decorator source root directory.
 | --flat                | Flag to indicate if a directory is created.
 |========
 
@@ -93,8 +93,8 @@ Create a Nest filter.
 
 |========
 | *Arguments*           | *Description*
-|--dry-run, -d, -d      | Allow to test changes before execute command.
-|--path, -p, -p         | The path to create the filter.
+|--dry-run, -d          | Allow to test changes before execute command.
+|--path, -p             | The path to create the filter.
 |--name, -n             | The name of the filter.
 |--language             | Nest filter language (ts/js).
 |--sourceRoot           | Nest filter source root directory.
@@ -107,8 +107,8 @@ Create a Nest gateway.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command.
-| --path, -p, -p        | The path to create the gateway.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the gateway.
 | --name, -n            | The name of the gateway.
 | --language            | Nest gateway language (ts/js).
 | --sourceRoot          | Nest gateway source root directory.
@@ -121,8 +121,8 @@ Create a Nest guard.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command.
-| --path, -p, -p        | The path to create the guard.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the guard.
 | --name, -n            | The name of the guard.
 | --language            | Nest guard language (ts/js).
 | --sourceRoot          | Nest guard source root directory.
@@ -135,10 +135,10 @@ Create a Nest interceptor.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command.
-| --path, -p, -p        | The path to create the interceptor.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the interceptor.
 | --name, -n            | The name of the interceptor.
-| --language            | Nest interceptor language (ts/js). 
+| --language            | Nest interceptor language (ts/js).
 | --sourceRoot          | Nest interceptor source root directory.
 | --flat                | Flag to indicate if a directory is created.
 | --spec                | Specifies if a spec file is generated.
@@ -149,8 +149,8 @@ Create a Nest interface.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command.
-| --path, -p, -p        | The path to create the interface.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the interface.
 | --name, -n            | The name of the interface.
 | --sourceRoot          | Nest interface source root directory
 | --flat                | Flag to indicate if a directory is created.
@@ -161,8 +161,8 @@ Create a Nest middleware.
 
 |========
 | *Arguments*           | *Description*
-| --dry-run, -d, -d     | Allow to test changes before execute command.
-| --path, -p, -p        | The path to create the middleware.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the middleware.
 | --name, -n            | The name of the middleware.
 | --language            | Nest middleware language (ts/js).
 | --sourceRoot          | Nest middleware source root directory.
@@ -175,6 +175,16 @@ Create a Nest module.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the module.
+| --name, -n            | The name of the module.
+| --module              | The path to import the module.
+| --language            | Nest module language (ts/js).
+| --sourceRoot          | Nest module source root directory.
+| --skipImport          | Flag to skip the module import.
 |========
 
 === pipe
@@ -182,6 +192,16 @@ Create a Nest pipe.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the pipe.
+| --name, -n            | The name of the pipe.
+| --language            | Nest pipe language (ts/js).
+| --sourceRoot          | Nest pipe source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
 |========
 
 === provider
@@ -189,6 +209,16 @@ Create a Nest provider.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the provider.
+| --name, -n            | The name of the provider.
+| --language            | Nest provider language (ts/js).
+| --sourceRoot          | Nest provider source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
 |========
 
 === service
@@ -196,6 +226,13 @@ Create a Nest service.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the service.
+| --name, -n            | The name of the service.
+| --spec                | Specifies if a spec file is generated.
 |========
 
 === resolver
@@ -203,6 +240,16 @@ Create a Nest resolver.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the resolver.
+| --name, -n            | The name of the resolver.
+| --language            | Nest resolver language (ts/js).
+| --sourceRoot          | Nest resolver source root directory.
+| --flat                | Flag to indicate if a directory is created.
+| --spec                | Specifies if a spec file is generated.
 |========
 
 === configuration
@@ -210,6 +257,11 @@ Create a Nest CLI configuration.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path,               | Path to project.
 |========
 
 === library
@@ -217,6 +269,15 @@ Create a Nest library (mono-repo).
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the library.
+| --name, -n            | The name of the library.
+| --prefix              | The prefix of the library.
+| --language            | Nest library language.
+| --rootDir             | The libraries root directory.
 |========
 
 === sub-app
@@ -224,6 +285,14 @@ Create a Nest application (mono-repo).
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | The path to create the application.
+| --name, -n            | The name of the application.
+| --language            | Nest application language.
+| --rootDir             | Applications root directory.
 |========
 
 === typeorm
@@ -231,6 +300,12 @@ Initialice typeorm into your current project in a correct way.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
+| --db                  | Database type.
 |========
 
 === entity
@@ -238,6 +313,12 @@ Add a TypeOrm entity to your project
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Change the application folder where you will create the entity
+| --name, -n            | The entity name. To create a entity with name Banana in the module fruits you need to introduce fruits/banana
 |========
 
 === config-module
@@ -245,6 +326,11 @@ Add the config module to the project.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
 === crud
@@ -252,6 +338,12 @@ Generate CRUD methods for a entity.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Change the application folder where you will create the crud
+| --name, -n            | The crud name. To create crud with name Banana in the module fruits you need to introduce fruits/banana
 |========
 
 === mailer
@@ -259,6 +351,11 @@ Add @devon4node/mailer module to project.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
 === swagger
@@ -266,6 +363,11 @@ Add swagger module to project.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
 === auth-jwt
@@ -273,6 +375,11 @@ Add the auth JWT module to the project.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
 === all-in-one
@@ -280,6 +387,11 @@ Execute multiple schematics at the same time.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to config file
 |========
 
 === security
@@ -287,19 +399,173 @@ Add cors and helmet to your project.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
+| --skip-install, -s    | Allow to skip package installation.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
 
 == db
 
+Execute a database command. Same as typeorm CLI.
 
-###-begin-devon4node-completions-###
-#
-# yargs command completion script
-#
-# Installation: bin\devon4node completion >> ~/.bashrc
-#    or bin\devon4node completion >> ~/.bash_profile on OSX.
-#
+=== schema:sync
+Synchronizes your entities with database schema. It runs schema update queries on all connections you have. To run update queries on a concrete connection use -c option.
+
+|========
+| *Arguments*           | *Description*
+--help, -h        Shows help  [booleano]
+--connection, -c  Name of the connection on which schema synchronization needs to to run.
+--config, -f      Name of the file with connection configuration.
+--version, -v     Shows number version
+|========
+
+=== schema:log
+Shows sql to be executed by schema:sync command. It shows sql log only for your default connection. To run update queries on a concrete connection use -c option.
+
+|========
+| *Arguments*           | *Description*
+--help, -h        Shows help  [booleano]
+--connection, -c  Name of the connection on which schema synchronization needs to to run.
+--config, -f      Name of the file with connection configuration.
+--version, -v     Shows number version
+|========
+
+=== schema:drop
+Drops all tables in the database on your default connection. To drop table of a concrete connection's database use -c option.
+
+|========
+| *Arguments*           | *Description*
+--help, -h        Shows help  [booleano]
+--connection, -c  Name of the connection on which schema synchronization needs to to run.
+--config, -f      Name of the file with connection configuration.
+--version, -v     Shows number version
+|========
+
+=== query
+Executes given SQL query on a default connection. Specify connection name to run query on a specific connection.
+
+|========
+| *Arguments*           | *Description*
+--help, -h        Shows help  [booleano]
+--connection, -c  Name of the connection on which schema synchronization needs to to run.
+--config, -f      Name of the file with connection configuration.
+--version, -v     Shows number version
+|========
+
+=== entity:create
+Generates a new entity.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which to run a query
+| --name, -n            | Name of the entity class.
+| --dir                 | Directory where entity should be created.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== subscriber:create
+Generates a new subscriber.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which to run a query
+| --name, -n            | Name of the entity class.
+| --dir                 | Directory where entity should be created.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== migration:create
+Creates a new migration file.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which to run a query
+| --name, -n            | Name of the entity class.
+| --dir                 | Directory where entity should be created.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== migration:generate
+Generates a new migration file with sql needs to be executed to update schema.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which to run a query
+| --name, -n            | Name of the entity class.
+| --dir                 | Directory where entity should be created.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== migration:run
+Runs all pending migrations.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which run a query.
+| --transaction, -t     | Indicates if transaction should be used or not for migration run. Enabled by default.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== migration:show
+Show all migrations and whether they have been run or not
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which run a query.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== migration:revert
+Reverts last executed migration.
+
+|========
+| *Arguments*           | *Description*
+| help, -h              | Shows help
+| connection, -c        | Name of the connection on which run a query.
+| transaction, -t       | Indicates if transaction should be used or not for migration revert. Enabled by default.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+=== version
+Prints TypeORM version this project uses.
+
+|========
+| *Arguments*           | *Description*
+|--help, -h             | Shows help
+|--version, -v          | Shows number version
+|========
+
+=== cache:clear
+Clears all data stored in query runner cache.
+
+|========
+| *Arguments*           | *Description*
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which run a query.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
+|========
+
+== Code autocompletion
+
+[source,bash]
+----
 _yargs_completions()
 {
   local cur_word args type_list
@@ -320,3 +586,4 @@ _yargs_completions()
   return 0
 }
 complete -o default -F _yargs_completions devon4node
+----
