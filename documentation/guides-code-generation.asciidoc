@@ -2,3 +2,137 @@
 toc::[]
 
 = Code Generation
+
+As we mention in the page link:guide-key-principles[key principles], one of our key principles is Productivity. In order to provide that productivity, we have some tools to generate code. These tools will help you generate the common parts of the application so that you can focus only on the specific functionality.
+
+Those tools are:
+
+- link:guides-cli[devon4node CLI]
+- link:https://github.com/devonfw/tools-cobigen[CobiGen]
+
+== Differences between tools
+
+As you may have noticed, we have two tools to generate code, instead of having just one. What is the reason? The reason is that each tool starts from a different input. devon4node CLI receives user input, while cobigen receives code already exists and generates the rest accordingly. So, in order to increase the productivity, we can combine the use of both.
+
+== devon4node CLI
+
+The description of devon4node CLI is discussed on his link:guides-cli[page]. Anyway, in this page we will explain how to use it with the interactive mode.
+
+=== New application
+
+To create a new devon4node application, you just need to type the command `devon4node new`
+
+image::images/new-app1.jpg[]
+
+The interactive mode will request you some input. First, you need to choose the general components of the application. Those are described in the link:guides-cli[devon4node CLI] page.
+
+If you choose database, then you can select the database that you want:
+
+image::images/new-app2.jpg[]
+
+Then, you can choose to create application modules or not.
+
+If yes, you need introduce the module name:
+
+image::images/new-app3.jpg[]
+
+And then, select the components
+
+image::images/new-app4.jpg[]
+
+and names
+
+image::images/new-app5.jpg[]
+
+It will generate some files:
+
+----
+CREATE /test-app/.prettierrc (51 bytes)
+CREATE /test-app/nest-cli.json (67 bytes)
+CREATE /test-app/package.json (2358 bytes)
+CREATE /test-app/README.md (3370 bytes)
+CREATE /test-app/tsconfig.build.json (97 bytes)
+CREATE /test-app/tsconfig.json (568 bytes)
+CREATE /test-app/tslint.json (426 bytes)
+CREATE /test-app/src/main.ts (1033 bytes)
+CREATE /test-app/test/app.e2e-spec.ts (561 bytes)
+CREATE /test-app/test/jest-e2e.json (183 bytes)
+CREATE /test-app/src/app/app.controller.spec.ts (617 bytes)
+CREATE /test-app/src/app/app.controller.ts (274 bytes)
+CREATE /test-app/src/app/app.module.ts (371 bytes)
+CREATE /test-app/src/app/app.service.ts (142 bytes)
+CREATE /test-app/src/app/core/core.module.ts (1047 bytes)
+CREATE /test-app/src/app/shared/logger/winston.logger.ts (1081 bytes)
+CREATE /test-app/src/app/core/configuration/configuration.module.ts (214 bytes)
+CREATE /test-app/src/app/core/configuration/model/index.ts (24 bytes)
+CREATE /test-app/src/app/core/configuration/model/types.ts (280 bytes)
+CREATE /test-app/src/app/core/configuration/services/configuration.service.spec.ts (2950 bytes)
+CREATE /test-app/src/app/core/configuration/services/configuration.service.ts (1078 bytes)
+CREATE /test-app/src/app/core/configuration/services/index.ts (42 bytes)
+CREATE /test-app/src/config/default.ts (322 bytes)
+CREATE /test-app/src/config/develop.ts (817 bytes)
+CREATE /test-app/src/config/production.ts (817 bytes)
+CREATE /test-app/src/config/test.ts (816 bytes)
+CREATE /test-app/src/config/uat.ts (817 bytes)
+CREATE /test-app/docker-compose.yml (25 bytes)
+CREATE /test-app/ormconfig.json (467 bytes)
+CREATE /test-app/src/app/shared/model/entities/base-entity.entity.ts (517 bytes)
+CREATE /test-app/src/app/core/auth/auth.module.ts (897 bytes)
+CREATE /test-app/src/app/core/auth/controllers/auth.controller.spec.ts (3086 bytes)
+CREATE /test-app/src/app/core/auth/controllers/auth.controller.ts (1087 bytes)
+CREATE /test-app/src/app/core/auth/controllers/index.ts (36 bytes)
+CREATE /test-app/src/app/core/auth/decorators/index.ts (36 bytes)
+CREATE /test-app/src/app/core/auth/decorators/roles.decorator.spec.ts (870 bytes)
+CREATE /test-app/src/app/core/auth/decorators/roles.decorator.ts (124 bytes)
+CREATE /test-app/src/app/core/auth/guards/index.ts (32 bytes)
+CREATE /test-app/src/app/core/auth/guards/roles.guard.spec.ts (2354 bytes)
+CREATE /test-app/src/app/core/auth/guards/roles.guard.ts (712 bytes)
+CREATE /test-app/src/app/core/auth/model/index.ts (74 bytes)
+CREATE /test-app/src/app/core/auth/model/roles.enum.ts (39 bytes)
+CREATE /test-app/src/app/core/auth/model/user-request.interface.ts (140 bytes)
+CREATE /test-app/src/app/core/auth/services/auth.service.spec.ts (3777 bytes)
+CREATE /test-app/src/app/core/auth/services/auth.service.ts (1076 bytes)
+CREATE /test-app/src/app/core/auth/services/index.ts (33 bytes)
+CREATE /test-app/src/app/core/auth/strategies/index.ts (33 bytes)
+CREATE /test-app/src/app/core/auth/strategies/jwt.strategy.spec.ts (713 bytes)
+CREATE /test-app/src/app/core/auth/strategies/jwt.strategy.ts (618 bytes)
+CREATE /test-app/src/app/core/user/user.module.ts (338 bytes)
+CREATE /test-app/src/app/core/user/model/index.ts (82 bytes)
+CREATE /test-app/src/app/core/user/model/dto/user-payload.dto.ts (188 bytes)
+CREATE /test-app/src/app/core/user/model/entities/user.entity.ts (542 bytes)
+CREATE /test-app/src/app/core/user/services/index.ts (33 bytes)
+CREATE /test-app/src/app/core/user/services/user.service.spec.ts (2127 bytes)
+CREATE /test-app/src/app/core/user/services/user.service.ts (1065 bytes)
+CREATE /test-app/test/auth/auth.service.mock.ts (948 bytes)
+CREATE /test-app/test/user/user.repository.mock.ts (1095 bytes)
+CREATE /test-app/src/app/test/test.module.ts (469 bytes)
+CREATE /test-app/src/app/test/model/entities/test.entity.ts (174 bytes)
+CREATE /test-app/src/app/test/model/index.ts (88 bytes)
+CREATE /test-app/src/app/test/controllers/test.crud.controller.ts (393 bytes)
+CREATE /test-app/src/app/test/services/test.crud.service.ts (394 bytes)
+CREATE /test-app/src/app/test/services/index.ts (69 bytes)
+CREATE /test-app/src/app/test/controllers/index.ts (75 bytes)
+CREATE /test-app/src/app/test/controllers/test.controller.spec.ts (496 bytes)
+CREATE /test-app/src/app/test/controllers/test.controller.ts (107 bytes)
+CREATE /test-app/src/app/test/services/test.service.spec.ts (464 bytes)
+CREATE /test-app/src/app/test/services/test.service.ts (92 bytes)
+CREATE /test-app/src/app/test/model/entities/another-test.entity.ts (181 bytes)
+----
+
+Then, install all dependencies, format the code and initialize git.
+
+=== Generate more components
+
+The `generate` command has also an interactive mode. To execute `generate` command in interactive mode, you only need to change to an existing application and then execute the command `devon4node generate -i`
+
+image::images/generate-interactive.jpg[]
+
+The functionality is the same as new command, but the difference is `generate` command do not generate the base application.
+
+=== Generate database migrations
+
+The last command that we have in order to generate command is `devon4node db migration:generate -n MigrationName`. It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a exmple in the link:https://github.com/devonfw/devon4node/blob/develop/samples/todo/src/migration/1571244118394-CreateTables.ts[todo example]
+
+== CobiGen
+
+Currently, we do not have templates to generate devon4node code (we have planned to do that in the future). Instead, we have templates that read the code of a devon4node application and generate a devon4ng application. Visit the link:https://github.com/devonfw/tools-cobigen[CobiGen] page for more information.

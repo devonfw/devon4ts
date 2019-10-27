@@ -2,3 +2,15 @@
 toc::[]
 
 = Swagger
+
+We can use swagger (OpenAPI) in order to describe the endpoints that our application exposes.
+
+NestJS provides a module which will read the code of our application and will expose one endpoint where we can see the swagger.
+
+Add swagger to a devon4node application is simple, you only need to execute the command `devon4node generate swagger` and it will do everything for you. The next time that you start your application, you will be able to see the swagger at `/v1/api` endpoint.
+
+The swagger module can read your code in order to create the swagger definition, but sometimes you need to help him by decorating your handlers.
+
+For more information about decorators and other behaviours about swagger module, you can see the link:https://docs.nestjs.com/recipes/swagger[NestJS swagger documentation page]
+
+NOTE: the OpenAPI specification that this module will emmit is v2.0. The OpenAPI v3.0 is not available yet by using this module.

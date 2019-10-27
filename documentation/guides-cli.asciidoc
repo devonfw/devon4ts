@@ -562,7 +562,7 @@ Clears all data stored in query runner cache.
 | --version, -v         | Shows number version
 |========
 
-== Code autocompletion
+== Command autocompletion
 
 [source,bash]
 ----

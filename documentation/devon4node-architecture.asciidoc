@@ -2,3 +2,125 @@
 toc::[]
 
 = devon4node Architechture
+
+As we mention in the introduction, devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications.
+
+== HTTP layer
+
+By using link:https://nestjs.com/[NestJS], devon4node is a platform-agnostic framework. NestJS focuses only on the logical layer, and delegates the transport layer to another framework, such as ExpressJS. You can see it in the following diagram:
+
+image::images/devon4node-architechture.png[]
+
+As you can see, NestJS do not listen directly for incoming request. It has an adapter to communicate with ExpressJS and ExpressJS is the responsible for that. ExpressJS is only one of the frameworks that NestJS can work with. We have also another adapter available out-of-the-box: the link:https://www.fastify.io/[Fastify] adapter. With that, you can replace ExpressJS for Fastify But you can still use all your NestJS components. You can also create your own adapter to make NestJS work with other HTTP framework.
+
+At this point, you may think: why is NestJS (and devon4node) using ExpressJS by default instead of Fastify? Because, as you can see in the previous diagram, there is a component that is dependent on the HTTP framework: the middlewares. As ExpressJS is the most widely used framework, there are a lot of middlewares for it, so, in order to reuse them in our NestJS applications, NestJS use ExpressJS by default. Anyway, you may think which HTTP framework best fits your requirements.
+
+== devon4node layers
+
+image::images/plantuml/layers.png[]
+
+== devon4node application structure
+
+Although there are many frameworks to create backend applications in NodeJS, none of them effectively solve the main problem of - Architecture. This is the main reason we have chosen NestJS for the devon4node applications. Besides, NestJS is highly inspired by link:https://angular.io/[Angular], therefore a developer who knows Angular can use his already acquired knowledge to write devon4node applications.
+
+NestJS adopts various Angular concepts, such as dependency injection, piping, interceptors and modularity, among others. By using modularity we can reuse some of our modules between applications. One example that devon4node provide is the link:guides-mailer[mailer module].
+
+=== Modules
+
+Create a application module is simple, you only need to create an empty class with the decorator `Module`:
+
+[source,typescript]
+----
+@Module({})
+export class AppModule {}
+----
+
+In the module you can define:
+
+- Imports: the list of imported modules that export the providers which are required in this module
+- Controllers: the set of controllers defined in this module which have to be instantiated
+- Providers: the providers that will be instantiated by the Nest injector and that may be shared at least across this module
+- Exports: the subset of providers that are provided by this module and should be available in other modules which import this module
+
+The main difference between Angular and NestJS is NestJS modules encapsulates providers by default. This means that it's impossible to inject providers that are neither directly part of the current module nor exported from the imported modules. Thus, you may consider the exported providers from a module as the module's public interface, or API. Example of modules graph:
+
+image::images/plantuml/modules.png[]
+
+In devon4node we three different kind of modules:
+
+- AppModule: this is the root module. Everything that our application need must be imported here.
+- Global Modules: this is a special kind of modules. When you make a module global, it's accesible for every module in your application. Your can see it in the next diagram. It's the same as the previous one, but now the CoreModule is global:
++
+image::images/plantuml/module2.png[]
++
+One example of global module is the CoreModule. In the CoreModule you must import every module which have providers that needs to be accesible in all modules of you application
+- Feature (or application) modules: modules which contains the logic of our application. We must import it in the AppModule.
+
+For more information about modules, see link:https://docs.nestjs.com/modules[NestJS documentation page]
+
+=== Folder structure
+
+devon4node defines a folder structure that every devon4node application must follow. The folder structure is:
+
+----
+├───src
+│   ├───app
+│   │   ├───core
+│   │   │   ├───auth
+│   │   │   ├───configuration
+│   │   │   ├───user
+│   │   │   └───core.module.ts
+│   │   ├───shared
+│   │   └───feature
+│   │       ├───sub-module
+│   │       │   ├───controllers
+│   │       │   ├───...
+│   │       │   ├───services
+│   │       │   └───sub-module.module.ts
+│   │       ├───controllers
+│   │       ├───interceptors
+│   │       ├───pipes
+│   │       ├───guards
+│   │       ├───filters
+│   │       ├───middlewares
+│   │       ├───model
+│   │       │   ├───dto
+│   │       │   └───entities
+│   │       ├───services
+│   │       └───feature.module.ts
+│   ├───config
+│   └───migration
+├───test
+└───package.json
+
+----
+
+link:guides-cli[devon4node CLI] ensures this folder structure so, please, do not create files by your own, use the link:guides-cli[devon4node CLI].
+
+=== NestJS components
+
+NestJS provides several components that you can use in your application:
+
+- link:https://docs.nestjs.com/controllers[Controllers]
+- link:https://docs.nestjs.com/providers[Providers]
+- link:https://docs.nestjs.com/middleware[Middleware]
+- link:https://docs.nestjs.com/guards[Guards]
+- link:https://docs.nestjs.com/interceptors[Interceptors]
+- link:https://docs.nestjs.com/pipes[Pipes]
+- link:https://docs.nestjs.com/exception-filters[Exception filters]
+
+In the link:https://docs.nestjs.com[NestJS documentation] you can find all information about each component. But, something that is missing in the documentation is the execution order. Every component can be defined in diferent levels: globally, in the controller or in the handler. As middleware is part of the HTTP server we can define it in a different way: globally or in the module.
+
+image::images/plantuml/components.png[]
+
+It is not neccesary to have defined components in every level. For example, you can have defined a interceptor gobally but you do not have any other in the controller or handler level. If nothing is defined in some level, the request will continue to the next component.
+
+As you can see in the previous image, the first component which receive the request is the global defined middleware. Then, it send the request to the module middleware. Each of them can return a response to the client, without passing the request to the next level.
+
+Then, the request continue to the guards: first the global guard, next to controller guard and finally to the handler guard. At this point, we can throw an exception in all components and the exception filter will catch it and send a proper error message to the client. We do not paint the filters in the graphic in order to simplify it.
+
+After the guards, is time to interceptors: global interceptors, crontroller interceptors and handler interceptors. And last, before arrive to the handler inside the controller, the request pass throught the pipes.
+
+When the handler has the response ready to send to the client, it does not go directly to the client. It come again to the interceptors, so we can also intercept the response. The order this time is the reverse: handler interceptors, controller interceptors and global interceptors. After that, we can finally send the reponse to the client.
+
+Now, with this in mind, you are able to create the components in a better way.
