@@ -2,3 +2,6 @@
 toc::[]
 
 = Dependency Injection
+
+The link:https://en.wikipedia.org/wiki/Dependency_injection[dependency injection] is a well-known common design pattern applied by frameworks in all languages, like link:https://spring.io/[Spring] in Java, link:https://angular.io/[Angular] and others. The intention of this page is not to explain how dependency injection works, but instead how it is addressed by NestJS.
+

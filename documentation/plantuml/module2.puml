@@ -1,0 +1,40 @@
+@startuml module2
+left to right direction
+skinparam rectangle {
+	roundCorner<<module>> 25
+}
+
+rectangle app <<module>> [
+  AppModule
+]
+
+rectangle core <<module>> [
+  CoreModule
+]
+
+rectangle auth <<module>> [
+  AuthModule
+]
+
+rectangle user <<module>> [
+  UserModule
+]
+
+rectangle booking <<module>> [
+  BookingModule
+]
+
+rectangle dish <<module>> [
+  DishModule
+]
+
+app --> core
+app --> booking
+app --> dish
+core --> auth
+core --> user
+booking --> core
+dish --> core
+auth --> core
+user --> core
+@enduml

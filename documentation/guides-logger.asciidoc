@@ -2,3 +2,30 @@
 toc::[]
 
 = Logger
+
+When you create a new devon4node application, it already has a logger: `src/app/shared/logger/winston.logger.ts`. This logger provide the methods `log`, `error` and `warn`. All of those methods will write a log message, but with a different log level.
+
+The winston logger has two transports: one to log everything inside the file logs/general.log and the other to log only the error logs inside the file logs/error.log. In addition, it uses the default NestJS logger in order to show the logs in the console.
+
+As you can see it is a simple example about how to use logger in a devon4node application. It will be update to a complex one in the next versions.
+
+== How to use logger
+
+In order to use the logger you only need to inject the logger as a dependecy:
+
+[source,typescript]
+----
+constructor(logger: WinstonLogger){}
+----
+
+and then use it
+
+[source,typescript]
+----
+async getAll() {
+  this.service.getAll();
+  this.logger.log('Returing all data');
+}
+----
+
+
