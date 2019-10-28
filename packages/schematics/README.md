@@ -14,15 +14,15 @@ You can find all documentation in our [wiki](https://github.com/devonfw/devon4no
 
 ## Code of conduct
 
-Visit [code of conduct document](https://github.com/devonfw/devon4node/blob/develop/CODE_OF_CONDUCT.md).
-
-## Terms of use
-
-Visit [terms of use document](https://github.com/devonfw/devon4node/blob/develop/TERMS_OF_USE.asciidoc).
+Visit [code of conduct document](https://github.com/devonfw/.github/blob/master/CODE_OF_CONDUCT.md).
 
 ## Contributing guide
 
-Visit [contributing guide document](https://github.com/devonfw/devon4node/blob/develop/CONTRIBUTING.asciidoc).
+Visit [contributing guide document](https://github.com/devonfw/.github/blob/master/CONTRIBUTING.asciidoc).
+
+## Key Principles
+
+Visit [key principles document](https://github.com/devonfw/.github/blob/master/key-principles.asciidoc).
 
 ## Samples
 
