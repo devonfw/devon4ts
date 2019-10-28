@@ -4,6 +4,11 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
+![License](https://img.shields.io/npm/l/@devon4node/cli)
+![License](https://img.shields.io/npm/v/@devon4node/cli)
+![License](https://img.shields.io/librariesio/release/npm/@devon4node/cli)
+![License](https://img.shields.io/npm/dt/@devon4node/cli)
+
 ## devon4node CLI
 
 This package contains the devon4node CLI. This will allow you to manage your devon4node applications, from creating new projects, generating new components or managing the status of the database.

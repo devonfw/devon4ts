@@ -4,6 +4,11 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
+![License](https://img.shields.io/npm/l/@devon4node/mailer)
+![License](https://img.shields.io/npm/v/@devon4node/mailer)
+![License](https://img.shields.io/librariesio/release/npm/@devon4node/mailer)
+![License](https://img.shields.io/npm/dt/@devon4node/mailer)
+
 ## devon4node mailer
 
 This package contains the devon4node mailer module. This module allows you to send emails in your devon4node application in a easy way.

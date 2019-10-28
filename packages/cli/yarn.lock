@@ -101,10 +101,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@devon4node/schematics@1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@devon4node/schematics/-/schematics-1.0.0-beta.1.tgz#e106b2ffb3c0fad30ec95d8d3fe283da503b54e6"
-  integrity sha512-ECw3Zy/XF2rW7QGkqLqH8k5sLunGA7ejpDtboQW8qQJHe9sQl19dLCf35ZWl6loiy/9uqo7jStkJGE3cBG0zGg==
+"@devon4node/schematics@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@devon4node/schematics/-/schematics-1.0.0.tgz#0a79d33a45e8b48c1c0885c100b6ee3f520efbb6"
+  integrity sha512-QvkNXN8gpAHuC99kSxQIn2+FWjp89JYRj+wO60cMoT6ek5N2rXhRPsTqwpAObcT0YYP9UQntzKQdsCueXugEvg==
   dependencies:
     "@angular-devkit/core" "^8.3.13"
     "@angular-devkit/schematics" "^8.3.13"

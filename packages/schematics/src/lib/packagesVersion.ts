@@ -1,6 +1,6 @@
 export const packagesVersion = {
-  devon4nodeMailer: '^1.0.0',
-  devon4nodeCommon: '^1.0.0',
+  devon4nodeMailer: '^1.0.1',
+  devon4nodeCommon: '^1.0.1',
   nestjsPassport: '^6.1.0',
   nestjsTypeorm: '^6.2.0',
   nestjsSwagger: '^3.1.0',

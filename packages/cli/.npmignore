@@ -3,6 +3,8 @@
 !*.d.ts
 .github/
 .vscode/
+*.js.map
+**/*.js.map
 
 src/
 node_modules/

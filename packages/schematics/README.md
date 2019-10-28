@@ -4,6 +4,11 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
+![License](https://img.shields.io/npm/l/@devon4node/schematics)
+![License](https://img.shields.io/npm/v/@devon4node/schematics)
+![License](https://img.shields.io/librariesio/release/npm/@devon4node/schematics)
+![License](https://img.shields.io/npm/dt/@devon4node/schematics)
+
 ## devon4node Schematics
 
 This package contains the devon4node schematics. Those schematics are responsible for generating code for devon4node.
