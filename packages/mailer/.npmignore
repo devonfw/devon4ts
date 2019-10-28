@@ -7,3 +7,6 @@ yarn.lock
 tslint.json
 tsconfig.json
 .prettierrc
+
+*.js.map
+**/*.js.map

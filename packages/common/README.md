@@ -4,6 +4,11 @@
 
 devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
+![License](https://img.shields.io/npm/l/@devon4node/common)
+![License](https://img.shields.io/npm/v/@devon4node/common)
+![License](https://img.shields.io/librariesio/release/npm/@devon4node/common)
+![License](https://img.shields.io/npm/dt/@devon4node/common)
+
 ## devon4node Common
 
 This package contains the devon4node common libraries. Those libraries will help you build devon4node applications.
