@@ -2,3 +2,27 @@
 toc::[]
 
 = Service Layer
+
+The logic layer is the heart of the application and contains the main business logic. It knows everything about the business logic, but it does not know about the response to the client and the HTTP errors. That's why this layer is separated from the controller layer.
+
+== How to implement the service layer
+
+This layer is implemented by services, a specific kind of link:https://docs.nestjs.com/providers[providers]. Let's see one example:
+
+[source,typescript]
+----
+@Injectable()
+export class CoffeeService {
+  constructor(private readonly coffeeService: CoffeeService) {}
+
+  async searchCoffees(@InjectRepository(Coffee) coffeRepository: Repository<Coffee>): Promise<Array<Coffe>> {
+    const coffees = this.coffeRepository.find();
+
+    return doSomeBusinessLogic(coffees);
+  }
+}
+----
+
+This is the CoffeeService that we inject in the example of link:layer-controller[controller layer]. As you can see, a service is a regular class with the `Injectable` decorator. Also, it inject as dependency the data access layer (in this specific case, the Repository<Coffee>).
+
+The services, exposes methods in order to transform the input from the controllers by appling some business logic. They can also request data from the data access layer. And that's all.

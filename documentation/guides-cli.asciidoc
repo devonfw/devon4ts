@@ -3,44 +3,80 @@ toc::[]
 
 = devon4node CLI
 
+devon4node CLI is a tool designed to manage devon4node applications in a easy way. In this page we will explain all commands available and their arguments.
+
+== devon4node
+
+After install the devon4node CLI package `npm i -g @devon4node/cli`, the command `devon4node` (or `d4n`) must be available in your system. This have `new`, `generate` and `db` subcommands and also accepts the following arguments:
+
 |====
 | *Arguments*    | *Description*
 |--help, -h      | Shows help
 |-v, --version   | Shows version number
 |====
 
-== new
+Examples:
+
+----
+devon4node -h
+devon4node new -h
+----
+
+=== new
+
+`devon4node new` allows you to create new devon4node applications. It's an interactive command and it will ask you for everything that it need in order to create a new application.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Show help
 | --no-interactive, -n  | Execute the command without ask anything to the user
 | --dry-run             | Allow to test changes before execute command.
 | --skip-git, -g        | Allow to skip git repository initialization.
 | --skip-install, -s    | Allow to skip package installation.
+| --version, -v         | Show version number
 |========
 
-== generate
+Examples:
+
+----
+devon4node new my-app -sg
+devon4node new my-app -n
+----
+
+=== generate
+
+This command allows you to generate code into your application. It receive he name of the schematic that will generate the code.
 
 |========
 | *Arguments*           | *Description*
+| --help, -h            | Show help
+| --interactive, -i     | Generate code using the interactive mode (same as new command).
 | --skip-install, -s    | Allow to skip package installation.
-| --dry-run             | Allow to test changes before execute command.
-| --path,               | Path to project.
+| --dry-run, -d         | Allow to test changes before execute command.
+| --path, -p            | Path to project.
 |========
 
-=== application
-Create a devon4node application.
+Examples:
+
+----
+devon4node generate -i
+devon4node generate service --name my-service
+----
+
+==== application
+
+Create a devon4node application. It is used by the new command.
 
 |========
 | *Arguments*           | *Description*
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path,               | Path to project.
 | --name, -n            | The name of the application.
 |========
 
-=== angular-app
-Create a new Angular application.
+==== angular-app
+
+Create a new Angular application. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
@@ -50,8 +86,9 @@ Create a new Angular application.
 | --name, -n            | The name of the application.
 |========
 
-=== class
-Create a new class.
+==== class
+
+Create a new class.Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
@@ -64,19 +101,21 @@ Create a new class.
 |--sourceRoot           | Nest controller source root directory.
 |========
 
-=== controller
+==== controller
+
 Create a Nest controller.
 
 |========
 | *Arguments*           | *Description*
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the controller.
-| --name, -n            |  The name of the controller.
+| --name, -n            | The name of the controller. To create a controller with name Banana in the module fruits you need to introduce fruits/banana
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== decorator
-Create a Nest decorator.
+==== decorator
+
+Create a Nest decorator. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
@@ -88,22 +127,24 @@ Create a Nest decorator.
 | --flat                | Flag to indicate if a directory is created.
 |========
 
-=== filter
+==== filter
+
 Create a Nest filter.
 
 |========
 | *Arguments*           | *Description*
 |--dry-run, -d          | Allow to test changes before execute command.
 |--path, -p             | The path to create the filter.
-|--name, -n             | The name of the filter.
+|--name, -n             | The name of the filter. To create a filter with name Banana in the module fruits you need to introduce fruits/banana
 |--language             | Nest filter language (ts/js).
 |--sourceRoot           | Nest filter source root directory.
 |--flat                 | Flag to indicate if a directory is created.
 |--spec                 | Specifies if a spec file is generated.
 |========
 
-=== gateway
-Create a Nest gateway.
+==== gateway
+
+Create a Nest gateway. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
@@ -116,36 +157,39 @@ Create a Nest gateway.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== guard
+==== guard
+
 Create a Nest guard.
 
 |========
 | *Arguments*           | *Description*
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the guard.
-| --name, -n            | The name of the guard.
+| --name, -n            | The name of the guard. To create a guard with name Banana in the module fruits you need to introduce fruits/banana
 | --language            | Nest guard language (ts/js).
 | --sourceRoot          | Nest guard source root directory.
 | --flat                | Flag to indicate if a directory is created.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== interceptor
+==== interceptor
+
 Create a Nest interceptor.
 
 |========
 | *Arguments*           | *Description*
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the interceptor.
-| --name, -n            | The name of the interceptor.
+| --name, -n            | The name of the interceptor. To create an interceptor with name Banana in the module fruits you need to introduce fruits/banana
 | --language            | Nest interceptor language (ts/js).
 | --sourceRoot          | Nest interceptor source root directory.
 | --flat                | Flag to indicate if a directory is created.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== interface
-Create a Nest interface.
+==== interface
+
+Create a Nest interface. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
@@ -156,62 +200,60 @@ Create a Nest interface.
 | --flat                | Flag to indicate if a directory is created.
 |========
 
-=== middleware
+==== middleware
+
 Create a Nest middleware.
 
 |========
 | *Arguments*           | *Description*
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the middleware.
-| --name, -n            | The name of the middleware.
+| --name, -n            | The name of the middleware. To create a middleware with name Banana in the module fruits you need to introduce fruits/banana
 | --language            | Nest middleware language (ts/js).
 | --sourceRoot          | Nest middleware source root directory.
 | --flat                | Flag to indicate if a directory is created.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== module
+==== module
+
 Create a Nest module.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the module.
-| --name, -n            | The name of the module.
+| --name, -n            | The name of the module. To create a module named module-b as a submodule of module-a, you need to introduce module-a/module-b
 | --module              | The path to import the module.
 | --language            | Nest module language (ts/js).
 | --sourceRoot          | Nest module source root directory.
 | --skipImport          | Flag to skip the module import.
 |========
 
-=== pipe
+==== pipe
+
 Create a Nest pipe.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the pipe.
-| --name, -n            | The name of the pipe.
+| --name, -n            | The name of the pipe. To create a pipe with name Banana in the module fruits you need to introduce fruits/banana
 | --language            | Nest pipe language (ts/js).
 | --sourceRoot          | Nest pipe source root directory.
 | --flat                | Flag to indicate if a directory is created.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== provider
-Create a Nest provider.
+==== provider
+
+Create a Nest provider. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the provider.
 | --name, -n            | The name of the provider.
@@ -221,28 +263,26 @@ Create a Nest provider.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== service
+==== service
+
 Create a Nest service.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the service.
 | --name, -n            | The name of the service.
-| --spec                | Specifies if a spec file is generated.
+| --spec                | Specifies if a spec file is generated. To create a service with name Banana in the module fruits you need to introduce fruits/banana
 |========
 
-=== resolver
-Create a Nest resolver.
+==== resolver
+
+Create a Nest resolver. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the resolver.
 | --name, -n            | The name of the resolver.
@@ -252,26 +292,24 @@ Create a Nest resolver.
 | --spec                | Specifies if a spec file is generated.
 |========
 
-=== configuration
-Create a Nest CLI configuration.
+==== configuration
+
+Create a Nest CLI configuration. Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path,               | Path to project.
 |========
 
-=== library
-Create a Nest library (mono-repo).
+==== library
+
+Create a Nest library (mono-repo). Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the library.
 | --name, -n            | The name of the library.
@@ -280,14 +318,13 @@ Create a Nest library (mono-repo).
 | --rootDir             | The libraries root directory.
 |========
 
-=== sub-app
-Create a Nest application (mono-repo).
+==== sub-app
+
+Create a Nest application (mono-repo). Inherit from link:https://docs.nestjs.com/cli/overview[Nest CLI]
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | The path to create the application.
 | --name, -n            | The name of the application.
@@ -295,167 +332,177 @@ Create a Nest application (mono-repo).
 | --rootDir             | Applications root directory.
 |========
 
-=== typeorm
+==== typeorm
+
 Initialice typeorm into your current project in a correct way.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 | --db                  | Database type.
 |========
 
-=== entity
-Add a TypeOrm entity to your project
+==== entity
+
+Add a TypeOrm entity to your project. Requires TypeORM installed in the project.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Change the application folder where you will create the entity
 | --name, -n            | The entity name. To create a entity with name Banana in the module fruits you need to introduce fruits/banana
 |========
 
-=== config-module
+==== config-module
+
 Add the config module to the project.
+
+It will add the @devon4node/common module as a project dependency. Then, it will generate the configuration module into your project and add it in the core module. Also, it generates the config files for the most common environments.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 |========
 
-=== crud
-Generate CRUD methods for a entity.
+==== crud
+
+Generate CRUD methods for a entity. Requires TypeORM installed in the project.
+
+It will add the @nestjsx/crud module as a project dependency. Then, generates an entity, a CRUD controller and a CRUD service. It also register the entity, controller and service in the module.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Change the application folder where you will create the crud
 | --name, -n            | The crud name. To create crud with name Banana in the module fruits you need to introduce fruits/banana
 |========
 
-=== mailer
+==== mailer
+
 Add @devon4node/mailer module to project.
 
+It will add the @devon4node/mailer module as a project dependency. Also, it will add it to the core module and it will generate some email template examples.
+
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 |========
 
-=== swagger
+==== swagger
+
 Add swagger module to project.
 
+It will add the @nestjs/swagger module as a project dependency. Also, it will update the main.ts file in order to expose the endpoint for swagger. The default endpoint is: `/v1/api`
+
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 |========
 
-=== auth-jwt
+==== auth-jwt
+
 Add the auth JWT module to the project.
 
+It will add to your project the auth-jwt and user module. Also, it will import those modules into the core module.
+
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 |========
 
-=== all-in-one
+==== all-in-one
+
 Execute multiple schematics at the same time.
+
+This schematic is used by the interactive mode.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to config file
 |========
 
-=== security
+==== security
+
 Add cors and helmet to your project.
+
+It will add helmet package as project dependency and update the main.ts file in order to enable the cors and helmet in your application.
 
 |========
 | *Arguments*           | *Description*
 | --help, -h            | Shows help
-| --interactive, -i     | Generate code using the interactive mode (same as new command).
-| --skip-install, -s    | Allow to skip package installation.
 | --dry-run, -d         | Allow to test changes before execute command.
 | --path, -p            | Path to project.
 |========
 
 
-== db
+=== db
 
-Execute a database command. Same as typeorm CLI.
+Execute a database command. Same as link:https://typeorm.io/#/using-cli[typeorm CLI].
 
-=== schema:sync
+==== schema:sync
+
 Synchronizes your entities with database schema. It runs schema update queries on all connections you have. To run update queries on a concrete connection use -c option.
 
 |========
 | *Arguments*           | *Description*
---help, -h        Shows help  [booleano]
---connection, -c  Name of the connection on which schema synchronization needs to to run.
---config, -f      Name of the file with connection configuration.
---version, -v     Shows number version
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which schema synchronization needs to to run.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
 |========
 
-=== schema:log
+==== schema:log
+
 Shows sql to be executed by schema:sync command. It shows sql log only for your default connection. To run update queries on a concrete connection use -c option.
 
 |========
 | *Arguments*           | *Description*
---help, -h        Shows help  [booleano]
---connection, -c  Name of the connection on which schema synchronization needs to to run.
---config, -f      Name of the file with connection configuration.
---version, -v     Shows number version
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which schema synchronization needs to to run.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
 |========
 
-=== schema:drop
+==== schema:drop
+
 Drops all tables in the database on your default connection. To drop table of a concrete connection's database use -c option.
 
 |========
 | *Arguments*           | *Description*
---help, -h        Shows help  [booleano]
---connection, -c  Name of the connection on which schema synchronization needs to to run.
---config, -f      Name of the file with connection configuration.
---version, -v     Shows number version
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which schema synchronization needs to to run.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
 |========
 
-=== query
+==== query
+
 Executes given SQL query on a default connection. Specify connection name to run query on a specific connection.
 
 |========
 | *Arguments*           | *Description*
---help, -h        Shows help  [booleano]
---connection, -c  Name of the connection on which schema synchronization needs to to run.
---config, -f      Name of the file with connection configuration.
---version, -v     Shows number version
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which schema synchronization needs to to run.
+| --config, -f          | Name of the file with connection configuration.
+| --version, -v         | Shows number version
 |========
 
-=== entity:create
+==== entity:create
+
 Generates a new entity.
 
 |========
@@ -468,7 +515,8 @@ Generates a new entity.
 | --version, -v         | Shows number version
 |========
 
-=== subscriber:create
+==== subscriber:create
+
 Generates a new subscriber.
 
 |========
@@ -481,7 +529,8 @@ Generates a new subscriber.
 | --version, -v         | Shows number version
 |========
 
-=== migration:create
+==== migration:create
+
 Creates a new migration file.
 
 |========
@@ -494,7 +543,8 @@ Creates a new migration file.
 | --version, -v         | Shows number version
 |========
 
-=== migration:generate
+==== migration:generate
+
 Generates a new migration file with sql needs to be executed to update schema.
 
 |========
@@ -507,7 +557,8 @@ Generates a new migration file with sql needs to be executed to update schema.
 | --version, -v         | Shows number version
 |========
 
-=== migration:run
+==== migration:run
+
 Runs all pending migrations.
 
 |========
@@ -519,7 +570,8 @@ Runs all pending migrations.
 | --version, -v         | Shows number version
 |========
 
-=== migration:show
+==== migration:show
+
 Show all migrations and whether they have been run or not
 
 |========
@@ -530,28 +582,31 @@ Show all migrations and whether they have been run or not
 | --version, -v         | Shows number version
 |========
 
-=== migration:revert
+==== migration:revert
+
 Reverts last executed migration.
 
 |========
 | *Arguments*           | *Description*
-| help, -h              | Shows help
-| connection, -c        | Name of the connection on which run a query.
-| transaction, -t       | Indicates if transaction should be used or not for migration revert. Enabled by default.
+| --help, -h            | Shows help
+| --connection, -c      | Name of the connection on which run a query.
+| --transaction, -t     | Indicates if transaction should be used or not for migration revert. Enabled by default.
 | --config, -f          | Name of the file with connection configuration.
 | --version, -v         | Shows number version
 |========
 
-=== version
+==== version
+
 Prints TypeORM version this project uses.
 
 |========
 | *Arguments*           | *Description*
-|--help, -h             | Shows help
-|--version, -v          | Shows number version
+| --help, -h             | Shows help
+| --version, -v          | Shows number version
 |========
 
-=== cache:clear
+==== cache:clear
+
 Clears all data stored in query runner cache.
 
 |========
@@ -563,6 +618,8 @@ Clears all data stored in query runner cache.
 |========
 
 == Command autocompletion
+
+In order to enable the command autocompletion, you need to add the following code to your .bashrc or .zshrc:
 
 [source,bash]
 ----
