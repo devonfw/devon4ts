@@ -2,3 +2,61 @@
 toc::[]
 
 = Controller Layer
+
+The controller layer is responsible for handling the requests/responses to the client. This layer knows everything about the endpoints exposed, the expected input (and also link:guides-validation[validate] it), the response schema, the HTTP codes for the reponse and the HTTP errors that every endpoint can send.
+
+== How to implement the controller layer
+
+This layer is implemented by the link:https://docs.nestjs.com/controllers[NestJS controllers]. Let's see how it works with an example:
+
+[source,typescript]
+----
+@Controller('coffee/coffees')
+export class CoffeeController {
+  constructor(private readonly coffeeService: CoffeeService) {}
+
+  @Post('search')
+  @HttpCode(200)
+  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffe>> {
+    try {
+      return await this.coffeeService.searchCoffees(search);
+    } catch (error) {
+      throw new BadRequestException(error.message, error);
+    }
+  }
+}
+----
+
+As you can see in the example, to create a controller you only need to decorate a class with the `Controller` decorator. This example is handling all request to `coffee/coffees`.
+
+Also, you have defined one handler. This handler is listening to POST request for the route `coffee/coffees/search`. In addition, this handler is waiting for a CoffeeSearch object and returns an array of Coffee. In order to keep it simple, that's all that you need in order to define one route.
+
+One important thing that can be observed in this example is that there is no business logic. It delegates to the service layer and return the response to the client. At this point, transformations from the value that you receive from the service layer to the desired return type are also allowed.
+
+By default, every POST handler return an HTTP 204 response with the returned value as body, but you can change it in a easy way by using decorators. As you can see in the example, the handler will return a HTTP 200 response (`@HttpCode(200)`).
+
+Finally, if the service layer throws an error, this handler will catch it and return a HTTP 400 Bad Request response. The controller layer is the only one that knows about the answers to the client, therefore it is the only one that knows which error codes should be sent.
+
+== Validation
+
+In order to do not propagate errors in the incoming payload, we need to validate all data in the controller layer. See the link:guides-validation[validation guide] for more information.
+
+== Error handling
+
+In the previous example, we catch all errors using the try/catch statement. This is not the usual implementation. In order to catch properly the errors you must use the link:https://docs.nestjs.com/exception-filters[exception filters]. Example:
+
+
+[source,typescript]
+----
+@Controller('coffee/coffees')
+export class CoffeeController {
+  constructor(private readonly coffeeService: CoffeeService) {}
+
+  @Post('search')
+  @HttpCode(200)
+  @UseFilters(CaffeExceptionFilter)
+  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffe>> {
+    return await this.coffeeService.searchCoffees(search);
+  }
+}
+----

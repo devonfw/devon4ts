@@ -17,6 +17,14 @@ At this point, you may think: why is NestJS (and devon4node) using ExpressJS by 
 
 == devon4node layers
 
+As other devonfw technologies, devon4node separates the application into layers.
+
+Those layers are:
+
+- link:layer-controller[Controller layer]
+- link:layer-service[Service layer]
+- link:layer-dataaccess[Data Access layer]
+
 image::images/plantuml/layers.png[]
 
 == devon4node application structure
