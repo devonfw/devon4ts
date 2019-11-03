@@ -69,11 +69,20 @@ function addAuthToCoreModule(project: string): Rule {
       return tree;
     }
 
-    const fileContent = addToModuleDecorator(
+    let fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       'CoreModule',
       './auth/auth.module',
       'AuthModule',
+      'imports',
+      true,
+    );
+
+    fileContent = addToModuleDecorator(
+      fileContent!,
+      'CoreModule',
+      './user/user.module',
+      'UserModule',
       'imports',
       true,
     );

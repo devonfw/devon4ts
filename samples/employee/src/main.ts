@@ -9,15 +9,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   Logger.overrideLogger(['debug', 'error', 'log', 'verbose', 'warn']);
-  const app = await NestFactory.create(AppModule, {
-    logger: new WinstonLogger(),
-  });
+  const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });
   const configModule = app.select(ConfigurationModule).get(ConfigurationService);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
     }),
   );
+  app.setGlobalPrefix(configModule.globalPrefix);
   app.use(helmet());
   app.enableCors({
     origin: '*',
@@ -38,7 +37,6 @@ async function bootstrap() {
     const swaggerDoc = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup((configModule.globalPrefix || '') + '/api', app, swaggerDoc);
   }
-  app.setGlobalPrefix(configModule.globalPrefix);
   await app.listen(configModule.port);
 }
 bootstrap();

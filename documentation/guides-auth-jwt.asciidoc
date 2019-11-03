@@ -2,3 +2,51 @@
 toc::[]
 
 = Auth JWT module
+
+devon4node provides a way to generate a default authentication module using JWT (JSON Web Token). It uses the `@nestjs/passport` library descrbe link:https://docs.nestjs.com/techniques/authentication[here].
+
+To generate the devon4node auth-jwt module you only need to execute the command: `devon4node generate auth-jwt`. We generate this module inside the applications instead of distributing a npm package because this module is prone to be modified depending on the requirements. It alse generate a basic user module.
+
+In this page we will explain the default implementation provided by devon4node. For more information about authentication, JWT, passport and other you can see:
+
+- link:https://jwt.io/introduction/[JWT]
+- link:https://docs.nestjs.com/techniques/authentication[NestJS authentication]
+- link:https://www.npmjs.com/package/passport[Passport]
+- link:https://www.npmjs.com/package/passport-jwt[Passport JWT]
+
+== Auth JWT endpoints
+
+In order to execute authentication operations, the auth-jwt module exposes the following endpoints:
+
+- `POST /auth/login`: receive an username and a password and return the token in the header if the combination of username and password is correct.
+- `POST /auth/register`: register a new user.
+- `GET /auth/currentuser`: return the user data if he is authenticated.
+
+== Protect endpoints with auth-jwt
+
+In order to protect your endpoints with auth-jwt module you only need to add the `AuthGuard()` in the `UseGuards` decorator. Example:
+
+[source,typescript]
+----
+@Get('currentuser')
+@UseGuards(AuthGuard())
+currentUser(@Request() req: UserRequest) {
+  return req.user;
+}
+----
+
+Now, all request to currentuser are protected by the AuthGuard.
+
+== Role base Access Control
+
+The auth-jwt module provides also a way to control the access to some endpoints by using roles. For example, if you want to grant access to a endpoint only to admins, you only need to add the `Roles` decorator to those endpoints with the roles allowed. Example:
+
+[source,typescript]
+----
+@Get('currentuser')
+@UseGuards(AuthGuard())
+@Roles(roles.ADMIN)
+currentUser(@Request() req: UserRequest) {
+  return req.user;
+}
+----

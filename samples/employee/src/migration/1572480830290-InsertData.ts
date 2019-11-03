@@ -1,12 +1,18 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { hash, genSalt } from 'bcrypt';
-import { roles } from '../app/core/auth/model';
+import { roles } from '../app/core/auth/model/roles.enum';
 
-export class InsertData1571155054450 implements MigrationInterface {
+export class InsertData1572480830290 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(`INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(1, 'Stefano', 'Rossini', 'stefano.rossini@capgemini.com');`);
-    await queryRunner.query(`INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(2, 'Angelo', 'Muresu', 'angelo.muresu@capgemini.com');`);
-    await queryRunner.query(`INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(3, 'Jaime', 'Gonzalez', 'jaime.diaz-gonzalez@capgemini.com');`);
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(1, 'Stefano', 'Rossini', 'stefano.rossini@capgemini.com');`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(2, 'Angelo', 'Muresu', 'angelo.muresu@capgemini.com');`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(3, 'Jaime', 'Gonzalez', 'jaime.diaz-gonzalez@capgemini.com');`,
+    );
     await queryRunner.query(
       `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(4, 'Dario', 'Rodriguez', 'dario.rodriguez-gonzalez@capgemini.com');`,
     );

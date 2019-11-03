@@ -3,3 +3,122 @@ toc::[]
 
 = Coding Conventions
 
+devon4node defines some coding conventions in order to improve the readability, reduce the merge conflicts and be able to develop applications in an industrialized way.
+
+In order to ensure that you are following the devon4node coding conventions, you can use the following tools:
+
+- `TSLint`: link:https://palantir.github.io/tslint/[TSLint] is an extensible static analysis tool that checks TypeScript code for readability, maintainability, and functionality errors. We recommend to use the TSLint VSCode extension (included in the devonfw Platform Extension Pack) in order to be able to see the linting error while you are developing.
+- `Prettier`: link:https://prettier.io/[Prettier] is a code formatter. We recommend to use the Prettier VSCode extension (included in the devonfw Platform Extension Pack) and enable the `editor.formatOnSave` option.
+- `devon4node CLI`: this tool will generate code follwing the devon4node coding conventions. Also, when you generate a new project using the devon4node CLI, it generates the configuration files for TSLint and Prettier that satisfy the devon4node coding conventions.
+
+When you combine all tools, you can be sure that you follow the devon4node coding conventions.
+
+== Detailed devon4node Coding Conventions
+
+Here we will detail some of most important devon4node coding conventions. To be sure that you follows all devon4node coding conventions use the tools described before.
+
+=== Indentation
+
+All devon4node code files must be indented using spaces. The indentation with must be 2 spaces.
+
+=== White space
+
+In order to improve the readability of your code, you must introduce whitespaces. Example:
+
+[source,typescript]
+----
+if(condition){
+----
+
+must be
+
+[source,typescript]
+----
+if (condition) {
+----
+
+=== Naming conventions
+
+==== File naming
+
+The file name must follow the pattern: (name in kebap case).(kind of component).(extension)
+The test file name must follow the pattern: (name in kebap case).(kind of component).spec.(extension)
+
+Example:
+
+----
+auth-jwt.service.ts
+auth-jwt.service.spec.ts
+----
+
+==== Interface naming
+
+The interface names must be in pascal case, and must start with I. There is some controversy in starting the interface names with an I, but we decided to do it because is most of cases you will have an interface and a class with the same name, so, to differentiate them, we decided to start the interfaces with I. Other devonfw stacks solves it by adding the suffix `Impl` in the class implementations.
+
+Example:
+
+----
+interface ICoffee {}
+----
+
+==== Class naming
+
+The class names must be in pascal case.
+
+Example:
+
+----
+class Coffee {}
+----
+
+==== Variable naming
+
+All variable names must be in camel case.
+
+----
+const coffeeList: Coffe[];
+----
+
+=== Declarations
+
+For all variable declarations we must use `const` or `let`. `var` is forbidden. We preffer to use `const` when possible.
+
+=== Programming practices
+
+==== Trailing comma
+
+All statements must end with a trailing comma.
+
+==== Arrow functions
+
+All anonymous functions must be definned with the arrow function notation. In most of cases it's not a problem, but sometimes, when you do not want to bind `this` when you define the function, you can use the other function definition. In this special cases you must disable the linter for those sentence.
+
+==== Comments
+
+Comments must start with a whitespace. Example:
+
+[source,typescript]
+----
+//This is a bad comment
+// This is OK
+----
+
+==== Quotemarks
+
+For string definitions, we must use single quotes.
+
+==== if statements
+
+In all if statements you always must use brackets. Example:
+
+[source,typescript]
+----
+// Bad if statement
+if (condition)
+  return true;
+
+// Good if statement
+if (condition) {
+  return true;
+}
+----
