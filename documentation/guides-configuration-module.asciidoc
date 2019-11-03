@@ -2,3 +2,75 @@
 toc::[]
 
 = Configuration Module
+
+devon4node provides a way to generate a configuration module inside your appication. To generate it you only need to execute the command `devon4node generate config-module`. This command will generate inside your application:
+
+* Configuration module inside the core module.
+* config folder where all environment configuration are stored.
+** default configuration: configuration for your local development environment.
+** develop environment configuration for the develop environment.
+** uat environment configuration for the uat environment.
+** production environment configuration for the production environment.
+** production environment configuration for the production environment.
+** test environment configuration used by test.
+
+NOTE: some code generators will add some properties to this module, so, be sure that the config module is the first module that you generate in your application.
+
+== Use the configuration service
+
+To use the configuration service, you only need to inject it as dependency. As configuration module is defined in the core module, it will be available everywhere in your application. Example:
+
+[source,typescript]
+----
+export class MyProvider {
+  constructor(public readonly configService: ConfigurationService) {}
+
+  myMethod() {
+    return this.confiService.isDev;
+  }
+}
+----
+
+== Choose an environment file
+
+By default, when you use the configuration service it will take the properties defined in the default.ts file. If you want to change the configuration file, you only need to set the NODE_ENV environment property with the name of the desired environment. Examples: in windows execute `set NODE_ENV=develop` before executing the application, in linux execute `NODE_ENV=develop` before executing the application or `NODE_ENV=develop yarn start`.
+
+== Override configuration properties
+
+Sometimes, you want to keep some configuration property secure, and you do not want to publish it to the repository, or you want to reuse some configuration file but you need to change some properties. For those scenarios, you can override configuration properties by defining a environment variable with the same name. For example, if you want to override the property host, you can do: `set host="newhost"`. It also works with objects. For example, if you want to change the value of secret in the property jwtConfig for link:https://github.com/devonfw/devon4node/blob/develop/samples/employee/src/config/develop.ts[this example], you can set a environment variable like this: `set jwtConfig="{"secret": "newsecret"}"`. As you can see, this environment variable has a JSON value. It will take object and merge the jwtConfig property with the properties defined inside the environment variable. It other properties maintain their value. The behaviour is the same for the nested objects.
+
+== Add a configuration property
+
+In order to add a new property to the configuration module, you need to follow some steps:
+
+- Add the property to IConfig interface in `src/app/core/configuration/types.ts` file. With this, we can ensure that the `ConfigurationService` and the environment files has those property at compiling time.
+- Add the new property getter to `ConfigurationService`. You must use the `get` method of `ConfigurationService` to ensure that the property will be loaded from the desired config file. You can also add extra logic if needed.
+- Add the property to all config files inside the `src/config` folder.
+
+Example:
+
+We want to add the property `devonfwUrl` to our ConfigurationService, so:
+
+We add the following code in IConfig interface:
+
+[source,typescript]
+----
+devonfwUrl: string;
+----
+
+Then, we add the getter in the `ConfigurationService`:
+
+[source,typescript]
+----
+get devonfwUrl(): string {
+  return this.get('devonfwUrl')!;
+}
+----
+
+Finally, we add the definition in all config files:
+
+[source,typescript]
+----
+devonfwUrl: 'https://devonfw.com',
+----
+
