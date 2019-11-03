@@ -1,8 +1,17 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Post, Request, Response, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Request,
+  UseGuards,
+  Response,
+} from '@nestjs/common';
 import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { classToPlain } from 'class-transformer';
-import { User } from '../../user/model/entity/user.entity';
+import { User } from '../../user/model/entities/user.entity';
 import { AuthService } from '../services';
 import { UserRequest } from '../model';
 
@@ -21,7 +30,7 @@ export class AuthController {
   async register(@Body() user: User) {
     try {
       const registered = await this.authService.register(user);
-      return classToPlain(registered);
+      return registered;
     } catch (e) {
       throw new BadRequestException(e.message);
     }

@@ -5,3 +5,83 @@ toc::[]
 
 The link:https://en.wikipedia.org/wiki/Dependency_injection[dependency injection] is a well-known common design pattern applied by frameworks in all languages, like link:https://spring.io/[Spring] in Java, link:https://angular.io/[Angular] and others. The intention of this page is not to explain how dependency injection works, but instead how it is addressed by NestJS.
 
+NestJS resolve the dependency injection in their modules. When you define a provider in a module, it can be injected in all components of the module. By default, those providers are only available in the module where it is defined. The only way to export a module provider to other modules which import it is adding those provider to the export array. You can also reexport modules.
+
+== Inject dependencies in NestJS
+
+In oder to inject a dependency in a NestJS component, you need to declare it in the component constructor. Example:
+
+[source,typescript]
+----
+export class CoffeeController {
+  constructor(public readonly conffeeService: CoffeeService) {}
+}
+----
+
+NestJS can resolve all dependencies that are defined in the module as provider, and also the dependencies exported by the modules imported. Example:
+
+[source,typescript]
+----
+@Module({
+  controllers: [CoffeeController],
+  providers: [CoffeeService],
+})
+export class CoffeeModule {}
+----
+
+Inject dependencies in the constructor is the is the preferred choice, but, sometimes it is not possible. For example, when you are extending another class and want to keep the constructor definition. In this specific cases we can inject dependencies in the class properties. Example:
+
+[source,typescript]
+----
+export class CoffeeController {
+  @Inject(CoffeeService)
+  private readonly conffeeService: CoffeeService;
+}
+----
+
+== Dependency Graph
+
+image::images/plantuml/dependency-injection1.png[]
+
+In the previous image, the Module A can inject dependencies exported by Module B, Module E and Module F. If module B reexport Module C and Module D, they are also accesibles by Module A.
+
+If there is a conflict with the injection token, it resolves the provider with less distance with the module. For example: if the modules C and F exports a `UserService` provider, the Module A will resolve the `UserService` exported by the Module F, because the distance from Module A to Module F is 1, and the distance from Module A to Module C is 2.
+
+When you define a module as global, the dependency injection system is the same. The only difference is now all modules as a link to the global module. For example, if we make the Module C as global the dependency graph will be:
+
+image::images/plantuml/dependency-injection2.png[]
+
+== Custom providers
+
+When you want to change the provider name, you can use a NestJS feature called link:https://docs.nestjs.com/fundamentals/custom-providers[custom providers]. For example, if you want to define a provider called `MockUserService` with the provider token `UserService` you can define it like:
+
+[source,typescript]
+----
+@Module({
+  providers: [{
+    provide: UserService,
+    useValue: MockUserService,
+  }],
+})
+----
+
+With this, when you inject want to inject UserService as dependency, the MockUserService will be injected.
+
+Custom provider token can be also a string:
+
+[source,typescript]
+----
+@Module({
+  providers: [{
+    provide: 'USER_SERVICE',
+    useValue: MockUserService,
+  }],
+})
+----
+
+but now, when you want to inject it as dependency you need to use the @Inject decorator.
+
+[source,typescript]
+----
+constructor(@Inject('USER_SERVICE') userService: any) {}
+----

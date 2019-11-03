@@ -1,8 +1,8 @@
 import { Entity, Column } from 'typeorm';
 import { BaseEntity } from '../../../shared/model/entities/base-entity.entity';
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsOptional, MaxLength, IsEmail } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
+import { IsDefined, IsOptional, MaxLength, IsEmail } from 'class-validator';
 
 @Entity()
 export class Employee extends BaseEntity {

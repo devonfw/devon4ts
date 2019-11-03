@@ -3,7 +3,14 @@ toc::[]
 
 = devon4node CLI
 
-devon4node CLI is a tool designed to manage devon4node applications in a easy way. In this page we will explain all commands available and their arguments.
+devon4node CLI is a tool designed to manage devon4node applications in a easy way. Highly inspired by Nest CLI.
+
+In this page we will explain all commands available and their arguments.
+
+== Prerequisites
+
+- NodeJS lts
+- yarn
 
 == devon4node
 
