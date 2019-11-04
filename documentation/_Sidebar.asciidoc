@@ -15,7 +15,6 @@
 *** link:guides-auth-jwt.asciidoc[Auth JWT Module]
 *** link:guides-swagger.asciidoc[Swagger]
 *** link:guides-typeorm.asciidoc[TypeORM]
-*** link:guides-entities.asciidoc[Entities]
 *** link:guides-serializer.asciidoc[Serializer]
 *** link:guides-validation.asciidoc[Validation]
 *** link:guides-logger.asciidoc[Logger]
