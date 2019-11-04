@@ -27,4 +27,4 @@ The swagger module can read your code in order to create the swagger definition,
 
 For more information about decorators and other behaviours about swagger module, you can see the link:https://docs.nestjs.com/recipes/swagger[NestJS swagger documentation page]
 
-NOTE: the OpenAPI specification that this module will emmit is v2.0. The OpenAPI v3.0 is not available yet by using this module.
+NOTE: the OpenAPI specification that this module supports is v2.0. The OpenAPI v3.0 is not available yet by using this module.

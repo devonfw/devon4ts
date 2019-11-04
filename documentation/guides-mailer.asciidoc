@@ -49,7 +49,7 @@ Your must pass the configuration using the forRoot or forRootAsync methods.
 
 === forRoot()
 
-The forRoot method recives an MailerModuleOptions object as parameter. It configures the MailerModule using the input MailerModuleOptions object.
+The forRoot method receives an MailerModuleOptions object as parameter. It configures the MailerModule using the input MailerModuleOptions object.
 
 The structure of MailerModuleOptions is:
 
@@ -101,7 +101,7 @@ Then, you need to call to forRoot function in the module imports. Example:
 
 === forRootAsync()
 
-The method forRootAsync enables you to get the mailer configuration in a asynchronous way. It is usefull when you need to get the configuration using, for example, a service (e.g. ConfigurationService).
+The method forRootAsync enables you to get the mailer configuration in a asynchronous way. It is useful when you need to get the configuration using, for example, a service (e.g. ConfigurationService).
 
 Example:
 
@@ -143,7 +143,7 @@ Then, you only need to use the methods provided by the MailerService in your ser
 
 ==== sendPlainMail
 
-The method sendPlainMail recive a string sends a email.
+The method sendPlainMail receive a string sends a email.
 
 The method signatures are:
 
@@ -194,7 +194,7 @@ this.mailer.sendTemplateMail('example@example.com', 'This is a subject', 'templa
 
 Adds a new template to the MailerService.
 
-Mehotd signature:
+Method signature:
 
 [source,typescript]
 ----
@@ -212,7 +212,7 @@ this.mailer.addTemplate('newTemplate', '<html><head></head><body>{{>partial1}}</
 
 Register a new partial in Handlebars.
 
-Mehotd signature:
+Method signature:
 
 [source,typescript]
 ----
@@ -230,7 +230,7 @@ this.mailer.registerPartial('partial', '<h1>Hello World</h1>')
 
 Register a new helper in Handlebars.
 
-Mehotd signature:
+Method signature:
 
 [source,typescript]
 ----
@@ -255,7 +255,7 @@ You can specify the extension of template files using the `extension` parameter.
 
 == Local development
 
-If you want to work with this module but you dont have a SMTP server, you can use the `streamTransport`. Example:
+If you want to work with this module but you don't have a SMTP server, you can use the `streamTransport`. Example:
 
 [source,typescript]
 ----
@@ -269,7 +269,7 @@ If you want to work with this module but you dont have a SMTP server, you can us
 }
 ----
 
-Then, you need to get the sendPlainMail or sendTemplateMail result, and print the email to the extandart output (STDOUT). Example:
+Then, you need to get the sendPlainMail or sendTemplateMail result, and print the email to the standard output (STDOUT). Example:
 
 [source,typescript]
 ----

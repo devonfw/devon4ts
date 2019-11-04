@@ -17,7 +17,7 @@ toc::[]
 
 = Controller Layer
 
-The controller layer is responsible for handling the requests/responses to the client. This layer knows everything about the endpoints exposed, the expected input (and also link:guides-validation[validate] it), the response schema, the HTTP codes for the reponse and the HTTP errors that every endpoint can send.
+The controller layer is responsible for handling the requests/responses to the client. This layer knows everything about the endpoints exposed, the expected input (and also link:guides-validation[validate] it), the response schema, the HTTP codes for the response and the HTTP errors that every endpoint can send.
 
 == How to implement the controller layer
 
@@ -31,7 +31,7 @@ export class CoffeeController {
 
   @Post('search')
   @HttpCode(200)
-  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffe>> {
+  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffee>> {
     try {
       return await this.coffeeService.searchCoffees(search);
     } catch (error) {
@@ -69,7 +69,7 @@ export class CoffeeController {
   @Post('search')
   @HttpCode(200)
   @UseFilters(CaffeExceptionFilter)
-  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffe>> {
+  async searchCoffees(@Body() search: CoffeeSearch): Promise<Array<Coffee>> {
     return await this.coffeeService.searchCoffees(search);
   }
 }

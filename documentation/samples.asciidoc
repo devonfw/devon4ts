@@ -40,7 +40,7 @@ $ yarn build
 $ yarn start
 ----
 
-Now, you can acces to the application using the url `http://localhost:3000/v1/todo/todos`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:3000/v1/api`.
+Now, you can access to the application using the url `http://localhost:3000/v1/todo/todos`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:3000/v1/api`.
 
 Also, in this example we show you how to control the access to you application by implementing an authentication mechanism using JWT and rol based strategy. In order to access to the list of todos (`http://localhost:3000/v1/todo/todos`), first you need to call to `POST http://localhost:3000/v1/auth/login` and in the body you need to send the user information:
 
@@ -66,13 +66,13 @@ $ yarn build
 $ yarn start
 ----
 
-Now, you can acces to the application using the url `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
+Now, you can access to the application using the url `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
 
 This is a simple example without authentication. With this example you can learn how to work with database migrations. You can find them in the folder /src/migrations. The TypeORM is configured in order to execute the migrations every time that you start this application (`"migrationsRun": true` at ormconfig.json). You can also execute the migration manually by typing the command `devon4node db migration:run`, or revert executing `devon4node db migration:revert`. Take into account that the database that this application is using is an in-memory sqlite, so every time that you stop the application all data is lost.
 
 == Components example
 
-This example allow you to understand better the execution order of the components of a devon4node application (guards, pipes, interceptors, filters, middlewares).
+This example allow you to understand better the execution order of the components of a devon4node application (guards, pipes, interceptors, filters, middleware).
 
 In order to start the application, run the following commands in the todo folder:
 

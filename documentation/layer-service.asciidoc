@@ -29,8 +29,8 @@ This layer is implemented by services, a specific kind of link:https://docs.nest
 export class CoffeeService {
   constructor(private readonly coffeeService: CoffeeService) {}
 
-  async searchCoffees(@InjectRepository(Coffee) coffeRepository: Repository<Coffee>): Promise<Array<Coffe>> {
-    const coffees = this.coffeRepository.find();
+  async searchCoffees(@InjectRepository(Coffee) coffeeRepository: Repository<Coffee>): Promise<Array<Coffee>> {
+    const coffees = this.coffeeRepository.find();
 
     return doSomeBusinessLogic(coffees);
   }
@@ -39,4 +39,4 @@ export class CoffeeService {
 
 This is the CoffeeService that we inject in the example of link:layer-controller[controller layer]. As you can see, a service is a regular class with the `Injectable` decorator. Also, it inject as dependency the data access layer (in this specific case, the Repository<Coffee>).
 
-The services, exposes methods in order to transform the input from the controllers by appling some business logic. They can also request data from the data access layer. And that's all.
+The services expose methods in order to transform the input from the controllers by applying some business logic. They can also request data from the data access layer. And that's all.

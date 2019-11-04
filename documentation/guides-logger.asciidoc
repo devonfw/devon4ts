@@ -25,7 +25,7 @@ As you can see it is a simple example about how to use logger in a devon4node ap
 
 == How to use logger
 
-In order to use the logger you only need to inject the logger as a dependecy:
+In order to use the logger you only need to inject the logger as a dependency:
 
 [source,typescript]
 ----
@@ -38,7 +38,7 @@ and then use it
 ----
 async getAll() {
   this.service.getAll();
-  this.logger.log('Returing all data');
+  this.logger.log('Returning all data');
 }
 ----
 

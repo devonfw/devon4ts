@@ -31,7 +31,7 @@ But key principles that best define devon4node (and are inherited from NestJS) a
 
 == Simplicity
 
-In devon4node we tryed to do everything as simple as possible. Following this princible we will be able to do easy to mantain applications.
+In devon4node we tried to do everything as simple as possible. Following this principle we will be able to do easy to maintain applications.
 
 For example, in order to expose all CRUD operations for an entity, you only need to create a controller like:
 
@@ -49,7 +49,7 @@ export class EmployeeCrudController {
 }
 ----
 
-You can find this code in the link:samples[employee example]. Only with this code your exposing the full CRUD operations for the employee entity. As you can see, it's an empty class with some decorators and the `EmployeeCrudService` inyected as dependency. Simple, isn't it? The `EmployeeCrudService` is also simple:
+You can find this code in the link:samples[employee example]. Only with this code your exposing the full CRUD operations for the employee entity. As you can see, it's an empty class with some decorators and the `EmployeeCrudService` injected as dependency. Simple, isn't it? The `EmployeeCrudService` is also simple:
 
 [source,typescript]
 ----

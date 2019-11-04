@@ -145,7 +145,7 @@ The functionality is the same as new command, but the difference is `generate` c
 
 === Generate database migrations
 
-The last command that we have in order to generate command is `devon4node db migration:generate -n MigrationName`. It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a exmple in the link:https://github.com/devonfw/devon4node/blob/develop/samples/todo/src/migration/1571244118394-CreateTables.ts[todo example]
+The last command that we have in order to generate command is `devon4node db migration:generate -n MigrationName`. It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the link:https://github.com/devonfw/devon4node/blob/develop/samples/todo/src/migration/1571244118394-CreateTables.ts[todo example]
 
 == CobiGen
 

@@ -355,7 +355,7 @@ Create a Nest application (mono-repo). Inherit from link:https://docs.nestjs.com
 
 ==== typeorm
 
-Initialice typeorm into your current project in a correct way.
+Initialize typeorm into your current project in a correct way.
 
 |========
 | *Arguments*           | *Description*
