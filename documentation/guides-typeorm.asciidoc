@@ -1,4 +1,82 @@
 :toc: macro
 toc::[]
 
-= TypeORM Module
+= TypeORM
+
+TypeORM is the default ORM provided by devon4node. It supports MySQL, MariaDB, Postgres, CockroachDB, SQLite, Microsoft SQL Server, Oracle, sql.js relational dabases and also supports MongoDB NoSQL database.
+
+Add TypeORM support to a devon4node application is very easy: you only need to execute the command `devon4node generate typeorm` and it will add all required dependencies to the project and also imports the @nestjs/typeorm module.
+
+For more information about TypeORM and the integration with NestJS you can visit link:https://typeorm.io[TypeORM webpage], link:https://github.com/typeorm/typeorm[TypeORM GitHub repository] and link:https://docs.nestjs.com/recipes/sql-typeorm[NestJS TypeORM documentation page]
+
+== Configuration
+
+When you have the configuration module, the typeorm generator will add one property in order to be able to configure the database depending on the environment. Example:
+
+[source,typescript]
+----
+database: {
+  type: 'sqlite',
+  database: ':memory:',
+  synchronize: false,
+  migrationsRun: true,
+  logging: true,
+  entities: ['dist/**/*.entity.js'],
+  migrations: ['dist/migration/**/*.js'],
+  subscribers: ['dist/subscriber/**/*.js'],
+  cli: {
+    entitiesDir: 'src/entity',
+    migrationsDir: 'src/migration',
+    subscribersDir: 'src/subscriber',
+  },
+},
+----
+
+This object is a TypeORM ConnectionOptions. For fore information about it visit the link:https://typeorm.io/#/connection-options/[TypeORM Connection Options page].
+
+There is also a special case: the default configuration. As the devon4node CLI need the database configuration when you use the `devon4node db` command, we also provide the ormconfig.json file. In this file you must put the configuration for you local environment. In order to do not have duplicated the configuration for local environment, in the default config file the database property is setted like:
+
+[source,typescript]
+----
+database: require('../../ormconfig.json'),
+----
+
+So, you only need to maintain the ormconfig.json file for the local environment.
+
+== Entity
+
+Entity is a class that maps to a database table. The devon4node CLI has a generator to create new entities. You only need to execute the command `devon4node generate entity --name <module-name>/<entity-name>` and it generate the entity.
+
+In the entity, you must define all columns, relations, primary keys of your database table. By default, devon4node provides a class named `BaseEntity`. All entities created with the devon4node CLI will extends the `BaseEntity`. This entity provides you some common columns:
+
+- id: the primary key of you table
+- version: the version of the entry (used for auditing purposes)
+- createdAt: creation date of the entry (used for auditing purposes)
+- updatedAt: last update date of the entry (used for auditing purposes)
+
+For more information about Entities, please visit the link:https://typeorm.io/#/entities[TypeORM entities page]
+
+== Repository
+
+With repositories, you can manage (insert, update, delete, load, etc.) a concrete entity. Using this pattern, we have separated the data (Entities) from the methods to manage it (Repositories).
+
+To use a repository you only need to:
+
+- Import it in the module as follows:
++
+[source,typescript]
+----
+@Module({
+  imports: [TypeOrmModule.forFeature([Employee])],
+})
+----
++
+NOTE: if you generate the entities with the devon4node CLI, this step is not neccesary, devon4node CLI do it for you.
++
+- Inject the repository as dependency in your service:
++
+----
+constructor(@InjectRepository(Employee) employeeRepository: Repository<Employee>) {}
+----
+
+You can see more details in the link:https://docs.nestjs.com/techniques/database[NestJS database] and link:https://docs.nestjs.com/recipes/sql-typeorm[NestJS TypeORM] documentation pages.

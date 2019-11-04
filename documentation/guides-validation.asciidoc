@@ -2,3 +2,38 @@
 toc::[]
 
 = Validation
+
+To be sure that your application will works well, you must validate any input data. devon4node by default provides a `ValidationPipe`. This `ValidationPipe` is the responsible of validate the request input and, if the input do not pass the validation process, it returns a `400 Bad Request` error.
+
+== Defining Validators
+
+The `ValidationPipe` needs to know how to validate the input. For that purpose we use the `class-validator` package. This package allows you to define the validation of a class by using decorators.
+
+For example:
+
+[source,typescript]
+----
+export class Coffee {
+  @IsDefined()
+  @IsString()
+  @MaxLength(255)
+  name: string;
+
+  @IsDefined()
+  @IsString()
+  @MaxLength(25)
+  type: string;
+
+  @IsDefined()
+  @IsNumber()
+  quantity: number;
+}
+----
+
+As you can see in the previous example, we used some decorators in order to define the validators for every property of the Coffee class. You can find all decorators in the link:https://github.com/typestack/class-validator[class-validator github repository].
+
+Now, when you want to receive a Coffee as input in some endpoint, it will execute the validations before executing the handler function.
+
+NOTE: In order to be able to use the class-validator package, you must use classes instead of interfaces. As you know interfaces disappear at compiling time, and class-validator need to know the metadata of the properties in order to be able to validate.
+
+NOTE: The `ValidationPipe` only works if you put a specific type in the handler definition. For example, if you define a handler like `getCoffee(@Body() coffee: any): Coffee {}` the ValidationPipe will not do anything. You must specify the type of the input: `getCoffee(@Body() coffee: Coffee): Coffee {}`
