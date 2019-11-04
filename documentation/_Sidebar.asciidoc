@@ -21,4 +21,5 @@
 *** link:guides-mailer.asciidoc[Mailer Module]
 ** devon4node applications
 *** link:samples.asciidoc[devon4node Samples]
+*** link:samples-step-by-step.asciidoc[devon4node Sample Step by Step]
 

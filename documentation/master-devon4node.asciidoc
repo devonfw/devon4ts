@@ -1,6 +1,3 @@
-:toc: macro
-toc::[]
-
 = devon4node
 
 link:https://www.devonfw.com/[devonfw] is a platform which provides solutions to building business applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions. devonfw is 100% Open Source (Apache License version 2.0) since the beginning of 2018.
@@ -27,13 +24,13 @@ include::guides-dependency-injection[leveloffset=2]
 include::guides-configuration-module[leveloffset=2]
 include::guides-auth-jwt[leveloffset=2]
 include::guides-swagger[leveloffset=2]
-// include::guides-typeorm[leveloffset=2]
+include::guides-typeorm[leveloffset=2]
 include::guides-serializer[leveloffset=2]
-// include::guides-validation[leveloffset=2]
+include::guides-validation[leveloffset=2]
 include::guides-logger[leveloffset=2]
 include::guides-mailer[leveloffset=2]
 
 == devon4node applications
 
 include::samples[leveloffset=2]
-// include::samples-step-by-step[leveloffset=2]
+include::samples-step-by-step[leveloffset=2]

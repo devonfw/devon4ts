@@ -1,5 +1,19 @@
 :toc: macro
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 toc::[]
+:idprefix:
+:idseparator: -
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
 
 = devon4node Wiki
 
@@ -31,4 +45,5 @@ toc::[]
 == devon4node applications
 
 - link:samples.asciidoc[devon4node Samples]
+- link:samples-step-by-step.asciidoc[devon4node Sample Step by Step]
 
