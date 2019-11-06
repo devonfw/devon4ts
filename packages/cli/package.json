@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "devon4node CLI",
   "bin": {
     "devon4node": "./bin/devon4node",
