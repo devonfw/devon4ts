@@ -78,14 +78,7 @@ function addAuthToCoreModule(project: string): Rule {
       true,
     );
 
-    fileContent = addToModuleDecorator(
-      fileContent!,
-      'CoreModule',
-      './user/user.module',
-      'UserModule',
-      'imports',
-      true,
-    );
+    fileContent = addToModuleDecorator(fileContent!, 'CoreModule', './user/user.module', 'UserModule', 'imports', true);
 
     if (fileContent) {
       tree.overwrite(module, fileContent);
