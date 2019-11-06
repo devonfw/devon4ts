@@ -140,8 +140,8 @@ function updatePrettier(host: Tree, _options: any): string {
 function updateTsLint(host: Tree, _options: any): string {
   const content = JSON.parse(host.read(join(_options.name, 'tslint.json'))!.toString('utf-8'));
 
-  content['interface-name'] = [true];
-  content['variable-name'] = {
+  content.rules['interface-name'] = [true];
+  content.rules['variable-name'] = {
     options: ['ban-keywords', 'check-format', 'allow-pascal-case', 'allow-leading-underscore'],
   };
 
