@@ -6,6 +6,7 @@ import * as SMTPPool from 'nodemailer/lib/smtp-pool';
 import * as SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as StreamTransport from 'nodemailer/lib/stream-transport';
 import { ModuleMetadata } from '@nestjs/common/interfaces';
+import * as Handlebars from 'handlebars';
 
 // Copied from Handlebars, they do not export it
 export interface ICompileOptions {
