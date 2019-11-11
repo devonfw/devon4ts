@@ -7,7 +7,7 @@ import {
   addPropToInterface,
   insertLinesToFunctionBefore,
 } from '../../utils/ast-utils';
-import { existsConfigModule } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.isDev) {
@@ -89,7 +89,7 @@ function updateMain(project: string) {
     }
 
     if (main) {
-      tree.overwrite(mainPath, main);
+      tree.overwrite(mainPath, formatTsFile(main));
     }
     return tree;
   };
@@ -112,7 +112,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
     'return { ...this.get("swaggerConfig")! } as ISwaggerConfig;',
   );
 
-  tree.overwrite(configServicePath, configServiceContent);
+  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
 }
 
 function updateConfigTypeFile(project: string | undefined, tree: Tree) {
@@ -124,7 +124,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree) {
 
   typesFileContent = typesFileContent.concat('\n', swaggerInterface);
 
-  tree.overwrite(typesFile, typesFileContent);
+  tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
 function updateConfigFiles(project: string | undefined, tree: Tree) {
@@ -133,11 +133,13 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
   tree.getDir(configDir).subfiles.forEach(file => {
     tree.overwrite(
       join(configDir, file),
-      addEntryToObjctLiteralVariable(
-        tree.read(join(configDir, file))!.toString('utf-8'),
-        'def',
-        'swaggerConfig',
-        defaultSwaggerValue,
+      formatTsFile(
+        addEntryToObjctLiteralVariable(
+          tree.read(join(configDir, file))!.toString('utf-8'),
+          'def',
+          'swaggerConfig',
+          defaultSwaggerValue,
+        ),
       ),
     );
   });

@@ -85,12 +85,10 @@ describe('Auth Controller', () => {
 
   describe('currentUser', () => {
     it('should return the validated user in the request', () => {
-      const request: any = {
-        user: {
-          username: 'user1',
-        },
+      const user: any = {
+        username: 'user1',
       };
-      expect(controller.currentUser(request)).toEqual(request.user);
+      expect(controller.currentUser(user)).toEqual(user);
     });
     // The auth guard will rejects all request if the user is not present or invalid,
     // so we do not need to test those use case here.
