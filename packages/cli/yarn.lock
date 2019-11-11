@@ -120,10 +120,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@devon4node/schematics@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@devon4node/schematics/-/schematics-1.1.0.tgz#4092afa9e1320ab889bcaaf82353c3581a138089"
-  integrity sha512-ii2VI8lMrkts3qfRyQNsTgDYA9pRWzB6fszeH+G5A3Lh2mtSTBZ1r3xURyPRPo2BA+X89Fv/bPP5o+BDjzAX0g==
+"@devon4node/schematics@^1.1.1":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@devon4node/schematics/-/schematics-1.1.2.tgz#524e809bb624bce31967b69ac7976f3e00a4592c"
+  integrity sha512-13J+TpTdIDzXryw9ygAUJGG9nxx+o88xadJ6MwpHr4PmUnTU7RhLtdalRwcbOsLmfVLFQ1eWIDGK91SwodIRzg==
   dependencies:
     "@angular-devkit/core" "^8.3.17"
     "@angular-devkit/schematics" "^8.3.17"
@@ -270,7 +270,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^12.11.5":
+"@types/node@*":
+  version "12.12.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.7.tgz#01e4ea724d9e3bd50d90c11fd5980ba317d8fa11"
+  integrity sha512-E6Zn0rffhgd130zbCbAr/JdXfXkoOUFAKNs/rF8qnafSJ8KYaA/j3oz7dcwal+lYjLA7xvdd5J4wdYpCTlP8+w==
+
+"@types/node@^12.11.5":
   version "12.12.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.6.tgz#a47240c10d86a9a57bb0c633f0b2e0aea9ce9253"
   integrity sha512-FjsYUPzEJdGXjwKqSpE0/9QEh6kzhTAeObA54rn6j3rR4C/mzpI9L0KNfoeASSPMMdxIsoJuCLDWcM/rVjIsSA==
@@ -1720,10 +1725,22 @@ glob-parent@^5.1.0:
   dependencies:
     is-glob "^4.0.1"
 
-glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4:
+glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glob@^7.1.4:
   version "7.1.5"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.5.tgz#6714c69bee20f3c3e64c4dd905553e532b40cdc0"
   integrity sha512-J9dlskqUXK1OeTOYBEn5s8aMukWMwWfs+rPTn/jn50Ux4MNXVhubL1wu/j2t+H4NVI+cXEcCaYellqaPVGXNqQ==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@^7.1.3:
+  version "7.1.6"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
+  integrity sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -2900,9 +2917,9 @@ pbkdf2@^3.0.3:
     sha.js "^2.4.8"
 
 picomatch@^2.0.5:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.1.0.tgz#0fd042f568d08b1ad9ff2d3ec0f0bfb3cb80e177"
-  integrity sha512-uhnEDzAbrcJ8R3g2fANnSuXZMBtkpSjxTTgn2LeSiQlfmq72enQJWdQllXW24MBLYnA1SBD2vfvx2o0Zw3Ielw==
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.1.1.tgz#ecdfbea7704adb5fe6fb47f9866c4c0e15e905c5"
+  integrity sha512-OYMyqkKzK7blWO/+XZYP6w8hH0LDvkBvdvKukti+7kqYFCiEAk+gI3DWnryapc0Dau05ugGTy0foQ6mqn4AHYA==
 
 pify@^4.0.1:
   version "4.0.1"
@@ -3690,9 +3707,9 @@ tree-kill@1.2.1:
   integrity sha512-4hjqbObwlh2dLyW4tcz0Ymw0ggoaVDMveUB9w8kFSQScdRLo0gxO9J7WFcUBo+W3C1TLdFIEwNOWebgZZ0RH9Q==
 
 ts-morph@^4.0.0, ts-morph@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/ts-morph/-/ts-morph-4.3.2.tgz#f67f244ed9089f542e73acd7033840327f27902a"
-  integrity sha512-6nqV75SRULWqhe70vsxLYw8BYBRV7MbitnGs6mr7MULfWw4ho7U4Qcs277aKkqWJ7I/FHK2WQ+1pbeYi5W7U5w==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/ts-morph/-/ts-morph-4.3.3.tgz#16e61ecabc7ee3ef800ea00c9b95552942e66706"
+  integrity sha512-yauxRJM4Vo+KvpJFgL4Mp9PtFjwZVrt54eP3RkLIXnaaAY5TGVHTLqN2OnLGwf6YjyqkDLAKprZVOUTvVEz6ZQ==
   dependencies:
     "@dsherret/to-absolute-glob" "^2.0.2"
     chalk "^2.4.2"
@@ -3702,7 +3719,7 @@ ts-morph@^4.0.0, ts-morph@^4.3.2:
     globby "^10.0.1"
     is-negated-glob "^1.0.0"
     multimatch "^4.0.0"
-    typescript "^3.0.1"
+    typescript "3.0.1 - 3.6.4"
 
 tsconfig-paths-webpack-plugin@3.2.0:
   version "3.2.0"
@@ -3789,12 +3806,17 @@ typeorm@^0.2.20:
     yargonaut "^1.1.2"
     yargs "^13.2.1"
 
+"typescript@3.0.1 - 3.6.4":
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.4.tgz#b18752bb3792bc1a0281335f7f6ebf1bbfc5b91d"
+  integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
+
 typescript@3.4.5:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
   integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
 
-typescript@^3.0.1, typescript@~3.7.2:
+typescript@~3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
