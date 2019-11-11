@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import * as yargs from 'yargs';
-import { executeCollection, prettifyCode, installPackages } from '../utils/utils';
+import { executeCollection, installPackages } from '../utils/utils';
 import { generateCodeInteractive } from './new.command';
 
 interface ISchematicsFile {
@@ -45,20 +45,7 @@ const tmpDir = process.env.TEMP || '/var/tmp';
  * @param args yargs.Argv
  */
 export function builder(args: yargs.Argv) {
-  let newYargs = args.strict(false).version(false);
-
-  const options = generateOptionsFile();
-
-  options.schematics.forEach(element => {
-    newYargs = newYargs.command(
-      element.name,
-      element.description,
-      generateBuilder(element.name, element.options),
-      generateHandler(element.name, element.options),
-    );
-  });
-
-  return newYargs
+  let newYargs = args
     .option('interactive', {
       alias: 'i',
       type: 'boolean',
@@ -81,6 +68,19 @@ export function builder(args: yargs.Argv) {
       type: 'string',
       description: 'Path to project.',
     });
+
+  const options = generateOptionsFile();
+
+  options.schematics.forEach(element => {
+    newYargs = newYargs.command(
+      element.name,
+      element.description,
+      generateBuilder(element.name, element.options),
+      generateHandler(element.name, element.options),
+    );
+  });
+
+  return newYargs.strict(false).version(false);
 }
 
 /**
@@ -287,7 +287,5 @@ function generateHandler(schematicName: string, schemaOptions: ISchematicOption[
     if (installAfterGenerate.includes(schematicName)) {
       installPackages(argv.path as string);
     }
-
-    prettifyCode(argv.path as string);
   };
 }

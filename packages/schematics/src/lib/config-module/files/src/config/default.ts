@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { IConfig } from '../app/core/configuration/model';
 
 const def: IConfig = {

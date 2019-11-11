@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "config": "<%= packagesVersion.config %>"
+  },
+  "devDependencies": {
+    "@types/config": "<%= packagesVersion.typesConfig %>"
+  }
+}

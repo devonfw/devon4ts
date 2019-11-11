@@ -3,6 +3,7 @@ import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
 import { packagesVersion } from '../packagesVersion';
 import { addDefaultImports, insertLinesToFunctionBefore } from '../../utils/ast-utils';
+import { formatTsFile } from '../../utils/tree-utils';
 
 export interface ISecurityInitializer {
   path?: string;
@@ -42,7 +43,7 @@ function updateMain(project: string | undefined): Rule {
     );
 
     if (content) {
-      tree.overwrite(filePath, content);
+      tree.overwrite(filePath, formatTsFile(content));
     }
     return tree;
   };

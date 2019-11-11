@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@nestjs/passport": "<%= packagesVersion.nestjsPassport %>",
+    "@nestjs/jwt": "<%= packagesVersion.nestjsJwt %>",
+    "passport-jwt": "<%= packagesVersion.passportJwt %>",
+    "bcrypt": "<%= packagesVersion.bcrypt %>",
+    "passport": "<%= packagesVersion.passport %>",
+    "lodash": "<%= packagesVersion.lodash %>"
+  },
+  "devDependencies": {
+    "@types/passport-jwt": "<%= packagesVersion.typesPassportJwt %>",
+    "@types/bcrypt": "<%= packagesVersion.typesBcrypt %>",
+    "@types/lodash": "<%= packagesVersion.typesLodash %>"
+  }
+}

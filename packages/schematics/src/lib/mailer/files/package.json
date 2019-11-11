@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@devon4node/mailer": "<%= packagesVersion.devon4nodeMailer %>"
+  }
+}

@@ -4,6 +4,7 @@ import { compare } from 'bcrypt';
 import { classToPlain } from 'class-transformer';
 import { UserService } from '../../user/services';
 import { User } from '../../user/model';
+import { LoginDTO } from '../model';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     return undefined;
   }
 
-  async login(user: User): Promise<string> {
+  async login(user: LoginDTO): Promise<string> {
     const payload = await this.validateUser(user.username!, user.password!);
 
     if (!payload) {
