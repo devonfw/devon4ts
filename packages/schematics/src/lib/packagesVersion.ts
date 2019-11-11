@@ -1,6 +1,6 @@
 export const packagesVersion = {
-  devon4nodeMailer: '^1.0.1',
-  devon4nodeCommon: '^1.0.1',
+  devon4nodeMailer: '^1.1.0',
+  devon4nodeCommon: '^1.1.0',
   nestjsPassport: '^6.1.0',
   nestjsTypeorm: '^6.2.0',
   nestjsSwagger: '^3.1.0',
@@ -23,6 +23,10 @@ export const packagesVersion = {
   typesHelmet: '^0.0.44',
   lodash: '^4.17.15',
   typesLodash: '^4.14.144',
+  husky: '^3.0.9',
+  prettyQuick: '^2.0.1',
+  tslintConfigPrettier: '^1.18.0',
+  tslintPluginPrettier: '^2.0.1',
   dbpackages: {
     postgres: ['pg', '^7.3.0'],
     cockroachdb: ['pg', '^7.3.0'],

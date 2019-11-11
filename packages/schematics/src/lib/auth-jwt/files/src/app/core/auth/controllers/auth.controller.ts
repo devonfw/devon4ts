@@ -1,27 +1,18 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Request,
-  UseGuards,
-  Response,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, UseGuards, Response } from '@nestjs/common';
 import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../../user/model/entities/user.entity';
 import { AuthService } from '../services';
-import { UserRequest } from '../model';
+import { LoginDTO } from '../model';
+import { GetUser } from '../decorators/get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
   @HttpCode(200)
-  async login(@Body() body: any, @Response() res: eResponse) {
-    const token = await this.authService.login(body);
+  async login(@Body() login: LoginDTO, @Response() res: eResponse) {
+    const token = await this.authService.login(login);
     res.setHeader('Authorization', 'Bearer ' + token);
     res.status(200).send();
   }
@@ -38,7 +29,7 @@ export class AuthController {
 
   @Get('currentuser')
   @UseGuards(AuthGuard())
-  currentUser(@Request() req: UserRequest) {
-    return req.user;
+  currentUser(@GetUser() user: User) {
+    return user;
   }
 }

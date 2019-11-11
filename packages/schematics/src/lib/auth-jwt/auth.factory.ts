@@ -4,8 +4,9 @@ import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { addToModuleDecorator, addImports, addGetterToClass } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 import { noop } from 'rxjs';
-import { existsConfigModule } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFiles, formatTsFile } from '../../utils/tree-utils';
 import { addPropToInterface, addEntryToObjctLiteralVariable } from '../../utils/ast-utils';
+import { mergeFiles } from '../../utils/merge';
 
 const defaultJwtConfig = {
   secret: 'SECRET',
@@ -29,35 +30,38 @@ export function authJWT(options: IAuthJWTOptions): Rule {
             ...strings,
             ...options,
             config,
+            packagesVersion,
           }),
+          formatTsFiles(),
           move(join((options.path || '.') as Path)),
+          mergeFiles(tree),
         ]),
       ),
-      updatePackageJson(options.path),
+      // updatePackageJson(options.path),
       addAuthToCoreModule(options.path),
       config ? addJWTConfiguration(options.path) : noop,
     ]);
   };
 }
 
-function updatePackageJson(path: string): Rule {
-  return (host: Tree): Tree => {
-    const packageJsonPath = join(path as Path, 'package.json');
-    const content = JSON.parse(host.read(packageJsonPath)!.toString('utf-8'));
-    content.dependencies['@nestjs/passport'] = packagesVersion.nestjsPassport;
-    content.dependencies.bcrypt = packagesVersion.bcrypt;
-    content.dependencies.passport = packagesVersion.passport;
-    content.dependencies['@nestjs/jwt'] = packagesVersion.nestjsJwt;
-    content.dependencies['passport-jwt'] = packagesVersion.passportJwt;
-    content.devDependencies['@types/passport-jwt'] = packagesVersion.typesPassportJwt;
-    content.devDependencies['@types/bcrypt'] = packagesVersion.typesBcrypt;
-    content.dependencies.lodash = packagesVersion.lodash;
-    content.devDependencies['@types/lodash'] = packagesVersion.typesLodash;
+// function updatePackageJson(path: string): Rule {
+//   return (host: Tree): Tree => {
+//     const packageJsonPath = join(path as Path, 'package.json');
+//     const content = JSON.parse(host.read(packageJsonPath)!.toString('utf-8'));
+//     content.dependencies['@nestjs/passport'] = packagesVersion.nestjsPassport;
+//     content.dependencies.bcrypt = packagesVersion.bcrypt;
+//     content.dependencies.passport = packagesVersion.passport;
+//     content.dependencies['@nestjs/jwt'] = packagesVersion.nestjsJwt;
+//     content.dependencies['passport-jwt'] = packagesVersion.passportJwt;
+//     content.devDependencies['@types/passport-jwt'] = packagesVersion.typesPassportJwt;
+//     content.devDependencies['@types/bcrypt'] = packagesVersion.typesBcrypt;
+//     content.dependencies.lodash = packagesVersion.lodash;
+//     content.devDependencies['@types/lodash'] = packagesVersion.typesLodash;
 
-    host.overwrite(packageJsonPath, JSON.stringify(content, null, 2));
-    return host;
-  };
-}
+//     host.overwrite(packageJsonPath, JSON.stringify(content, null, 2));
+//     return host;
+//   };
+// }
 
 function addAuthToCoreModule(project: string): Rule {
   return (tree: Tree): Tree => {
@@ -81,7 +85,7 @@ function addAuthToCoreModule(project: string): Rule {
     fileContent = addToModuleDecorator(fileContent!, 'CoreModule', './user/user.module', 'UserModule', 'imports', true);
 
     if (fileContent) {
-      tree.overwrite(module, fileContent);
+      tree.overwrite(module, formatTsFile(fileContent));
     }
 
     return tree;
@@ -115,7 +119,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
     'return { ...this.get("jwtConfig")! } as JwtModuleOptions;',
   );
 
-  tree.overwrite(configServicePath, configServiceContent);
+  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
 }
 
 function updateConfigTypeFile(project: string | undefined, tree: Tree) {
@@ -125,7 +129,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree) {
   typesFileContent = addImports(typesFileContent, 'JwtModuleOptions', '@nestjs/jwt');
   typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'jwtConfig', 'JwtModuleOptions');
 
-  tree.overwrite(typesFile, typesFileContent);
+  tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
 function updateConfigFiles(project: string | undefined, tree: Tree) {
@@ -134,11 +138,13 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
   tree.getDir(configDir).subfiles.forEach(file => {
     tree.overwrite(
       join(configDir, file),
-      addEntryToObjctLiteralVariable(
-        tree.read(join(configDir, file))!.toString('utf-8'),
-        'def',
-        'jwtConfig',
-        JSON.stringify(defaultJwtConfig),
+      formatTsFile(
+        addEntryToObjctLiteralVariable(
+          tree.read(join(configDir, file))!.toString('utf-8'),
+          'def',
+          'jwtConfig',
+          JSON.stringify(defaultJwtConfig),
+        ),
       ),
     );
   });

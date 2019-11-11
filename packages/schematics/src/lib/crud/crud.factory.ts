@@ -1,11 +1,10 @@
-import { chain, Rule, schematic, apply, url, template, move, mergeWith } from '@angular-devkit/schematics';
-import { strings, normalize, join, Path, dirname, basename } from '@angular-devkit/core';
-import { Tree } from '@angular-devkit/schematics';
-import { packagesVersion } from '../packagesVersion';
+import { basename, dirname, join, normalize, Path, strings } from '@angular-devkit/core';
+import { apply, chain, mergeWith, move, Rule, schematic, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
-import { addToModuleDecorator } from '../../utils/ast-utils';
 import * as pluralize from 'pluralize';
-import { addBarrels } from '../../utils/tree-utils';
+import { addToModuleDecorator } from '../../utils/ast-utils';
+import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 interface ICrudOptions {
   name: string;
@@ -26,6 +25,7 @@ export function crud(options: ICrudOptions): Rule {
           name,
           fullName,
         }),
+        formatTsFiles(),
         move(path),
       ]),
     ),
@@ -76,7 +76,7 @@ function updateModule(crudName: string, modulePath: string) {
     );
 
     if (fileContent) {
-      tree.overwrite(module, fileContent);
+      tree.overwrite(module, formatTsFile(fileContent));
     }
 
     addBarrels(tree, join(modulePath as Path, 'services'), crudName + '.crud.service');

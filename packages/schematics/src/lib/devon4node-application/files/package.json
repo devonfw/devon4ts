@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "winston": "<%= winston %>",
+    "class-transformer": "<%= classTransformer %>",
+    "class-validator": "<%= classValidator %>",
+    "@devon4node/common": "<%= devon4nodeCommon %>"
+  },
+  "devDependencies": {
+    "husky": "<%= husky %>",
+    "pretty-quick": "<%= prettyQuick %>",
+    "tslint-config-prettier": "<%= tslintConfigPrettier %>",
+    "tslint-plugin-prettier": "<%= tslintPluginPrettier %>"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "jest": {
+    "coverageDirectory": "../coverage"
+  }
+}

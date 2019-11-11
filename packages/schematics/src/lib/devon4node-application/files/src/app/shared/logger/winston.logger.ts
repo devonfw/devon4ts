@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Logger } from '@nestjs/common';
 import { join } from 'path';
 import * as winston from 'winston';
