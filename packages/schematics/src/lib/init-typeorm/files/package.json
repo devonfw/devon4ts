@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@nestjs/typeorm": "<%= packagesVersion.nestjsTypeorm %>",
+    "typeorm": "<%= packagesVersion.typeorm %>",
+    "<%= packagesVersion.dbpackages[db][0] %>": "<%= packagesVersion.dbpackages[db][1] %>"
+  }
+}

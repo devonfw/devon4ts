@@ -101,7 +101,19 @@ For all variable declarations we must use `const` or `let`. `var` is forbidden. 
 
 ==== Trailing comma
 
-All statements must end with a trailing comma.
+All statements must end with a trailing comma. Example:
+
+[source,typescript]
+----
+{
+  one: 'one',
+  two: 'two'  // bad
+}
+{
+  one: 'one',
+  two: 'two', // good
+}
+----
 
 ==== Arrow functions
 

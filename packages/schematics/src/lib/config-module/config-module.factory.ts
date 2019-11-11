@@ -1,8 +1,10 @@
 import { join, Path, strings } from '@angular-devkit/core';
-import { apply, branchAndMerge, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
+import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { packagesVersion } from '../packagesVersion';
 import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
+import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { mergeFiles } from '../../utils/merge';
 
 interface IConfigOptions {
   name: string;
@@ -18,21 +20,22 @@ export function configModule(options: IConfigOptions): Rule {
     options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
 
     return chain([
-      branchAndMerge(
-        mergeWith(
-          apply(url('./files'), [
-            template({
-              ...strings,
-              ...options,
-            }),
-            move(options.path),
-          ]),
-        ),
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            ...strings,
+            ...options,
+            packagesVersion,
+          }),
+          formatTsFiles(),
+          move(options.path),
+          mergeFiles(host),
+        ]),
       ),
-      (tree: Tree): Tree => {
-        tree.overwrite((options.path || '.') + '/package.json', updatePackageJson(tree, options));
-        return tree;
-      },
+      // (tree: Tree): Tree => {
+      //   tree.overwrite((options.path || '.') + '/package.json', updatePackageJson(tree, options));
+      //   return tree;
+      // },
       addToModule(options.path),
       updateMain(options.path),
     ]);
@@ -61,19 +64,19 @@ function updateMain(project: string): Rule {
     content = addImports(content, 'ConfigurationService', './app/core/configuration/services');
 
     if (content) {
-      tree.overwrite((project || '.') + '/src/main.ts', content);
+      tree.overwrite((project || '.') + '/src/main.ts', formatTsFile(content));
     }
     return tree;
   };
 }
 
-function updatePackageJson(host: Tree, _options: any): string {
-  const content = JSON.parse(host.read((_options.path || '.') + '/package.json')!.toString('utf-8'));
-  content.dependencies.config = packagesVersion.config;
-  content.devDependencies['@types/config'] = packagesVersion.typesConfig;
+// function updatePackageJson(host: Tree, _options: any): string {
+//   const content = JSON.parse(host.read((_options.path || '.') + '/package.json')!.toString('utf-8'));
+//   content.dependencies.config = packagesVersion.config;
+//   content.devDependencies['@types/config'] = packagesVersion.typesConfig;
 
-  return JSON.stringify(content, null, 2);
-}
+//   return JSON.stringify(content, null, 2);
+// }
 
 function addToModule(project: string): Rule {
   return (tree: Tree): Tree => {
@@ -95,7 +98,7 @@ function addToModule(project: string): Rule {
     );
 
     if (fileContent) {
-      tree.overwrite(module, fileContent);
+      tree.overwrite(module, formatTsFile(fileContent));
     }
 
     return tree;

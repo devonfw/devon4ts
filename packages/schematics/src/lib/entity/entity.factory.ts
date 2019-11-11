@@ -3,7 +3,7 @@ import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angul
 import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { basename, normalize } from 'path';
 import { addImports, addTypeormFeatureToModule } from '../../utils/ast-utils';
-import { addBarrels } from '../../utils/tree-utils';
+import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 
 interface IEntityOptions {
   name: string;
@@ -21,6 +21,7 @@ export function main(options: IEntityOptions): Rule {
           ...strings,
           ...options,
         }),
+        formatTsFiles(),
         move(options.path!),
       ]),
     ),
@@ -57,7 +58,10 @@ function addEntityToModule(options: IEntityOptions) {
     content = addImports(content, strings.classify(options.name), './model');
     content = addImports(content, 'TypeOrmModule', '@nestjs/typeorm');
 
-    tree.overwrite(module, addTypeormFeatureToModule(content, moduleName, strings.classify(options.name)));
+    tree.overwrite(
+      module,
+      formatTsFile(addTypeormFeatureToModule(content, moduleName, strings.classify(options.name))),
+    );
 
     addBarrels(tree, join(dirname(module), 'model'), 'entities/' + options.name + '.entity');
 

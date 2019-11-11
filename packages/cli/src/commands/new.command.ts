@@ -6,7 +6,7 @@ import * as inquirer from 'inquirer';
 import * as path from 'path';
 import * as tmp from 'tmp-promise';
 import * as yargs from 'yargs';
-import { executeCollection, initGit, installPackages, mapSchematicOptions, prettifyCode } from '../utils/utils';
+import { executeCollection, initGit, installPackages, mapSchematicOptions } from '../utils/utils';
 import Separator = require('inquirer/lib/objects/separator');
 
 interface ICollectionToRun {
@@ -307,12 +307,11 @@ export async function generateCode(args: yargs.Arguments<any>) {
   await generateApplicationFiles('@devon4node/schematics:application', inputs);
 
   if (!args.d) {
-    if (!args.s) {
-      await installPackages(name);
-      await prettifyCode(name);
-    }
     if (!args.g) {
       await initGit(name);
+    }
+    if (!args.s) {
+      await installPackages(name);
     }
   }
 
@@ -361,7 +360,7 @@ export async function generateCodeInteractive(newApp: boolean, args: yargs.Argum
       options: {
         name,
         'dry-run': !!args.d,
-        language: 'ts',
+        'language': 'ts',
       },
     });
   }
@@ -396,12 +395,11 @@ export async function generateCodeInteractive(newApp: boolean, args: yargs.Argum
   await generateApplicationFiles('@devon4node/schematics:all-in-one', inputs.concat(options));
 
   if (!args.d) {
-    if (!args.s) {
-      await installPackages(basePath);
-      await prettifyCode(basePath);
-    }
     if (newApp && !args.g) {
       await initGit(basePath);
+    }
+    if (!args.s) {
+      await installPackages(basePath);
     }
   }
 
