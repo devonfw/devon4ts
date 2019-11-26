@@ -189,10 +189,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@devon4node/common@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@devon4node/common/-/common-0.0.5.tgz#7db85e665ce1fed658bd3783e9c46dedaf54dbfb"
-  integrity sha512-dJKXjMBTXWv5RS1YkkAZwYz9GL3veTp4gFcXciNxFiw8qCXuTFRqwNGs8MtEVeNY7x/YCwQ1V2Qn7fvN+RDv7A==
+"@devon4node/common@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@devon4node/common/-/common-1.1.1.tgz#79e9145ab8930964d56767cdf56b5e1fa362cdfc"
+  integrity sha512-ze94vwYVH18D/sNIhmg1bvx1iVeRdonaRHAwVrNN9T515roa/0uTlehwpr3oi5hUm8d95wlMS61bMN7C3QTsbw==
   dependencies:
     lodash "^4.17.15"
 

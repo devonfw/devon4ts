@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@devon4node/common": "^0.0.5",
+    "@devon4node/common": "^1.1.1",
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
     "@nestjs/jwt": "^6.1.1",

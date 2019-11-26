@@ -23,6 +23,12 @@ export class InsertData1572480830290 implements MigrationInterface {
       roles.USER,
     ]);
     await queryRunner.query(`INSERT INTO USER(id, username, password, role) VALUES(?, ?, ?, ?);`, [
+      1,
+      'waiter',
+      await hash('waiter', await genSalt(12)),
+      roles.USER,
+    ]);
+    await queryRunner.query(`INSERT INTO USER(id, username, password, role) VALUES(?, ?, ?, ?);`, [
       2,
       'admin',
       await hash('admin', await genSalt(12)),

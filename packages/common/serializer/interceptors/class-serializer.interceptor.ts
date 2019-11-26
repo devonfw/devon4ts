@@ -53,6 +53,9 @@ export class ClassSerializerInterceptor implements NestInterceptor {
     options?: ClassTransformOptions,
     type?: ClassType<any>,
   ): IPlainLiteralObject | IPlainLiteralObject[] {
+    if (!response) {
+      return response;
+    }
     if (type) {
       if ((response as IPlainLiteralObject).data) {
         const data: any = this.transformToClass(type, (response as IPlainLiteralObject).data, options);

@@ -26,7 +26,7 @@ export function executeCollection(schematicOptions: string[]): Promise<null | st
     const extension = process.platform === 'win32' ? '.cmd' : '';
     const programPath = join(__dirname, '../../node_modules/.bin/', 'schematics' + extension);
 
-    const child: ChildProcess = spawn(programPath, schematicOptions, {
+    const child: ChildProcess = spawn('"' + programPath + '"', schematicOptions, {
       cwd: process.cwd(),
       stdio: 'inherit',
       shell: true,
