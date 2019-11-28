@@ -22,11 +22,11 @@ export class InsertData1571244245671 implements MigrationInterface {
     );
     await queryRunner.query(
       `INSERT INTO "user"(id, username, password, role) VALUES(?, ?, ?, ?);`,
-      [1, 'waiter', await hash('waiter', await genSalt(12)), roles.USER],
+      [2, 'waiter', await hash('waiter', await genSalt(12)), roles.USER],
     );
     await queryRunner.query(
       `INSERT INTO "user"(id, username, password, role) VALUES(?, ?, ?, ?);`,
-      [2, 'admin', await hash('admin', await genSalt(12)), roles.ADMIN],
+      [3, 'admin', await hash('admin', await genSalt(12)), roles.ADMIN],
     );
   }
 
