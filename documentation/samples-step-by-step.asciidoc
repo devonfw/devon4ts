@@ -1,0 +1,393 @@
+:toc: macro
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+toc::[]
+:idprefix:
+:idseparator: -
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
+
+= Create the employee sample step by step
+
+== Application requisites
+
+The employee application needs:
+
+* A configuration module
+* A SQLite in memory database
+* Security: CORS
+* Swagger support
+* Authentication using JWT
+* CRUD for manage employees. The employees will have the following properties:
+** name
+** surname
+** email
+
+== Create the application
+
+. Install devon4node CLI
++
+Execute the command `npm i -g @devon4node/cli`
++
+. Create the new application
++
+Execute the command `devon4node new employee`
++
+Then, you need to select the components interactively. The result will be:
++
+image::images/sample/new-app.png[]
++
+With this, you will generate the following files:
++
+----
+/employee/.prettierrc
+/employee/nest-cli.json
+/employee/package.json
+/employee/README.md
+/employee/tsconfig.build.json
+/employee/tsconfig.json
+/employee/tslint.json
+/employee/src/main.ts
+/employee/test/app.e2e-spec.ts
+/employee/test/jest-e2e.json
+/employee/src/app/app.controller.spec.ts
+/employee/src/app/app.controller.ts
+/employee/src/app/app.module.ts
+/employee/src/app/app.service.ts
+/employee/src/app/core/core.module.ts
+/employee/src/app/shared/logger/winston.logger.ts
+/employee/src/app/core/configuration/configuration.module.ts
+/employee/src/app/core/configuration/model/index.ts
+/employee/src/app/core/configuration/model/types.ts
+/employee/src/app/core/configuration/services/configuration.service.spec.ts
+/employee/src/app/core/configuration/services/configuration.service.ts
+/employee/src/app/core/configuration/services/index.ts
+/employee/src/config/default.ts
+/employee/src/config/develop.ts
+/employee/src/config/production.ts
+/employee/src/config/test.ts
+/employee/src/config/uat.ts
+/employee/docker-compose.yml
+/employee/ormconfig.json
+/employee/src/app/shared/model/entities/base-entity.entity.ts
+/employee/src/app/core/auth/auth.module.ts
+/employee/src/app/core/auth/controllers/auth.controller.spec.ts
+/employee/src/app/core/auth/controllers/auth.controller.ts
+/employee/src/app/core/auth/controllers/index.ts
+/employee/src/app/core/auth/decorators/index.ts
+/employee/src/app/core/auth/decorators/roles.decorator.spec.ts
+/employee/src/app/core/auth/decorators/roles.decorator.ts
+/employee/src/app/core/auth/guards/index.ts
+/employee/src/app/core/auth/guards/roles.guard.spec.ts
+/employee/src/app/core/auth/guards/roles.guard.ts
+/employee/src/app/core/auth/model/index.ts
+/employee/src/app/core/auth/model/roles.enum.ts
+/employee/src/app/core/auth/model/user-request.interface.ts
+/employee/src/app/core/auth/services/auth.service.spec.ts
+/employee/src/app/core/auth/services/auth.service.ts
+/employee/src/app/core/auth/services/index.ts
+/employee/src/app/core/auth/strategies/index.ts
+/employee/src/app/core/auth/strategies/jwt.strategy.spec.ts
+/employee/src/app/core/auth/strategies/jwt.strategy.ts
+/employee/src/app/core/user/user.module.ts
+/employee/src/app/core/user/model/index.ts
+/employee/src/app/core/user/model/dto/user-payload.dto.ts
+/employee/src/app/core/user/model/entities/user.entity.ts
+/employee/src/app/core/user/services/index.ts
+/employee/src/app/core/user/services/user.service.spec.ts
+/employee/src/app/core/user/services/user.service.ts
+/employee/test/auth/auth.service.mock.ts
+/employee/test/user/user.repository.mock.ts
+/employee/src/app/employee/employee.module.ts
+/employee/src/app/employee/model/entities/employee.entity.ts
+/employee/src/app/employee/model/index.ts
+/employee/src/app/employee/controllers/employee.crud.controller.ts
+/employee/src/app/employee/services/employee.crud.service.ts
+/employee/src/app/employee/services/index.ts
+/employee/src/app/employee/controllers/index.ts
+----
++
+. Open the VSCode
++
+Execute the commands:
++
+----
+cd employee
+code .
+----
++
+. Fill in the entity: src/app/employee/model/entities/employee.entity.ts
+.. Add the columns
++
+[source,typescript]
+----
+@Entity()
+export class Employee extends BaseEntity {
+  @Column('varchar', { length: 255, nullable: true })
+  name?: string;
+
+  @Column('varchar', { length: 255, nullable: true })
+  surname?: string;
+
+  @Column('varchar', { length: 255, nullable: true })
+  email?: string;
+}
+----
++
+.. Add the validations
++
+[source,typescript]
+----
+@Entity()
+export class Employee extends BaseEntity {
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @Column('varchar', { length: 255, nullable: true })
+  name?: string;
+
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @Column('varchar', { length: 255, nullable: true })
+  surname?: string;
+
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @IsEmail()
+  @Column('varchar', { length: 255, nullable: true })
+  email?: string;
+}
+----
++
+.. Add the transformations
++
+In this specific case, we will not transform any property, but you can see an example in the `src/app/shared/model/entities/base-entity.entity.ts` file.
++
+[source,typescript]
+----
+export abstract class BaseEntity {
+  @PrimaryGeneratedColumn('increment')
+  id!: number;
+
+  @VersionColumn({ default: 1 })
+  @Exclude({ toPlainOnly: true })
+  version!: number;
+
+  @CreateDateColumn()
+  @Exclude({ toPlainOnly: true })
+  createdAt!: string;
+
+  @UpdateDateColumn()
+  @Exclude({ toPlainOnly: true })
+  updatedAt!: string;
+}
+----
++
+.. Add swagger metadata
++
+[source,typescript]
+----
+@Entity()
+export class Employee extends BaseEntity {
+  @ApiModelPropertyOptional()
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @Column('varchar', { length: 255, nullable: true })
+  name?: string;
+
+  @ApiModelPropertyOptional()
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @Column('varchar', { length: 255, nullable: true })
+  surname?: string;
+
+  @ApiModelPropertyOptional()
+  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
+  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @MaxLength(255)
+  @IsEmail()
+  @Column('varchar', { length: 255, nullable: true })
+  email?: string;
+}
+----
++
+. Add swagger metadata to `src/app/employee/controllers/employee.crud.controller.ts`
++
+[source,typescript]
+----
+@ApiUseTags('employee')
+----
++
+. Generate database migrations
+.. Build the application: `yarn build`
+.. Generate the tables creation migration: `devon4node db migration:generate -n CreateTables`
++
+image::images/sample/generate-migrations.png[]
++
+The optput will be something similar to:
++
+[source,typescript]
+----
+export class CreateTables1572480273012 implements MigrationInterface {
+  name = 'CreateTables1572480273012';
+
+  public async up(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.query(
+      `CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "username" varchar(255) NOT NULL, "password" varchar(255) NOT NULL, "role" integer NOT NULL DEFAULT (0))`,
+      undefined,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "employee" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "name" varchar(255), "surname" varchar(255), "email" varchar(255))`,
+      undefined,
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.query(`DROP TABLE "employee"`, undefined);
+    await queryRunner.query(`DROP TABLE "user"`, undefined);
+  }
+}
+----
++
+The number in the name is a timestamp, so may change in your application.
++
+.. Create a migration to insert data:`devon4node db migration:create -n InsertData`
++
+image::images/sample/insert-data.png[]
++
+and fill in with the following code:
++
+[source,typescript]
+----
+export class InsertData1572480830290 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(1, 'Santiago', 'Fowler', 'Santiago.Fowler@example.com');`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(2, 'Clinton', 'Thornton', 'Clinton.Thornton@example.com');`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(3, 'Lisa', 'Rodriquez', 'Lisa.Rodriquez@example.com');`,
+    );
+    await queryRunner.query(
+      `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(4, 'Calvin', 'Becker', 'Calvin.Becker@example.com');`,
+    );
+    await queryRunner.query(`INSERT INTO USER(id, username, password, role) VALUES(?, ?, ?, ?);`, [
+      1,
+      'user',
+      await hash('password', await genSalt(12)),
+      roles.USER,
+    ]);
+    await queryRunner.query(`INSERT INTO USER(id, username, password, role) VALUES(?, ?, ?, ?);`, [
+      2,
+      'admin',
+      await hash('admin', await genSalt(12)),
+      roles.ADMIN,
+    ]);
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    await queryRunner.query(`DELETE FROM EMPLOYEE`);
+    await queryRunner.query(`DELETE FROM USER`);
+  }
+}
+----
++
+. Start the application: `yarn start:dev`
++
+image::images/sample/start-app.png[]
++
+. Check the swagger endpoint: `http://localhost:3000/v1/api`
++
+image::images/sample/swagger.png[]
++
+. Make petitions to the employee CRUD: `http://localhost:3000/v1/employee/employees`
++
+image::images/sample/employees.png[]
++
+. Write the tests
++
+As we do not create any method, only add some properties to the entity, all application must be tested by the autogenerated code. As we add some modules, you need to uncomment some lines in the `src/app/core/configuration/services/configuration.service.spec.ts`:
++
+[source,typescript]
+----
+describe('ConfigurationService', () => {
+  const configService: ConfigurationService = new ConfigurationService();
+
+  it('should return the values of test config file', () => {
+    expect(configService.isDev).toStrictEqual(def.isDev);
+    expect(configService.host).toStrictEqual(def.host);
+    expect(configService.port).toStrictEqual(def.port);
+    expect(configService.clientUrl).toStrictEqual(def.clientUrl);
+    expect(configService.globalPrefix).toStrictEqual(def.globalPrefix);
+    // Remove comments if you add those modules
+    expect(configService.database).toStrictEqual(def.database);
+    expect(configService.swaggerConfig).toStrictEqual(def.swaggerConfig);
+    expect(configService.jwtConfig).toStrictEqual(def.jwtConfig);
+    // expect(configService.mailerConfig).toStrictEqual(def.mailerConfig);
+  });
+  it('should take the value of environment varible if defined', () => {
+    process.env.isDev = 'true';
+    process.env.host = 'notlocalhost';
+    process.env.port = '123456';
+    process.env.clientUrl = 'http://theclienturl.net';
+    process.env.globalPrefix = 'v2';
+    process.env.swaggerConfig = JSON.stringify({
+      swaggerTitle: 'Test Application',
+    });
+    process.env.database = JSON.stringify({
+      type: 'oracle',
+      cli: { entitiesDir: 'src/notentitiesdir' },
+    });
+    process.env.jwtConfig = JSON.stringify({ secret: 'NOTSECRET' });
+    // process.env.mailerConfig = JSON.stringify({ mailOptions: { host: 'notlocalhost' }});
+
+    expect(configService.isDev).toBe(true);
+    expect(configService.host).toBe('notlocalhost');
+    expect(configService.port).toBe(123456);
+    expect(configService.clientUrl).toBe('http://theclienturl.net');
+    expect(configService.globalPrefix).toBe('v2');
+    const database: any = { ...def.database, type: 'oracle' };
+    database.cli.entitiesDir = 'src/notentitiesdir';
+    expect(configService.database).toStrictEqual(database);
+    expect(configService.swaggerConfig).toStrictEqual({
+      ...def.swaggerConfig,
+      swaggerTitle: 'Test Application',
+    });
+    expect(configService.jwtConfig).toStrictEqual({
+      ...def.jwtConfig,
+      secret: 'NOTSECRET',
+    });
+    // const mail: any = { ...def.mailerConfig };
+    // mail.mailOptions.host = 'notlocalhost';
+    // expect(configService.mailerConfig).toStrictEqual(mail);
+
+    process.env.isDev = undefined;
+    process.env.host = undefined;
+    process.env.port = undefined;
+    process.env.clientUrl = undefined;
+    process.env.globalPrefix = undefined;
+    process.env.database = undefined;
+    process.env.swaggerConfig = undefined;
+    process.env.jwtConfig = undefined;
+    // process.env.mailerConfig = undefined;
+  });
+});
+----
++
+And the output should be:
++
+image::images/sample/test.png[]
