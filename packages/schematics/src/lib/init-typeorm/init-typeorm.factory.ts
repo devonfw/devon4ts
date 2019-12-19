@@ -34,24 +34,11 @@ export function initTypeorm(options: ITypeormOptions): Rule {
           mergeFiles(tree),
         ]),
       ),
-      // (host: Tree): Tree => {
-      //   host.overwrite(join((options.path || '.') as Path, 'package.json'), updatePackageJson(host, options));
-      //   return host;
-      // },
       addTypeormToCoreModule(options.path),
       addDatabaseConfiguration(options.path),
     ]);
   };
 }
-
-// function updatePackageJson(host: Tree, options: ITypeormOptions): string {
-//   const content = JSON.parse(host.read(join((options.path || '.') as Path, 'package.json'))!.toString('utf-8'));
-//   content.dependencies['@nestjs/typeorm'] = packagesVersion.nestjsTypeorm;
-//   content.dependencies.typeorm = packagesVersion.typeorm;
-//   content.dependencies[packagesVersion.dbpackages[options.db][0]] = packagesVersion.dbpackages[options.db][1];
-
-//   return JSON.stringify(content, null, 2);
-// }
 
 function addTypeormToCoreModule(project: string | undefined): Rule {
   return (tree: Tree): Tree => {

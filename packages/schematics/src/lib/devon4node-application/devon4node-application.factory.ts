@@ -14,6 +14,7 @@ import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
 import { addImports, addToModuleDecorator, insertLinesToFunctionBefore } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 import { mergeFiles } from '../../utils/merge';
+import { formatTsFile } from '../../utils/tree-utils';
 
 interface IDevon4nodeApplicationOptions {
   name: string;
@@ -41,26 +42,6 @@ export function devon4nodeApplication(options: IDevon4nodeApplicationOptions): R
         ]),
       );
     },
-    // (host: Tree): Tree => {
-    //   host.overwrite(join(options.name as Path, 'tsconfig.json'), updateTsConfig(host, options));
-    //   return host;
-    // },
-    // (host: Tree): Tree => {
-    //   host.overwrite(join(options.name as Path, 'nest-cli.json'), updateNestCliJson(host, options));
-    //   return host;
-    // },
-    // (host: Tree): Tree => {
-    //   host.overwrite(join(options.name as Path, 'package.json'), updatePackageJson(host, options));
-    //   return host;
-    // },
-    // (host: Tree): Tree => {
-    //   host.overwrite(join(options.name as Path, '.prettierrc'), updatePrettier(host, options));
-    //   return host;
-    // },
-    // (host: Tree): Tree => {
-    //   host.overwrite(join(options.name as Path, 'tslint.json'), updateTsLint(host, options));
-    //   return host;
-    // },
     addDeclarationToModule(options.name),
     updateMain(options.name),
   ]);
@@ -105,63 +86,11 @@ function updateMain(project: string) {
     mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
     mainFile = addImports(mainFile, 'Logger', '@nestjs/common');
-    host.overwrite(join(project as Path, 'src/main.ts'), mainFile);
+    host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 
     return host;
   };
 }
-
-// function updateTsConfig(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read(join(_options.name, 'tsconfig.json'))!.toString('utf-8'));
-//   content.compilerOptions.strict = true;
-//   content.compilerOptions.skipLibCheck = true;
-//   content.compilerOptions.skipDefaultLibCheck = true;
-//   content.compilerOptions.noUnusedLocals = true;
-//   content.compilerOptions.noUnusedParameters = true;
-//   content.compilerOptions.noFallthroughCasesInSwitch = true;
-//   content.compilerOptions.allowSyntheticDefaultImports = true;
-
-//   return JSON.stringify(content, null, 2);
-// }
-
-// function updatePackageJson(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read(join(_options.name, 'package.json'))!.toString('utf-8'));
-
-//   content.dependencies.winston = packagesVersion.winston;
-//   content.dependencies['class-transformer'] = packagesVersion.classTransformer;
-//   content.dependencies['class-validator'] = packagesVersion.classValidator;
-//   content.dependencies['@devon4node/common'] = packagesVersion.devon4nodeCommon;
-//   content.devDependencies.husky = packagesVersion.husky;
-
-//   return JSON.stringify(content, null, 2);
-// }
-
-// function updatePrettier(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read(join(_options.name, '.prettierrc'))!.toString('utf-8'));
-
-//   content.printWidth = 120;
-
-//   return JSON.stringify(content, null, 2);
-// }
-
-// function updateTsLint(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read(join(_options.name, 'tslint.json'))!.toString('utf-8'));
-
-//   content.rules['interface-name'] = [true];
-//   content.rules['variable-name'] = {
-//     options: ['ban-keywords', 'check-format', 'allow-pascal-case', 'allow-leading-underscore'],
-//   };
-
-//   return JSON.stringify(content, null, 2);
-// }
-
-// function updateNestCliJson(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read(join(_options.name, 'nest-cli.json'))!.toString('utf-8'));
-
-//   content.collection = '@devon4node/schematics';
-
-//   return JSON.stringify(content, null, 2);
-// }
 
 function addDeclarationToModule(project: string): Rule {
   return (tree: Tree) => {
@@ -183,7 +112,7 @@ function addDeclarationToModule(project: string): Rule {
     );
 
     if (fileContent) {
-      tree.overwrite(module, fileContent);
+      tree.overwrite(module, formatTsFile(fileContent));
     }
 
     return tree;
