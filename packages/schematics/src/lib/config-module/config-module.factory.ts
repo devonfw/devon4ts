@@ -1,6 +1,6 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { packagesVersion } from '../packagesVersion';
 import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
@@ -32,10 +32,6 @@ export function configModule(options: IConfigOptions): Rule {
           mergeFiles(host),
         ]),
       ),
-      // (tree: Tree): Tree => {
-      //   tree.overwrite((options.path || '.') + '/package.json', updatePackageJson(tree, options));
-      //   return tree;
-      // },
       addToModule(options.path),
       updateMain(options.path),
     ]);
@@ -69,14 +65,6 @@ function updateMain(project: string): Rule {
     return tree;
   };
 }
-
-// function updatePackageJson(host: Tree, _options: any): string {
-//   const content = JSON.parse(host.read((_options.path || '.') + '/package.json')!.toString('utf-8'));
-//   content.dependencies.config = packagesVersion.config;
-//   content.devDependencies['@types/config'] = packagesVersion.typesConfig;
-
-//   return JSON.stringify(content, null, 2);
-// }
 
 function addToModule(project: string): Rule {
   return (tree: Tree): Tree => {

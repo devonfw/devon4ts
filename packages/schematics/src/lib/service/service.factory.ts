@@ -1,7 +1,7 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, filter, mergeWith, move, noop, Rule, template, url } from '@angular-devkit/schematics';
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { addToModuleDecorator } from '../../utils/ast-utils';
 import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 

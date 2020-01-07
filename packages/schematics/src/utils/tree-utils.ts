@@ -1,6 +1,6 @@
 import { Tree, FileEntry, forEach, Rule } from '@angular-devkit/schematics';
 import { join, Path } from '@angular-devkit/core';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { basename } from 'path';
 import { format, Options } from 'prettier';
 

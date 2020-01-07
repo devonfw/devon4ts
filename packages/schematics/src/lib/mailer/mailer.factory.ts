@@ -1,6 +1,6 @@
 import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
   addEntryToObjctLiteralVariable,
   addGetterToClass,
@@ -53,19 +53,6 @@ export function mailer(options: IMailerOptions): Rule {
     ]);
   };
 }
-
-// function updatePackageJson(path: string) {
-//   return (tree: Tree): Tree => {
-//     const packageJsonPath = join(path as Path, 'package.json');
-//     const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
-
-//     packageJson.dependencies['@devon4node/mailer'] = packagesVersion.devon4nodeMailer;
-
-//     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
-
-//     return tree;
-//   };
-// }
 
 function addMailerToProject(path: string) {
   return (tree: Tree): Tree => {

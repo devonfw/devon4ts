@@ -1,6 +1,6 @@
 import { strings } from '@angular-devkit/core';
 import { Input } from '@nestjs/cli/commands';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { readFileSync, writeFileSync } from 'fs';
 import * as inquirer from 'inquirer';
 import * as path from 'path';

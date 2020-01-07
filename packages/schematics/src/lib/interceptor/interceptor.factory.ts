@@ -1,8 +1,16 @@
-import { InterceptorOptions } from '@nestjs/schematics/lib/interceptor/interceptor.schema';
 import { externalSchematic, chain, move } from '@angular-devkit/schematics';
 import { join, Path, dirname, strings, basename } from '@angular-devkit/core';
 
-export function main(options: InterceptorOptions) {
+export interface IInterceptorOptions {
+  name: string;
+  path?: string | Path;
+  language?: string;
+  sourceRoot?: string;
+  spec?: boolean;
+  flat?: boolean;
+}
+
+export function main(options: IInterceptorOptions) {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

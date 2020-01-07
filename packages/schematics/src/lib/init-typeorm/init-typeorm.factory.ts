@@ -1,6 +1,6 @@
 import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, SchematicContext, template, Tree, url } from '@angular-devkit/schematics';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
   addEntryToObjctLiteralVariable,
   addGetterToClass,

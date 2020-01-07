@@ -1,8 +1,16 @@
 import { join, Path, dirname, basename, strings } from '@angular-devkit/core';
 import { chain, externalSchematic, move } from '@angular-devkit/schematics';
-import { MiddlewareOptions } from '@nestjs/schematics/lib/middleware/middleware.schema';
 
-export function main(options: MiddlewareOptions) {
+export interface IMiddlewareOptions {
+  name: string;
+  path?: string | Path;
+  language?: string;
+  sourceRoot?: string;
+  spec?: boolean;
+  flat?: boolean;
+}
+
+export function main(options: IMiddlewareOptions) {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {
