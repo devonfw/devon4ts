@@ -1,7 +1,19 @@
 import { externalSchematic, Rule } from '@angular-devkit/schematics';
-import { ModuleOptions } from '@nestjs/schematics/lib/module/module.schema';
+import { Path } from '@angular-devkit/core';
 
-export function main(options: ModuleOptions): Rule {
+export interface IModuleOptions {
+  name: string;
+  path?: string;
+  module?: Path;
+  skipImport?: boolean;
+  metadata?: string;
+  type?: string;
+  language?: string;
+  sourceRoot?: string;
+  flat?: boolean;
+}
+
+export function main(options: IModuleOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   newOptions.language = 'ts';

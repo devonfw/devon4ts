@@ -1,6 +1,6 @@
 import { Input } from '@nestjs/cli/commands';
 import { GitRunner } from '@nestjs/cli/lib/runners/git.runner';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { ChildProcess, spawn } from 'child_process';
 import { writeFile } from 'fs';
 import fetch from 'node-fetch';

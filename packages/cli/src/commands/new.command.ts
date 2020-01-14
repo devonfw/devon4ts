@@ -1,6 +1,6 @@
 import { strings } from '@angular-devkit/core';
 import { Input } from '@nestjs/cli/commands';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { readFileSync, writeFileSync } from 'fs';
 import * as inquirer from 'inquirer';
 import * as path from 'path';
@@ -233,11 +233,13 @@ async function askSpecificModules(useTypeorm: boolean, basePath: string): Promis
       });
     }
 
-    repeat = (await inquirer.prompt({
-      name: 'continue',
-      type: 'confirm',
-      message: 'Do you want to add more modules?',
-    })).continue;
+    repeat = (
+      await inquirer.prompt({
+        name: 'continue',
+        type: 'confirm',
+        message: 'Do you want to add more modules?',
+      })
+    ).continue;
   }
 
   return newAllInOne;
@@ -330,13 +332,15 @@ export async function generateCodeInteractive(newApp: boolean, args: yargs.Argum
       basePath = args.name as string;
     } else {
       name = strings.dasherize(
-        (await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'name',
-            message: 'Introduce the application name',
-          },
-        ])).name,
+        (
+          await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'name',
+              message: 'Introduce the application name',
+            },
+          ])
+        ).name,
       );
       basePath = name;
     }

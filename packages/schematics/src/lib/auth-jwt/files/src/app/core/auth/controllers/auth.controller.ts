@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Get, HttpCode, Post, UseGuards, 
 import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../../user/model/entities/user.entity';
-import { AuthService } from '../services';
-import { LoginDTO } from '../model';
+import { AuthService } from '../services/auth.service';
+import { LoginDTO } from '../model/login.dto';
 import { GetUser } from '../decorators/get-user.decorator';
 
 @Controller('auth')

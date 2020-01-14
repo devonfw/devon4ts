@@ -1,8 +1,16 @@
-import { FilterOptions } from '@nestjs/schematics/lib/filter/filter.schema';
 import { externalSchematic, chain, move } from '@angular-devkit/schematics';
 import { Path, join, basename, strings, dirname } from '@angular-devkit/core';
 
-export function main(options: FilterOptions) {
+export interface IFilterOptions {
+  name: string;
+  path?: string | Path;
+  language?: string;
+  sourceRoot?: string;
+  spec?: boolean;
+  flat?: boolean;
+}
+
+export function main(options: IFilterOptions) {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

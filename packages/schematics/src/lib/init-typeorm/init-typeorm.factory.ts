@@ -1,6 +1,6 @@
 import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, SchematicContext, template, Tree, url } from '@angular-devkit/schematics';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
   addEntryToObjctLiteralVariable,
   addGetterToClass,
@@ -68,7 +68,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
         false,
       );
     } else {
-      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services');
+      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services/configuration.service');
       fileContent = addToModuleDecorator(
         fileContent,
         'CoreModule',

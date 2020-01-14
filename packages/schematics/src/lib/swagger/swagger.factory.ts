@@ -15,9 +15,7 @@ const templateWithConfig = `if (configModule.isDev) {
       .setTitle(configModule.swaggerConfig.swaggerTitle)
       .setDescription(configModule.swaggerConfig.swaggerDescription)
       .setVersion(configModule.swaggerConfig.swaggerVersion)
-      .setHost(configModule.host + ':' + configModule.port)
-      .setBasePath(configModule.swaggerConfig.swaggerBasepath)
-      .addBearerAuth('Authorization', 'header')
+      .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
@@ -29,9 +27,7 @@ const template = `if (process.env.NODE_ENV === 'develop') {
       .setTitle('NestJS application')
       .setDescription('')
       .setVersion(0.0.1)
-      .setHost(localhost:3000)
-      .setBasePath('v1')
-      .addBearerAuth('Authorization', 'header')
+      .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
@@ -42,19 +38,40 @@ const defaultSwaggerValue = `{
     swaggerTitle: 'NestJS Application',
     swaggerDescription: 'API Documentation',
     swaggerVersion: '0.0.1',
-    swaggerBasepath: 'v1',
   },`;
 
 const swaggerInterface = `export interface ISwaggerConfig {
   swaggerTitle: string;
   swaggerDescription: string;
   swaggerVersion: string;
-  swaggerBasepath: string;
 }`;
 
 export function swagger(options: { path?: string }): Rule {
   const projectPath = options.path || '.';
-  return chain([updatePackageJson(projectPath), updateMain(projectPath)]);
+  return chain([updatePackageJson(projectPath), updateMain(projectPath), updateNestCliJson(projectPath)]);
+}
+
+function updateNestCliJson(project: string) {
+  return (tree: Tree): Tree => {
+    const nestCliJsonPath = join(project as Path, 'nest-cli.json');
+    const nestCliJson = JSON.parse(tree.read(nestCliJsonPath)!.toString());
+
+    if (nestCliJson.compilerOptions) {
+      if (nestCliJson.compilerOptions.plugins) {
+        nestCliJson.compilerOptions.plugins.push('@nestjs/swagger/plugin');
+      } else {
+        nestCliJson.compilerOptions.plugins = ['@nestjs/swagger/plugin'];
+      }
+    } else {
+      nestCliJson.compilerOptions = {
+        plugins: ['@nestjs/swagger/plugin'],
+      };
+    }
+
+    tree.overwrite(nestCliJsonPath, JSON.stringify(nestCliJson, null, 2));
+
+    return tree;
+  };
 }
 
 function updatePackageJson(project: string): Rule {
@@ -103,7 +120,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
   );
 
   let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(configServiceContent, 'ISwaggerConfig', '../model');
+  configServiceContent = addImports(configServiceContent, 'ISwaggerConfig', '../model/types');
   configServiceContent = addGetterToClass(
     configServiceContent,
     'ConfigurationService',

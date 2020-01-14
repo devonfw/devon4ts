@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/schematics",
-  "version": "1.1.3",
+  "version": "1.1.5",
   "description": "Schematics for devon4node",
   "scripts": {
     "prebuild": "rm -f node_modules/@nestjs/schematics/utils/module.finder.ts && yarn copy:schemas",
@@ -9,7 +9,7 @@
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
-    "copy:schemas": "cp node_modules/@nestjs/schematics/lib/module/schema.json src/lib/module/schema.json && cp node_modules/@nestjs/schematics/lib/filter/schema.json src/lib/filter/schema.json && cp node_modules/@nestjs/schematics/lib/guard/schema.json src/lib/guard/schema.json && cp node_modules/@nestjs/schematics/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp node_modules/@nestjs/schematics/lib/middleware/schema.json src/lib/middleware/schema.json && cp node_modules/@nestjs/schematics/lib/pipe/schema.json src/lib/pipe/schema.json",
+    "copy:schemas": "cp node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
     "prepublish:npm": "yarn build",
     "publish:npm": "npm publish --access public",
     "prepublish:next": "yarn build",
@@ -24,24 +24,24 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^8.3.17",
-    "@angular-devkit/schematics": "^8.3.17",
-    "@nestjs/schematics": "^6.7.0",
-    "@schematics/angular": "^8.3.17",
+    "@angular-devkit/core": "^8.3.21",
+    "@angular-devkit/schematics": "^8.3.21",
+    "@nestjs/schematics": "^6.8.0",
+    "@schematics/angular": "^8.3.21",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",
-    "prettier": "^1.18.2",
-    "ts-morph": "^4.3.2",
-    "typescript": "~3.7.2"
+    "prettier": "^1.19.1",
+    "ts-morph": "^6.0.2",
+    "typescript": "~3.7.4"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.4.6",
+    "@types/jasmine": "^3.5.0",
     "@types/js-yaml": "^3.12.1",
-    "@types/lodash": "^4.14.144",
-    "@types/node": "^12.12.6",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.1.4",
     "@types/pluralize": "^0.0.29",
-    "@types/prettier": "^1.18.3",
+    "@types/prettier": "^1.19.0",
     "jasmine": "^3.5.0",
     "tslint": "^5.20.1"
   }

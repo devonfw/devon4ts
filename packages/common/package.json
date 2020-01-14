@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/common",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "devon4node common library.",
   "main": "dist/index.js",
   "scripts": {
@@ -30,17 +30,17 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@nestjs/common": "^6.8.3",
-    "@types/config": "^0.0.34",
-    "@types/lodash": "^4.14.144",
-    "@types/node": "^12.11.1",
+    "@nestjs/common": "^6.10.14",
+    "@types/config": "^0.0.36",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.1.6",
     "class-transformer": "^0.2.3",
-    "config": "^3.2.3",
-    "prettier": "^1.18.2",
+    "config": "^3.2.4",
+    "prettier": "^1.19.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.3",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "rxjs": "^6.5.4",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.8.3",

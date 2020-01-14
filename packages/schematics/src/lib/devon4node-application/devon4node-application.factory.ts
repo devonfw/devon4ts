@@ -10,7 +10,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { ModuleFinder } from '@nestjs/schematics/utils/module.finder';
+import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { addImports, addToModuleDecorator, insertLinesToFunctionBefore } from '../../utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
 import { mergeFiles } from '../../utils/merge';

@@ -1,8 +1,16 @@
-import { PipeOptions } from '@nestjs/schematics/lib/pipe/pipe.schema';
 import { externalSchematic, move, chain } from '@angular-devkit/schematics';
 import { join, Path, strings, basename, dirname } from '@angular-devkit/core';
 
-export function main(options: PipeOptions) {
+interface IPipeOptions {
+  name: string;
+  path?: string | Path;
+  language?: string;
+  sourceRoot?: string;
+  spec?: boolean;
+  flat?: boolean;
+}
+
+export function main(options: IPipeOptions) {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

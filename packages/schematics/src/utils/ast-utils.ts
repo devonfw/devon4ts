@@ -15,7 +15,8 @@ export function addImports(fileContent: string, importValues: string, importFrom
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -52,7 +53,8 @@ export function addDefaultImports(fileContent: string, importValues: string, imp
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -78,7 +80,8 @@ export function addToModuleDecorator(
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', moduleToAddContent);
@@ -100,8 +103,7 @@ export function addToModuleDecorator(
       importsArgs.initializer = (importsArgs.initializer as string).replace('[', '[ ' + moduleNameToInsert + ',');
       argument.getProperty(property)!.set(importsArgs as any);
     } else {
-      argument.addProperty({
-        kind: 29,
+      argument.addPropertyAssignment({
         name: property,
         initializer: '[' + moduleNameToInsert + ']',
       });
@@ -118,8 +120,7 @@ export function addToModuleDecorator(
         );
         argument.getProperty('exports')!.set(exportsArgs as any);
       } else {
-        argument.addProperty({
-          kind: 29,
+        argument.addPropertyAssignment({
           name: 'exports',
           initializer:
             '[' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ']',
@@ -144,7 +145,8 @@ export function insertLinesToFunctionAfter(
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -181,7 +183,8 @@ export function insertLinesToFunctionBefore(
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -203,7 +206,8 @@ export function addTypeormFeatureToModule(moduleToAddContent: string, moduleName
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', moduleToAddContent);
@@ -233,14 +237,14 @@ export function addTypeormFeatureToModule(moduleToAddContent: string, moduleName
         }
       }
     } else {
-      argument.addProperty({
-        kind: 29,
+      argument.addPropertyAssignment({
         name: 'imports',
         initializer: '[ TypeOrmModule.forFeature([' + entityName + '])]',
       });
     }
   } catch (e) {
     // do nothing
+    // console.error(e);
   }
 
   return tsFile.getText();
@@ -257,7 +261,8 @@ export function addEntryToObjctLiteralVariable(
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -284,7 +289,8 @@ export function addPropToInterface(fileContent: string, interfaceName: string, p
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -309,7 +315,8 @@ export function addGetterToClass(
       indentationText: IndentationText.TwoSpaces,
       quoteKind: QuoteKind.Single,
     },
-    useVirtualFileSystem: true,
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
