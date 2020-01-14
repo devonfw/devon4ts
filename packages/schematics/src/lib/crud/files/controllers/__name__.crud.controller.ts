@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { Crud } from '@nestjsx/crud';
 import { CrudType } from '@devon4node/common/serializer';
-import { <%=classify(name)%> } from '../model';
-import { <%=classify(name)%>CrudService } from '../services';
+import { <%=classify(name)%> } from '../model/entities/<%=name%>.entity';
+import { <%=classify(name)%>CrudService } from '../services/<%=name%>.crud.service';
 
 @Crud({
   model: {

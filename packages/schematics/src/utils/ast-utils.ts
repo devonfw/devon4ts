@@ -16,6 +16,7 @@ export function addImports(fileContent: string, importValues: string, importFrom
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -53,6 +54,7 @@ export function addDefaultImports(fileContent: string, importValues: string, imp
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -79,6 +81,7 @@ export function addToModuleDecorator(
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', moduleToAddContent);
@@ -100,8 +103,7 @@ export function addToModuleDecorator(
       importsArgs.initializer = (importsArgs.initializer as string).replace('[', '[ ' + moduleNameToInsert + ',');
       argument.getProperty(property)!.set(importsArgs as any);
     } else {
-      argument.addProperty({
-        kind: 29,
+      argument.addPropertyAssignment({
         name: property,
         initializer: '[' + moduleNameToInsert + ']',
       });
@@ -118,8 +120,7 @@ export function addToModuleDecorator(
         );
         argument.getProperty('exports')!.set(exportsArgs as any);
       } else {
-        argument.addProperty({
-          kind: 29,
+        argument.addPropertyAssignment({
           name: 'exports',
           initializer:
             '[' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ']',
@@ -145,6 +146,7 @@ export function insertLinesToFunctionAfter(
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -182,6 +184,7 @@ export function insertLinesToFunctionBefore(
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -204,6 +207,7 @@ export function addTypeormFeatureToModule(moduleToAddContent: string, moduleName
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', moduleToAddContent);
@@ -233,14 +237,14 @@ export function addTypeormFeatureToModule(moduleToAddContent: string, moduleName
         }
       }
     } else {
-      argument.addProperty({
-        kind: 29,
+      argument.addPropertyAssignment({
         name: 'imports',
         initializer: '[ TypeOrmModule.forFeature([' + entityName + '])]',
       });
     }
   } catch (e) {
     // do nothing
+    // console.error(e);
   }
 
   return tsFile.getText();
@@ -258,6 +262,7 @@ export function addEntryToObjctLiteralVariable(
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -285,6 +290,7 @@ export function addPropToInterface(fileContent: string, interfaceName: string, p
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);
@@ -310,6 +316,7 @@ export function addGetterToClass(
       quoteKind: QuoteKind.Single,
     },
     useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
   });
 
   const tsFile = tsProject.createSourceFile('file.ts', fileContent);

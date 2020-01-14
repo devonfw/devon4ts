@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IConfig } from '../model';
+import { IConfig } from '../model/types';
 import { join } from 'path';
 
 // Put the correct value of config dir before load the config package

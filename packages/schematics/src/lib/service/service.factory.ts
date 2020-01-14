@@ -3,7 +3,7 @@ import { apply, chain, filter, mergeWith, move, noop, Rule, template, url } from
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { addToModuleDecorator } from '../../utils/ast-utils';
-import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 
 interface IServiceOptions {
   name: string;
@@ -28,10 +28,6 @@ export function main(options: IServiceOptions): Rule {
         move(path),
       ]),
     ),
-    (tree: Tree): Tree => {
-      addBarrels(tree, join(path, 'services'), name + '.service');
-      return tree;
-    },
     updateModule(name, path),
   ]);
 }
@@ -50,7 +46,7 @@ function updateModule(serviceName: string, modulePath: Path) {
     const fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       moduleName,
-      './services',
+      './services/' + serviceName + '.service',
       strings.classify(serviceName) + 'Service',
       'providers',
       false,

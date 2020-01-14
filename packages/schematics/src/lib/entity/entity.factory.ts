@@ -1,9 +1,9 @@
-import { join, Path, strings, dirname } from '@angular-devkit/core';
+import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { basename, normalize } from 'path';
 import { addImports, addTypeormFeatureToModule } from '../../utils/ast-utils';
-import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 
 interface IEntityOptions {
   name: string;
@@ -55,15 +55,13 @@ function addEntityToModule(options: IEntityOptions) {
 
     let content = tree.read(module)!.toString();
 
-    content = addImports(content, strings.classify(options.name), './model');
+    content = addImports(content, strings.classify(options.name), './model/entities/' + options.name + '.entity');
     content = addImports(content, 'TypeOrmModule', '@nestjs/typeorm');
 
     tree.overwrite(
       module,
       formatTsFile(addTypeormFeatureToModule(content, moduleName, strings.classify(options.name))),
     );
-
-    addBarrels(tree, join(dirname(module), 'model'), 'entities/' + options.name + '.entity');
 
     return tree;
   };

@@ -3,7 +3,7 @@ import { apply, chain, mergeWith, move, Rule, schematic, template, Tree, url } f
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
 import { addToModuleDecorator } from '../../utils/ast-utils';
-import { addBarrels, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 interface ICrudOptions {
@@ -60,7 +60,7 @@ function updateModule(crudName: string, modulePath: string) {
     let fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       moduleName,
-      './services',
+      './services/' + crudName + '.crud.service',
       strings.classify(crudName) + 'CrudService',
       'providers',
       false,
@@ -69,7 +69,7 @@ function updateModule(crudName: string, modulePath: string) {
     fileContent = addToModuleDecorator(
       fileContent!,
       moduleName,
-      './controllers',
+      './controllers/' + crudName + '.crud.controller',
       strings.classify(crudName) + 'CrudController',
       'controllers',
       false,
@@ -78,9 +78,6 @@ function updateModule(crudName: string, modulePath: string) {
     if (fileContent) {
       tree.overwrite(module, formatTsFile(fileContent));
     }
-
-    addBarrels(tree, join(modulePath as Path, 'services'), crudName + '.crud.service');
-    addBarrels(tree, join(modulePath as Path, 'controllers'), crudName + '.crud.controller');
 
     return tree;
   };

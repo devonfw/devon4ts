@@ -3,7 +3,7 @@ import { apply, chain, filter, mergeWith, move, noop, Rule, template, Tree, url 
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
 import { addToModuleDecorator } from '../../utils/ast-utils';
-import { addBarrels, formatTsFiles, formatTsFile } from '../../utils/tree-utils';
+import { formatTsFiles, formatTsFile } from '../../utils/tree-utils';
 
 interface IControllerOptions {
   name: string;
@@ -30,10 +30,6 @@ export function main(options: IControllerOptions): Rule {
         formatTsFiles(),
       ]),
     ),
-    (tree: Tree): Tree => {
-      addBarrels(tree, join(path, 'controllers'), name + '.controller');
-      return tree;
-    },
     updateModule(name, path),
   ]);
 }
@@ -52,7 +48,7 @@ function updateModule(controllerName: string, modulePath: Path) {
     const fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       moduleName,
-      './controllers',
+      './controllers/' + controllerName + '.controller',
       strings.classify(controllerName) + 'Controller',
       'controllers',
       false,

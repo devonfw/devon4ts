@@ -57,7 +57,7 @@ function updateMain(project: string): Rule {
 
     content = addImports(content, 'ConfigurationModule', './app/core/configuration/configuration.module');
 
-    content = addImports(content, 'ConfigurationService', './app/core/configuration/services');
+    content = addImports(content, 'ConfigurationService', './app/core/configuration/services/configuration.service');
 
     if (content) {
       tree.overwrite((project || '.') + '/src/main.ts', formatTsFile(content));

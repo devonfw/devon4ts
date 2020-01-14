@@ -87,7 +87,7 @@ function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean) 
   }
 
   if (existsConfig) {
-    coreContent = addImports(coreContent, 'ConfigurationService', './configuration/services');
+    coreContent = addImports(coreContent, 'ConfigurationService', './configuration/services/configuration.service');
     coreContent = addToModuleDecorator(
       coreContent,
       'CoreModule',

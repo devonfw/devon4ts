@@ -68,7 +68,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
         false,
       );
     } else {
-      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services');
+      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services/configuration.service');
       fileContent = addToModuleDecorator(
         fileContent,
         'CoreModule',

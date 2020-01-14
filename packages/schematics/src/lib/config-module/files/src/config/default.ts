@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { IConfig } from '../app/core/configuration/model';
+import { IConfig } from '../app/core/configuration/model/types';
 
 const def: IConfig = {
   isDev: true,
