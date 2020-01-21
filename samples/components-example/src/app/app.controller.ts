@@ -1,23 +1,15 @@
-import {
-  Controller,
-  Get,
-  Query,
-  UseGuards,
-  UsePipes,
-  UseInterceptors,
-  UseFilters,
-} from '@nestjs/common';
+import { Controller, Get, Query, UseGuards, UsePipes, UseInterceptors, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ControllerGuard } from './guards/controller.guard';
-import { HandlerGuard } from './guards/handler.guard';
-import { HandlerPipe } from './pipes/handler.pipe';
-import { ControllerInterceptor } from './interceptors/controller.interceptor';
-import { HandlerInterceptor } from './interceptors/handler.interceptor';
-import { TestFilter } from './filters/test.filter';
-import { TestException } from './exceptions/test.exception';
-import { ControllerFilter } from './filters/controller.filter';
-import { ControllerException } from './exceptions/controller.exception';
-import { GlobalException } from './exceptions/global.exception';
+import { ControllerGuard } from './shared/guards/controller.guard';
+import { HandlerGuard } from './shared/guards/handler.guard';
+import { HandlerPipe } from './shared/pipes/handler.pipe';
+import { ControllerInterceptor } from './shared/interceptors/controller.interceptor';
+import { HandlerInterceptor } from './shared/interceptors/handler.interceptor';
+import { TestFilter } from './shared/filters/test.filter';
+import { TestException } from './shared/exceptions/test.exception';
+import { ControllerFilter } from './shared/filters/controller.filter';
+import { ControllerException } from './shared/exceptions/controller.exception';
+import { GlobalException } from './shared/exceptions/global.exception';
 
 @Controller()
 @UseGuards(ControllerGuard)

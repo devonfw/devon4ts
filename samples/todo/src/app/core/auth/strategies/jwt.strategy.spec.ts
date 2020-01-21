@@ -7,9 +7,7 @@ describe('JwtStrategy', () => {
       const jwtStrategy = new JwtStrategy(jwtConfig);
       const inputPayload: UserPayload = { id: 0, username: 'test', role: 0 };
 
-      expect(jwtStrategy.validate(inputPayload)).resolves.toStrictEqual(
-        inputPayload,
-      );
+      expect(jwtStrategy.validate(inputPayload)).resolves.toStrictEqual(inputPayload);
       expect(jwtStrategy.validate(inputPayload)).resolves.not.toStrictEqual({
         id: 1,
       });

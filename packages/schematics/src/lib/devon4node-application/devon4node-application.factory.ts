@@ -69,10 +69,14 @@ function updateMain(project: string) {
       'bootstrap',
       'app.listen',
       `app.useGlobalPipes(
-      new ValidationPipe({
-        transform: true,
-      }),
-    );`,
+    new ValidationPipe({
+      transform: true,
+      forbidUnknownValues: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
+    }),
+  );`,
     );
 
     mainFile = insertLinesToFunctionBefore(

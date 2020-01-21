@@ -35,25 +35,19 @@ describe('RolesGuard', () => {
       guard = new RolesGuard(reflector);
     });
     it('should return true when the role of the user is in the roles array reflected by the handler or class', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(
-        roles.USER,
-      );
+      const mockExecutionContext: any = generateMockExecutionContext(roles.USER);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(false);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
     });
     it('should return false when the role of the user is not in the roles array reflected by the handler or class', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(
-        roles.ADMIN,
-      );
+      const mockExecutionContext: any = generateMockExecutionContext(roles.ADMIN);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(false);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
     });
     it('should return true if no role metadata is defined', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(
-        roles.ADMIN,
-      );
+      const mockExecutionContext: any = generateMockExecutionContext(roles.ADMIN);
       guard.canActivate(mockExecutionContext as any);
       guard.canActivate(mockExecutionContext as any);
       guard.canActivate(mockExecutionContext as any);

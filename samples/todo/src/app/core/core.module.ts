@@ -1,15 +1,18 @@
 import { Global, Module } from '@nestjs/common';
 import { ClassSerializerInterceptor } from '@devon4node/common/serializer';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import { WinstonLogger } from '../shared/logger/winston.logger';
+import { LogicFilter } from '../shared/filters/logic.filter';
 import { ConfigurationModule } from './configuration/configuration.module';
-import { ConfigurationService } from './configuration/services';
+import { ConfigurationService } from './configuration/services/configuration.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Global()
 @Module({
   imports: [
+    UserModule,
     AuthModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigurationModule],
@@ -22,9 +25,10 @@ import { AuthModule } from './auth/auth.module';
   ],
   controllers: [],
   providers: [
+    { provide: APP_FILTER, useClass: LogicFilter },
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     WinstonLogger,
   ],
-  exports: [AuthModule, ConfigurationModule, WinstonLogger],
+  exports: [UserModule, AuthModule, ConfigurationModule, WinstonLogger],
 })
 export class CoreModule {}

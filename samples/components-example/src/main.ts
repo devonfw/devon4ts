@@ -1,11 +1,11 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { GlobalGuard } from './app/guards/global.guard';
-import { GlobalMiddlewareMiddleware } from './app/middleware/global-middleware.middleware';
-import { GlobalPipe } from './app/pipes/global.pipe';
-import { GlobalInterceptor } from './app/interceptors/global.interceptor';
-import { GlobalFilter } from './app/filters/global.filter';
+import { GlobalGuard } from './app/shared/guards/global.guard';
+import { GlobalMiddlewareMiddleware } from './app/shared/middlewares/global-middleware.middleware';
+import { GlobalPipe } from './app/shared/pipes/global.pipe';
+import { GlobalInterceptor } from './app/shared/interceptors/global.interceptor';
+import { GlobalFilter } from './app/shared/filters/global.filter';
 
 async function bootstrap() {
   Logger.overrideLogger(['debug', 'error', 'log', 'verbose', 'warn']);

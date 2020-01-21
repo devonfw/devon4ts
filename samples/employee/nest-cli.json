@@ -1,4 +1,9 @@
 {
   "collection": "@devon4node/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "plugins": [
+      "@nestjs/swagger/plugin"
+    ]
+  }
 }

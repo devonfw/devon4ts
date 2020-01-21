@@ -50,6 +50,7 @@ describe('AuthService', () => {
         password: '$2b$12$KgUSTFUTjRqQD7U7tuV9quheR4L.LOAT.GhmTjBIXsgLMhBXjfhYq',
         role: 0,
       });
+      console.log("Hola me llamo peppito");
       await expect(authService.validateUser('user2', 'user2')).resolves.toStrictEqual({
         id: 2,
         username: 'user2',
@@ -74,6 +75,7 @@ describe('AuthService', () => {
       expect(token).toBeDefined();
       expect(typeof token).toBe('string');
     });
+    console.log("Encantado de conocerle")
     it('should return a exception when a invalid user is provided', async () => {
       await expect(
         authService.login({
@@ -91,6 +93,8 @@ describe('AuthService', () => {
         username: 'user3',
         password: 'user3',
       };
+
+      console.log(newUser);
 
       const user = await authService.register(newUser);
       expect(user).toBeDefined();

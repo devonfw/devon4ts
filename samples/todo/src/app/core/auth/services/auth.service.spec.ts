@@ -43,34 +43,24 @@ describe('AuthService', () => {
 
   describe('validateUser', () => {
     it('should validate that the user and return it when the user exists and password match.', async () => {
-      await expect(
-        authService.validateUser('user1', 'user1'),
-      ).resolves.toStrictEqual({
+      await expect(authService.validateUser('user1', 'user1')).resolves.toStrictEqual({
         id: 1,
         username: 'user1',
         // password: 'user1',
-        password:
-          '$2b$12$KgUSTFUTjRqQD7U7tuV9quheR4L.LOAT.GhmTjBIXsgLMhBXjfhYq',
+        password: '$2b$12$KgUSTFUTjRqQD7U7tuV9quheR4L.LOAT.GhmTjBIXsgLMhBXjfhYq',
         role: 0,
       });
-      await expect(
-        authService.validateUser('user2', 'user2'),
-      ).resolves.toStrictEqual({
+      await expect(authService.validateUser('user2', 'user2')).resolves.toStrictEqual({
         id: 2,
         username: 'user2',
         // password: 'user2',
-        password:
-          '$2b$12$jDy/bJV0p6mYRlEjZL5t0OX9jinlfEiQDfuApJJGSVW6Ca/hiVbBW',
+        password: '$2b$12$jDy/bJV0p6mYRlEjZL5t0OX9jinlfEiQDfuApJJGSVW6Ca/hiVbBW',
         role: 1,
       });
     });
     it('should return undefined when the user does not exists or password does not match.', async () => {
-      await expect(
-        authService.validateUser('test', 'user1'),
-      ).resolves.toBeUndefined();
-      await expect(
-        authService.validateUser('user1', 'test'),
-      ).resolves.toBeUndefined();
+      await expect(authService.validateUser('test', 'user1')).resolves.toBeUndefined();
+      await expect(authService.validateUser('user1', 'test')).resolves.toBeUndefined();
     });
   });
 
@@ -113,9 +103,7 @@ describe('AuthService', () => {
         password: 'user3',
       };
 
-      await expect(authService.register(newUser)).rejects.toThrow(
-        'User already exists',
-      );
+      await expect(authService.register(newUser)).rejects.toThrow('User already exists');
     });
   });
 });

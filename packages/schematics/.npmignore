@@ -10,8 +10,10 @@
 
 yarn-error.log
 tsconfig.json
+!**/tsconfig.json
 .editorconfig
 node_modules/
 src/**/*_spec.ts
+.vscode/
 
 testing/

@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { Crud } from '@nestjsx/crud';
 import { CrudType } from '@devon4node/common/serializer';
-import { Employee } from '../model';
-import { EmployeeCrudService } from '../services';
-import { ApiUseTags } from '@nestjs/swagger';
+import { Employee } from '../model/entities/employee.entity';
+import { EmployeeCrudService } from '../services/employee.crud.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Crud({
   model: {
@@ -12,7 +12,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 })
 @CrudType(Employee)
 @Controller('employee/employees')
-@ApiUseTags('employee')
+@ApiTags('Employee')
 export class EmployeeCrudController {
   constructor(public service: EmployeeCrudService) {}
 }

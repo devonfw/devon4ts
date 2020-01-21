@@ -34,8 +34,7 @@ describe('UserService', () => {
         id: 1,
         username: 'user1',
         // password: 'user1',
-        password:
-          '$2b$12$KgUSTFUTjRqQD7U7tuV9quheR4L.LOAT.GhmTjBIXsgLMhBXjfhYq',
+        password: '$2b$12$KgUSTFUTjRqQD7U7tuV9quheR4L.LOAT.GhmTjBIXsgLMhBXjfhYq',
         role: 0,
       });
     });
@@ -53,9 +52,7 @@ describe('UserService', () => {
       };
       const userRegistered = await service.registerUser(userToAdd);
 
-      expect(userRegistered).toStrictEqual(
-        plainToClass(User, repository.users[2]),
-      );
+      expect(userRegistered).toStrictEqual(plainToClass(User, repository.users[2]));
     });
 
     it('should throw an Error when user already exists', async () => {
@@ -63,9 +60,7 @@ describe('UserService', () => {
         username: 'user3',
         password: 'user3',
       };
-      await expect(service.registerUser(userToAdd)).rejects.toThrowError(
-        'User already exists',
-      );
+      await expect(service.registerUser(userToAdd)).rejects.toThrowError('User already exists');
     });
   });
 });

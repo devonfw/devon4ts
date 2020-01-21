@@ -3,7 +3,7 @@ import { AppModule } from './app/app.module';
 import { WinstonLogger } from './app/shared/logger/winston.logger';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ConfigurationModule } from './app/core/configuration/configuration.module';
-import { ConfigurationService } from './app/core/configuration/services';
+import { ConfigurationService } from './app/core/configuration/services/configuration.service';
 import * as helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -14,6 +14,10 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      forbidUnknownValues: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
     }),
   );
   app.setGlobalPrefix(configModule.globalPrefix);
@@ -29,9 +33,7 @@ async function bootstrap() {
       .setTitle(configModule.swaggerConfig.swaggerTitle)
       .setDescription(configModule.swaggerConfig.swaggerDescription)
       .setVersion(configModule.swaggerConfig.swaggerVersion)
-      .setHost(configModule.host + ':' + configModule.port)
-      .setBasePath(configModule.swaggerConfig.swaggerBasepath)
-      .addBearerAuth('Authorization', 'header')
+      .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);

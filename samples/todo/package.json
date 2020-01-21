@@ -20,44 +20,39 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@devon4node/common": "^1.1.1",
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
-    "@nestjs/jwt": "^6.1.1",
-    "@nestjs/passport": "^6.1.0",
     "@nestjs/platform-express": "^6.7.2",
-    "@nestjs/swagger": "^3.1.0",
-    "@nestjs/typeorm": "^6.2.0",
-    "@nestjsx/crud": "^4.2.0",
-    "@nestjsx/crud-typeorm": "^4.2.0",
-    "bcrypt": "^3.0.6",
-    "class-transformer": "^0.2.3",
-    "class-validator": "^0.10.1",
-    "config": "^3.2.2",
-    "helmet": "^3.20.0",
-    "lodash": "^4.17.15",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
-    "sqlite3": "^4.0.3",
+    "winston": "^3.2.1",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.11.0",
+    "@devon4node/common": "^1.1.1",
+    "config": "^3.2.4",
+    "@nestjs/typeorm": "^6.2.0",
+    "typeorm": "^0.2.22",
+    "sqlite3": "^4.1.1",
+    "helmet": "^3.21.2",
+    "@nestjs/swagger": "^4.1.10",
     "swagger-ui-express": "^4.1.2",
-    "typeorm": "^0.2.19",
-    "winston": "^3.2.1"
+    "@nestjs/passport": "^6.1.1",
+    "@nestjs/jwt": "^6.1.1",
+    "passport-jwt": "^4.0.0",
+    "bcrypt": "^3.0.7",
+    "passport": "^0.4.1",
+    "lodash": "^4.17.15",
+    "@nestjsx/crud": "^4.4.1",
+    "@nestjsx/crud-typeorm": "^4.4.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
-    "@types/bcrypt": "^3.0.0",
-    "@types/config": "^0.0.34",
     "@types/express": "^4.17.1",
-    "@types/helmet": "^0.0.44",
     "@types/jest": "^24.0.18",
-    "@types/lodash": "^4.14.144",
     "@types/node": "^12.7.5",
-    "@types/passport-jwt": "^3.0.2",
     "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
@@ -67,7 +62,16 @@
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "husky": "^4.0.7",
+    "pretty-quick": "^2.0.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
+    "@types/config": "^0.0.36",
+    "@types/helmet": "^0.0.45",
+    "@types/passport-jwt": "^3.0.3",
+    "@types/bcrypt": "^3.0.0",
+    "@types/lodash": "^4.14.149"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -82,5 +86,10 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

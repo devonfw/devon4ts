@@ -33,14 +33,31 @@ describe('Auth Controller', () => {
         username: 'user1',
         password: 'user1',
       };
-      await expect(controller.login(user)).resolves.toBe('THISISNOTAJWTTOKEN');
+
+      const sendMock = {
+        send: jest.fn(),
+      };
+      const mockResponse: any = {
+        // tslint:disable-next-line: variable-name
+        status: jest.fn().mockImplementation(_x => sendMock),
+        setHeader: jest.fn(),
+      };
+      const value = await controller.login(user, mockResponse);
+      expect(value).toBeUndefined();
+      expect(mockResponse.status).toBeCalledWith(200);
+      expect(sendMock.send).toBeCalledWith();
+      expect(mockResponse.setHeader).toBeCalledWith('Authorization', 'Bearer THISISNOTAJWTTOKEN');
     });
     it('should throw an error when the username or password are not correct', async () => {
       await expect(
-        controller.login({
-          username: 'user2',
-          password: 'user1',
-        }),
+        controller.login(
+          {
+            username: 'user2',
+            password: 'user1',
+          },
+          // response not needed
+          {} as any,
+        ),
       ).rejects.toThrow(UnauthorizedException);
     });
   });
@@ -68,12 +85,10 @@ describe('Auth Controller', () => {
 
   describe('currentUser', () => {
     it('should return the validated user in the request', () => {
-      const request: any = {
-        user: {
-          username: 'user1',
-        },
+      const user: any = {
+        username: 'user1',
       };
-      expect(controller.currentUser(request)).toEqual(request.user);
+      expect(controller.currentUser(user)).toEqual(user);
     });
     // The auth guard will rejects all request if the user is not present or invalid,
     // so we do not need to test those use case here.

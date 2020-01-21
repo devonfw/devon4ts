@@ -1,7 +1,9 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
   ],
   "jsRules": {
     "no-unused-expression": true
@@ -25,21 +27,19 @@
       false
     ],
     "interface-name": [
-      false
+      true
     ],
     "arrow-parens": false,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "prettier": true,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case",
+        "allow-leading-underscore"
+      ]
+    }
   },
-  "rulesDirectory": [],
-  "interface-name": [
-    true
-  ],
-  "variable-name": {
-    "options": [
-      "ban-keywords",
-      "check-format",
-      "allow-pascal-case",
-      "allow-leading-underscore"
-    ]
-  }
+  "rulesDirectory": []
 }

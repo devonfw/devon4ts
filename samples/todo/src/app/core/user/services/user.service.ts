@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from '../model';
+import { User } from '../model/entities/user.entity';
 import { genSalt, hash } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { roles } from '../../auth/model';
+import { roles } from '../../auth/model/roles.enum';
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
   async findOne(username: string): Promise<User | undefined> {
     return this.userRepository.findOne({

@@ -1,13 +1,13 @@
-import { Controller, UseGuards } from '@nestjs/common';
-import { Crud } from '@nestjsx/crud';
 import { CrudType } from '@devon4node/common/serializer';
-import { Todo } from '../model';
-import { TodoCrudService } from '../services';
-import { ApiUseTags } from '@nestjs/swagger';
+import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
+import { Crud } from '@nestjsx/crud';
+import { Roles } from '../../core/auth/decorators/roles.decorator';
 import { RolesGuard } from '../../core/auth/guards/roles.guard';
 import { roles } from '../../core/auth/model/roles.enum';
-import { Roles } from '../../core/auth/decorators';
+import { Todo } from '../model/entities/todo.entity';
+import { TodoCrudService } from '../services/todo.crud.service';
 
 @Crud({
   model: {
@@ -24,7 +24,7 @@ import { Roles } from '../../core/auth/decorators';
 })
 @CrudType(Todo)
 @Controller('todo/todos')
-@ApiUseTags('todo')
+@ApiTags('Todo')
 @UseGuards(AuthGuard(), RolesGuard)
 @Roles(roles.USER)
 export class TodoCrudController {
