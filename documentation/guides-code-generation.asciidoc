@@ -22,7 +22,7 @@ As we mention in the page link:guide-key-principles[key principles], one of our 
 Those tools are:
 
 - link:guides-cli[devon4node CLI]
-- link:https://github.com/devonfw/tools-cobigen[CobiGen]
+- link:https://github.com/devonfw/cobigen[CobiGen]
 
 == Differences between tools
 
@@ -149,4 +149,4 @@ The last command that we have in order to generate command is `devon4node db mig
 
 == CobiGen
 
-Currently, we do not have templates to generate devon4node code (we have planned to do that in the future). Instead, we have templates that read the code of a devon4node application and generate a devon4ng application. Visit the link:https://github.com/devonfw/tools-cobigen[CobiGen] page for more information.
+Currently, we do not have templates to generate devon4node code (we have planned to do that in the future). Instead, we have templates that read the code of a devon4node application and generate a devon4ng application. Visit the link:https://github.com/devonfw/cobigen[CobiGen] page for more information.
