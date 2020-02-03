@@ -1,5 +1,5 @@
 import { join, Path } from '@angular-devkit/core';
-import { apply, chain, mergeWith, move, Rule, SchematicContext, template, Tree, url } from '@angular-devkit/schematics';
+import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
   addEntryToObjctLiteralVariable,
@@ -9,35 +9,12 @@ import {
   addToModuleDecorator,
 } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFiles, formatTsFile } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface ITypeormOptions {
   db: 'postgres' | 'cockroachdb' | 'mariadb' | 'mysql' | 'sqlite' | 'oracle' | 'mssql' | 'mongodb';
   path?: string;
-}
-
-export function initTypeorm(options: ITypeormOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    if (!options.path) {
-      options.path = '.';
-    }
-    return chain([
-      mergeWith(
-        apply(url('./files'), [
-          template({
-            ...options,
-            packagesVersion,
-          }),
-          formatTsFiles(),
-          move(options.path as Path),
-          mergeFiles(tree),
-        ]),
-      ),
-      addTypeormToCoreModule(options.path),
-      addDatabaseConfiguration(options.path),
-    ]);
-  };
 }
 
 function addTypeormToCoreModule(project: string | undefined): Rule {
@@ -93,22 +70,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
   };
 }
 
-function addDatabaseConfiguration(project: string | undefined): Rule {
-  return (tree: Tree): Tree => {
-    const config = existsConfigModule(tree, project || '.');
-    if (!config) {
-      return tree;
-    }
-
-    updateConfigTypeFile(project, tree);
-    updateConfigFiles(project, tree);
-    updateConfigurationService(project, tree);
-
-    return tree;
-  };
-}
-
-function updateConfigurationService(project: string | undefined, tree: Tree) {
+function updateConfigurationService(project: string | undefined, tree: Tree): void {
   const configServicePath = join(
     '.' as Path,
     project || '.',
@@ -128,7 +90,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
   tree.overwrite(configServicePath, formatTsFile(configServiceContent));
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree) {
+function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
@@ -138,7 +100,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree) {
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree) {
+function updateConfigFiles(project: string | undefined, tree: Tree): void {
   const configDir: Path = join((project || '.') as Path, 'src/config');
   const ormconfigContent = tree.read(join((project || '.') as Path, 'ormconfig.json'))!.toString('utf-8');
 
@@ -155,4 +117,42 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
       ),
     );
   });
+}
+
+function addDatabaseConfiguration(project: string | undefined): Rule {
+  return (tree: Tree): Tree => {
+    const config = existsConfigModule(tree, project || '.');
+    if (!config) {
+      return tree;
+    }
+
+    updateConfigTypeFile(project, tree);
+    updateConfigFiles(project, tree);
+    updateConfigurationService(project, tree);
+
+    return tree;
+  };
+}
+
+export function initTypeorm(options: ITypeormOptions): Rule {
+  return (tree: Tree): Rule => {
+    if (!options.path) {
+      options.path = '.';
+    }
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            ...options,
+            packagesVersion,
+          }),
+          formatTsFiles(),
+          move(options.path as Path),
+          mergeFiles(tree),
+        ]),
+      ),
+      addTypeormToCoreModule(options.path),
+      addDatabaseConfiguration(options.path),
+    ]);
+  };
 }

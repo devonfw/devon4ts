@@ -25,8 +25,7 @@ export const packagesVersion = {
   typesLodash: '^4.14.149',
   husky: '^4.0.7',
   prettyQuick: '^2.0.1',
-  tslintConfigPrettier: '^1.18.0',
-  tslintPluginPrettier: '^2.1.0',
+  eslintPluginPrettier: '^3.1.2',
   handlebars: '^4.7.1',
   dbpackages: {
     postgres: ['pg', '^7.17.1'],

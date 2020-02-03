@@ -1,4 +1,4 @@
-import { externalSchematic, move, chain } from '@angular-devkit/schematics';
+import { externalSchematic, move, chain, Rule } from '@angular-devkit/schematics';
 import { join, Path, strings, basename, dirname } from '@angular-devkit/core';
 
 interface IPipeOptions {
@@ -10,7 +10,7 @@ interface IPipeOptions {
   flat?: boolean;
 }
 
-export function main(options: IPipeOptions) {
+export function main(options: IPipeOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

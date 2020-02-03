@@ -11,29 +11,6 @@ interface ICrudOptions {
   path?: string;
 }
 
-export function crud(options: ICrudOptions): Rule {
-  const name = strings.dasherize(basename(options.name as Path));
-  const fullName = join(dirname(options.name as Path), pluralize.plural(name));
-  const projectPath = options.path || '.';
-  const path = normalize(join(projectPath as Path, 'src/app', options.name, '..'));
-  return chain([
-    schematic('entity', options),
-    mergeWith(
-      apply(url('./files'), [
-        template({
-          ...strings,
-          name,
-          fullName,
-        }),
-        formatTsFiles(),
-        move(path),
-      ]),
-    ),
-    updatePackageJson(projectPath),
-    updateModule(name, path),
-  ]);
-}
-
 function updatePackageJson(path: string): Rule {
   return (tree: Tree): Tree => {
     const packageJson = JSON.parse(tree.read(join(path as Path, 'package.json'))!.toString());
@@ -81,4 +58,27 @@ function updateModule(crudName: string, modulePath: string) {
 
     return tree;
   };
+}
+
+export function crud(options: ICrudOptions): Rule {
+  const name = strings.dasherize(basename(options.name as Path));
+  const fullName = join(dirname(options.name as Path), pluralize.plural(name));
+  const projectPath = options.path || '.';
+  const path = normalize(join(projectPath as Path, 'src/app', options.name, '..'));
+  return chain([
+    schematic('entity', options),
+    mergeWith(
+      apply(url('./files'), [
+        template({
+          ...strings,
+          name,
+          fullName,
+        }),
+        formatTsFiles(),
+        move(path),
+      ]),
+    ),
+    updatePackageJson(projectPath),
+    updateModule(name, path),
+  ]);
 }

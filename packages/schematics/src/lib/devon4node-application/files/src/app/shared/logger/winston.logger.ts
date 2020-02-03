@@ -28,12 +28,12 @@ export class WinstonLogger extends Logger {
     this.logger.info({ message, context });
   }
 
-  error(message: string, trace: string, context?: string) {
+  error(message: string, trace: string, context?: string): void {
     super.error(message, trace, context);
     this.logger.error({ message, trace, context });
   }
 
-  warn(message: string, context?: string) {
+  warn(message: string, context?: string): void {
     super.warn(message, context);
     this.logger.warn({ message, context });
   }

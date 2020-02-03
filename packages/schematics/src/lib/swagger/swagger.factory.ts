@@ -46,9 +46,17 @@ const swaggerInterface = `export interface ISwaggerConfig {
   swaggerVersion: string;
 }`;
 
-export function swagger(options: { path?: string }): Rule {
-  const projectPath = options.path || '.';
-  return chain([updatePackageJson(projectPath), updateMain(projectPath), updateNestCliJson(projectPath)]);
+function updatePackageJson(project: string): Rule {
+  return (tree: Tree): Tree => {
+    const packageJsonPath = join(project as Path, 'package.json');
+    const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
+
+    packageJson.dependencies['@nestjs/swagger'] = packagesVersion.nestjsSwagger;
+    packageJson.dependencies['swagger-ui-express'] = packagesVersion.swaggerUiExpress;
+    tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+    return tree;
+  };
 }
 
 function updateNestCliJson(project: string) {
@@ -74,17 +82,54 @@ function updateNestCliJson(project: string) {
   };
 }
 
-function updatePackageJson(project: string): Rule {
-  return (tree: Tree): Tree => {
-    const packageJsonPath = join(project as Path, 'package.json');
-    const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
+function updateConfigurationService(project: string | undefined, tree: Tree): void {
+  const configServicePath = join(
+    '.' as Path,
+    project || '.',
+    'src/app/core/configuration/services/configuration.service.ts',
+  );
 
-    packageJson.dependencies['@nestjs/swagger'] = packagesVersion.nestjsSwagger;
-    packageJson.dependencies['swagger-ui-express'] = packagesVersion.swaggerUiExpress;
-    tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  let configServiceContent = tree.read(configServicePath)!.toString();
+  configServiceContent = addImports(configServiceContent, 'ISwaggerConfig', '../model/types');
+  configServiceContent = addGetterToClass(
+    configServiceContent,
+    'ConfigurationService',
+    'swaggerConfig',
+    'ISwaggerConfig',
+    'return { ...this.get("swaggerConfig")! } as ISwaggerConfig;',
+  );
 
-    return tree;
-  };
+  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
+}
+
+function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
+  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
+
+  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
+
+  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'swaggerConfig', 'ISwaggerConfig');
+
+  typesFileContent = typesFileContent.concat('\n', swaggerInterface);
+
+  tree.overwrite(typesFile, formatTsFile(typesFileContent));
+}
+
+function updateConfigFiles(project: string | undefined, tree: Tree): void {
+  const configDir: Path = join((project || '.') as Path, 'src/config');
+
+  tree.getDir(configDir).subfiles.forEach(file => {
+    tree.overwrite(
+      join(configDir, file),
+      formatTsFile(
+        addEntryToObjctLiteralVariable(
+          tree.read(join(configDir, file))!.toString('utf-8'),
+          'def',
+          'swaggerConfig',
+          defaultSwaggerValue,
+        ),
+      ),
+    );
+  });
 }
 
 function updateMain(project: string) {
@@ -112,52 +157,7 @@ function updateMain(project: string) {
   };
 }
 
-function updateConfigurationService(project: string | undefined, tree: Tree) {
-  const configServicePath = join(
-    '.' as Path,
-    project || '.',
-    'src/app/core/configuration/services/configuration.service.ts',
-  );
-
-  let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(configServiceContent, 'ISwaggerConfig', '../model/types');
-  configServiceContent = addGetterToClass(
-    configServiceContent,
-    'ConfigurationService',
-    'swaggerConfig',
-    'ISwaggerConfig',
-    'return { ...this.get("swaggerConfig")! } as ISwaggerConfig;',
-  );
-
-  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
-}
-
-function updateConfigTypeFile(project: string | undefined, tree: Tree) {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
-
-  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-
-  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'swaggerConfig', 'ISwaggerConfig');
-
-  typesFileContent = typesFileContent.concat('\n', swaggerInterface);
-
-  tree.overwrite(typesFile, formatTsFile(typesFileContent));
-}
-
-function updateConfigFiles(project: string | undefined, tree: Tree) {
-  const configDir: Path = join((project || '.') as Path, 'src/config');
-
-  tree.getDir(configDir).subfiles.forEach(file => {
-    tree.overwrite(
-      join(configDir, file),
-      formatTsFile(
-        addEntryToObjctLiteralVariable(
-          tree.read(join(configDir, file))!.toString('utf-8'),
-          'def',
-          'swaggerConfig',
-          defaultSwaggerValue,
-        ),
-      ),
-    );
-  });
+export function swagger(options: { path?: string }): Rule {
+  const projectPath = options.path || '.';
+  return chain([updatePackageJson(projectPath), updateMain(projectPath), updateNestCliJson(projectPath)]);
 }

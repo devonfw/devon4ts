@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix"
+  },
   "dependencies": {
     "winston": "<%= winston %>",
     "class-transformer": "<%= classTransformer %>",
@@ -8,8 +11,7 @@
   "devDependencies": {
     "husky": "<%= husky %>",
     "pretty-quick": "<%= prettyQuick %>",
-    "tslint-config-prettier": "<%= tslintConfigPrettier %>",
-    "tslint-plugin-prettier": "<%= tslintPluginPrettier %>"
+    "eslint-plugin-prettier": "<%= eslintPluginPrettier %>"
   },
   "husky": {
     "hooks": {

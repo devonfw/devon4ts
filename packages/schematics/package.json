@@ -1,12 +1,12 @@
 {
   "name": "@devon4node/schematics",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Schematics for devon4node",
   "scripts": {
     "prebuild": "rm -f node_modules/@nestjs/schematics/utils/module.finder.ts && yarn copy:schemas",
     "build": "tsc -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\" \"test/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
     "copy:schemas": "cp node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
@@ -24,25 +24,30 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^8.3.21",
-    "@angular-devkit/schematics": "^8.3.21",
-    "@nestjs/schematics": "^6.8.0",
-    "@schematics/angular": "^8.3.21",
+    "@angular-devkit/core": "^8.3.24",
+    "@angular-devkit/schematics": "^8.3.24",
+    "@nestjs/schematics": "^6.9.3",
+    "@schematics/angular": "^8.3.24",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",
     "prettier": "^1.19.1",
     "ts-morph": "^6.0.2",
-    "typescript": "~3.7.4"
+    "typescript": "~3.7.5"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.5.0",
-    "@types/js-yaml": "^3.12.1",
+    "@types/jasmine": "^3.5.2",
+    "@types/js-yaml": "^3.12.2",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^13.1.4",
+    "@types/node": "^13.7.0",
     "@types/pluralize": "^0.0.29",
     "@types/prettier": "^1.19.0",
-    "jasmine": "^3.5.0",
-    "tslint": "^5.20.1"
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jasmine": "^3.5.0"
   }
 }

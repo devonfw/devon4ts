@@ -11,33 +11,6 @@ interface IConfigOptions {
   path: string;
 }
 
-export function configModule(options: IConfigOptions): Rule {
-  if (!options.path) {
-    options.path = '.';
-  }
-
-  return (host: Tree): Rule => {
-    options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
-
-    return chain([
-      mergeWith(
-        apply(url('./files'), [
-          template({
-            ...strings,
-            ...options,
-            packagesVersion,
-          }),
-          formatTsFiles(),
-          move(options.path),
-          mergeFiles(host),
-        ]),
-      ),
-      addToModule(options.path),
-      updateMain(options.path),
-    ]);
-  };
-}
-
 function updateMain(project: string): Rule {
   return (tree: Tree): Tree => {
     let content = tree.read((project || '.') + '/src/main.ts')!.toString('utf-8');
@@ -90,5 +63,32 @@ function addToModule(project: string): Rule {
     }
 
     return tree;
+  };
+}
+
+export function configModule(options: IConfigOptions): Rule {
+  if (!options.path) {
+    options.path = '.';
+  }
+
+  return (host: Tree): Rule => {
+    options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
+
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            ...strings,
+            ...options,
+            packagesVersion,
+          }),
+          formatTsFiles(),
+          move(options.path),
+          mergeFiles(host),
+        ]),
+      ),
+      addToModule(options.path),
+      updateMain(options.path),
+    ]);
   };
 }

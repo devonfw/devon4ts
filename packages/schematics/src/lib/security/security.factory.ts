@@ -9,12 +9,8 @@ export interface ISecurityInitializer {
   path?: string;
 }
 
-export function security(options: ISecurityInitializer): Rule {
-  return chain([updatePackageJson(options.path), updateMain(options.path)]);
-}
-
-function updatePackageJson(project: string | undefined) {
-  return (host: Tree) => {
+function updatePackageJson(project: string | undefined): Rule {
+  return (host: Tree): Tree => {
     const filePath = join((project || '.') as Path, 'package.json');
 
     const content = JSON.parse(host.read(filePath)!.toString('utf-8'));
@@ -47,4 +43,8 @@ function updateMain(project: string | undefined): Rule {
     }
     return tree;
   };
+}
+
+export function security(options: ISecurityInitializer): Rule {
+  return chain([updatePackageJson(options.path), updateMain(options.path)]);
 }

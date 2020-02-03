@@ -1,4 +1,4 @@
-import { externalSchematic, chain, move } from '@angular-devkit/schematics';
+import { externalSchematic, chain, move, Rule } from '@angular-devkit/schematics';
 import { join, Path, dirname, strings, basename } from '@angular-devkit/core';
 
 export interface IInterceptorOptions {
@@ -10,7 +10,7 @@ export interface IInterceptorOptions {
   flat?: boolean;
 }
 
-export function main(options: IInterceptorOptions) {
+export function main(options: IInterceptorOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

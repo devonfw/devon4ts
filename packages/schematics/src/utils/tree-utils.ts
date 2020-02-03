@@ -52,6 +52,10 @@ export function addBarrels(tree: Tree, path: string, barrels: string | string[])
   return tree;
 }
 
+export function formatTsFile(content: string): string {
+  return format(content, PRETTIER_DEFAULT_OPTS);
+}
+
 export function formatTsFiles(): Rule {
   return forEach((fileEntry: FileEntry) => {
     if (fileEntry.path.endsWith('.ts')) {
@@ -63,10 +67,6 @@ export function formatTsFiles(): Rule {
 
     return fileEntry;
   });
-}
-
-export function formatTsFile(content: string) {
-  return format(content, PRETTIER_DEFAULT_OPTS);
 }
 
 export function existsConfigModule(tree: Tree, path: string): boolean {
