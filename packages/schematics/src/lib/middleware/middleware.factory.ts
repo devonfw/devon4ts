@@ -1,5 +1,5 @@
 import { join, Path, dirname, basename, strings } from '@angular-devkit/core';
-import { chain, externalSchematic, move } from '@angular-devkit/schematics';
+import { chain, externalSchematic, move, Rule } from '@angular-devkit/schematics';
 
 export interface IMiddlewareOptions {
   name: string;
@@ -10,7 +10,7 @@ export interface IMiddlewareOptions {
   flat?: boolean;
 }
 
-export function main(options: IMiddlewareOptions) {
+export function main(options: IMiddlewareOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

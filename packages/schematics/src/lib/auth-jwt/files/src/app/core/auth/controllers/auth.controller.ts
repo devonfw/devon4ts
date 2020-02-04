@@ -11,14 +11,14 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
   @HttpCode(200)
-  async login(@Body() login: LoginDTO, @Response() res: eResponse) {
+  async login(@Body() login: LoginDTO, @Response() res: eResponse): Promise<void> {
     const token = await this.authService.login(login);
     res.setHeader('Authorization', 'Bearer ' + token);
     res.status(200).send();
   }
 
   @Post('register')
-  async register(@Body() user: User) {
+  async register(@Body() user: User): Promise<User> {
     try {
       const registered = await this.authService.register(user);
       return registered;
@@ -29,7 +29,7 @@ export class AuthController {
 
   @Get('currentuser')
   @UseGuards(AuthGuard())
-  currentUser(@GetUser() user: User) {
+  currentUser(@GetUser() user: User): User {
     return user;
   }
 }

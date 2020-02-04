@@ -1,24 +1,28 @@
 import { extname } from '@angular-devkit/core';
-import { FileEntry, forEach, Tree } from '@angular-devkit/schematics';
+import { FileEntry, forEach, Tree, Rule } from '@angular-devkit/schematics';
 import { safeDump, safeLoad } from 'js-yaml';
 import { cloneDeep, defaultsDeep, isPlainObject } from 'lodash';
 import { basename } from 'path';
 
-export function mergeFiles(tree: Tree) {
-  return forEach((fileEntry: FileEntry) => {
-    const extension = extname(fileEntry.path);
-    const fileName = basename(fileEntry.path);
+function assignDeep(target: any, ...args: any[]): any {
+  const newTarget = cloneDeep(target);
+  args.forEach(arg => {
+    const properties: any[][] = [[newTarget, arg]];
 
-    if (extension === '.json' || fileName === '.prettierrc') {
-      return mergeJsonFile(tree, fileEntry);
+    while (properties.length > 0) {
+      const [base, source] = properties.shift()!;
+
+      Object.keys(source).forEach(key => {
+        if (isPlainObject(source[key]) && base[key] !== undefined) {
+          properties.push([base[key], source[key]]);
+        } else {
+          base[key] = source[key];
+        }
+      });
     }
-
-    if (extension === '.yml') {
-      return mergeYmlFile(tree, fileEntry);
-    }
-
-    return fileEntry;
   });
+
+  return newTarget;
 }
 
 export function mergeJsonFile(tree: Tree, fileEntry: FileEntry): FileEntry | null {
@@ -63,23 +67,19 @@ export function mergeYmlFile(tree: Tree, fileEntry: FileEntry): FileEntry | null
   return fileEntry;
 }
 
-function assignDeep(target: any, ...args: any[]) {
-  const newTarget = cloneDeep(target);
-  args.forEach(arg => {
-    const properties: any[][] = [[newTarget, arg]];
+export function mergeFiles(tree: Tree): Rule {
+  return forEach((fileEntry: FileEntry) => {
+    const extension = extname(fileEntry.path);
+    const fileName = basename(fileEntry.path);
 
-    while (properties.length > 0) {
-      const [base, source] = properties.shift()!;
-
-      Object.keys(source).forEach(key => {
-        if (isPlainObject(source[key]) && base[key] !== undefined) {
-          properties.push([base[key], source[key]]);
-        } else {
-          base[key] = source[key];
-        }
-      });
+    if (extension === '.json' || fileName === '.prettierrc') {
+      return mergeJsonFile(tree, fileEntry);
     }
-  });
 
-  return newTarget;
+    if (extension === '.yml') {
+      return mergeYmlFile(tree, fileEntry);
+    }
+
+    return fileEntry;
+  });
 }

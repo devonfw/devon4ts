@@ -1,5 +1,5 @@
-import { externalSchematic, move, chain } from '@angular-devkit/schematics';
-import { join, Path, strings, basename, dirname } from '@angular-devkit/core';
+import { basename, dirname, join, Path, strings } from '@angular-devkit/core';
+import { chain, externalSchematic, move, Rule } from '@angular-devkit/schematics';
 
 export interface IGuardOptions {
   name: string;
@@ -10,7 +10,7 @@ export interface IGuardOptions {
   flat?: boolean;
 }
 
-export function main(options: IGuardOptions) {
+export function main(options: IGuardOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

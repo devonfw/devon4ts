@@ -33,45 +33,7 @@ const defaultMailerValues = `{
   },
 }`;
 
-export function mailer(options: IMailerOptions): Rule {
-  return (host: Tree): Rule => {
-    const projectPath: string = options.path || '.';
-
-    return chain([
-      mergeWith(
-        apply(url('./files'), [
-          template({
-            path: projectPath,
-            packagesVersion,
-          }),
-          move(projectPath as Path),
-          mergeFiles(host),
-        ]),
-      ),
-      // updatePackageJson(projectPath),
-      addMailerToProject(projectPath),
-    ]);
-  };
-}
-
-function addMailerToProject(path: string) {
-  return (tree: Tree): Tree => {
-    const config = existsConfigModule(tree, path || '.');
-    if (!config) {
-      addMailerToCoreModule(path, tree, false);
-      return tree;
-    }
-
-    addMailerToCoreModule(path, tree, true);
-    updateConfigTypeFile(path, tree);
-    updateConfigFiles(path, tree);
-    updateConfigurationService(path, tree);
-
-    return tree;
-  };
-}
-
-function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean) {
+function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean): void {
   const core = new ModuleFinder(tree).find({
     name: 'core',
     path: join(path as Path, 'src/app/core') as Path,
@@ -118,7 +80,7 @@ function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean) 
   }
 }
 
-function updateConfigurationService(project: string, tree: Tree) {
+function updateConfigurationService(project: string, tree: Tree): void {
   const configServicePath = join(project as Path, 'src/app/core/configuration/services/configuration.service.ts');
 
   let configServiceContent = tree.read(configServicePath)!.toString();
@@ -134,7 +96,7 @@ function updateConfigurationService(project: string, tree: Tree) {
   tree.overwrite(configServicePath, formatTsFile(configServiceContent));
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree) {
+function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
@@ -144,7 +106,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree) {
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree) {
+function updateConfigFiles(project: string | undefined, tree: Tree): void {
   const configDir: Path = join((project || '.') as Path, 'src/config');
 
   tree.getDir(configDir).subfiles.forEach(file => {
@@ -155,4 +117,42 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
 
     tree.overwrite(join(configDir, file), formatTsFile(fileContent));
   });
+}
+
+function addMailerToProject(path: string): Rule {
+  return (tree: Tree): Tree => {
+    const config = existsConfigModule(tree, path || '.');
+    if (!config) {
+      addMailerToCoreModule(path, tree, false);
+      return tree;
+    }
+
+    addMailerToCoreModule(path, tree, true);
+    updateConfigTypeFile(path, tree);
+    updateConfigFiles(path, tree);
+    updateConfigurationService(path, tree);
+
+    return tree;
+  };
+}
+
+export function mailer(options: IMailerOptions): Rule {
+  return (host: Tree): Rule => {
+    const projectPath: string = options.path || '.';
+
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            path: projectPath,
+            packagesVersion,
+          }),
+          move(projectPath as Path),
+          mergeFiles(host),
+        ]),
+      ),
+      // updatePackageJson(projectPath),
+      addMailerToProject(projectPath),
+    ]);
+  };
 }

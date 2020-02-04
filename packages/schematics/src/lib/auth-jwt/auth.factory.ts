@@ -17,33 +17,6 @@ interface IAuthJWTOptions {
   path: string;
 }
 
-export function authJWT(options: IAuthJWTOptions): Rule {
-  return (tree: Tree): Rule => {
-    if (!options.path) {
-      options.path = '.';
-    }
-    const config: boolean = existsConfigModule(tree, options.path);
-    return chain([
-      mergeWith(
-        apply(url('./files'), [
-          template({
-            ...strings,
-            ...options,
-            config,
-            packagesVersion,
-          }),
-          formatTsFiles(),
-          move(join((options.path || '.') as Path)),
-          mergeFiles(tree),
-        ]),
-      ),
-      // updatePackageJson(options.path),
-      addAuthToCoreModule(options.path),
-      config ? addJWTConfiguration(options.path) : noop,
-    ]);
-  };
-}
-
 function addAuthToCoreModule(project: string): Rule {
   return (tree: Tree): Tree => {
     const module = new ModuleFinder(tree).find({
@@ -73,17 +46,7 @@ function addAuthToCoreModule(project: string): Rule {
   };
 }
 
-function addJWTConfiguration(project: string | undefined): Rule {
-  return (tree: Tree): Tree => {
-    updateConfigTypeFile(project, tree);
-    updateConfigFiles(project, tree);
-    updateConfigurationService(project, tree);
-
-    return tree;
-  };
-}
-
-function updateConfigurationService(project: string | undefined, tree: Tree) {
+function updateConfigurationService(project: string | undefined, tree: Tree): void {
   const configServicePath = join(
     '.' as Path,
     project || '.',
@@ -103,7 +66,7 @@ function updateConfigurationService(project: string | undefined, tree: Tree) {
   tree.overwrite(configServicePath, formatTsFile(configServiceContent));
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree) {
+function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
@@ -113,7 +76,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree) {
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree) {
+function updateConfigFiles(project: string | undefined, tree: Tree): void {
   const configDir: Path = join((project || '.') as Path, 'src/config');
 
   tree.getDir(configDir).subfiles.forEach(file => {
@@ -129,4 +92,41 @@ function updateConfigFiles(project: string | undefined, tree: Tree) {
       ),
     );
   });
+}
+
+function addJWTConfiguration(project: string | undefined): Rule {
+  return (tree: Tree): Tree => {
+    updateConfigTypeFile(project, tree);
+    updateConfigFiles(project, tree);
+    updateConfigurationService(project, tree);
+
+    return tree;
+  };
+}
+
+export function authJWT(options: IAuthJWTOptions): Rule {
+  return (tree: Tree): Rule => {
+    if (!options.path) {
+      options.path = '.';
+    }
+    const config: boolean = existsConfigModule(tree, options.path);
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            ...strings,
+            ...options,
+            config,
+            packagesVersion,
+          }),
+          formatTsFiles(),
+          move(join((options.path || '.') as Path)),
+          mergeFiles(tree),
+        ]),
+      ),
+      // updatePackageJson(options.path),
+      addAuthToCoreModule(options.path),
+      config ? addJWTConfiguration(options.path) : noop,
+    ]);
+  };
 }

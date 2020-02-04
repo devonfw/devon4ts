@@ -1,6 +1,6 @@
-export class LogicException extends Error {
+export class BusinessLogicException extends Error {
   private readonly _errorId?: string;
-  private readonly _name: string = 'LogicException';
+  private readonly _name: string = 'BusinessLogicException';
   private readonly _message: string;
 
   constructor(message: string, errorId?: string) {
@@ -9,19 +9,19 @@ export class LogicException extends Error {
     this._errorId = errorId;
   }
 
-  get errorId() {
+  get errorId(): string | undefined {
     return this._errorId;
   }
 
-  get name() {
+  get name(): string {
     return this._name;
   }
 
-  get message() {
+  get message(): string {
     return this._message;
   }
 
-  plainObject() {
+  plainObject(): Pick<BusinessLogicException, 'message' | 'name' | 'errorId'> {
     return { message: this.message, name: this.name, errorId: this.errorId };
   }
 }

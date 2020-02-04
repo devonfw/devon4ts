@@ -4,12 +4,12 @@ import { Reflector } from '@nestjs/core';
 
 @Roles(roles.USER, roles.ADMIN)
 class RolesTest {
-  // tslint:disable-next-line: no-empty
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   @Roles(roles.ADMIN)
-  // tslint:disable-next-line: no-empty
-  oneHandler() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  oneHandler(): void {}
 }
 
 describe('Roles', () => {

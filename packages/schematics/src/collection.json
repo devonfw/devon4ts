@@ -86,6 +86,11 @@
       "factory": "./lib/middleware/middleware.factory#main",
       "description": "Create a Nest middleware.",
       "schema": "./lib/middleware/schema.json"
+    },
+    "pipe": {
+      "factory": "./lib/pipe/pipe.factory#main",
+      "description": "Create a Nest pipe.",
+      "schema": "./lib/pipe/schema.json"
     }
   }
 }

@@ -1,5 +1,5 @@
-import { externalSchematic, chain, move } from '@angular-devkit/schematics';
-import { Path, join, basename, strings, dirname } from '@angular-devkit/core';
+import { basename, dirname, join, Path, strings } from '@angular-devkit/core';
+import { chain, externalSchematic, move, Rule } from '@angular-devkit/schematics';
 
 export interface IFilterOptions {
   name: string;
@@ -10,7 +10,7 @@ export interface IFilterOptions {
   flat?: boolean;
 }
 
-export function main(options: IFilterOptions) {
+export function main(options: IFilterOptions): Rule {
   const newOptions = { ...options };
   newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
   if (newOptions.path) {

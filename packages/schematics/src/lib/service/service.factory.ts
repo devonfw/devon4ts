@@ -11,27 +11,6 @@ interface IServiceOptions {
   spec: boolean;
 }
 
-export function main(options: IServiceOptions): Rule {
-  const name = strings.dasherize(basename(options.name as Path));
-  const projectPath = options.path || '.';
-  const path: Path = strings.dasherize(normalize(join(projectPath as Path, 'src/app', options.name, '..'))) as Path;
-
-  return chain([
-    mergeWith(
-      apply(url('./files'), [
-        options.spec ? noop() : filter(p => !p.endsWith('.spec.ts')),
-        template({
-          ...strings,
-          name,
-        }),
-        formatTsFiles(),
-        move(path),
-      ]),
-    ),
-    updateModule(name, path),
-  ]);
-}
-
 function updateModule(serviceName: string, modulePath: Path) {
   return (tree: Tree): Tree => {
     const moduleName = strings.classify(basename(modulePath as Path) + '-module');
@@ -58,4 +37,25 @@ function updateModule(serviceName: string, modulePath: Path) {
 
     return tree;
   };
+}
+
+export function main(options: IServiceOptions): Rule {
+  const name = strings.dasherize(basename(options.name as Path));
+  const projectPath = options.path || '.';
+  const path: Path = strings.dasherize(normalize(join(projectPath as Path, 'src/app', options.name, '..'))) as Path;
+
+  return chain([
+    mergeWith(
+      apply(url('./files'), [
+        options.spec ? noop() : filter(p => !p.endsWith('.spec.ts')),
+        template({
+          ...strings,
+          name,
+        }),
+        formatTsFiles(),
+        move(path),
+      ]),
+    ),
+    updateModule(name, path),
+  ]);
 }

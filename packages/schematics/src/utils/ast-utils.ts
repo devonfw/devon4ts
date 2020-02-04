@@ -9,24 +9,7 @@ import {
   SourceFile,
 } from 'ts-morph';
 
-export function addImports(fileContent: string, importValues: string, importFrom: string): string {
-  const tsProject = new Project({
-    manipulationSettings: {
-      indentationText: IndentationText.TwoSpaces,
-      quoteKind: QuoteKind.Single,
-    },
-    useInMemoryFileSystem: true,
-    skipLoadingLibFiles: true,
-  });
-
-  const tsFile = tsProject.createSourceFile('file.ts', fileContent);
-
-  addImportsFromTsFile(tsFile, importFrom, importValues);
-
-  return tsFile.getText();
-}
-
-function addImportsFromTsFile(tsFile: SourceFile, importFrom: string, importValues: string) {
+function addImportsFromTsFile(tsFile: SourceFile, importFrom: string, importValues: string): void {
   const importsDeclaration = tsFile
     .getImportDeclarations()
     .filter(e => e.getModuleSpecifier().getLiteralValue() === importFrom);
@@ -45,6 +28,43 @@ function addImportsFromTsFile(tsFile: SourceFile, importFrom: string, importValu
       namedImports: [{ name: importValues }],
     });
   }
+}
+
+export function addReturnTypeToFunction(fileContent: string, functionName: string, returnType: string): string {
+  const tsProject = new Project({
+    manipulationSettings: {
+      indentationText: IndentationText.TwoSpaces,
+      quoteKind: QuoteKind.Single,
+    },
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
+  });
+
+  const tsFile = tsProject.createSourceFile('file.ts', fileContent);
+
+  const bootstrapFunction = tsFile.getFunction(functionName);
+  if (bootstrapFunction) {
+    bootstrapFunction.set({ returnType });
+  }
+
+  return tsFile.getText();
+}
+
+export function addImports(fileContent: string, importValues: string, importFrom: string): string {
+  const tsProject = new Project({
+    manipulationSettings: {
+      indentationText: IndentationText.TwoSpaces,
+      quoteKind: QuoteKind.Single,
+    },
+    useInMemoryFileSystem: true,
+    skipLoadingLibFiles: true,
+  });
+
+  const tsFile = tsProject.createSourceFile('file.ts', fileContent);
+
+  addImportsFromTsFile(tsFile, importFrom, importValues);
+
+  return tsFile.getText();
 }
 
 export function addDefaultImports(fileContent: string, importValues: string, importFrom: string): string {
@@ -74,7 +94,7 @@ export function addToModuleDecorator(
   moduleNameToInsert: string,
   property: string,
   exports: boolean,
-) {
+): string | undefined {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -139,7 +159,7 @@ export function insertLinesToFunctionAfter(
   functionName: string,
   lineContains: string,
   textToInsert: string,
-) {
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -177,7 +197,7 @@ export function insertLinesToFunctionBefore(
   functionName: string,
   lineContains: string,
   textToInsert: string,
-) {
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -200,7 +220,11 @@ export function insertLinesToFunctionBefore(
   return tsFile.getFullText();
 }
 
-export function addTypeormFeatureToModule(moduleToAddContent: string, moduleNameToAdd: string, entityName: string) {
+export function addTypeormFeatureToModule(
+  moduleToAddContent: string,
+  moduleNameToAdd: string,
+  entityName: string,
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -255,7 +279,7 @@ export function addEntryToObjctLiteralVariable(
   varName: string,
   propName: string,
   propInitializer: string,
-) {
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -283,7 +307,12 @@ export function addEntryToObjctLiteralVariable(
   return tsFile.getText();
 }
 
-export function addPropToInterface(fileContent: string, interfaceName: string, propName: string, propType: string) {
+export function addPropToInterface(
+  fileContent: string,
+  interfaceName: string,
+  propName: string,
+  propType: string,
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -309,7 +338,7 @@ export function addGetterToClass(
   getterName: string,
   getterReturnType: string,
   getterContent: string,
-) {
+): string {
   const tsProject = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
