@@ -30,7 +30,7 @@ export class MailerModule implements OnModuleDestroy {
         },
         {
           provide: MAILER_TRANSPORT_PROVIDER_NAME,
-          useFactory: (opts: MailerModuleOptions) => {
+          useFactory: (opts: MailerModuleOptions): any => {
             return nodemailer.createTransport(opts.mailOptions);
           },
           inject: [MAILER_OPTIONS_PROVIDER_NAME],
@@ -64,7 +64,7 @@ export class MailerModule implements OnModuleDestroy {
     };
   }
 
-  onModuleDestroy() {
+  onModuleDestroy(): void {
     const transport = this.moduleRef.get<nodemailer.Transporter>(MAILER_TRANSPORT_PROVIDER_NAME);
     transport.close();
   }

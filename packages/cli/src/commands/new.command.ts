@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { strings } from '@angular-devkit/core';
 import { Input } from '@nestjs/cli/commands';
 import * as chalk from 'chalk';
@@ -19,11 +20,34 @@ export const describe = 'Create a new devon4node application, based on NestJS.';
 export const aliases = ['n'];
 
 /**
+ * As we based this CLI on NestJS CLI, we print their open collective.
+ */
+function printCollective(): void {
+  console.log('\n\n' + chalk.yellow('devon4node is based on Nest.'));
+  console.log('Please consider donating to their open collective');
+  console.log('to help them maintain the framework.\n\n');
+  console.log(`${chalk.bold(`Donate:`)} ${chalk.underline('https://opencollective.com/nest')}`);
+  console.log('\n');
+}
+
+/**
+ * Execute a schematic to generate the application files.
+ *
+ * @param collectionName schematic collection to execute
+ * @param options schematic options
+ */
+async function generateApplicationFiles(collectionName: string, options: Input[]): Promise<void> {
+  const schematicOptions: string[] = mapSchematicOptions(collectionName, options);
+
+  await executeCollection(schematicOptions);
+}
+
+/**
  * Ask for general modules.
  *
  * @param whenName ask for name?
  */
-async function askGeneralModules(basePath: string, dryRun: boolean) {
+async function askGeneralModules(basePath: string /*_dryRun: boolean */): Promise<any> {
   const answers = await inquirer.prompt([
     {
       type: 'checkbox',
@@ -86,7 +110,7 @@ async function askGeneralModules(basePath: string, dryRun: boolean) {
       name: 'db',
       message: 'Database engine?',
       choices: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
-      when: answ => {
+      when: (answ): boolean => {
         return (answ.schematics as ICollectionToRun[]).filter(elem => elem.name === 'typeorm').length > 0;
       },
     },
@@ -153,23 +177,23 @@ async function askSpecificModules(useTypeorm: boolean, basePath: string): Promis
       {
         name: 'crud',
         message: 'Crud controllers (Separated by commas)',
-        when: ans => ans.extras.includes('crud'),
+        when: (ans): boolean => ans.extras.includes('crud'),
       },
       {
         name: 'controller',
         message: 'Controllers (Separated by commas)',
-        when: ans => ans.extras.includes('controller'),
+        when: (ans): boolean => ans.extras.includes('controller'),
       },
       {
         name: 'service',
         message: 'Services (Separated by commas)',
-        when: ans => ans.extras.includes('service'),
+        when: (ans): boolean => ans.extras.includes('service'),
       },
       {
         name: 'entity',
-        message: ans =>
+        message: (ans): string =>
           'Entities names (Separated by commas)' + (ans && ans.crud ? ' - Already created by crud: ' + ans.crud : ''),
-        when: ans => ans.extras.includes('entity'),
+        when: (ans): boolean => ans.extras.includes('entity'),
       },
     ]);
 
@@ -250,7 +274,7 @@ async function askSpecificModules(useTypeorm: boolean, basePath: string): Promis
  *
  * @param args yargs.Argv
  */
-export function builder(args: yargs.Argv) {
+export function builder(args: yargs.Argv): yargs.Argv {
   return args
     .positional('name', {
       describe: 'Application name',
@@ -279,48 +303,7 @@ export function builder(args: yargs.Argv) {
     });
 }
 
-/**
- * New command handler.
- *
- * @param args program arguments
- */
-export async function handler(args: yargs.Arguments) {
-  if (args.n) {
-    await generateCode(args);
-  } else {
-    await generateCodeInteractive(true, args);
-  }
-}
-
-export async function generateCode(args: yargs.Arguments<any>) {
-  const inputs: Input[] = [];
-  const name: string = args.name;
-
-  if (!name) {
-    console.error('Application name is required.');
-    process.exit(1);
-  }
-
-  inputs.push({ name: 'name', value: name });
-  if (args.d) {
-    inputs.push({ name: 'dry-run', value: !!args.d });
-  }
-
-  await generateApplicationFiles('@devon4node/schematics:application', inputs);
-
-  if (!args.d) {
-    if (!args.g) {
-      await initGit(name);
-    }
-    if (!args.s) {
-      await installPackages(name);
-    }
-  }
-
-  printCollective();
-}
-
-export async function generateCodeInteractive(newApp: boolean, args: yargs.Arguments) {
+export async function generateCodeInteractive(newApp: boolean, args: yargs.Arguments): Promise<void> {
   const options: Input[] = [];
   const inputs: Input[] = [];
   let name: string;
@@ -354,7 +337,7 @@ export async function generateCodeInteractive(newApp: boolean, args: yargs.Argum
     process.exit(1);
   }
 
-  const generalModules = await askGeneralModules(basePath, !!args.d);
+  const generalModules = await askGeneralModules(basePath /*, !!args.d*/);
   const allInOne: ICollectionToRun[] = [];
 
   // change to if create application
@@ -410,25 +393,43 @@ export async function generateCodeInteractive(newApp: boolean, args: yargs.Argum
   printCollective();
 }
 
-/**
- * Execute a schematic to generate the application files.
- *
- * @param collectionName schematic collection to execute
- * @param options schematic options
- */
-async function generateApplicationFiles(collectionName: string, options: Input[]) {
-  const schematicOptions: string[] = mapSchematicOptions(collectionName, options);
+export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
+  const inputs: Input[] = [];
+  const name: string = args.name;
 
-  await executeCollection(schematicOptions);
+  if (!name) {
+    console.error('Application name is required.');
+    process.exit(1);
+  }
+
+  inputs.push({ name: 'name', value: name });
+  if (args.d) {
+    inputs.push({ name: 'dry-run', value: !!args.d });
+  }
+
+  await generateApplicationFiles('@devon4node/schematics:application', inputs);
+
+  if (!args.d) {
+    if (!args.g) {
+      await initGit(name);
+    }
+    if (!args.s) {
+      await installPackages(name);
+    }
+  }
+
+  printCollective();
 }
 
 /**
- * As we based this CLI on NestJS CLI, we print their open collective.
+ * New command handler.
+ *
+ * @param args program arguments
  */
-function printCollective() {
-  console.log('\n\n' + chalk.yellow('devon4node is based on Nest.'));
-  console.log('Please consider donating to their open collective');
-  console.log('to help them maintain the framework.\n\n');
-  console.log(`${chalk.bold(`Donate:`)} ${chalk.underline('https://opencollective.com/nest')}`);
-  console.log('\n');
+export async function handler(args: yargs.Arguments): Promise<void> {
+  if (args.n) {
+    await generateCode(args);
+  } else {
+    await generateCodeInteractive(true, args);
+  }
 }

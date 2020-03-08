@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/cli",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "devon4node CLI",
   "bin": {
     "devon4node": "./bin/devon4node",
@@ -10,7 +10,7 @@
     "build": "tsc -p tsconfig.json",
     "build:prod": "tsc -p tsconfig.prod.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
     "test": "npm run build && jasmine src/**/*.spec.js",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
@@ -39,22 +39,27 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
-    "@types/node": "^13.7.0",
-    "@types/node-fetch": "^2.5.4",
-    "@types/yargs": "^15.0.3",
-    "prettier": "^1.19.1",
-    "tslint": "^6.0.0"
+    "@types/node": "^13.9.0",
+    "@types/node-fetch": "^2.5.5",
+    "@types/yargs": "^15.0.4",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
   },
   "dependencies": {
-    "@angular-devkit/schematics-cli": "^0.803.24",
-    "@devon4node/schematics": "^1.1.7",
-    "@nestjs/cli": "^6.14.1",
+    "@angular-devkit/schematics-cli": "^0.900.5",
+    "@devon4node/schematics": "~1.1.8",
+    "@nestjs/cli": "^6.14.2",
     "chalk": "^3.0.0",
-    "inquirer": "^7.0.4",
+    "inquirer": "^7.0.6",
     "node-fetch": "^2.6.0",
     "rxjs": "^6.5.4",
     "tmp-promise": "^2.0.2",
-    "typeorm": "^0.2.22",
+    "typeorm": "^0.2.24",
     "yargs": "^15.1.0"
   }
 }

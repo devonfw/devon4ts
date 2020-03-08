@@ -1,7 +1,7 @@
 import { get } from 'config';
 import { defaultsDeep } from 'lodash';
 
-export function getConfigProperty(propName: string) {
+export function getConfigProperty(propName: string): any {
   let envVar: any;
   let config: any;
   try {

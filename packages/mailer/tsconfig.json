@@ -17,10 +17,8 @@
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["./lib/**/*"],
-  "exclude": [
-    "node_modules", "dist", "./**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

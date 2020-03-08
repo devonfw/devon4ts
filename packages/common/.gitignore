@@ -6,6 +6,7 @@
 *.d.ts
 **/*.js
 **/*.d.ts
+!.eslintrc.js
 
 ### Node ###
 # Logs

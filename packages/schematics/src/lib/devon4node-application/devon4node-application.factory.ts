@@ -50,9 +50,6 @@ function updateMain(project: string) {
     new ValidationPipe({
       transform: true,
       forbidUnknownValues: true,
-      transformOptions: {
-        excludeExtraneousValues: true,
-      },
     }),
   );`,
     );

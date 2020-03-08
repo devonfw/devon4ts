@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Input } from '@nestjs/cli/commands';
 import { GitRunner } from '@nestjs/cli/lib/runners/git.runner';
 import * as chalk from 'chalk';
@@ -45,8 +46,8 @@ export function executeCollection(schematicOptions: string[]): Promise<null | st
   });
 }
 
-export async function installPackages(appName: string) {
-  return new Promise<null | string>((res, reject) => {
+export async function installPackages(appName: string): Promise<string | null> {
+  return new Promise<null | string>(res => {
     console.log(chalk.blueBright('Installing dependencies... please wait'));
     const child: ChildProcess = spawn('yarn', [], {
       cwd: join(process.cwd(), appName || '.'),
@@ -59,16 +60,17 @@ export async function installPackages(appName: string) {
     child.on('close', code => {
       if (code === 0) {
         console.error(chalk.green('Dependencies installed successfuly'));
-        res(null);
       } else {
         console.error(chalk.red('Error installing dependencies'));
-        reject();
+        console.error(chalk.red('Please, try to install it again manually.'));
+        console.error(chalk.red('Most of times, this error is caused by a network issue.'));
       }
+      res(null);
     });
   });
 }
 
-export async function addGitIgnore(folder: string) {
+export async function addGitIgnore(folder: string): Promise<void> {
   const url = 'https://www.gitignore.io/api/node,angular,visualstudiocode';
   console.log(chalk.blueBright('Generating .gitignore from: ' + url));
   const path = resolve(folder, '.gitignore');
@@ -83,7 +85,7 @@ export async function addGitIgnore(folder: string) {
   });
 }
 
-export async function initGit(appPath: string) {
+export async function initGit(appPath: string): Promise<void> {
   console.log(chalk.blueBright('Initializing git repository... please wait'));
   const runner = new GitRunner();
   await runner.run('init', true, join(process.cwd(), appPath));

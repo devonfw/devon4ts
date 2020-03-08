@@ -1,0 +1,3 @@
+src/lib/**/files/**/*
+*.d.ts
+**/*.d.ts

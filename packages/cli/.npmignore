@@ -5,6 +5,8 @@
 .vscode/
 *.js.map
 **/*.js.map
+.eslintrc.js
+.eslintignore
 
 src/
 node_modules/

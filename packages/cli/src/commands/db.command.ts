@@ -16,7 +16,12 @@ import { CacheClearCommand } from 'typeorm/commands/CacheClearCommand';
 export const command = 'db';
 export const describe = 'Execute a database command.';
 
-export function builder(args: yargs.Argv) {
+export function handler(args: yargs.Arguments): void {
+  // eslint-disable-next-line no-console
+  console.log(args);
+}
+
+export function builder(args: yargs.Argv): yargs.Argv {
   return args
     .command(new SchemaSyncCommand())
     .command(new SchemaLogCommand())
@@ -33,8 +38,4 @@ export function builder(args: yargs.Argv) {
     .command(new CacheClearCommand())
     .recommendCommands()
     .demandCommand();
-}
-
-export async function handler(args: yargs.Arguments) {
-  console.log(args);
 }

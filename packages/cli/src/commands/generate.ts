@@ -40,47 +40,71 @@ const SCHEMATICS_FILE = 'schematics.devon4node.json';
 const tmpDir = process.env.TEMP || '/var/tmp';
 
 /**
- * Build the Generate command.
- *
- * @param args yargs.Argv
+ * Generate a command handler for a schematic
+ * @param schematicName schematic name
+ * @param schemaOptions schematic options
  */
-export function builder(args: yargs.Argv) {
-  let newYargs = args
-    .option('interactive', {
-      alias: 'i',
-      type: 'boolean',
-      description: 'Generate code using the interactive mode (same as new command).',
-    })
-    .option('skip-install', {
-      alias: 's',
-      description: 'Allow to skip package installation.',
-      type: 'boolean',
-      default: false,
-    })
-    .option('dry-run', {
-      alias: 'd',
-      type: 'boolean',
-      description: 'Allow to test changes before execute command.',
-      default: false,
-    })
-    .option('path', {
-      alias: 'p',
-      type: 'string',
-      description: 'Path to project.',
+function generateHandler(schematicName: string, schemaOptions: ISchematicOption[]) {
+  return async (argv: yargs.Arguments): Promise<void> => {
+    let schematicCollection = '@devon4node/schematics';
+    try {
+      schematicCollection =
+        JSON.parse(readFileSync(join((argv.path as string) || '.', 'nest-cli.json')).toString()).collection ||
+        schematicCollection;
+    } catch (e) {
+      // do nothing
+    }
+    const args: string[] = [schematicCollection + ':' + schematicName];
+
+    schemaOptions.forEach(element => {
+      if (argv[element.name]) {
+        args.push('--' + element.name);
+        if (element.type !== 'boolean') {
+          args.push(argv[element.name] as string);
+        }
+      }
     });
 
-  const options = generateOptionsFile();
+    await executeCollection(args);
 
-  options.schematics.forEach(element => {
-    newYargs = newYargs.command(
-      element.name,
-      element.description,
-      generateBuilder(element.name, element.options),
-      generateHandler(element.name, element.options),
-    );
+    if (installAfterGenerate.includes(schematicName)) {
+      installPackages(argv.path as string);
+    }
+  };
+}
+
+/**
+ * Generate Yargs options for the schematics commands.
+ * @param schematicOptions the schematics options
+ */
+function generateYargsOptions(schematicOptions: ISchematicOption[]): Record<string, any> {
+  const result: any = {};
+
+  schematicOptions.forEach(element => {
+    const newOption: any = {
+      type: element.type,
+      description: element.description,
+    };
+
+    if (element.default) {
+      newOption.default = element.default;
+    }
+
+    if (paramAliases[element.name]) {
+      newOption.alias = paramAliases[element.name];
+    }
+
+    result[element.name] = newOption;
   });
 
-  return newYargs.strict(false).version(false);
+  result['dry-run'] = {
+    type: 'boolean',
+    description: 'Allow to test changes before execute command.',
+    default: false,
+    alias: 'd',
+  };
+
+  return result;
 }
 
 /**
@@ -88,13 +112,89 @@ export function builder(args: yargs.Argv) {
  *
  * @param args program arguments
  */
-export async function handler(args: yargs.Arguments) {
+export async function handler(args: yargs.Arguments): Promise<void> {
   if (!args.i) {
     yargs.showHelp();
     return;
   }
 
   generateCodeInteractive(false, args);
+}
+
+/**
+ * Parses the schema.json types to yargs types.
+ *
+ * @param type input type
+ */
+function schemaTypeToYargsType(type: string): string {
+  switch (type) {
+    case 'array':
+    case 'boolean':
+    case 'string':
+    case 'number':
+      return type;
+    case 'integer':
+      return 'number';
+    case 'object':
+    case 'null':
+    case 'enum':
+    default:
+      return 'string';
+  }
+}
+
+/**
+ * Parses an schematic schema.json to an easy-to-use array.
+ * @param schemaPath schematic schema.json path
+ */
+function parseSchematicOptions(schemaPath: string): ISchematicOption[] {
+  const schema = JSON.parse(readFileSync(schemaPath).toString());
+  const properties = Object.keys(schema.properties).map(e => {
+    return {
+      name: e,
+      type: schemaTypeToYargsType(schema.properties[e].type),
+      description: schema.properties[e].description,
+      default: schema.properties[e].default,
+      required: schema.required ? (schema.required as string[]).includes(e) : false,
+    };
+  });
+
+  return properties;
+}
+
+/**
+ * Generate the schematics command builders.
+ *
+ * @param schematicName schematic name
+ * @param schematicOptions schematic options
+ */
+function generateBuilder(schematicName: string, schematicOptions: ISchematicOption[]) {
+  return (argv: yargs.Argv): yargs.Argv => {
+    return argv
+      .usage(`Usage: $0 devon4node generate ${schematicName} [Options]`)
+      .options(generateYargsOptions(schematicOptions))
+      .example(`$0 devon4node generate ${schematicName}`, `Generate all files for ${schematicName}`)
+      .version(false);
+  };
+}
+
+/**
+ * Parse the schematics collection to a easy-to-use array.
+ *
+ * @param schematics The schematics collection file.
+ * @param schematicsFolder The folder where the schematics are stored.
+ */
+function parseSchematics(schematics: any, schematicsFolder: string): ISchematicElement[] {
+  const elements: ISchematicElement[] = [];
+  Object.keys(schematics).forEach(e => {
+    elements.push({
+      name: e,
+      description: schematics[e].description,
+      options: schematics[e].schema ? parseSchematicOptions(join(schematicsFolder, schematics[e].schema)) : [],
+    });
+  });
+
+  return elements;
 }
 
 /**
@@ -147,145 +247,45 @@ function generateOptionsFile(): ISchematicsFile {
 }
 
 /**
- * Parse the schematics collection to a easy-to-use array.
+ * Build the Generate command.
  *
- * @param schematics The schematics collection file.
- * @param schematicsFolder The folder where the schematics are stored.
+ * @param args yargs.Argv
  */
-function parseSchematics(schematics: any, schematicsFolder: string): ISchematicElement[] {
-  const elements: ISchematicElement[] = [];
-  Object.keys(schematics).forEach(e => {
-    elements.push({
-      name: e,
-      description: schematics[e].description,
-      options: schematics[e].schema ? parseSchematicOptions(join(schematicsFolder, schematics[e].schema)) : [],
-    });
-  });
-
-  return elements;
-}
-
-/**
- * Parses an schematic schema.json to an easy-to-use array.
- * @param schemaPath schematic schema.json path
- */
-function parseSchematicOptions(schemaPath: string): ISchematicOption[] {
-  const schema = JSON.parse(readFileSync(schemaPath).toString());
-  const properties = Object.keys(schema.properties).map(e => {
-    return {
-      name: e,
-      type: schemaTypeToYargsType(schema.properties[e].type),
-      description: schema.properties[e].description,
-      default: schema.properties[e].default,
-      required: schema.required ? (schema.required as string[]).includes(e) : false,
-    };
-  });
-
-  return properties;
-}
-
-/**
- * Parses the schema.json types to yargs types.
- *
- * @param type input type
- */
-function schemaTypeToYargsType(type: string) {
-  switch (type) {
-    case 'array':
-    case 'boolean':
-    case 'string':
-    case 'number':
-      return type;
-    case 'integer':
-      return 'number';
-    case 'object':
-    case 'null':
-    case 'enum':
-    default:
-      return 'string';
-  }
-}
-
-/**
- * Generate the schematics command builders.
- *
- * @param schematicName schematic name
- * @param schematicOptions schematic options
- */
-function generateBuilder(schematicName: string, schematicOptions: ISchematicOption[]) {
-  return (argv: yargs.Argv) => {
-    return argv
-      .usage(`Usage: $0 devon4node generate ${schematicName} [Options]`)
-      .options(generateYargsOptions(schematicOptions))
-      .example(`$0 devon4node generate ${schematicName}`, `Generate all files for ${schematicName}`)
-      .version(false);
-  };
-}
-
-/**
- * Generate Yargs options for the schematics commands.
- * @param schematicOptions the schematics options
- */
-function generateYargsOptions(schematicOptions: ISchematicOption[]) {
-  const result: any = {};
-
-  schematicOptions.forEach(element => {
-    const newOption: any = {
-      type: element.type,
-      description: element.description,
-    };
-
-    if (element.default) {
-      newOption.default = element.default;
-    }
-
-    if (paramAliases[element.name]) {
-      newOption.alias = paramAliases[element.name];
-    }
-
-    result[element.name] = newOption;
-  });
-
-  result['dry-run'] = {
-    type: 'boolean',
-    description: 'Allow to test changes before execute command.',
-    default: false,
-    alias: 'd',
-  };
-
-  return result;
-}
-
-/**
- * Generate a command handler for a schematic
- * @param schematicName schematic name
- * @param schemaOptions schematic options
- */
-function generateHandler(schematicName: string, schemaOptions: ISchematicOption[]) {
-  return async (argv: yargs.Arguments) => {
-    let schematicCollection = '@devon4node/schematics';
-    try {
-      schematicCollection =
-        JSON.parse(readFileSync(join((argv.path as string) || '.', 'nest-cli.json')).toString()).collection ||
-        schematicCollection;
-    } catch (e) {
-      // do nothing
-    }
-    const args: string[] = [schematicCollection + ':' + schematicName];
-
-    schemaOptions.forEach(element => {
-      if (argv[element.name]) {
-        args.push('--' + element.name);
-        if (element.type !== 'boolean') {
-          args.push(argv[element.name] as string);
-        }
-      }
+export function builder(args: yargs.Argv): yargs.Argv {
+  let newYargs: yargs.Argv = args
+    .option('interactive', {
+      alias: 'i',
+      type: 'boolean',
+      description: 'Generate code using the interactive mode (same as new command).',
+    })
+    .option('skip-install', {
+      alias: 's',
+      description: 'Allow to skip package installation.',
+      type: 'boolean',
+      default: false,
+    })
+    .option('dry-run', {
+      alias: 'd',
+      type: 'boolean',
+      description: 'Allow to test changes before execute command.',
+      default: false,
+    })
+    .option('path', {
+      alias: 'p',
+      type: 'string',
+      description: 'Path to project.',
     });
 
-    await executeCollection(args);
+  const options = generateOptionsFile();
 
-    if (installAfterGenerate.includes(schematicName)) {
-      installPackages(argv.path as string);
-    }
-  };
+  options.schematics.forEach(element => {
+    newYargs = newYargs.command(
+      element.name,
+      element.description,
+      generateBuilder(element.name, element.options),
+      generateHandler(element.name, element.options),
+    );
+  });
+
+  return newYargs.strict(false).version(false);
 }

@@ -11,7 +11,7 @@ export class MailerService implements OnModuleInit {
     templatesDir: join(__dirname, '../../../../templates/views'),
     extension: '.handlebars',
   };
-  private hbs;
+  private hbs: any;
   private readonly templates: {
     [T: string]: Handlebars.TemplateDelegate<any>;
   } = {};
@@ -23,7 +23,7 @@ export class MailerService implements OnModuleInit {
     private readonly options: MailerModuleOptions,
   ) {}
 
-  async onModuleInit() {
+  async onModuleInit(): Promise<void> {
     if (this.options.hbsOptions) {
       const hbs = await import('handlebars');
 
@@ -111,19 +111,19 @@ export class MailerService implements OnModuleInit {
     return this.transporter.sendMail(mailOptions);
   }
 
-  addTemplate(name: string, template: string, options?: CompileOptions) {
+  addTemplate(name: string, template: string, options?: CompileOptions): void {
     this.templates[name] = this.hbs.compile(template, options);
   }
 
-  registerPartial(name: string, partial: Handlebars.Template<any>) {
+  registerPartial(name: string, partial: Handlebars.Template<any>): void {
     this.hbs.registerPartial(name, partial);
   }
 
-  registerHelper(name: string, helper: Handlebars.HelperDelegate) {
+  registerHelper(name: string, helper: Handlebars.HelperDelegate): void {
     this.hbs.registerHelper(name, helper);
   }
 
-  private addHelpers() {
+  private addHelpers(): void {
     if (this.hbsOptions.helpers && this.hbsOptions.helpers.length) {
       this.hbsOptions.helpers.forEach(helper => {
         this.hbs.registerHelper(helper.name, helper.func);
@@ -131,7 +131,7 @@ export class MailerService implements OnModuleInit {
     }
   }
 
-  private addTemplates() {
+  private addTemplates(): void {
     if (fs.existsSync(this.hbsOptions.templatesDir)) {
       const templates = fs.readdirSync(this.hbsOptions!.templatesDir, {
         withFileTypes: true,
@@ -146,7 +146,7 @@ export class MailerService implements OnModuleInit {
     }
   }
 
-  private addPartials() {
+  private addPartials(): void {
     if (this.hbsOptions.partialsDir && fs.existsSync(this.hbsOptions.partialsDir)) {
       const partials = fs.readdirSync(this.hbsOptions!.partialsDir, {
         withFileTypes: true,

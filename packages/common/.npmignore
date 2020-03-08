@@ -8,6 +8,10 @@ yarn.lock
 tslint.json
 tsconfig.json
 .prettierrc
+.eslintrc.js
+.eslintignore
+
+.vscode/
 
 *.js.map
 **/*.js.map

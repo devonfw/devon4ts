@@ -8,7 +8,7 @@ import * as GenerateCommand from './commands/generate';
  *
  * @export
  */
-export function executable() {
+export function executable(): any {
   return yargs
     .usage('Usage: $0 <command> [options]')
     .command(NewCommand)

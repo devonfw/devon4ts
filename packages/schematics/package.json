@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/schematics",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Schematics for devon4node",
   "scripts": {
     "prebuild": "rm -f node_modules/@nestjs/schematics/utils/module.finder.ts && yarn copy:schemas",
@@ -24,16 +24,16 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^8.3.24",
-    "@angular-devkit/schematics": "^8.3.24",
+    "@angular-devkit/core": "^9.0.5",
+    "@angular-devkit/schematics": "^9.0.5",
     "@nestjs/schematics": "^6.9.3",
-    "@schematics/angular": "^8.3.24",
+    "@schematics/angular": "^9.0.5",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",
     "prettier": "^1.19.1",
-    "ts-morph": "^6.0.2",
-    "typescript": "~3.7.5"
+    "ts-morph": "^7.0.0",
+    "typescript": "~3.8.3"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.2",

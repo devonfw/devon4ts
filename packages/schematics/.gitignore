@@ -3,6 +3,7 @@ schematics.devon4node.json
 
 # Outputs
 src/**/*.js
+!src/**/.eslintrc.js
 src/**/*.js.map
 src/**/*.d.ts
 
