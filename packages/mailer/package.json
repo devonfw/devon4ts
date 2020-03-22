@@ -10,7 +10,7 @@
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "test": "jest",
-    "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"lib/**/*.ts\"",
     "lint": "eslint {src,apps,lib,test}/**/*.ts --fix"
   },
   "keywords": [
@@ -27,38 +27,19 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "nodemailer": "^6.4.4"
   },
   "devDependencies": {
-    "@nestjs/common": "^6.11.11",
-    "@nestjs/core": "^6.11.11",
-    "@nestjs/platform-express": "^6.11.11",
-    "@nestjs/testing": "^6.11.11",
-    "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.0",
-    "@types/nodemailer": "^6.4.0",
-    "@types/supertest": "^2.0.8",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "handlebars": "^4.7.3",
-    "prettier": "^1.19.1",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4",
-    "typescript": "^3.8.3"
+    "commitizen": "^4.0.3"
   },
   "peerDependencies": {
-    "@nestjs/common": "^6.8.0",
-    "@nestjs/core": "^6.8.0",
+    "@nestjs/common": "^7.0.4",
+    "@nestjs/core": "^7.0.4",
     "handlebars": "^4.5.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.3"
   },
-  "optionalDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devonfw/devon4node.git"

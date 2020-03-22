@@ -1,0 +1,86 @@
+{
+  "name": "@devon4node/devon4node",
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "version": "1.10.0",
+  "scripts": {
+    "cm": "git-cz",
+    "build": "lerna run build",
+    "build:prod": "lerna run build:prod",
+    "lint": "lerna run lint",
+    "format": "lerna run format"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^9.0.5",
+    "@angular-devkit/schematics": "^9.0.5",
+    "@angular-devkit/schematics-cli": "^0.900.5",
+    "@devon4node/schematics": "~1.1.8",
+    "@nestjs/cli": "^7.0.2",
+    "@nestjs/schematics": "^7.0.0",
+    "@schematics/angular": "^9.0.5",
+    "chalk": "^3.0.0",
+    "fs-extra": "^9.0.0",
+    "inquirer": "^7.0.6",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.6",
+    "pluralize": "^8.0.0",
+    "prettier": "^2.0.0",
+    "rxjs": "^6.5.4",
+    "tmp-promise": "^2.0.2",
+    "ts-morph": "^7.0.0",
+    "typeorm": "^0.2.24",
+    "typescript": "^3.8.3",
+    "yargs": "^15.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@nestjs/common": "^7.0.4",
+    "@nestjs/core": "^7.0.4",
+    "@nestjs/platform-express": "^7.0.4",
+    "@nestjs/testing": "^7.0.4",
+    "@types/config": "^0.0.36",
+    "@types/inquirer": "^6.5.0",
+    "@types/jasmine": "^3.5.2",
+    "@types/jest": "^25.1.4",
+    "@types/js-yaml": "^3.12.2",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.9.0",
+    "@types/node-fetch": "^2.5.5",
+    "@types/nodemailer": "^6.4.0",
+    "@types/pluralize": "^0.0.29",
+    "@types/prettier": "^1.19.0",
+    "@types/supertest": "^2.0.8",
+    "@types/yargs": "^15.0.4",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "class-transformer": "^0.2.3",
+    "config": "^3.3.0",
+    "conventional-changelog-cli": "^2.0.31",
+    "cz-conventional-changelog": "3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "handlebars": "^4.7.3",
+    "husky": "^4.2.3",
+    "jasmine": "^3.5.0",
+    "lerna": "^3.20.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

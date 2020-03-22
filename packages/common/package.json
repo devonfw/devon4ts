@@ -10,7 +10,7 @@
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "test": "jest",
-    "format": "prettier --write \"**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"**/*.ts\"",
     "lint": "eslint {utils,serializer}/**/*.ts --fix"
   },
   "keywords": [
@@ -30,25 +30,10 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@nestjs/common": "^6.11.11",
-    "@types/config": "^0.0.36",
-    "@types/lodash": "^4.14.149",
-    "@types/node": "^13.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
-    "class-transformer": "^0.2.3",
-    "config": "^3.3.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^1.19.1",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4",
-    "typescript": "^3.8.3"
+    "commitizen": "^4.0.3"
   },
   "peerDependencies": {
-    "@nestjs/common": "^6.8.3",
+    "@nestjs/common": "^7.0.4",
     "class-transformer": "^0.2.3",
     "config": "^3.2.3",
     "reflect-metadata": "^0.1.13",
