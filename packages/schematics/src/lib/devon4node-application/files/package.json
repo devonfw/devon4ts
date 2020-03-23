@@ -11,12 +11,19 @@
   "devDependencies": {
     "husky": "<%= husky %>",
     "pretty-quick": "<%= prettyQuick %>",
-    "eslint-plugin-prettier": "<%= eslintPluginPrettier %>"
+    "eslint-plugin-prettier": "<%= eslintPluginPrettier %>",
+    "lint-staged": "<%= lintStaged %>"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "pretty-quick --staged",
+      "eslint --cache --fix"
+    ]
   },
   "jest": {
     "coverageDirectory": "../coverage"

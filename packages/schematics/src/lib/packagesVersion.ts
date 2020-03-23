@@ -27,6 +27,7 @@ export const packagesVersion = {
   prettyQuick: '^2.0.1',
   eslintPluginPrettier: '^3.1.2',
   handlebars: '^4.7.3',
+  lintStaged: '^10.0.8',
   dbpackages: {
     postgres: ['pg', '^7.18.2'],
     cockroachdb: ['pg', '^7.18.2'],

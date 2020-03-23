@@ -1,7 +1,10 @@
 {
   "name": "@devon4node/devon4node",
   "workspaces": [
-    "packages/*"
+    "packages/cli",
+    "packages/common",
+    "packages/mailer",
+    "packages/schematics"
   ],
   "private": true,
   "version": "1.10.0",
@@ -69,6 +72,7 @@
     "husky": "^4.2.3",
     "jasmine": "^3.5.0",
     "lerna": "^3.20.2",
+    "lint-staged": "^10.0.8",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4"
   },
@@ -84,6 +88,6 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix"
+    "*.ts": "eslint --cache --fix"
   }
 }

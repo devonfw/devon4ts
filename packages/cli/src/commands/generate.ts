@@ -35,8 +35,6 @@ export const describe = 'Generate code using a schematic.';
 export const aliases = ['g'];
 
 const schematicPath = dirname(require.resolve('@devon4node/schematics/package.json'));
-console.log(schematicPath);
-// const schematicPath = join(__dirname, '../../node_modules/@devon4node/schematics/');
 
 const SCHEMATICS_FILE = 'schematics.devon4node.json';
 const tmpDir = process.env.TEMP || '/var/tmp';
