@@ -34,7 +34,9 @@ export const command = 'generate [schematic]';
 export const describe = 'Generate code using a schematic.';
 export const aliases = ['g'];
 
-const schematicPath = join(__dirname, '../../node_modules/@devon4node/schematics/');
+const schematicPath = dirname(require.resolve('@devon4node/schematics/package.json'));
+console.log(schematicPath);
+// const schematicPath = join(__dirname, '../../node_modules/@devon4node/schematics/');
 
 const SCHEMATICS_FILE = 'schematics.devon4node.json';
 const tmpDir = process.env.TEMP || '/var/tmp';
@@ -224,11 +226,10 @@ function generateOptionsFile(): ISchematicsFile {
   const collection = JSON.parse(readFileSync(collectionFile).toString());
 
   if (collection.extends) {
-    const packageExtends = JSON.parse(
-      readFileSync(join(__dirname, '../../node_modules/', collection.extends, 'package.json')).toString(),
-    );
+    const extendsFolder = dirname(require.resolve(join(collection.extends, 'package.json')));
+    const packageExtends = JSON.parse(readFileSync(join(extendsFolder, 'package.json')).toString());
 
-    const schematicsExtendsFile = join(__dirname, '../../node_modules/', collection.extends, packageExtends.schematics);
+    const schematicsExtendsFile = join(extendsFolder, packageExtends.schematics);
     const schematicsExtends = JSON.parse(readFileSync(schematicsExtendsFile).toString()).schematics;
 
     parseSchematics(schematicsExtends, join(dirname(schematicsExtendsFile))).forEach(elem => {
