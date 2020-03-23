@@ -52,6 +52,11 @@
       "factory": "./lib/security/security.factory#security",
       "schema": "./lib/security/schema.json"
     },
+    "repository": {
+      "factory": "./lib/repository/repository.factory#main",
+      "description": "Create a TypeORM custom repository.",
+      "schema": "./lib/repository/schema.json"
+    },
     "controller": {
       "factory": "./lib/controller/controller.factory#main",
       "description": "Create a Nest controller.",
