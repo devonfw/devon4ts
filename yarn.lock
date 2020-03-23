@@ -1084,9 +1084,9 @@
     webpack-node-externals "1.7.2"
 
 "@nestjs/common@^7.0.4":
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.4.tgz#4660df7eb1912fd2fdc037d9e49c248b322c2984"
-  integrity sha512-AhT0R74uBCj0zXDxqftR9QNPZ2cwGI7yVuZiLJsP78xUaaRMoRbfMxllB/Ax23hM98GYavoFGMNEQrXil2fjyw==
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-7.0.5.tgz#244069292d4bbdc338a6700e86e7775f2168260d"
+  integrity sha512-9h7FDyg3rSjztTe9mLhvdIeGpqoNf2uwpJIeyizRcQFAdQfJWiPsV2mRkt/VYdit+nrv6C1ADtvQD47qqUuj6A==
   dependencies:
     axios "0.19.2"
     cli-color "2.0.0"
