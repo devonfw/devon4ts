@@ -3,7 +3,6 @@
   "version": "1.1.9",
   "description": "Schematics for devon4node",
   "scripts": {
-    "prebuilda": "rm -f node_modules/@nestjs/schematics/utils/module.finder.ts && yarn copy:schemas",
     "build": "tsc -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\"",
     "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
