@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/cli",
-  "version": "1.1.9",
+  "version": "1.11.0",
   "description": "devon4node CLI",
   "bin": {
     "devon4node": "./bin/devon4node",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@angular-devkit/schematics-cli": "^0.900.5",
-    "@devon4node/schematics": "~1.1.8",
+    "@devon4node/schematics": "^1.11.0",
     "@nestjs/cli": "^7.0.2",
     "chalk": "^3.0.0",
     "inquirer": "^7.0.6",
