@@ -19,7 +19,7 @@
   "dependencies": {
     "@angular-devkit/core": "^9.0.5",
     "@angular-devkit/schematics": "^9.0.5",
-    "@angular-devkit/schematics-cli": "^0.900.5",
+    "@angular-devkit/schematics-cli": "^0.901.0",
     "@devon4node/schematics": "~1.1.8",
     "@nestjs/cli": "^7.0.2",
     "@nestjs/schematics": "^7.0.0",

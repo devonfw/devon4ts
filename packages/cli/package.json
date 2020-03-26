@@ -41,7 +41,7 @@
     "commitizen": "^4.0.3"
   },
   "dependencies": {
-    "@angular-devkit/schematics-cli": "^0.900.5",
+    "@angular-devkit/schematics-cli": "^0.901.0",
     "@devon4node/schematics": "^1.11.0",
     "@nestjs/cli": "^7.0.2",
     "chalk": "^3.0.0",
