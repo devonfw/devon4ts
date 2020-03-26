@@ -98,7 +98,7 @@
     ora "4.0.2"
     rxjs "6.5.3"
 
-"@angular-devkit/schematics@^9.0.5":
+"@angular-devkit/schematics@9.1.0", "@angular-devkit/schematics@^9.0.5":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.0.tgz#f453a9ff78c34a5468cc21830ac4a46089ee1a31"
   integrity sha512-cb9PSvskMwWlL54fPfCcpJoyNDWAX6Wo7CzL5qpIB2cJCPLAuyfRUYYrkO77YUST+n2HvypHz0cZ5SNGMfaaBQ==
@@ -1299,12 +1299,12 @@
     any-observable "^0.3.0"
 
 "@schematics/angular@^9.0.5":
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.0.7.tgz#e09ab998c2b3aa7269d91378b08a0fbca5037ea6"
-  integrity sha512-3UCeexYx/YVo3kboyPZ8KgqBTduMA18AAm3s2yrC0qj41fBFVVZAZLa74uouTf4RYVgy9kR7J3uv6VLxrJPOnQ==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.0.tgz#fc0ad9099d3c3be3044d6b3f260cac6eb9f3e564"
+  integrity sha512-qkehaITQ1S1udfnnBY5CXGWnk1iVFI8cZayjLUlRfD5w+6v9if3VIuqPssX96MqvkbjyRu1N214+ieaawzLmuA==
   dependencies:
-    "@angular-devkit/core" "9.0.7"
-    "@angular-devkit/schematics" "9.0.7"
+    "@angular-devkit/core" "9.1.0"
+    "@angular-devkit/schematics" "9.1.0"
 
 "@schematics/schematics@0.900.6":
   version "0.900.6"
