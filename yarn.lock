@@ -24,17 +24,6 @@
     rxjs "6.5.3"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.0.7":
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.0.7.tgz#97e452ad88d36391d621748487c5bab655edfe84"
-  integrity sha512-tMrz36sM1xrwvFf9Qm59GwALscVlMP7rQBjtd0fIR/QbsiOAIX4AQbV+vN6Vtwnzo5NIRZY1IXJUhesWms+h5w==
-  dependencies:
-    ajv "6.10.2"
-    fast-json-stable-stringify "2.0.0"
-    magic-string "0.25.4"
-    rxjs "6.5.3"
-    source-map "0.7.3"
-
 "@angular-devkit/core@9.1.0", "@angular-devkit/core@^9.0.5":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.0.tgz#5cc89bb5d44c6fd12a3527bae0253adb60d64b07"
@@ -86,15 +75,6 @@
   integrity sha512-X7qZDJVrFcPUn+jNUeOH7Bx1D7YTpTFr0d3DBIsQzseReSGu7ugWziQPS4gc5Xm5K0nb8vx6DYtyW0FaIvX0ZA==
   dependencies:
     "@angular-devkit/core" "9.0.6"
-    ora "4.0.2"
-    rxjs "6.5.3"
-
-"@angular-devkit/schematics@9.0.7":
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.0.7.tgz#df5936b0cf24a102d110da7ab3ab63feab7e28ff"
-  integrity sha512-ryPC+l24f3gX5DFMTLkDM/q2Kp6LPzBn6400k7j4qVdb1cIrZx+JUQd7F4iAksTTkX15EQPanptQXeztUrl9Ng==
-  dependencies:
-    "@angular-devkit/core" "9.0.7"
     ora "4.0.2"
     rxjs "6.5.3"
 
@@ -1127,9 +1107,9 @@
     uuid "7.0.2"
 
 "@nestjs/platform-express@^7.0.4":
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.5.tgz#0c84487b0daa006b4062e60a404227cb911806a3"
-  integrity sha512-8o6+mTuIuOMJTwftS9y/bcFmnyp5uQMMZWSE7tjxdtPuQiZl7v0P00NdsUeBpwUmATJax07KH1zuSrcok57+KA==
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-7.0.6.tgz#67a6e538aefdd827f16d8de22b85021ad31d4b87"
+  integrity sha512-vRF0Za99sQk+GvnvANHQYGA7xK6B8JC4BB/nU+oIwjdlQJbaoN4YUkV0pGP4G4RTNzccGnV+oUCBDlIjAbq71Q==
   dependencies:
     body-parser "1.19.0"
     cors "2.8.5"
