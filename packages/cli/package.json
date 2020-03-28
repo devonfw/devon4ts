@@ -37,9 +37,7 @@
     "url": "https://www.capgemini.com/"
   },
   "license": "Apache-2.0",
-  "devDependencies": {
-    "commitizen": "^4.0.3"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@angular-devkit/schematics-cli": "^0.901.0",
     "@devon4node/schematics": "^1.11.0",

@@ -1,7 +1,11 @@
 /* istanbul ignore file */
-import { createParamDecorator } from '@nestjs/common';
-import { UserRequest } from '../model/user-request.interface';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const GetUser = createParamDecorator((_data, req: UserRequest) => {
-  return req.user;
+export const GetUser = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  if (ctx.getType() === 'http') {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  }
+
+  return undefined;
 });

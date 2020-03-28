@@ -4,7 +4,8 @@
     "packages/cli",
     "packages/common",
     "packages/mailer",
-    "packages/schematics"
+    "packages/schematics",
+    "packages/config"
   ],
   "private": true,
   "version": "1.10.0",
@@ -20,7 +21,7 @@
     "@angular-devkit/core": "^9.0.5",
     "@angular-devkit/schematics": "^9.0.5",
     "@angular-devkit/schematics-cli": "^0.901.0",
-    "@devon4node/schematics": "~1.1.8",
+    "@devon4node/schematics": "^1.11.0",
     "@nestjs/cli": "^7.0.2",
     "@nestjs/schematics": "^7.0.0",
     "@schematics/angular": "^9.0.5",
@@ -63,6 +64,8 @@
     "@typescript-eslint/eslint-plugin": "^2.22.0",
     "@typescript-eslint/parser": "^2.22.0",
     "class-transformer": "^0.2.3",
+    "class-validator": "^0.12.0-rc.0",
+    "commitizen": "^4.0.3",
     "config": "^3.3.0",
     "cz-conventional-changelog": "3.1.0",
     "eslint": "^6.8.0",
@@ -72,10 +75,12 @@
     "handlebars": "^4.7.3",
     "husky": "^4.2.3",
     "jasmine": "^3.5.0",
+    "jest": "^25.2.3",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.8",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "ts-jest": "^25.2.1"
   },
   "config": {
     "commitizen": {

@@ -29,9 +29,7 @@
   "dependencies": {
     "lodash": "^4.17.15"
   },
-  "devDependencies": {
-    "commitizen": "^4.0.3"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "@nestjs/common": "^7.0.4",
     "class-transformer": "^0.2.3",

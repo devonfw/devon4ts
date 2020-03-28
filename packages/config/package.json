@@ -1,7 +1,7 @@
 {
-  "name": "@devon4node/mailer",
+  "name": "@devon4node/config",
   "version": "1.11.0",
-  "description": "devon4node module that allows you to send emails in a easy way.",
+  "description": "devon4node module for easy application configuration.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
@@ -9,9 +9,13 @@
     "publish:npm": "npm publish --access public",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
-    "test": "jest",
     "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint {src,apps,lib,test}/**/*.ts --fix"
+    "lint": "eslint {src,apps,lib,test}/**/*.ts --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "keywords": [
     "nestjs",
@@ -26,17 +30,13 @@
     "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "fs-extra": "^9.0.0",
-    "nodemailer": "^6.4.4"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
     "@nestjs/common": "^7.0.4",
-    "@nestjs/core": "^7.0.4",
-    "handlebars": "^4.5.1",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.3"
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.11.1",
+    "lodash": "^4.17.15"
   },
   "repository": {
     "type": "git",
@@ -45,5 +45,19 @@
   "bugs": {
     "url": "https://github.com/devonfw/devon4node/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4node"
+  "homepage": "https://github.com/devonfw/devon4node",
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "lib",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
 }
