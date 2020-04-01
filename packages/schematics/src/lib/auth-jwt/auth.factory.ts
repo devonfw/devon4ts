@@ -1,12 +1,17 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { addToModuleDecorator, addImports, addGetterToClass } from '../../utils/ast-utils';
-import { packagesVersion } from '../packagesVersion';
 import { noop } from 'rxjs';
-import { existsConfigModule, formatTsFiles, formatTsFile } from '../../utils/tree-utils';
-import { addPropToInterface, addEntryToObjctLiteralVariable } from '../../utils/ast-utils';
+import {
+  addDecoratorToClassProp,
+  addEntryToObjctLiteralVariable,
+  addImports,
+  addPropToClass,
+  addToModuleDecorator,
+} from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
+import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 const defaultJwtConfig = {
   secret: 'SECRET',
@@ -46,32 +51,18 @@ function addAuthToCoreModule(project: string): Rule {
   };
 }
 
-function updateConfigurationService(project: string | undefined, tree: Tree): void {
-  const configServicePath = join(
-    '.' as Path,
-    project || '.',
-    'src/app/core/configuration/services/configuration.service.ts',
-  );
-
-  let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(configServiceContent, 'JwtModuleOptions', '@nestjs/jwt');
-  configServiceContent = addGetterToClass(
-    configServiceContent,
-    'ConfigurationService',
-    'jwtConfig',
-    'JwtModuleOptions',
-    'return { ...this.get("jwtConfig")! } as JwtModuleOptions;',
-  );
-
-  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
-}
-
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
+  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
   typesFileContent = addImports(typesFileContent, 'JwtModuleOptions', '@nestjs/jwt');
-  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'jwtConfig', 'JwtModuleOptions');
+  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
+  typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
+  typesFileContent = addPropToClass(typesFileContent, 'Config', 'jwtConfig', 'JwtModuleOptions', 'exclamation');
+  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'jwtConfig', [
+    { name: 'IsDefined', arguments: [] },
+    { name: 'IsNotEmptyObject', arguments: [] },
+  ]);
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -98,7 +89,6 @@ function addJWTConfiguration(project: string | undefined): Rule {
   return (tree: Tree): Tree => {
     updateConfigTypeFile(project, tree);
     updateConfigFiles(project, tree);
-    updateConfigurationService(project, tree);
 
     return tree;
   };

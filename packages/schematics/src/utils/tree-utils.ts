@@ -1,7 +1,6 @@
-import { Tree, FileEntry, forEach, Rule } from '@angular-devkit/schematics';
 import { join, Path } from '@angular-devkit/core';
+import { FileEntry, forEach, Rule, Tree } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { basename } from 'path';
 import { format, Options } from 'prettier';
 
 const PRETTIER_DEFAULT_OPTS: Options = {
@@ -70,10 +69,14 @@ export function formatTsFiles(): Rule {
 }
 
 export function existsConfigModule(tree: Tree, path: string): boolean {
-  const config = new ModuleFinder(tree).find({
-    name: 'configuration',
-    path: join('.' as Path, path || '.', 'src/app/core/configuration') as Path,
+  const core = new ModuleFinder(tree).find({
+    name: 'core',
+    path: join('.' as Path, path || '.', 'src/app/core') as Path,
   });
 
-  return !!config && basename(config) === 'configuration.module.ts';
+  if (!core) {
+    return false;
+  }
+
+  return !!tree.read(core)?.toString().includes('ConfigModule');
 }

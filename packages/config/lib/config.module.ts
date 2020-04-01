@@ -4,10 +4,7 @@ import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME } from './con
 import { ConfigService } from './config.service';
 import { BaseConfig } from './base-config';
 
-@Module({
-  providers: [ConfigService],
-  exports: [ConfigService],
-})
+@Module({})
 export class ConfigModule {
   private static defaultOptions: Partial<ConfigModuleOptions> = {
     configDir: './dist/config',
@@ -39,7 +36,9 @@ export class ConfigModule {
             return await ConfigService.loadConfigFromFile(mergedOptions.configDir!);
           },
         },
+        ConfigService,
       ],
+      exports: [ConfigService],
     };
   }
 }

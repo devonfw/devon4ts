@@ -3,10 +3,10 @@ import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angul
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
   addEntryToObjctLiteralVariable,
-  addGetterToClass,
   addImports,
-  addPropToInterface,
+  addPropToClass,
   addToModuleDecorator,
+  addDecoratorToClassProp as addDecoratorsToClassProp,
 } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
 import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
@@ -45,17 +45,17 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
         false,
       );
     } else {
-      fileContent = addImports(fileContent, 'ConfigurationService', './configuration/services/configuration.service');
+      fileContent = addImports(fileContent, 'ConfigService', '@devon4node/config');
       fileContent = addToModuleDecorator(
         fileContent,
         'CoreModule',
         '@nestjs/typeorm',
         `TypeOrmModule.forRootAsync({
-          imports: [ConfigurationModule],
-          useFactory: (config: ConfigurationService) => {
-            return config.database;
+          imports: [ConfigModule],
+          useFactory: (config: ConfigService<Config>) => {
+            return config.values.database;
           },
-          inject: [ConfigurationService],
+          inject: [ConfigService],
         })`,
         'imports',
         false,
@@ -70,32 +70,18 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
   };
 }
 
-function updateConfigurationService(project: string | undefined, tree: Tree): void {
-  const configServicePath = join(
-    '.' as Path,
-    project || '.',
-    'src/app/core/configuration/services/configuration.service.ts',
-  );
-
-  let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(configServiceContent, 'ConnectionOptions', 'typeorm');
-  configServiceContent = addGetterToClass(
-    configServiceContent,
-    'ConfigurationService',
-    'database',
-    'ConnectionOptions',
-    'return { ...this.get("database")! } as ConnectionOptions;',
-  );
-
-  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
-}
-
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
+  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
   typesFileContent = addImports(typesFileContent, 'ConnectionOptions', 'typeorm');
-  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'database', 'ConnectionOptions');
+  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
+  typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
+  typesFileContent = addPropToClass(typesFileContent, 'Config', 'database', 'ConnectionOptions', 'exclamation');
+  typesFileContent = addDecoratorsToClassProp(typesFileContent, 'Config', 'database', [
+    { name: 'IsDefined', arguments: [] },
+    { name: 'IsNotEmptyObject', arguments: [] },
+  ]);
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -128,7 +114,6 @@ function addDatabaseConfiguration(project: string | undefined): Rule {
 
     updateConfigTypeFile(project, tree);
     updateConfigFiles(project, tree);
-    updateConfigurationService(project, tree);
 
     return tree;
   };

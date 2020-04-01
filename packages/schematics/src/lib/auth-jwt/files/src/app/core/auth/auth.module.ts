@@ -4,16 +4,16 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';<% if (config) { %>
-import { ConfigurationModule } from '../configuration/configuration.module';
-import { ConfigurationService } from '../configuration/services/configuration.service';<% } %>
+import { ConfigModule, ConfigService } from '@devon4node/config';
+import { Config } from '../../shared/model/config/config.model';<% } %>
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),<% if(config) { %>
     JwtModule.registerAsync({
-      imports: [ConfigurationModule],
-      useFactory: (config: ConfigurationService) => config.jwtConfig,
-      inject: [ConfigurationService],
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService<Config>) => config.values.jwtConfig,
+      inject: [ConfigService],
     }),
     <% } else { %>
     JwtModule.register({

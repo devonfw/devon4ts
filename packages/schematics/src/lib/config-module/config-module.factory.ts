@@ -14,23 +14,17 @@ interface IConfigOptions {
 function updateMain(project: string): Rule {
   return (tree: Tree): Tree => {
     let content = tree.read((project || '.') + '/src/main.ts')!.toString('utf-8');
-    content = content.replace('await app.listen(3000);', 'await app.listen(configModule.port);');
-    content = content.replace(
-      // tslint:disable-next-line: quotemark
-      "app.setGlobalPrefix('v1');",
-      'app.setGlobalPrefix(configModule.globalPrefix);',
-    );
+    content = content.replace('await app.listen(3000);', 'await app.listen(configModule.values.port);');
+    content = content.replace("app.setGlobalPrefix('v1');", 'app.setGlobalPrefix(configModule.values.globalPrefix);');
 
     content = insertLinesToFunctionAfter(
       content,
       'bootstrap',
       'NestFactory.create',
-      'const configModule = app.select(ConfigurationModule).get(ConfigurationService);',
+      'const configModule = app.get(ConfigService);',
     );
 
-    content = addImports(content, 'ConfigurationModule', './app/core/configuration/configuration.module');
-
-    content = addImports(content, 'ConfigurationService', './app/core/configuration/services/configuration.service');
+    content = addImports(content, 'ConfigService', '@devon4node/config');
 
     if (content) {
       tree.overwrite((project || '.') + '/src/main.ts', formatTsFile(content));
@@ -49,16 +43,20 @@ function addToModule(project: string): Rule {
       return tree;
     }
 
-    const fileContent = addToModuleDecorator(
+    let fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       'CoreModule',
-      './configuration/configuration.module',
-      'ConfigurationModule',
+      '@devon4node/config',
+      `ConfigModule.forRoot({
+        configPrefix: 'devon4node',
+        configType: Config,
+      })`,
       'imports',
       true,
     );
 
     if (fileContent) {
+      fileContent = addImports(fileContent, 'Config', '../shared/model/config/config.model');
       tree.overwrite(module, formatTsFile(fileContent));
     }
 

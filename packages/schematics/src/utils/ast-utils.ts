@@ -332,6 +332,48 @@ export function addPropToInterface(
   return tsFile.getText();
 }
 
+export function addPropToClass(
+  fileContent: string,
+  className: string,
+  propName: string,
+  propType: string,
+  modif?: 'exclamation' | 'question',
+): string {
+  const tsFile = createSourceFile(fileContent);
+
+  const classDeclaration = tsFile.getClass(className);
+  if (classDeclaration && !classDeclaration.getProperty(propName)) {
+    classDeclaration.addProperty({
+      name: propName,
+      type: propType,
+      hasExclamationToken: modif === 'exclamation',
+      hasQuestionToken: modif === 'question',
+    });
+  }
+
+  return tsFile.getText();
+}
+
+export function addDecoratorToClassProp(
+  fileContent: string,
+  className: string,
+  propName: string,
+  decorators: { name: string; arguments?: string[] }[],
+): string {
+  const tsFile = createSourceFile(fileContent);
+
+  const classDeclaration = tsFile.getClass(className);
+  if (classDeclaration) {
+    const property = classDeclaration.getProperty(propName);
+
+    if (property) {
+      property.addDecorators(decorators);
+    }
+  }
+
+  return tsFile.getText();
+}
+
 export function addGetterToClass(
   fileContent: string,
   className: string,
