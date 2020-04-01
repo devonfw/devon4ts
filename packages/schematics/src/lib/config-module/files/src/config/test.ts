@@ -1,7 +1,7 @@
 /* istanbul ignore file */
-import { IConfig } from '../app/core/configuration/model/types';
+import { Config } from '../app/shared/model/config/config.model';
 
-const def: IConfig = {
+const def: Config = {
   isDev: true,
   host: 'localhost',
   port: 3000,

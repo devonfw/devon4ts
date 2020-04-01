@@ -1,32 +1,32 @@
 import { join, Path } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import {
+  addDecoratorToClassProp,
   addEntryToObjctLiteralVariable,
-  addGetterToClass,
   addImports,
-  addPropToInterface,
+  addPropToClass,
   insertLinesToFunctionBefore,
 } from '../../utils/ast-utils';
 import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
-const templateWithConfig = `if (configModule.isDev) {
+const templateWithConfig = `if (configModule.values.isDev) {
     const options = new DocumentBuilder()
-      .setTitle(configModule.swaggerConfig.swaggerTitle)
-      .setDescription(configModule.swaggerConfig.swaggerDescription)
-      .setVersion(configModule.swaggerConfig.swaggerVersion)
+      .setTitle(configModule.values.swaggerConfig.swaggerTitle)
+      .setDescription(configModule.values.swaggerConfig.swaggerDescription)
+      .setVersion(configModule.values.swaggerConfig.swaggerVersion)
       .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup((configModule.globalPrefix || '') + '/api', app, swaggerDoc);
+    SwaggerModule.setup((configModule.values.globalPrefix || '') + '/api', app, swaggerDoc);
   }`;
 
 const template = `if (process.env.NODE_ENV === 'develop') {
     const options = new DocumentBuilder()
       .setTitle('NestJS application')
       .setDescription('')
-      .setVersion(0.0.1)
+      .setVersion('0.0.1')
       .addBearerAuth()
       .build();
 
@@ -40,10 +40,16 @@ const defaultSwaggerValue = `{
     swaggerVersion: '0.0.1',
   },`;
 
-const swaggerInterface = `export interface ISwaggerConfig {
-  swaggerTitle: string;
-  swaggerDescription: string;
-  swaggerVersion: string;
+const swaggerInterface = `export class SwaggerConfig {
+  @IsDefined()
+  @IsString()
+  swaggerTitle!: string;
+  @IsDefined()
+  @IsString()
+  swaggerDescription!: string;
+  @IsDefined()
+  @IsString()
+  swaggerVersion!: string;
 }`;
 
 function updatePackageJson(project: string): Rule {
@@ -82,34 +88,31 @@ function updateNestCliJson(project: string) {
   };
 }
 
-function updateConfigurationService(project: string | undefined, tree: Tree): void {
-  const configServicePath = join(
-    '.' as Path,
-    project || '.',
-    'src/app/core/configuration/services/configuration.service.ts',
-  );
-
-  let configServiceContent = tree.read(configServicePath)!.toString();
-  configServiceContent = addImports(configServiceContent, 'ISwaggerConfig', '../model/types');
-  configServiceContent = addGetterToClass(
-    configServiceContent,
-    'ConfigurationService',
-    'swaggerConfig',
-    'ISwaggerConfig',
-    'return { ...this.get("swaggerConfig")! } as ISwaggerConfig;',
-  );
-
-  tree.overwrite(configServicePath, formatTsFile(configServiceContent));
-}
-
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/core/configuration/model/types.ts');
+  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
 
-  typesFileContent = addPropToInterface(typesFileContent, 'IConfig', 'swaggerConfig', 'ISwaggerConfig');
-
-  typesFileContent = typesFileContent.concat('\n', swaggerInterface);
+  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
+  typesFileContent = addImports(typesFileContent, 'IsString', 'class-validator');
+  typesFileContent = addImports(typesFileContent, 'ValidateNested', 'class-validator');
+  typesFileContent = addImports(typesFileContent, 'Type', 'class-transformer');
+  typesFileContent = addPropToClass(typesFileContent, 'Config', 'swaggerConfig', 'SwaggerConfig', 'question');
+  typesFileContent = typesFileContent.replace('export class Config', swaggerInterface + '\n\nexport class Config');
+  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'swaggerConfig', [
+    {
+      name: 'IsDefined',
+      arguments: [],
+    },
+    {
+      name: 'ValidateNested',
+      arguments: [],
+    },
+    {
+      name: 'Type',
+      arguments: ['() => SwaggerConfig'],
+    },
+  ]);
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -117,19 +120,22 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
 function updateConfigFiles(project: string | undefined, tree: Tree): void {
   const configDir: Path = join((project || '.') as Path, 'src/config');
 
-  tree.getDir(configDir).subfiles.forEach(file => {
-    tree.overwrite(
-      join(configDir, file),
-      formatTsFile(
-        addEntryToObjctLiteralVariable(
-          tree.read(join(configDir, file))!.toString('utf-8'),
-          'def',
-          'swaggerConfig',
-          defaultSwaggerValue,
+  tree
+    .getDir(configDir)
+    .subfiles.filter(file => ['default.ts', 'develop.ts', 'test.ts'].includes(file))
+    .forEach(file => {
+      tree.overwrite(
+        join(configDir, file),
+        formatTsFile(
+          addEntryToObjctLiteralVariable(
+            tree.read(join(configDir, file))!.toString('utf-8'),
+            'def',
+            'swaggerConfig',
+            defaultSwaggerValue,
+          ),
         ),
-      ),
-    );
-  });
+      );
+    });
 }
 
 function updateMain(project: string) {
@@ -145,7 +151,6 @@ function updateMain(project: string) {
       main = insertLinesToFunctionBefore(main, 'bootstrap', 'app.listen', template);
     } else {
       main = insertLinesToFunctionBefore(main, 'bootstrap', 'app.listen', templateWithConfig);
-      updateConfigurationService(project, tree);
       updateConfigTypeFile(project, tree);
       updateConfigFiles(project, tree);
     }

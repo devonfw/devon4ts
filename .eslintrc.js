@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['**/files/src/**/*.ts', '*.d.ts', '**/*.d.ts', '**/files/**/*.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
@@ -18,7 +19,7 @@ module.exports = {
     jest: true,
   },
   rules: {
-    "no-console": "error",
+    'no-console': 'error',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-explicit-any': 'off',

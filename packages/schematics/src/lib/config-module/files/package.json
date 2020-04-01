@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "config": "<%= packagesVersion.config %>"
-  },
-  "devDependencies": {
-    "@types/config": "<%= packagesVersion.typesConfig %>"
+    "@devon4node/config": "<%= packagesVersion.devon4nodeConfig %>"
   }
 }
