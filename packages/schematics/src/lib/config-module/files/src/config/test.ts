@@ -7,6 +7,10 @@ const def: Config = {
   port: 3000,
   clientUrl: 'localhost:4200',
   globalPrefix: 'v1',
+  loggerConfig: {
+    console: false,
+    loggerLevel: 'info',
+  },
 };
 
 export default def;

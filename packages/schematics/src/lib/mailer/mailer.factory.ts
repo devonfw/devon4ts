@@ -88,7 +88,7 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
   typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
   typesFileContent = addPropToClass(typesFileContent, 'Config', 'mailerConfig', 'MailerModuleOptions', 'exclamation');
-  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'database', [
+  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'mailerConfig', [
     { name: 'IsDefined', arguments: [] },
     { name: 'IsNotEmptyObject', arguments: [] },
   ]);

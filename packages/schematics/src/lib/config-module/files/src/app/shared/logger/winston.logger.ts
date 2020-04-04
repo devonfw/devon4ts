@@ -1,32 +1,51 @@
 /* istanbul ignore file */
-import { Logger, LogLevel } from '@nestjs/common';
-import { join } from 'path';
+import { ConfigService } from '@devon4node/config';
+import { Logger, LogLevel, Optional } from '@nestjs/common';
 import * as winston from 'winston';
+import { Config } from '../model/config/config.model';
 
 export class WinstonLogger extends Logger {
-  private static DEFAULT_LOG_LEVEL: 'info' | 'error' | 'warn' | 'http' | 'verbose' | 'debug' | 'silly' = 'info';
+  private static DEFAULT_LOG_LEVEL = 'info';
   private console = true;
   private logger?: winston.Logger;
 
-  constructor() {
+  constructor(@Optional() private readonly configService?: ConfigService<Config>) {
     super();
-    const logLevel = WinstonLogger.DEFAULT_LOG_LEVEL;
+    const logLevel = this.configService?.values.loggerConfig?.loggerLevel! || WinstonLogger.DEFAULT_LOG_LEVEL;
+    const generalDir = this.configService?.values.loggerConfig?.generalLogFile;
+    const errorDir = this.configService?.values.loggerConfig?.errorLogFile;
+    const transports: any[] = [];
 
-    this.overrideLogger(WinstonLogger.DEFAULT_LOG_LEVEL);
+    if (this.configService?.values.loggerConfig?.console !== undefined) {
+      this.console = this.configService?.values.loggerConfig?.console;
+    }
 
-    this.logger = winston.createLogger({
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-      level: logLevel,
-      transports: [
+    if (generalDir) {
+      transports.push(
         new winston.transports.File({
-          filename: join(__dirname, '../../../../logs/default.log'),
+          filename: generalDir,
         }),
+      );
+    }
+
+    if (errorDir) {
+      transports.push(
         new winston.transports.File({
-          filename: join(__dirname, '../../../../logs/error.log'),
+          filename: errorDir,
           level: 'error',
         }),
-      ],
-    });
+      );
+    }
+
+    this.overrideLogger(logLevel);
+
+    if (transports.length) {
+      this.logger = winston.createLogger({
+        format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+        level: logLevel,
+        transports,
+      });
+    }
   }
 
   overrideLogger(level: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'): void {

@@ -73,6 +73,12 @@ export function configModule(options: IConfigOptions): Rule {
     options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
 
     return chain([
+      (host: Tree): Tree => {
+        if (host.exists(join(options.path as Path, 'src/app/shared/logger/winston.logger.ts'))) {
+          host.delete(join(options.path as Path, 'src/app/shared/logger/winston.logger.ts'));
+        }
+        return host;
+      },
       mergeWith(
         apply(url('./files'), [
           template({
