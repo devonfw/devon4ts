@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/cli",
-  "version": "1.11.0",
+  "version": "2.0.0",
   "description": "devon4node CLI",
   "bin": {
     "devon4node": "./bin/devon4node",
@@ -37,10 +37,9 @@
     "url": "https://www.capgemini.com/"
   },
   "license": "Apache-2.0",
-  "devDependencies": {},
   "dependencies": {
     "@angular-devkit/schematics-cli": "^0.901.0",
-    "@devon4node/schematics": "^1.11.0",
+    "@devon4node/schematics": "^2.0.0",
     "@nestjs/cli": "^7.0.2",
     "chalk": "^3.0.0",
     "inquirer": "^7.0.6",
