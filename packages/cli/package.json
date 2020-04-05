@@ -41,7 +41,7 @@
     "@angular-devkit/schematics-cli": "^0.901.0",
     "@devon4node/schematics": "^2.0.0",
     "@nestjs/cli": "^7.0.2",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "inquirer": "^7.0.6",
     "node-fetch": "^2.6.0",
     "rxjs": "^6.5.4",
