@@ -33,7 +33,6 @@
   "peerDependencies": {
     "@nestjs/common": "^7.0.4",
     "class-transformer": "^0.2.3",
-    "config": "^3.2.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.3"
   },
