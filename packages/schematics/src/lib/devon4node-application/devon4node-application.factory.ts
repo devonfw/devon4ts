@@ -38,18 +38,10 @@ function updateMain(project: string) {
     mainFile = insertLinesToFunctionBefore(
       mainFile,
       'bootstrap',
-      'NestFactory.create',
-      'Logger.overrideLogger(["debug", "error", "log", "verbose", "warn"]);',
-    );
-
-    mainFile = insertLinesToFunctionBefore(
-      mainFile,
-      'bootstrap',
       'app.listen',
       `app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      forbidUnknownValues: true,
     }),
   );`,
     );

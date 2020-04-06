@@ -65,6 +65,43 @@ function updatePackageJson(project: string): Rule {
   };
 }
 
+function updateBaseEntity(project: string) {
+  return (tree: Tree): Tree => {
+    const baseEntityPath = join(project as Path, 'src/app/shared/model/entities/base-entity.entity.ts');
+
+    if (!tree.exists(baseEntityPath)) {
+      return tree;
+    }
+
+    let fileContent = tree.read(baseEntityPath)!.toString();
+    fileContent = addImports(fileContent, 'ApiHideProperty', '@nestjs/swagger');
+    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'version', [
+      {
+        name: 'ApiHideProperty',
+        arguments: [],
+      },
+    ]);
+    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'createdAt', [
+      {
+        name: 'ApiHideProperty',
+        arguments: [],
+      },
+    ]);
+    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'updatedAt', [
+      {
+        name: 'ApiHideProperty',
+        arguments: [],
+      },
+    ]);
+
+    if (fileContent) {
+      tree.overwrite(baseEntityPath, fileContent);
+    }
+
+    return tree;
+  };
+}
+
 function updateNestCliJson(project: string) {
   return (tree: Tree): Tree => {
     const nestCliJsonPath = join(project as Path, 'nest-cli.json');
@@ -164,5 +201,10 @@ function updateMain(project: string) {
 
 export function swagger(options: { path?: string }): Rule {
   const projectPath = options.path || '.';
-  return chain([updatePackageJson(projectPath), updateMain(projectPath), updateNestCliJson(projectPath)]);
+  return chain([
+    updatePackageJson(projectPath),
+    updateMain(projectPath),
+    updateNestCliJson(projectPath),
+    updateBaseEntity(projectPath),
+  ]);
 }
