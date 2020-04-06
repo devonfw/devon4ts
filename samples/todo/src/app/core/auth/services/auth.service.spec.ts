@@ -3,8 +3,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserRepositoryMock } from '../../../../../test/user/user.repository.mock';
-import { ConfigurationModule } from '../../configuration/configuration.module';
-import { ConfigurationService } from '../../configuration/services/configuration.service';
 import { UserService } from '../../user/services/user.service';
 import { AuthService } from './auth.service';
 
@@ -15,11 +13,9 @@ describe('AuthService', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigurationModule,
-        JwtModule.registerAsync({
-          imports: [ConfigurationModule],
-          useFactory: (config: ConfigurationService) => config.jwtConfig,
-          inject: [ConfigurationService],
+        JwtModule.register({
+          secret: 'SECRET',
+          signOptions: { expiresIn: '60s' },
         }),
       ],
       providers: [

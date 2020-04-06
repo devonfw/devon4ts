@@ -10,7 +10,7 @@ import { ModuleMiddleware } from './shared/middlewares/module-middleware.middlew
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer): void {
     consumer.apply(ModuleMiddleware).forRoutes(AppController);
   }
 }

@@ -3,7 +3,7 @@ import { UserPayload } from '../../user/model/dto/user-payload.dto';
 describe('JwtStrategy', () => {
   describe('validate', () => {
     it('should validate the payload received in the JWT token and should return it', () => {
-      const jwtConfig: any = { jwtConfig: { secret: 'SECRET' } };
+      const jwtConfig: any = { values: { jwtConfig: { secret: 'SECRET' } } };
       const jwtStrategy = new JwtStrategy(jwtConfig);
       const inputPayload: UserPayload = { id: 0, username: 'test', role: 0 };
 

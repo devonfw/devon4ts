@@ -1,28 +1,28 @@
-import { LogicFilter } from './logic.filter';
-import { LogicException } from '../exceptions/logic.exception';
+import { BusinessLogicFilter } from './business-logic.filter';
+import { BusinessLogicException } from '../exceptions/business-logic.exception';
 
-describe('LogicFilter', () => {
-  let filter: LogicFilter<LogicException>;
+describe('BusinessLogicFilter', () => {
+  let filter: BusinessLogicFilter<BusinessLogicException>;
   let error: jest.Mock;
   const request = {
     url: '/an/url',
   };
-  const exception = new LogicException('Logic error', 'id001');
+  const exception = new BusinessLogicException('Logic error', 'id001');
   const jsonFn = jest.fn();
   const status = jest.fn(() => {
     return {
       json: jsonFn,
     };
   });
-  const argumentHost = {
+  const argumentHost: any = {
     switchToHttp() {
       return {
-        getResponse() {
+        getResponse(): any {
           return {
             status,
           };
         },
-        getRequest() {
+        getRequest(): any {
           return request;
         },
       };
@@ -34,7 +34,7 @@ describe('LogicFilter', () => {
     const logger = {
       error,
     };
-    filter = new LogicFilter(logger as any);
+    filter = new BusinessLogicFilter(logger as any);
   });
 
   it('should be defined', () => {
@@ -55,9 +55,9 @@ describe('LogicFilter', () => {
     });
 
     it('should also work without logger', () => {
-      const newFilter = new LogicFilter();
+      const newFilter = new BusinessLogicFilter();
 
-      newFilter.catch(new LogicException('Logic error', 'id001'), argumentHost as any);
+      newFilter.catch(new BusinessLogicException('Logic error', 'id001'), argumentHost as any);
     });
   });
 });

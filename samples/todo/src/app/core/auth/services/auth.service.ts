@@ -28,7 +28,7 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  register(user: User) {
+  register(user: User): Promise<User> {
     return this.usersService.registerUser(user);
   }
 }

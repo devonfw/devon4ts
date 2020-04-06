@@ -1,15 +1,15 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
+import { GlobalFilter } from './app/shared/filters/global.filter';
 import { GlobalGuard } from './app/shared/guards/global.guard';
+import { GlobalInterceptor } from './app/shared/interceptors/global.interceptor';
+import { WinstonLogger } from './app/shared/logger/winston.logger';
 import { GlobalMiddlewareMiddleware } from './app/shared/middlewares/global-middleware.middleware';
 import { GlobalPipe } from './app/shared/pipes/global.pipe';
-import { GlobalInterceptor } from './app/shared/interceptors/global.interceptor';
-import { GlobalFilter } from './app/shared/filters/global.filter';
 
-async function bootstrap() {
-  Logger.overrideLogger(['debug', 'error', 'log', 'verbose', 'warn']);
-  const app = await NestFactory.create(AppModule);
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

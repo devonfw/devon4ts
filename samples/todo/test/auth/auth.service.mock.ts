@@ -24,7 +24,7 @@ export class AuthServiceMock {
     return 'THISISNOTAJWTTOKEN';
   }
 
-  register(user: User) {
+  register(user: User): Partial<User> {
     if (user.username === this.user.username) {
       throw new Error('User already exists');
     }

@@ -2,11 +2,11 @@ import { RolesGuard } from './roles.guard';
 import { Reflector } from '@nestjs/core';
 import { roles } from '../model/roles.enum';
 
-function generateMockExecutionContext(role: number) {
+function generateMockExecutionContext(role: number): any {
   return {
-    switchToHttp: () => {
+    switchToHttp: (): any => {
       return {
-        getRequest: () => {
+        getRequest: (): any => {
           return {
             user: {
               role,
@@ -15,8 +15,8 @@ function generateMockExecutionContext(role: number) {
         },
       };
     },
-    getHandler: () => undefined,
-    getClass: () => undefined,
+    getHandler: (): undefined => undefined,
+    getClass: (): undefined => undefined,
   };
 }
 

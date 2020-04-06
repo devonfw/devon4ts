@@ -38,7 +38,7 @@ describe('Auth Controller', () => {
         send: jest.fn(),
       };
       const mockResponse: any = {
-        // tslint:disable-next-line: variable-name
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         status: jest.fn().mockImplementation(_x => sendMock),
         setHeader: jest.fn(),
       };

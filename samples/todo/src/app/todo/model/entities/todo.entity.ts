@@ -3,6 +3,7 @@ import { IsBoolean, IsDefined, IsOptional, IsString, MaxLength } from 'class-val
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../shared/model/entities/base-entity.entity';
 import { TodoLevel } from '../todo-level.enum';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity()
 export class Todo extends BaseEntity {
@@ -21,5 +22,6 @@ export class Todo extends BaseEntity {
   @IsOptional()
   @IsBoolean()
   @Column({ type: 'boolean', default: false })
+  @ApiPropertyOptional({ type: 'boolean ' })
   completed?: boolean;
 }
