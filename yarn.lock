@@ -13,10 +13,21 @@
     rxjs "6.5.3"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.1.0", "@angular-devkit/core@^9.0.5":
+"@angular-devkit/core@9.1.0":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.0.tgz#5cc89bb5d44c6fd12a3527bae0253adb60d64b07"
   integrity sha512-vHTsrB4JaVUQ95FRnKrgo79Y3F6FokImrZdrmwkQmwAThpjXeXmpUEKZS+ZSTFRgesjiIysVGOFijARP4BQ7Bg==
+  dependencies:
+    ajv "6.12.0"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.5.4"
+    source-map "0.7.3"
+
+"@angular-devkit/core@9.1.1", "@angular-devkit/core@^9.0.5":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.1.tgz#6adb04c17d01abea506b8f2bd041aacdd569dc4f"
+  integrity sha512-57MNew2u1QwVb69jxZyhXgdW9kqcGyWyRy2ui/hWCkWLg7RumWtyypmdTs89FNExB4HqtXlQ2eO3JZxfs7QR3w==
   dependencies:
     ajv "6.12.0"
     fast-json-stable-stringify "2.1.0"
@@ -46,12 +57,21 @@
     ora "4.0.2"
     rxjs "6.5.3"
 
-"@angular-devkit/schematics@9.1.0", "@angular-devkit/schematics@^9.0.5":
+"@angular-devkit/schematics@9.1.0":
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.0.tgz#f453a9ff78c34a5468cc21830ac4a46089ee1a31"
   integrity sha512-cb9PSvskMwWlL54fPfCcpJoyNDWAX6Wo7CzL5qpIB2cJCPLAuyfRUYYrkO77YUST+n2HvypHz0cZ5SNGMfaaBQ==
   dependencies:
     "@angular-devkit/core" "9.1.0"
+    ora "4.0.3"
+    rxjs "6.5.4"
+
+"@angular-devkit/schematics@^9.0.5":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.1.tgz#8ee93a6297416271002986dbf48f08ad0911a47e"
+  integrity sha512-6wx2HcvafHvEjEa1tjDzW2hXrOiSE8ALqJUArb3+NoO1BDM42aGcqyPo0ODzKtDk12CgSsFXdNKRpQ5AmpSPtw==
+  dependencies:
+    "@angular-devkit/core" "9.1.1"
     ora "4.0.3"
     rxjs "6.5.4"
 
