@@ -472,7 +472,7 @@ It will add helmet package as project dependency and update the main.ts file in 
 
 === db
 
-Execute a database command. Same as link:https://typeorm.io/#/using-cli[typeorm CLI].
+Execute a database command. This command is an alias of `typeorm` command, so if you exetue the command `devon4node db migration:create` under the hood it will execute `typeorm migration:create`. For more information see link:https://typeorm.io/#/using-cli[typeorm CLI documentation].
 
 ==== schema:sync
 
@@ -485,6 +485,12 @@ Synchronizes your entities with database schema. It runs schema update queries o
 | --config, -f          | Name of the file with connection configuration.
 | --version, -v         | Shows number version
 |========
+
+Examples: 
+
+----
+devon4node db schema:sync
+----
 
 ==== schema:log
 
@@ -564,6 +570,12 @@ Creates a new migration file.
 | --version, -v         | Shows number version
 |========
 
+Examples: 
+
+----
+devon4node db migration:create -n InsertData
+----
+
 ==== migration:generate
 
 Generates a new migration file with sql needs to be executed to update schema.
@@ -577,6 +589,12 @@ Generates a new migration file with sql needs to be executed to update schema.
 | --config, -f          | Name of the file with connection configuration.
 | --version, -v         | Shows number version
 |========
+
+Examples: 
+
+----
+devon4node db migration:generate -n CreateTables
+----
 
 ==== migration:run
 
@@ -625,6 +643,12 @@ Prints TypeORM version this project uses.
 | --help, -h             | Shows help
 | --version, -v          | Shows number version
 |========
+
+Examples: 
+
+----
+devon4node db version
+----
 
 ==== cache:clear
 
