@@ -29,6 +29,7 @@ include::guides-serializer[leveloffset=2]
 include::guides-validation[leveloffset=2]
 include::guides-logger[leveloffset=2]
 include::guides-mailer[leveloffset=2]
+include::guides-eslint-sonarqube-config[leveloffset=2]
 
 == devon4node applications
 
