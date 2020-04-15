@@ -56,7 +56,6 @@ function updateMain(project: string) {
 
     mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
-    mainFile = addImports(mainFile, 'Logger', '@nestjs/common');
     mainFile = addReturnTypeToFunction(mainFile, 'bootstrap', 'Promise<void>');
     host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 

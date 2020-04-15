@@ -9,7 +9,6 @@ export const packagesVersion = {
   handlebars: '^4.7.3',
   helmet: '^3.21.3',
   husky: '^4.2.3',
-  lintStaged: '^10.0.8',
   lodash: '^4.17.15',
   nestjsJwt: '^7.0.0',
   nestjsPassport: '^7.0.0',
