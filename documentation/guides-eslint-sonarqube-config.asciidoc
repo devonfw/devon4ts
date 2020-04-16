@@ -17,25 +17,19 @@ toc::[]
 
 = Importing your ESLint reports into SonarQube
 
-With devon4node, you can easily generate ESLint reports and import them into SonarQube. All you need are the CLIs of the link:https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/[SonarQube Scanner] and link:https://eslint.org/docs/user-guide/command-line-interface[ESLint], which can be installed via npm:
-
-- `npm i eslint`
-- `npm i sonarqube-scanner`
+This guide covers the import of ESLint reports into SonarQube instances in CI environments, as this is the recommended way of using ESLint and SonarQube for devon4node projects. The prerequisites for this process are a CI environment, preferably a link:https://github.com/devonfw/production-line[Production Line] instance, and the link:https://eslint.org/docs/user-guide/command-line-interface[ESLint CLI], which is already included when generating a new devon4node project.
 
 === Configuring the ESLint analysis
 
-You can configure the ESLint analysis parameters in an `.eslintrc` file. If you created your node project using the devon4node CLI, this file will already have been created. If you want to make further adjustments to it, have a look at the link:https://eslint.org/docs/user-guide/configuring[ESLint documentation].
+You can configure the ESLint analysis parameters in the `.eslintrc.js` file inside the top-level directory of your project. If you created your node project using the devon4node CLI, this file will already exist. If you want to make further adjustments to it, have a look at the link:https://eslint.org/docs/user-guide/configuring[ESLint documentation].
 
-To run the analysis and generate a report, simply execute the command `eslint -f json src/\**/*.ts > report.json` inside the base directory of your project. Additional information to customization options can be found link:https://eslint.org/docs/user-guide/command-line-interface[here]. All the issues found in this project will be written to the `report.json` and can now be imported into SonarQube.
+The ESLint analysis script `lint` is already configured in the `scripts` part of your `package.json`. Simply add `-f json > report.json`, so that the output of the analysis is saved in a .json file. Additional information to customization options for the ESLint CLI can be found link:https://eslint.org/docs/user-guide/command-line-interface#options[here].
+
+To run the analysis, execute the script with `npm run lint` inside the base directory of your project.
 
 === Configuring SonarQube
 
-To connect to your SonarQube instance and specify the path to your report, you will need a `sonar-project.properties` file, containing at least the following three properties:
+If you haven't already generated your CICD-related files, follow the tutorial on the link:https://github.com/devonfw/cicdgen/wiki/devon4node-schematic[devon4node schematic] of our CICDGEN project, as you will need a Jenkinsfile configured in your project to proceed.
 
-- `sonar.host.url=` The url of your SonarQube instance 
-- `sonar.projectKey=` Unique key of the project
-- `sonar.eslint.reportPaths=` Path to the report file that is to be imported
-
-Specifying further properties like the project name or its version are recommended, see the link:https://docs.sonarqube.org/latest/analysis/analysis-parameters/[SonarQube documentation] for further reading on analysis parameters.
-
-For the import of your report, you need to run an analysis by executing the command `sonar-scanner`. To avoid duplicated issues, you can associate an empty TypeScript quality profile with your project in the server configurations of your SonarQube instance. 
+Inside the script for the SonarQube code analysis in your Jenkinsfile, add the parameter `-Dsonar.eslint.reportPaths=report.json`. Now, whenever a SonarQube analysis is triggered by your CI environment, the generated report will be loaded into your SonarQube instance.
+To avoid duplicated issues, you can associate an empty TypeScript quality profile with your project in its server configurations.
