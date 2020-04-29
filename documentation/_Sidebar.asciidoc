@@ -19,6 +19,7 @@
 *** link:guides-validation.asciidoc[Validation]
 *** link:guides-logger.asciidoc[Logger]
 *** link:guides-mailer.asciidoc[Mailer Module]
+*** link:guides-eslint-sonarqube-config[ESLint SonarQube Configuration]
 ** devon4node applications
 *** link:samples.asciidoc[devon4node Samples]
 *** link:samples-step-by-step.asciidoc[devon4node Sample Step by Step]
