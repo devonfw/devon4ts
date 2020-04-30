@@ -2013,10 +2013,10 @@
   dependencies:
     source-map "^0.6.1"
 
-"@types/validator@12.0.1":
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-12.0.1.tgz#73dbc7f5f730ff7131754bca682824eb3c260b79"
-  integrity sha512-l57fIANZLMe8DArz+SDb+7ATXnDm15P7u2wHBw5mb0aSMd+UuvmvhouBF2hdLgQPDMJ39sh9g2MJO4GkZ0VAdQ==
+"@types/validator@13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.0.0.tgz#365f1bf936aeaddd0856fc41aa1d6f82d88ee5b3"
+  integrity sha512-WAy5txG7aFX8Vw3sloEKp5p/t/Xt8jD3GRD9DacnFv6Vo8ubudAsRTXgxpQwU0mpzY/H8U4db3roDuCMjShBmw==
 
 "@types/webpack-sources@*":
   version "0.1.6"
@@ -3257,13 +3257,14 @@ class-utils@^0.3.5:
     static-extend "^0.1.1"
 
 class-validator@^0.12.0-rc.0:
-  version "0.12.0-refactor.3"
-  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.12.0-refactor.3.tgz#4107c47b54b603d3eae238b584081fbcdaf1ca53"
-  integrity sha512-B8Wk5I03xzf86PypVe3onNbQfPB+HfjBhek5KEAMiutGI9nAHxEHbDF5mPCIOQvzLtluoNPj0PqSdYMki3ZO+g==
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.12.2.tgz#2ceb72f88873e9c714cf5f9c278cbc71f6f6c8ef"
+  integrity sha512-TDzPzp8BmpsbPhQpccB3jMUE/3pK0TyqamrK0kcx+ZeFytMA+O6q87JZZGObHHnoo9GM8vl/JppIyKWeEA/EVw==
   dependencies:
-    "@types/validator" "12.0.1"
+    "@types/validator" "13.0.0"
     google-libphonenumber "^3.2.8"
-    validator "12.2.0"
+    tslib ">=1.9.0"
+    validator "13.0.0"
 
 clean-stack@^2.0.0:
   version "2.2.0"
@@ -10078,7 +10079,7 @@ tsconfig-paths@3.9.0, tsconfig-paths@^3.4.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@1.11.1, tslib@^1.8.1, tslib@^1.9.0:
+tslib@1.11.1, tslib@>=1.9.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
@@ -10379,10 +10380,10 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-validator@12.2.0:
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-12.2.0.tgz#660d47e96267033fd070096c3b1a6f2db4380a0a"
-  integrity sha512-jJfE/DW6tIK1Ek8nCfNFqt8Wb3nzMoAbocBF6/Icgg1ZFSBpObdnwVY2jQj6qUqzhx5jc71fpvBWyLGO7Xl+nQ==
+validator@13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.0.0.tgz#0fb6c6bb5218ea23d368a8347e6d0f5a70e3bcab"
+  integrity sha512-anYx5fURbgF04lQV18nEQWZ/3wHGnxiKdG4aL8J+jEDsm98n/sU/bey+tYk6tnGJzm7ioh5FoqrAiQ6m03IgaA==
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
