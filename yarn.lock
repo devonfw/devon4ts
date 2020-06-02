@@ -60,13 +60,13 @@
     symbol-observable "1.2.0"
 
 "@angular-devkit/schematics-cli@^0.901.0":
-  version "0.901.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.901.1.tgz#bc760be337087386f811a717bd34038c905fca81"
-  integrity sha512-huy/ggyfJhbYUIPCrGjqUcZ26/y7U6+ow01IWeYbY884/G627o35wpDzEvSNeZY9iz0pw4abb5oM0+tA5KS0wQ==
+  version "0.901.7"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.901.7.tgz#f34c663d8030aa77b13ae111222654f4fbe7ea6c"
+  integrity sha512-9LTyCvgiU74nc5FcwRfgHGMZSfspSsqTFgivuS627Dju2D/knmXzdrNXeqU0D4CRsWGbJBKbcAjnlgmtZDTydg==
   dependencies:
-    "@angular-devkit/core" "9.1.1"
-    "@angular-devkit/schematics" "9.1.1"
-    "@schematics/schematics" "0.901.1"
+    "@angular-devkit/core" "9.1.7"
+    "@angular-devkit/schematics" "9.1.7"
+    "@schematics/schematics" "0.901.7"
     inquirer "7.1.0"
     minimist "1.2.5"
     rxjs "6.5.4"
@@ -99,7 +99,7 @@
     ora "4.0.3"
     rxjs "6.5.4"
 
-"@angular-devkit/schematics@^9.0.5":
+"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.0.5":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.7.tgz#45394a1c928db449b412dacf205c3ec78fb5ef0c"
   integrity sha512-oeHPJePBcPp/bd94jHQeFUnft93PGF5iJiKV9szxqS8WWC5OMZ5eK7icRY0PwvLyfenspAZxdZcNaqJqPMul5A==
@@ -1746,13 +1746,13 @@
     "@angular-devkit/core" "9.1.0"
     "@angular-devkit/schematics" "9.1.0"
 
-"@schematics/schematics@0.901.1":
-  version "0.901.1"
-  resolved "https://registry.yarnpkg.com/@schematics/schematics/-/schematics-0.901.1.tgz#265db2a82f68371d629ee14e7e3e4b349a362899"
-  integrity sha512-wWPrTP9LXKTYIR0gpGLL4EnDub7NWrGcdmJhEHQxCBtBVYQp6OkRK8JgWran/AiCLMDqdI3NRqOOznbrKnelqQ==
+"@schematics/schematics@0.901.7":
+  version "0.901.7"
+  resolved "https://registry.yarnpkg.com/@schematics/schematics/-/schematics-0.901.7.tgz#de1dafaf6910e6c77781c11c81640fa7ec8aa1d5"
+  integrity sha512-tn45fGbL63EXnKb9Hl85y5Dy6J6cJxVe706aMOZDSzP4z2e4Lem5CCrmA4M9+2RGmyj0UaV/O6/jkmg8W5ZvRQ==
   dependencies:
-    "@angular-devkit/core" "9.1.1"
-    "@angular-devkit/schematics" "9.1.1"
+    "@angular-devkit/core" "9.1.7"
+    "@angular-devkit/schematics" "9.1.7"
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.1"
