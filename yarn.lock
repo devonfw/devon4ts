@@ -13,10 +13,10 @@
     rxjs "6.5.3"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.1.1":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.1.tgz#6adb04c17d01abea506b8f2bd041aacdd569dc4f"
-  integrity sha512-57MNew2u1QwVb69jxZyhXgdW9kqcGyWyRy2ui/hWCkWLg7RumWtyypmdTs89FNExB4HqtXlQ2eO3JZxfs7QR3w==
+"@angular-devkit/core@9.1.7":
+  version "9.1.7"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.7.tgz#f193ccbae4c80b34188bc9cc401c16b3ced50339"
+  integrity sha512-guvolu9Cl+qYMTtedLZD9wCqustJjdqzJ2psD2C1Sr1LrX9T0mprmDldR/YnhsitThveJEb6sM/0EvqWxoSvKw==
   dependencies:
     ajv "6.12.0"
     fast-json-stable-stringify "2.1.0"
@@ -24,10 +24,10 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.1.7", "@angular-devkit/core@^9.0.5":
-  version "9.1.7"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.7.tgz#f193ccbae4c80b34188bc9cc401c16b3ced50339"
-  integrity sha512-guvolu9Cl+qYMTtedLZD9wCqustJjdqzJ2psD2C1Sr1LrX9T0mprmDldR/YnhsitThveJEb6sM/0EvqWxoSvKw==
+"@angular-devkit/core@9.1.8", "@angular-devkit/core@^9.0.5":
+  version "9.1.8"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.8.tgz#7c517a14e3ddfd180858972d9f1836aa90a1248e"
+  integrity sha512-4k1pZwje2oh5c/ULg7pnCBzTstx3l3uF7O5tQq/KXomDDsam97IhLm6cKUqQpaoyC1NUsBV6xJARJ0PyUP5TPQ==
   dependencies:
     ajv "6.12.0"
     fast-json-stable-stringify "2.1.0"
@@ -57,21 +57,21 @@
     ora "4.0.2"
     rxjs "6.5.3"
 
-"@angular-devkit/schematics@9.1.1":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.1.tgz#8ee93a6297416271002986dbf48f08ad0911a47e"
-  integrity sha512-6wx2HcvafHvEjEa1tjDzW2hXrOiSE8ALqJUArb3+NoO1BDM42aGcqyPo0ODzKtDk12CgSsFXdNKRpQ5AmpSPtw==
-  dependencies:
-    "@angular-devkit/core" "9.1.1"
-    ora "4.0.3"
-    rxjs "6.5.4"
-
-"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.0.5":
+"@angular-devkit/schematics@9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.7.tgz#45394a1c928db449b412dacf205c3ec78fb5ef0c"
   integrity sha512-oeHPJePBcPp/bd94jHQeFUnft93PGF5iJiKV9szxqS8WWC5OMZ5eK7icRY0PwvLyfenspAZxdZcNaqJqPMul5A==
   dependencies:
     "@angular-devkit/core" "9.1.7"
+    ora "4.0.3"
+    rxjs "6.5.4"
+
+"@angular-devkit/schematics@9.1.8", "@angular-devkit/schematics@^9.0.5":
+  version "9.1.8"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.8.tgz#8eeea0b6f9702a5b065f909cdcaf1d35cc8e2fa3"
+  integrity sha512-/8L5J4X6SkcFMRmrSQHvJWOPilrMWTNlv1lD+1z06D3xGJEktVxXM3gCUXhDrbMvpoi+lYtR2Fuia0E6zvyjCQ==
+  dependencies:
+    "@angular-devkit/core" "9.1.8"
     ora "4.0.3"
     rxjs "6.5.4"
 
@@ -1719,12 +1719,12 @@
     any-observable "^0.3.0"
 
 "@schematics/angular@^9.0.5":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.1.tgz#5069f8f214fa2effb68a937cfb808ec612debe96"
-  integrity sha512-V0DcDNgHQ2YR+PGZI6+pf/mUNNxt5SusShkZ1PbwIMk/HUQpzEGkLjm3v1Jw9eIZKiuDx615GNU1xDzQ/KyNRQ==
+  version "9.1.8"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.8.tgz#da6cd63b65776b18c43d8515bfca754dd9acdbc9"
+  integrity sha512-fjyAP9m4aF51OVdksRXCOF8BTyt96PqFmKK9G0kuwOzgfx2gPZNOO3wOZH6xFAMZ09y86VGzasZxZNeDdyN4sQ==
   dependencies:
-    "@angular-devkit/core" "9.1.1"
-    "@angular-devkit/schematics" "9.1.1"
+    "@angular-devkit/core" "9.1.8"
+    "@angular-devkit/schematics" "9.1.8"
 
 "@schematics/schematics@0.901.7":
   version "0.901.7"
@@ -10048,15 +10048,15 @@ tsconfig-paths@3.9.0, tsconfig-paths@^3.4.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@1.11.1, tslib@^1.8.1, tslib@^1.9.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
-  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
-
 tslib@2.0.0, tslib@>=1.9.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
   integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
+
+tslib@^1.8.1, tslib@^1.9.0:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
+  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
 tsutils@^3.17.1:
   version "3.17.1"
