@@ -24,7 +24,7 @@
     "@devon4node/schematics": "^1.11.0",
     "@nestjs/cli": "^7.0.2",
     "@nestjs/schematics": "^7.0.0",
-    "@schematics/angular": "^9.0.5",
+    "@schematics/angular": "^10.0.0",
     "chalk": "^4.0.0",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.0.6",
