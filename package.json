@@ -53,7 +53,7 @@
     "@types/jest": "^25.1.4",
     "@types/js-yaml": "^3.12.2",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^13.9.0",
+    "@types/node": "^14.0.24",
     "@types/node-fetch": "^2.5.5",
     "@types/nodemailer": "^6.4.0",
     "@types/pluralize": "^0.0.29",
