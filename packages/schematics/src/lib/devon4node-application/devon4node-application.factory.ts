@@ -93,15 +93,19 @@ function addDeclarationToModule(project: string): Rule {
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 export function devon4nodeApplication(options: IDevon4nodeApplicationOptions): Rule {
+  const formattedOptions = { ...options };
+  formattedOptions.name = strings.dasherize(formattedOptions.name);
+  const name = formattedOptions.name;
+
   return chain([
-    externalSchematic('@nestjs/schematics', 'application', options),
-    move(`./${options.name}/src/app.controller.spec.ts`, `./${options.name}/src/app/app.controller.spec.ts`),
-    move(`./${options.name}/src/app.controller.ts`, `./${options.name}/src/app/app.controller.ts`),
-    move(`./${options.name}/src/app.module.ts`, `./${options.name}/src/app/app.module.ts`),
-    move(`./${options.name}/src/app.service.ts`, `./${options.name}/src/app/app.service.ts`),
+    externalSchematic('@nestjs/schematics', 'application', formattedOptions),
+    move(`./${name}/src/app.controller.spec.ts`, `./${name}/src/app/app.controller.spec.ts`),
+    move(`./${name}/src/app.controller.ts`, `./${name}/src/app/app.controller.ts`),
+    move(`./${name}/src/app.module.ts`, `./${name}/src/app/app.module.ts`),
+    move(`./${name}/src/app.service.ts`, `./${name}/src/app/app.service.ts`),
     (tree: Tree): Tree => {
-      if (tree.exists(join(options.name as Path, '.eslintrc.js'))) {
-        tree.delete(join(options.name as Path, '.eslintrc.js'));
+      if (tree.exists(join(name as Path, '.eslintrc.js'))) {
+        tree.delete(join(name as Path, '.eslintrc.js'));
       }
 
       return tree;
@@ -111,15 +115,15 @@ export function devon4nodeApplication(options: IDevon4nodeApplicationOptions): R
         apply(url('./files'), [
           template({
             ...strings,
-            ...options,
+            ...formattedOptions,
             ...packagesVersion,
           }),
-          move(options.name),
+          move(name),
           mergeFiles(tree),
         ]),
       );
     },
-    addDeclarationToModule(options.name),
-    updateMain(options.name),
+    addDeclarationToModule(name),
+    updateMain(name),
   ]);
 }
