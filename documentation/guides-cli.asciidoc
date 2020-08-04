@@ -54,6 +54,12 @@ devon4node new -h
 | --dry-run             | Allow to test changes before execute command.
 | --skip-git, -g        | Allow to skip git repository initialization.
 | --skip-install, -s    | Allow to skip package installation.
+| --typeorm, -t         | Allow to select the type of database.
+| --config-module, -c   | Allow to add config module or not.
+| --swagger, -a         | Allow to add swagger module or not.
+| --security, -y        | Allow to add security (cors + HTTP security headers) or not.
+| --mailer, -m          | Allow to add mailer module or not.
+| --auth-jwt, -j        | Allow to add Auth JWT module or not.
 | --version, -v         | Show version number
 |========
 
@@ -62,6 +68,7 @@ Examples:
 ----
 devon4node new my-app -sg
 devon4node new my-app -n
+devon4node new my-app -n -typeorm sqlite -config-module -auth-jwt
 ----
 
 === generate
