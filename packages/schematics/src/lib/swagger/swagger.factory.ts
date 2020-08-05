@@ -6,8 +6,8 @@ import {
   addImports,
   addPropToClass,
   insertLinesToFunctionBefore,
-} from '../../utils/ast-utils';
-import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
+} from '~utils/ast-utils';
+import { existsConfigModule, formatTsFile } from '~utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.values.isDev) {

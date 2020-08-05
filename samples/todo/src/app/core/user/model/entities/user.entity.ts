@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../../../../shared/model/entities/base-entity.entity';
-import { roles } from '../../../auth/model/roles.enum';
+import { BaseEntity } from '~app/shared/model/entities/base-entity.entity';
+import { roles } from '~app/core/auth/model/roles.enum';
 
 @Entity()
 export class User extends BaseEntity {

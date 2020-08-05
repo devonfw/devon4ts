@@ -16,10 +16,10 @@ import {
   addToModuleDecorator,
   insertLinesToFunctionBefore,
   addReturnTypeToFunction,
-} from '../../utils/ast-utils';
+} from '~utils/ast-utils';
 import { packagesVersion } from '../packagesVersion';
-import { mergeFiles } from '../../utils/merge';
-import { formatTsFile } from '../../utils/tree-utils';
+import { mergeFiles } from '~utils/merge';
+import { formatTsFile } from '~utils/tree-utils';
 
 interface IDevon4nodeApplicationOptions {
   name: string;

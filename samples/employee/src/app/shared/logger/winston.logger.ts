@@ -2,7 +2,7 @@
 import { ConfigService } from '@devon4node/config';
 import { Logger, LogLevel, Optional } from '@nestjs/common';
 import * as winston from 'winston';
-import { Config } from '../model/config/config.model';
+import { Config } from '~app/shared/model/config/config.model';
 
 export class WinstonLogger extends Logger {
   private static DEFAULT_LOG_LEVEL = 'info';
@@ -11,13 +11,13 @@ export class WinstonLogger extends Logger {
 
   constructor(@Optional() private readonly configService?: ConfigService<Config>) {
     super();
-    const logLevel = this.configService?.values.loggerConfig?.loggerLevel! || WinstonLogger.DEFAULT_LOG_LEVEL;
-    const generalDir = this.configService?.values.loggerConfig?.generalLogFile;
-    const errorDir = this.configService?.values.loggerConfig?.errorLogFile;
+    const logLevel = this.configService ?.values.loggerConfig ?.loggerLevel! || WinstonLogger.DEFAULT_LOG_LEVEL;
+    const generalDir = this.configService ?.values.loggerConfig ?.generalLogFile;
+    const errorDir = this.configService ?.values.loggerConfig ?.errorLogFile;
     const transports: any[] = [];
 
-    if (this.configService?.values.loggerConfig?.console !== undefined) {
-      this.console = this.configService?.values.loggerConfig?.console;
+    if (this.configService ?.values.loggerConfig ?.console !== undefined) {
+      this.console = this.configService ?.values.loggerConfig ?.console;
     }
 
     if (generalDir) {

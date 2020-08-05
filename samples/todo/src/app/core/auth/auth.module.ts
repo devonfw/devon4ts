@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthController } from '~app/core/auth/controllers/auth.controller';
+import { AuthService } from '~app/core/auth/services/auth.service';
+import { JwtStrategy } from '~app/core/auth/strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@devon4node/config';
-import { Config } from '../../shared/model/config/config.model';
+import { Config } from '~app/shared/model/config/config.model';
 
 @Module({
   imports: [
@@ -20,4 +20,4 @@ import { Config } from '../../shared/model/config/config.model';
   exports: [AuthService, PassportModule],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

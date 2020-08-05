@@ -3,8 +3,8 @@ import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import * as _ from 'lodash';
 import { isAbsolute, join } from 'path';
-import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME, PREFIX_SEPARATOR } from './config.constants';
-import { ConfigModuleOptions } from './config.types';
+import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME, PREFIX_SEPARATOR } from '~lib/config.constants';
+import { ConfigModuleOptions } from '~lib/config.types';
 
 @Injectable()
 export class ConfigService<T> {

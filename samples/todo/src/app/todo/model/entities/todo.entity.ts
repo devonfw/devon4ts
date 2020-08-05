@@ -1,8 +1,8 @@
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsBoolean, IsDefined, IsOptional, IsString, MaxLength } from 'class-validator';
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../../../shared/model/entities/base-entity.entity';
-import { TodoLevel } from '../todo-level.enum';
+import { BaseEntity } from '~app/shared/model/entities/base-entity.entity';
+import { TodoLevel } from '~app/todo/model/todo-level.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 @Entity()

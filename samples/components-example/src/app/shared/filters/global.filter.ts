@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { TestException } from '../exceptions/test.exception';
 import { Request, Response } from 'express';
-import { GlobalException } from '../exceptions/global.exception';
+import { GlobalException } from '~app/shared/exceptions/global.exception';
 
 @Catch(TestException, GlobalException)
 export class GlobalFilter implements ExceptionFilter<TestException | GlobalException> {

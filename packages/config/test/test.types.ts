@@ -1,4 +1,4 @@
-import { BaseConfig } from '../lib';
+import { BaseConfig } from '~lib/base-config';
 import { IsString, IsOptional, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 

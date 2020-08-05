@@ -1,8 +1,8 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, noop, Rule, schematic, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { addImports, addTypeormRepositoryToModule, removeImports } from '../../utils/ast-utils';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { addImports, addTypeormRepositoryToModule, removeImports } from '~utils/ast-utils';
+import { formatTsFile, formatTsFiles } from '~utils/tree-utils';
 
 interface IRespositoryOptions {
   name: string;

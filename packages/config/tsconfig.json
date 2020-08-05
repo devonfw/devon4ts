@@ -6,7 +6,21 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": false,
-    "types": ["node", "jest"]
+    "types": [
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "~lib/*": [
+        "lib/*"
+      ],
+      "~test/*": [
+        "test/*"
+      ],
+    }
   },
-  "include": ["./lib/**/*", "./test"]
+  "include": [
+    "./lib/**/*",
+    "./test"
+  ]
 }

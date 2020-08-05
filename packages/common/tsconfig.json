@@ -5,7 +5,16 @@
     "sourceMap": false,
     "incremental": false,
     "outDir": "./",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "~serializer/*": [
+        "serializer/*"
+      ]
+    }
   },
-  "exclude": ["node_modules", "dist", "./**/*.spec.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "./**/*.spec.ts"
+  ]
 }

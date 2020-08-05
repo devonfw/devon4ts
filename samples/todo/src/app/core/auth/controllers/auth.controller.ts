@@ -1,14 +1,14 @@
 import { BadRequestException, Body, Controller, Get, HttpCode, Post, UseGuards, Response } from '@nestjs/common';
 import { Response as eResponse } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '../../user/model/entities/user.entity';
-import { AuthService } from '../services/auth.service';
-import { LoginDTO } from '../model/login.dto';
-import { GetUser } from '../decorators/get-user.decorator';
+import { User } from '~app/core/user/model/entities/user.entity';
+import { AuthService } from '~app/core/auth/services/auth.service';
+import { LoginDTO } from '~app/core/auth/model/login.dto';
+import { GetUser } from '~app/core/auth/decorators/get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
   @Post('login')
   @HttpCode(200)
   async login(@Body() login: LoginDTO, @Response() res: eResponse): Promise<void> {

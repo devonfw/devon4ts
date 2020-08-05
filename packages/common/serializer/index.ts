@@ -1,2 +1,2 @@
-export * from './interceptors/class-serializer.interceptor';
-export * from './decorators/crud-type.decorator';
+export * from '~serializer/interceptors/class-serializer.interceptor';
+export * from '~serializer/decorators/crud-type.decorator';

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';<% if (config) { %>
+import { AuthController } from '~auth/controllers/auth.controller';
+import { AuthService } from '~auth/services/auth.service';
+import { JwtStrategy } from '~auth/strategies/jwt.strategy';<% if (config) { %>
 import { ConfigModule, ConfigService } from '@devon4node/config';
 import { Config } from '../../shared/model/config/config.model';<% } %>
 

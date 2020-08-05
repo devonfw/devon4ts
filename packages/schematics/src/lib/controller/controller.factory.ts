@@ -2,8 +2,8 @@ import { basename, dirname, join, normalize, Path, strings } from '@angular-devk
 import { apply, chain, filter, mergeWith, move, noop, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
-import { addToModuleDecorator } from '../../utils/ast-utils';
-import { formatTsFiles, formatTsFile } from '../../utils/tree-utils';
+import { addToModuleDecorator } from '~utils/ast-utils';
+import { formatTsFiles, formatTsFile } from '~utils/tree-utils';
 
 interface IControllerOptions {
   name: string;

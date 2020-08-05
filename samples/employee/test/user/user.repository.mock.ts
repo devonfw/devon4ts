@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { FindConditions, FindOneOptions } from 'typeorm';
-import { User } from '../../src/app/core/user/model/entities/user.entity';
+import { User } from '~app/core/user/model/entities/user.entity';
 
 export class UserRepositoryMock {
   users: Array<Partial<User>>;

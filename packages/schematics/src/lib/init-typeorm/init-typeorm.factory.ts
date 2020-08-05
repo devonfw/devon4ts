@@ -7,9 +7,9 @@ import {
   addPropToClass,
   addToModuleDecorator,
   addDecoratorToClassProp as addDecoratorsToClassProp,
-} from '../../utils/ast-utils';
-import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+} from '~utils/ast-utils';
+import { mergeFiles } from '~utils/merge';
+import { existsConfigModule, formatTsFile, formatTsFiles } from '~utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface ITypeormOptions {

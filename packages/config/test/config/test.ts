@@ -1,4 +1,4 @@
-import { TestTypes } from '../../test/test.types';
+import { TestTypes } from 'test/test.types';
 
 const config: TestTypes = {
   isDev: true,

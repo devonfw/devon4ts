@@ -1,9 +1,9 @@
 import { DynamicModule, Module, OnModuleDestroy } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import * as nodemailer from 'nodemailer';
-import { MAILER_TRANSPORT_PROVIDER_NAME, MAILER_OPTIONS_PROVIDER_NAME } from './mailer.constants';
-import { MailerService } from './mailer.service';
-import { MailerModuleOptions, MailerModuleAsyncOptions } from './mailer.types';
+import { MAILER_TRANSPORT_PROVIDER_NAME, MAILER_OPTIONS_PROVIDER_NAME } from 'lib/mailer.constants';
+import { MailerService } from 'lib/mailer.service';
+import { MailerModuleOptions, MailerModuleAsyncOptions } from 'lib/mailer.types';
 
 @Module({
   providers: [MailerService],
@@ -18,7 +18,7 @@ export class MailerModule implements OnModuleDestroy {
     emailFrom: 'noreply@capgemini.com',
   };
 
-  constructor(private readonly moduleRef: ModuleRef) {}
+  constructor(private readonly moduleRef: ModuleRef) { }
 
   static forRoot(options?: MailerModuleOptions): DynamicModule {
     return {

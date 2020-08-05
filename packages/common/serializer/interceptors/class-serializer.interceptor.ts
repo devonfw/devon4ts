@@ -11,7 +11,7 @@ import { ClassTransformOptions } from '@nestjs/common/interfaces/external/class-
 import { loadPackage } from '@nestjs/common/utils/load-package.util';
 import { isObject } from '@nestjs/common/utils/shared.utils';
 import { CLASS_SERIALIZER_OPTIONS } from '@nestjs/common/serializer/class-serializer.constants';
-import { CRUD_TYPE_ID } from '../defaults';
+import { CRUD_TYPE_ID } from '~serializer/defaults';
 
 interface IClassType<T> {
   // tslint:disable-next-line: callable-types

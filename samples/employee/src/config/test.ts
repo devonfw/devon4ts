@@ -1,4 +1,4 @@
-import { Config } from '../app/shared/model/config/config.model';
+import { Config } from '~app/shared/model/config/config.model';
 
 const def: Config = {
   isDev: true,

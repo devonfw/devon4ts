@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { ClassSerializerInterceptor } from '@devon4node/common/serializer';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
-import { WinstonLogger } from '../shared/logger/winston.logger';
-import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';
+import { WinstonLogger } from '~app/shared/logger/winston.logger';
+import { BusinessLogicFilter } from '~app/shared/filters/business-logic.filter';
 import { ConfigModule, ConfigService } from '@devon4node/config';
-import { Config } from '../shared/model/config/config.model';
+import { Config } from '~app/shared/model/config/config.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { AuthModule } from '~app/core/auth/auth.module';
+import { UserModule } from '~app/core/user/user.module';
 
 @Global()
 @Module({

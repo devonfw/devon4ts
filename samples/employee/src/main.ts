@@ -3,8 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
-import { AppModule } from './app/app.module';
-import { WinstonLogger } from './app/shared/logger/winston.logger';
+import { AppModule } from '~app/app.module';
+import { WinstonLogger } from '~app/shared/logger/winston.logger';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });

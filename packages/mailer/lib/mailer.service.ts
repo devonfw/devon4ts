@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { Transporter, SentMessageInfo, SendMailOptions } from 'nodemailer';
-import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
-import { MailerModuleOptions, IHandlebarsOptions } from './mailer.types';
+import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from 'lib/mailer.constants';
+import { MailerModuleOptions, IHandlebarsOptions } from 'lib/mailer.types';
 import * as fs from 'fs-extra';
 import { join } from 'path';
 
@@ -21,7 +21,7 @@ export class MailerService implements OnModuleInit {
     private readonly transporter: Transporter,
     @Inject(MAILER_OPTIONS_PROVIDER_NAME)
     private readonly options: MailerModuleOptions,
-  ) {}
+  ) { }
 
   async onModuleInit(): Promise<void> {
     if (this.options.hbsOptions) {

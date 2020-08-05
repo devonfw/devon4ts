@@ -2,8 +2,8 @@ import { Path } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
 import { packagesVersion } from '../packagesVersion';
-import { addDefaultImports, insertLinesToFunctionBefore } from '../../utils/ast-utils';
-import { formatTsFile } from '../../utils/tree-utils';
+import { addDefaultImports, insertLinesToFunctionBefore } from '~utils/ast-utils';
+import { formatTsFile } from '~utils/tree-utils';
 
 export interface ISecurityInitializer {
   path?: string;

@@ -2,8 +2,8 @@ import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { basename, normalize } from 'path';
-import { addImports, addTypeormFeatureToModule } from '../../utils/ast-utils';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { addImports, addTypeormFeatureToModule } from '~utils/ast-utils';
+import { formatTsFile, formatTsFiles } from '~utils/tree-utils';
 
 interface IEntityOptions {
   name: string;

@@ -2,9 +2,9 @@ import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { packagesVersion } from '../packagesVersion';
-import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
-import { mergeFiles } from '../../utils/merge';
+import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '~utils/ast-utils';
+import { formatTsFile, formatTsFiles } from '~utils/tree-utils';
+import { mergeFiles } from '~utils/merge';
 
 interface IConfigOptions {
   name: string;

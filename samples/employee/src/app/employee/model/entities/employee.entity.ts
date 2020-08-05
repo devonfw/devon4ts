@@ -1,5 +1,5 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '../../../shared/model/entities/base-entity.entity';
+import { BaseEntity } from '~app/shared/model/entities/base-entity.entity';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsDefined, IsOptional, MaxLength, IsEmail } from 'class-validator';
 

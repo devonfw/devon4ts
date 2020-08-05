@@ -5,7 +5,14 @@
     "sourceMap": false,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": false
+    "incremental": false,
+    "paths": {
+      "~lib/*": [
+        "lib/*"
+      ]
+    }
   },
-  "include": ["./lib/**/*"]
+  "include": [
+    "./lib/**/*"
+  ]
 }
