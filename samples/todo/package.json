@@ -43,7 +43,7 @@
     "passport-jwt": "^4.0.0",
     "bcrypt": "^4.0.1",
     "passport": "^0.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "@nestjsx/crud": "^4.4.2",
     "@nestjsx/crud-typeorm": "^4.4.2"
   },
