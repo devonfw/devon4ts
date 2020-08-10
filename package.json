@@ -18,7 +18,7 @@
     "format": "lerna run format"
   },
   "dependencies": {
-    "@angular-devkit/core": "^9.0.5",
+    "@angular-devkit/core": "^10.0.5",
     "@angular-devkit/schematics": "^9.0.5",
     "@angular-devkit/schematics-cli": "^0.901.0",
     "@devon4node/schematics": "^1.11.0",
