@@ -38,7 +38,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@angular-devkit/schematics-cli": "^0.901.0",
+    "@angular-devkit/schematics-cli": "^0.1000.5",
     "@devon4node/schematics": "^2.0.3",
     "@nestjs/cli": "^7.0.2",
     "chalk": "^4.0.0",

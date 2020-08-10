@@ -46,7 +46,7 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/schematics-cli@0.901.9", "@angular-devkit/schematics-cli@^0.901.0":
+"@angular-devkit/schematics-cli@0.901.9":
   version "0.901.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.901.9.tgz#507718a152da6ab6f8d71525f7747077efb0c5c2"
   integrity sha512-mkbN30u7/GvFOIOjj20w5OWi+vEOc/mdnpSrm3AxXvmha4AG56VL6uzF/kKHw9vyhfv8wLMt11OK/iSms9hSWw==
@@ -57,6 +57,19 @@
     inquirer "7.1.0"
     minimist "1.2.5"
     rxjs "6.5.4"
+    symbol-observable "1.2.0"
+
+"@angular-devkit/schematics-cli@^0.1000.5":
+  version "0.1000.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-0.1000.5.tgz#b2fcf22397f231af9b6b0bfe2dc60ccf2860b9de"
+  integrity sha512-yenLvzd7dhG2ZtlRfeOW+EpKRRhlVT0pwCndraqX4f9T5+GeuLUlIil3bYS+jUFel3vbZaImQ/f1IJbsoHBtOQ==
+  dependencies:
+    "@angular-devkit/core" "10.0.5"
+    "@angular-devkit/schematics" "10.0.5"
+    "@schematics/schematics" "0.1000.5"
+    inquirer "7.1.0"
+    minimist "1.2.5"
+    rxjs "6.5.5"
     symbol-observable "1.2.0"
 
 "@angular-devkit/schematics@10.0.5":
@@ -1729,6 +1742,14 @@
   dependencies:
     "@angular-devkit/core" "9.1.12"
     "@angular-devkit/schematics" "9.1.12"
+
+"@schematics/schematics@0.1000.5":
+  version "0.1000.5"
+  resolved "https://registry.yarnpkg.com/@schematics/schematics/-/schematics-0.1000.5.tgz#84256739d5253b91dc8d5c11e12aeee90ac0aaed"
+  integrity sha512-R8sKrvzQv2qb36jzunyWB8AgJXYEG5yGUOkKkPacEg1EFQh/zpwgZw+9EtaH+TPn4ftU+OlMEkSjfSp3xtOwew==
+  dependencies:
+    "@angular-devkit/core" "10.0.5"
+    "@angular-devkit/schematics" "10.0.5"
 
 "@schematics/schematics@0.901.9":
   version "0.901.9"
