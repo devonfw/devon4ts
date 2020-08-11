@@ -87,7 +87,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "eslint --cache --fix"
+      "pre-commit": "lerna run lint"
     }
   }
 }

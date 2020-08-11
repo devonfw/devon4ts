@@ -438,7 +438,7 @@ export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
     name: 'application',
     options: {
       name,
-      'language': 'ts',
+      language: 'ts',
     },
   });
 
@@ -457,8 +457,8 @@ export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
       options: {
         path: name,
         db: args.t,
-      }
-    })
+      },
+    });
   }
 
   if (args.y) {
