@@ -75,7 +75,6 @@
     "jasmine": "^3.5.0",
     "jest": "^25.2.3",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.0.8",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
     "ts-jest": "^25.2.1"
@@ -88,10 +87,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
+      "pre-commit": "eslint --cache --fix"
     }
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --fix"
   }
 }
