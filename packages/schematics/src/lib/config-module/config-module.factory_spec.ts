@@ -5,10 +5,13 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('schematics', () => {
-  it('works', () => {
+  it('works', done => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('schematics', {}, Tree.empty());
+    const obsTree = runner.runSchematicAsync('schematics', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    obsTree.subscribe(tree => {
+      expect(tree.files).toEqual([]);
+      done();
+    });
   });
 });

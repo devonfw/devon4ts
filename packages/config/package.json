@@ -10,7 +10,7 @@
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint {src,apps,lib,test}/**/*.ts --fix",
+    "lint": "eslint {lib,test}/**/*.ts --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

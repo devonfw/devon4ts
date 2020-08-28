@@ -11,7 +11,7 @@
     "publish:next": "npm publish --access public --tag next",
     "test": "jest",
     "format": "prettier --write \"**/*.ts\"",
-    "lint": "eslint {utils,serializer}/**/*.ts --fix"
+    "lint": "eslint serializer/**/*.ts --fix"
   },
   "keywords": [
     "nestjs",
