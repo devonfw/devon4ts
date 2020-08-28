@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/schematics",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Schematics for devon4node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
