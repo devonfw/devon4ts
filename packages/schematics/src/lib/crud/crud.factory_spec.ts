@@ -2,18 +2,15 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
 describe('Application Factory', () => {
-  const runner: SchematicTestRunner = new SchematicTestRunner(
-    '.',
-    path.join(process.cwd(), 'src/collection.json'),
-  );
+  const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
 
   it('should manage name only', () => {
     const app: object = {
-      name: ''
+      name: '',
     };
     const options: object = {
       path: '',
-      name: 'crud'
+      name: 'crud',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
       runner.runSchematicAsync('crud', options, tree).subscribe(tree => {
@@ -42,18 +39,18 @@ describe('Application Factory', () => {
           '/test/app.e2e-spec.ts',
           '/test/jest-e2e.json',
           '/.vscode/extensions.json',
-          '/.vscode/settings.json'
+          '/.vscode/settings.json',
         ]);
-      })
-    })
+      });
+    });
   });
   it('should manage path', () => {
     const app: object = {
-      name: 'project'
+      name: 'project',
     };
     const options: object = {
       path: 'project',
-      name: 'crud'
+      name: 'crud',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
       runner.runSchematicAsync('crud', options, tree).subscribe(tree => {
@@ -82,18 +79,18 @@ describe('Application Factory', () => {
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
           '/project/.vscode/extensions.json',
-          '/project/.vscode/settings.json'
+          '/project/.vscode/settings.json',
         ]);
-      })
-    })
+      });
+    });
   });
   it('should manage name to split', () => {
     const app: object = {
-      name: 'project'
+      name: 'project',
     };
     const options: object = {
       path: 'project',
-      name: 'crudFoo'
+      name: 'crudFoo',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
       runner.runSchematicAsync('crud', options, tree).subscribe(tree => {
@@ -122,9 +119,9 @@ describe('Application Factory', () => {
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
           '/project/.vscode/extensions.json',
-          '/project/.vscode/settings.json'
+          '/project/.vscode/settings.json',
         ]);
-      })
-    })
+      });
+    });
   });
 });
