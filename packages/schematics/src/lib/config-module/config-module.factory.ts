@@ -68,6 +68,7 @@ export function configModule(options: IConfigOptions): Rule {
   if (!options.path) {
     options.path = '.';
   }
+  options.path = strings.dasherize(options.path);
 
   return (host: Tree): Rule => {
     options.name = JSON.parse(host.read((options.path || '.') + '/package.json')!.toString('utf-8')).name;
