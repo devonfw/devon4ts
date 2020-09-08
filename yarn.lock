@@ -13,17 +13,6 @@
     rxjs "6.5.5"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.1.12", "@angular-devkit/core@^9.0.5":
-  version "9.1.12"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.12.tgz#7cebce51918fe7f3462d8c58c9fbd5a3e2c3b3e7"
-  integrity sha512-D/GnBeSlmdgGn7EhuE32HuPuRAjvUuxi7Q6WywBI8PSsXKAGnrypghBwMATNnOA24//CgbW2533Y9VWHaeXdeA==
-  dependencies:
-    ajv "6.12.3"
-    fast-json-stable-stringify "2.1.0"
-    magic-string "0.25.7"
-    rxjs "6.5.4"
-    source-map "0.7.3"
-
 "@angular-devkit/core@9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.7.tgz#f193ccbae4c80b34188bc9cc401c16b3ced50339"
@@ -80,15 +69,6 @@
     "@angular-devkit/core" "10.0.5"
     ora "4.0.4"
     rxjs "6.5.5"
-
-"@angular-devkit/schematics@9.1.12", "@angular-devkit/schematics@^9.0.5":
-  version "9.1.12"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.12.tgz#bbf457f1b35941fddeeb1ee77336dd04ca60b8ba"
-  integrity sha512-+GYnUzmIy1/QpYitCC8mI7jcrViGHTtOKvvDPEFjU2nggjNEQaMmsHcdIsjrqggEc23ZZyebNAIewT8CMkJyrQ==
-  dependencies:
-    "@angular-devkit/core" "9.1.12"
-    ora "4.0.3"
-    rxjs "6.5.4"
 
 "@angular-devkit/schematics@9.1.7":
   version "9.1.7"
@@ -527,22 +507,6 @@
   version "9.1.1"
   resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-9.1.1.tgz#d97ebc35d20eed6d8458361cbca5c7cb85d45184"
   integrity sha512-SXY8bCQ1qacJ8AUTUxjabY8G6OjSmMPLN9MBCzGaKOjpPNX6z8zbXTbk9oU3GHZLtcxweWLCi2n49IRS4iQlwg==
-
-"@devon4node/schematics@^1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@devon4node/schematics/-/schematics-1.11.0.tgz#4771f37e26a85e896a9b561b8788c9170f379211"
-  integrity sha512-DI8/LhlWGFPdBDAn+6GKrLfgNI7qO+jqEGIsMogALr/7KunaYZje0nqBEB5sUKPKs2fP+dYeogbzx7FP1X7LOw==
-  dependencies:
-    "@angular-devkit/core" "^9.0.5"
-    "@angular-devkit/schematics" "^9.0.5"
-    "@nestjs/schematics" "^7.0.0"
-    "@schematics/angular" "^9.0.5"
-    js-yaml "^3.13.1"
-    lodash "^4.17.15"
-    pluralize "^8.0.0"
-    prettier "^2.0.0"
-    ts-morph "^7.0.0"
-    typescript "^3.8.3"
 
 "@dsherret/to-absolute-glob@^2.0.2":
   version "2.0.2"
@@ -1717,14 +1681,6 @@
   dependencies:
     "@angular-devkit/core" "10.0.5"
     "@angular-devkit/schematics" "10.0.5"
-
-"@schematics/angular@^9.0.5":
-  version "9.1.12"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.12.tgz#608e25dbd517d867002781f695336b51f05417a2"
-  integrity sha512-r4+aPAGhstsKFMwW/kOen1ACnzuLpz+vMxEpndXOqqVXLkAMsuAbQUFYjIlMy6fH4zdhpI90EJZ1PbOrAXvKxA==
-  dependencies:
-    "@angular-devkit/core" "9.1.12"
-    "@angular-devkit/schematics" "9.1.12"
 
 "@schematics/schematics@0.1000.5":
   version "0.1000.5"
