@@ -1,4 +1,4 @@
-import { Path } from '@angular-devkit/core';
+import { Path, strings } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
 import { packagesVersion } from '../packagesVersion';
@@ -46,5 +46,11 @@ function updateMain(project: string | undefined): Rule {
 }
 
 export function security(options: ISecurityInitializer): Rule {
-  return chain([updatePackageJson(options.path), updateMain(options.path)]);
+  return (): any => {
+    if (!options.path) {
+      options.path = '.';
+    }
+    options.path = strings.dasherize(options.path);
+    return chain([updatePackageJson(options.path), updateMain(options.path)]);
+  };
 }
