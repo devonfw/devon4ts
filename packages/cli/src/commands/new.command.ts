@@ -525,6 +525,8 @@ export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
  * @param args program arguments
  */
 export async function handler(args: yargs.Arguments): Promise<void> {
+  args.name = strings.dasherize(args.name as string);
+
   if (args.n) {
     await generateCode(args);
   } else {
