@@ -6,6 +6,7 @@ import { ChildProcess, spawn } from 'child_process';
 import { writeFile } from 'fs';
 import fetch from 'node-fetch';
 import { join, resolve } from 'path';
+import { strings } from '@angular-devkit/core';
 
 export function mapSchematicOptions(collectionName: string, options: Input[]): string[] {
   return options.reduce(
@@ -86,10 +87,11 @@ export async function addGitIgnore(folder: string): Promise<void> {
 }
 
 export async function initGit(appPath: string): Promise<void> {
+  const path = strings.dasherize(appPath);
   console.log(chalk.blueBright('Initializing git repository... please wait'));
   const runner = new GitRunner();
-  await runner.run('init', true, join(process.cwd(), appPath));
-  await addGitIgnore(join(process.cwd(), appPath));
+  await runner.run('init', true, join(process.cwd(), path));
+  await addGitIgnore(join(process.cwd(), path));
   console.log(chalk.greenBright('Git initialization ends successfuly'));
 }
 
