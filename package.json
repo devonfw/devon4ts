@@ -25,6 +25,7 @@
     "@nestjs/schematics": "^7.0.0",
     "@schematics/angular": "^10.0.5",
     "chalk": "^4.0.0",
+    "chokidar": "^3.4.2",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.0.6",
     "js-yaml": "^3.13.1",
