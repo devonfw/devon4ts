@@ -1,0 +1,38 @@
+= devon4node changelog
+
+This file documents all notable changes to https://github.com/devonfw/devon4node[devon4node].
+
+== 3.0
+
+On this release we have added more options to cli new command and fixed some bugs.
+
+* https://github.com/devonfw/devon4node/pull/298[#298]: Fix cli project creation with uppercase and initialization.
+* https://github.com/devonfw/devon4node/pull/295[#295]: Add tests to custom schematics
+* https://github.com/devonfw/devon4node/pull/223[#223]: Add no interactive new project with modules command.
+* https://github.com/devonfw/devon4node/pull/214[#214]: Update swagger api decorators.
+
+== 2.0
+
+On this release the cli, packages and documentation have been updated, also fixed some bugs.
+
+* https://github.com/devonfw/devon4node/pull/108[#108]: Update cli documentation.
+* https://github.com/devonfw/devon4node/pull/107[#107]: Update the coding conventions guide. 
+* https://github.com/devonfw/devon4node/pull/106[#106]: Remove autocomplete documentation as it is not working.
+* https://github.com/devonfw/devon4node/pull/71[#71]: Update schematics to generate new config module.
+* https://github.com/devonfw/devon4node/pull/69[#96]: First draft of the doc on the import of ESLint reports into SonarQube.
+
+== 1.11.0
+* https://github.com/devonfw/devon4node/pull/69[#69]: Move from TSLint to ESLint.
+* https://github.com/devonfw/devon4node/pull/26[#26]: Update references to new CobiGen repository URL.
+* https://github.com/devonfw/devon4node/pull/25[#25]: Update package dependencies.
+* https://github.com/devonfw/devon4node/pull/24[#24]: Prettify on new project. Solved id's problem on migration.
+* https://github.com/devonfw/devon4node/pull/23[#23], https://github.com/devonfw/devon4node/issues/22[#22]: Login as waiter waiter, fix waiter ID unique constraint.
+
+== 1.0
+
+On this release the cli, schematics, mailer module, common module and samples have been added, the documentation has been updated.
+
+* https://github.com/devonfw/devon4node/pull/17[#17], https://github.com/devonfw/devon4node/pull/18[#18]: Add CLI, Schematics, Mailer module, Common module and Samples.
+* https://github.com/devonfw/devon4node/pull/16[#16]: Add Travis CI configuration for documentation workflow.
+* https://github.com/devonfw/devon4node/pull/13[#13]: Add License file and project docs
+* https://github.com/devonfw/devon4node/pull/11[#17]: Refactor devon4node template.
