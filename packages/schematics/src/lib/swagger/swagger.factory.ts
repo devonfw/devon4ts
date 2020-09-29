@@ -1,4 +1,4 @@
-import { join, Path } from '@angular-devkit/core';
+import { join, Path, strings } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import {
   addDecoratorToClassProp,
@@ -200,11 +200,16 @@ function updateMain(project: string) {
 }
 
 export function swagger(options: { path?: string }): Rule {
-  const projectPath = options.path || '.';
-  return chain([
-    updatePackageJson(projectPath),
-    updateMain(projectPath),
-    updateNestCliJson(projectPath),
-    updateBaseEntity(projectPath),
-  ]);
+  return (): any => {
+    if (!options.path) {
+      options.path = '.';
+    }
+    options.path = strings.dasherize(options.path);
+    return chain([
+      updatePackageJson(options.path),
+      updateMain(options.path),
+      updateNestCliJson(options.path),
+      updateBaseEntity(options.path),
+    ]);
+  };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/common",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "devon4node common library.",
   "main": "dist/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "publish:next": "npm publish --access public --tag next",
     "test": "jest",
     "format": "prettier --write \"**/*.ts\"",
-    "lint": "eslint {utils,serializer}/**/*.ts --fix"
+    "lint": "eslint serializer/**/*.ts --fix"
   },
   "keywords": [
     "nestjs",
@@ -31,9 +31,9 @@
   },
   "peerDependencies": {
     "@nestjs/common": "^7.0.4",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.4"
   },
   "repository": {
     "type": "git",

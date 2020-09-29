@@ -99,6 +99,7 @@ export function authJWT(options: IAuthJWTOptions): Rule {
     if (!options.path) {
       options.path = '.';
     }
+    options.path = strings.dasherize(options.path);
     const config: boolean = existsConfigModule(tree, options.path);
     return chain([
       mergeWith(

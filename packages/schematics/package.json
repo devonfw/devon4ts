@@ -1,11 +1,11 @@
 {
   "name": "@devon4node/schematics",
-  "version": "2.0.3",
+  "version": "3.0.1",
   "description": "Schematics for devon4node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\"",
-    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts --fix",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
     "copy:schemas": "cp node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
@@ -23,10 +23,10 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.0.5",
-    "@angular-devkit/schematics": "^9.0.5",
+    "@angular-devkit/core": "^10.0.5",
+    "@angular-devkit/schematics": "^10.0.5",
     "@nestjs/schematics": "^7.0.0",
-    "@schematics/angular": "^9.0.5",
+    "@schematics/angular": "^10.0.5",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",

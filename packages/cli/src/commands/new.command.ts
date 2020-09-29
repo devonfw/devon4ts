@@ -300,6 +300,36 @@ export function builder(args: yargs.Argv): yargs.Argv {
       alias: 's',
       describe: 'Allow to skip package installation.',
       type: 'boolean',
+    })
+    .option('typeorm', {
+      alias: 't',
+      describe: 'Allow to select the type of database.',
+      type: 'string',
+    })
+    .option('config-module', {
+      alias: 'c',
+      describe: 'Allow to add config module or not.',
+      type: 'boolean',
+    })
+    .option('swagger', {
+      alias: 'a',
+      describe: 'Allow to add swagger module or not.',
+      type: 'boolean',
+    })
+    .option('security', {
+      alias: 'y',
+      describe: 'Allow to add security (cors + HTTP security headers) or not.',
+      type: 'boolean',
+    })
+    .option('mailer', {
+      alias: 'm',
+      describe: 'Allow to add mailer module or not.',
+      type: 'boolean',
+    })
+    .option('auth-jwt', {
+      alias: 'j',
+      describe: 'Allow to add Auth JWT module or not.',
+      type: 'boolean',
     });
 }
 
@@ -402,12 +432,80 @@ export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
     process.exit(1);
   }
 
-  inputs.push({ name: 'name', value: name });
+  const allInOne: ICollectionToRun[] = [];
+
+  allInOne.push({
+    name: 'application',
+    options: {
+      name,
+      language: 'ts',
+    },
+  });
+
+  if (args.c) {
+    allInOne.push({
+      name: 'config-module',
+      options: {
+        path: name,
+      },
+    });
+  }
+
+  if (args.t) {
+    allInOne.push({
+      name: 'typeorm',
+      options: {
+        path: name,
+        db: args.t,
+      },
+    });
+  }
+
+  if (args.y) {
+    allInOne.push({
+      name: 'security',
+      options: {
+        path: name,
+      },
+    });
+  }
+
+  if (args.m) {
+    allInOne.push({
+      name: 'mailer',
+      options: {
+        path: name,
+      },
+    });
+  }
+
+  if (args.a) {
+    allInOne.push({
+      name: 'swagger',
+      options: {
+        path: name,
+      },
+    });
+  }
+
+  if (args.j) {
+    allInOne.push({
+      name: 'auth-jwt',
+      options: {
+        path: name,
+      },
+    });
+  }
+
+  const file = await tmp.file();
+  writeFileSync(file.path, JSON.stringify(allInOne));
+
+  inputs.push({ name: 'path', value: '"' + file.path + '"' });
   if (args.d) {
     inputs.push({ name: 'dry-run', value: !!args.d });
   }
 
-  await generateApplicationFiles('@devon4node/schematics:application', inputs);
+  await generateApplicationFiles('@devon4node/schematics:all-in-one', inputs);
 
   if (!args.d) {
     if (!args.g) {
@@ -427,6 +525,8 @@ export async function generateCode(args: yargs.Arguments<any>): Promise<void> {
  * @param args program arguments
  */
 export async function handler(args: yargs.Arguments): Promise<void> {
+  args.name = strings.dasherize(args.name as string);
+
   if (args.n) {
     await generateCode(args);
   } else {

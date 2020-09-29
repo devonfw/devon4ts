@@ -2,7 +2,7 @@
 
 'use strict';
 
-const devon4node = require("../dist/devon4node");
+const devon4node = require('../dist/devon4node');
 
 try {
   devon4node.executable();

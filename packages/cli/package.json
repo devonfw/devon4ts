@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/cli",
-  "version": "2.0.3",
+  "version": "3.0.1",
   "description": "devon4node CLI",
   "bin": {
     "devon4node": "./bin/devon4node",
@@ -10,7 +10,7 @@
     "build": "tsc -p tsconfig.json",
     "build:prod": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts --fix",
     "test": "npm run build && jasmine src/**/*.spec.js",
     "prepublish:npm": "npm run build:prod",
     "publish:npm": "npm publish --access public",
@@ -38,14 +38,14 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@angular-devkit/schematics-cli": "^0.901.0",
-    "@devon4node/schematics": "^2.0.3",
+    "@angular-devkit/schematics-cli": "^0.1000.5",
+    "@devon4node/schematics": "^3.0.1",
     "@nestjs/cli": "^7.0.2",
     "chalk": "^4.0.0",
     "inquirer": "^7.0.6",
     "node-fetch": "^2.6.0",
     "rxjs": "^6.5.4",
-    "tmp-promise": "^2.0.2",
+    "tmp-promise": "^3.0.2",
     "typeorm": "^0.2.24",
     "yargs": "^15.1.0"
   }

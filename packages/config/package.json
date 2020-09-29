@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/config",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "devon4node module for easy application configuration.",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
     "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint {src,apps,lib,test}/**/*.ts --fix",
+    "lint": "eslint {lib,test}/**/*.ts --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -32,8 +32,8 @@
   "license": "Apache-2.0",
   "peerDependencies": {
     "@nestjs/common": "^7.0.4",
-    "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.1",
+    "class-transformer": "^0.3.1",
+    "class-validator": "^0.12.0-rc.0",
     "lodash": "^4.17.15"
   },
   "repository": {

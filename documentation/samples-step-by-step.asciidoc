@@ -199,21 +199,21 @@ export abstract class BaseEntity {
 ----
 @Entity()
 export class Employee extends BaseEntity {
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   @IsDefined({ groups: [CrudValidationGroups.CREATE] })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @MaxLength(255)
   @Column('varchar', { length: 255, nullable: true })
   name?: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   @IsDefined({ groups: [CrudValidationGroups.CREATE] })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @MaxLength(255)
   @Column('varchar', { length: 255, nullable: true })
   surname?: string;
 
-  @ApiModelPropertyOptional()
+  @ApiPropertyOptional()
   @IsDefined({ groups: [CrudValidationGroups.CREATE] })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @MaxLength(255)
@@ -227,7 +227,7 @@ export class Employee extends BaseEntity {
 +
 [source,typescript]
 ----
-@ApiUseTags('employee')
+@ApiTags('employee')
 ----
 +
 . Generate database migrations
