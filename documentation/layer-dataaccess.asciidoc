@@ -23,7 +23,7 @@ This layer is implemented using providers. Those providers could be: services, r
 
 == Database
 
-We strongly recommend link:Although services can be used for this layer, they should not be confused with the service layer. Services in this layer are responsible for data access, while services in the service layer are responsible for business logic. link:https://typeorm.io[TypeORM] for database management in devon4node applications. TypeORM supports the most commonly used relational databases, link Oracle, MySQL, MariaDB, PostgreSQL, SQLite, MSSQL and others. Also, it supports no-relational databases like MongoDB.
+We strongly recommend link:https://typeorm.io[TypeORM] for database management in devon4node applications. Although services can be used for this layer, they should not be confused with the service layer. Services in this layer are responsible for data access, while services in the service layer are responsible for business logic. TypeORM supports the most commonly used relational databases, link Oracle, MySQL, MariaDB, PostgreSQL, SQLite, MSSQL and others. Also, it supports no-relational databases like MongoDB.
 
 TypeORM supports link:https://en.wikipedia.org/wiki/Active_record_pattern[Active Record] and Repository patterns. We recommend to use the Repository pattern. This pattern allows you to separate the data objects from the methods to manipulate the database.
 
