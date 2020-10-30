@@ -81,8 +81,8 @@ export class SomeModule {}
 
 == Productivity
 
-devon4node is designed to create secure enterprise applications. But also, it allow you to do it in a fast way. To increase the productivity devon4node, devon4node provide a CLI with some commands in order to generate some boilerplate code.
+devon4node is designed to create secure enterprise applications. But also, it allow you to do it in a fast way. To increase the productivity devon4node, devon4node provide schematics in order to generate some boilerplate code.
 
-For example, to create a module you need to create a new file for a module (or copy it) and write the code, then you need to import it in the AppModule. This is a easy example, but you can introduce some errors: forget to import it in the AppModule, introduce errors with the copy/paste and so on. By using the command `devon4node g module --name <module-name>` it will do everything for you. Just a simple command. In this specific case probably you do not see any advantage, but there are other complex cases where you can generate more complex code with the `devon4node` command.
+For example, to create a module you need to create a new file for a module (or copy it) and write the code, then you need to import it in the AppModule. This is a easy example, but you can introduce some errors: forget to import it in the AppModule, introduce errors with the copy/paste and so on. By using the command `nest g module --name <module-name>` it will do everything for you. Just a simple command. In this specific case probably you do not see any advantage, but there are other complex cases where you can generate more complex code with nest and devon4node schematics command.
 
-See link:guides-cli[CLI] and link:guides-code-generation[code generation] in order to know how to increase your productivity creating devon4node applications.
+See link:guides-code-generation[code generation] in order to know how to increase your productivity creating devon4node applications.
