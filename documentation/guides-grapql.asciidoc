@@ -54,13 +54,13 @@ import { Document } from 'mongoose';
 @Schema()
 export class Todo extends Document {
   @Prop()
-  id: number;
+  id!: number;
 
   @Prop()
-  task: string;
+  task: string | undefined;
 
   @Prop()
-  status: boolean;
+  status: boolean | undefined;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);
@@ -97,7 +97,7 @@ export class TodosService {
 
   async create(task: string): Promise<Todo> {
     const object = {
-      task: task
+      task: task,
     }
     const createdTodo = new this.todoModel(object);
     return createdTodo.save();
@@ -140,7 +140,7 @@ To install it:
 yarn add @nestjs/graphql graphql-tools graphql apollo-server-express
 ----
 
-=== Squema first
+=== Schema first
 This tutorial uses the schema first method.
 
 First we need to import GraphQLModule to our `app.module.ts`.
@@ -222,9 +222,31 @@ type Query {
 
 Here we have also an argument decorator `@Args` which is an object with the arguments passed into the field in the query.
 
-Learn more about resolvers and their argument decorators on the https://docs.nestjs.com/graphql/resolvers#schema-first[NestJS documentation].
+Learn more about resolvers, mutations and their argument decorators on the https://docs.nestjs.com/graphql/resolvers#schema-first[NestJS documentation].
 
 
+Now start the server and go to `http://localhost:3000/graphql` you should see a playground, here you can test your resolvers.
 
-=== Code first
-On this approach we are going to use decorators to generate de schema.
+For try querys you only need to write a json with what you need:
+
+[source,typescript]
+----
+{
+  findAll{
+    task
+  }
+}
+----
+
+To test the mutation you can:
+
+[source,typescript]
+----
+mutation{
+  createTodo (
+    task: "aasas"
+  ){
+    id, task
+  }
+}
+----
