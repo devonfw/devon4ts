@@ -1,0 +1,14 @@
+type Todo {
+  id: ID
+  task: String
+}
+
+type Query {
+  todos: [Todo]
+  todoById: Todo
+}
+
+type Mutation {
+  createTodo(task: String): Todo
+  deleteTodo(id: String): Todo
+}
