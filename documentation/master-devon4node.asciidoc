@@ -17,7 +17,6 @@ include::layer-dataaccess[leveloffset=2]
 == Guides
 
 include::guides-key-principles[leveloffset=2]
-include::guides-cli[leveloffset=2]
 include::guides-code-generation[leveloffset=2]
 include::guides-coding-conventions[leveloffset=2]
 include::guides-dependency-injection[leveloffset=2]

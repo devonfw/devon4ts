@@ -17,7 +17,7 @@ toc::[]
 
 = Configuration Module
 
-devon4node provides a way to generate a configuration module inside your appication. To generate it you only need to execute the command `devon4node generate config-module`. This command will generate inside your application:
+devon4node provides a way to generate a configuration module inside your appication. To generate it you only need to execute the command `nest g -c @devon4node/schematics config-module`. This command will generate inside your application:
 
 * Configuration module inside the core module.
 * config folder where all environment configuration are stored.

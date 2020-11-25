@@ -19,7 +19,7 @@ toc::[]
 
 devon4node provides a way to generate a default authentication module using JWT (JSON Web Token). It uses the `@nestjs/passport` library descrbe link:https://docs.nestjs.com/techniques/authentication[here].
 
-To generate the devon4node auth-jwt module you only need to execute the command: `devon4node generate auth-jwt`. We generate this module inside the applications instead of distributing a npm package because this module is prone to be modified depending on the requirements. It alse generate a basic user module.
+To generate the devon4node auth-jwt module you only need to execute the command: `nest generate -c @devon4node/schematics auth-jwt`. We generate this module inside the applications instead of distributing a npm package because this module is prone to be modified depending on the requirements. It alse generate a basic user module.
 
 In this page we will explain the default implementation provided by devon4node. For more information about authentication, JWT, passport and other you can see:
 

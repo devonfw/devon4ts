@@ -21,7 +21,7 @@ This guide covers the import of ESLint reports into SonarQube instances in CI en
 
 === Configuring the ESLint analysis
 
-You can configure the ESLint analysis parameters in the `.eslintrc.js` file inside the top-level directory of your project. If you created your node project using the devon4node CLI, this file will already exist. If you want to make further adjustments to it, have a look at the link:https://eslint.org/docs/user-guide/configuring[ESLint documentation].
+You can configure the ESLint analysis parameters in the `.eslintrc.js` file inside the top-level directory of your project. If you created your node project using the devon4node application schematic, this file will already exist. If you want to make further adjustments to it, have a look at the link:https://eslint.org/docs/user-guide/configuring[ESLint documentation].
 
 The ESLint analysis script `lint` is already configured in the `scripts` part of your `package.json`. Simply add `-f json > report.json`, so that the output of the analysis is saved in a .json file. Additional information to customization options for the ESLint CLI can be found link:https://eslint.org/docs/user-guide/command-line-interface#options[here].
 

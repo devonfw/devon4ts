@@ -23,7 +23,7 @@ In order to ensure that you are following the devon4node coding conventions, you
 
 - `ESLint`: link:https://eslint.org/[ESLint] ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. We recommend to use the link:https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint[ESLint VSCode extension] (included in the devonfw Platform Extension Pack) in order to be able to see the linting errors while you are developing.
 - `Prettier`: link:https://prettier.io/[Prettier] is a code formatter. We recommend to use the Prettier VSCode extension (included in the devonfw Platform Extension Pack) and enable the `editor.formatOnSave` option.
-- `devon4node CLI`: this tool will generate code follwing the devon4node coding conventions. Also, when you generate a new project using the devon4node CLI, it generates the configuration files for TSLint and Prettier that satisfy the devon4node coding conventions.
+- `devon4node application schematic`: this tool will generate code follwing the devon4node coding conventions. Also, when you generate a new project using the devon4node application schematic, it generates the configuration files for TSLint and Prettier that satisfy the devon4node coding conventions.
 
 When you combine all tools, you can be sure that you follow the devon4node coding conventions.
 
