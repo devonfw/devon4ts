@@ -24,10 +24,6 @@ Those tools are:
 - link:https://www.npmjs.com/package/@devon4node/schematics[devon4node schematics through Nest CLI]
 - link:https://github.com/devonfw/cobigen[CobiGen]
 
-// == Differences between tools
-
-// As you may have noticed, we have two tools to generate code, instead of having just one. What is the reason? The reason is that each tool starts from a different input. devon4node CLI receives user input, while cobigen receives code already exists and generates the rest accordingly. So, in order to increase the productivity, we can combine the use of both.
-
 == Nest CLI and Devon4node schematics
  
 We are going to use the Nest CLI to generate code of our application, you can know more about NodeJs CLI in the official link:https://docs.nestjs.com/cli/overview:[documentation].
@@ -36,11 +32,12 @@ We are going to use the Nest CLI to generate code of our application, you can kn
 
 First of all, you need to install Nest CLI 
 
-Execute the command `yarn global add @nestjs/cli`
+Execute the command `yarn global add @nestjs/cli`.
+You can also use npm: `npm install -g @nestjs/cli`
 
 And then Devon4node schematics globally with the following command:
 
-`yarn global add @devon4node/schematics`
+`yarn global add @devon4node/schematics` or `npm install -g @devon4node/schematics`
 
 [NOTE] 
 ====
@@ -127,13 +124,14 @@ Execute `nest g -c @devon4node/schematics security`
 === Generate database migrations
 
 . Generate database migrations
-.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node`
+.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node` or `npm i -g ts-node`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
+image::images/insert-data.PNG[]
 It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the todo example
 
 As typeorm is the tool used for DB. You can check official documentation for more information. 
-See link::[typeorm CLI documentation].
+See link::https://typeorm.io/#/using-cli[typeorm CLI documentation].
 
 == CobiGen
 
