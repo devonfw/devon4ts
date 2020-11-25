@@ -131,7 +131,7 @@ image::images/insert-data.PNG[]
 It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the todo example
 
 As typeorm is the tool used for DB. You can check official documentation for more information. 
-See link::https://typeorm.io/#/using-cli[typeorm CLI documentation].
+See link:https://typeorm.io/#/using-cli[typeorm CLI documentation].
 
 == CobiGen
 
