@@ -19,7 +19,7 @@ toc::[]
 
 TypeORM is the default ORM provided by devon4node. It supports MySQL, MariaDB, Postgres, CockroachDB, SQLite, Microsoft SQL Server, Oracle, sql.js relational dabases and also supports MongoDB NoSQL database.
 
-Add TypeORM support to a devon4node application is very easy: you only need to execute the command `devon4node generate typeorm` and it will add all required dependencies to the project and also imports the @nestjs/typeorm module.
+Add TypeORM support to a devon4node application is very easy: you only need to execute the command `nest g -c @devon4node/schematics typeorm` and it will add all required dependencies to the project and also imports the @nestjs/typeorm module.
 
 For more information about TypeORM and the integration with NestJS you can visit link:https://typeorm.io[TypeORM webpage], link:https://github.com/typeorm/typeorm[TypeORM GitHub repository] and link:https://docs.nestjs.com/recipes/sql-typeorm[NestJS TypeORM documentation page]
 
@@ -59,9 +59,9 @@ So, you only need to maintain the ormconfig.json file for the local environment.
 
 == Entity
 
-Entity is a class that maps to a database table. The devon4node CLI has a generator to create new entities. You only need to execute the command `devon4node generate entity --name <module-name>/<entity-name>` and it generate the entity.
+Entity is a class that maps to a database table. The devon4node schematics has a generator to create new entities. You only need to execute the command `nest g -c @devon4node/schematics entity <entity-name>` and it generate the entity.
 
-In the entity, you must define all columns, relations, primary keys of your database table. By default, devon4node provides a class named `BaseEntity`. All entities created with the devon4node CLI will extends the `BaseEntity`. This entity provides you some common columns:
+In the entity, you must define all columns, relations, primary keys of your database table. By default, devon4node provides a class named `BaseEntity`. All entities created with the devon4node schematics will extends the `BaseEntity`. This entity provides you some common columns:
 
 - id: the primary key of you table
 - version: the version of the entry (used for auditing purposes)
@@ -85,7 +85,7 @@ To use a repository you only need to:
 })
 ----
 +
-NOTE: if you generate the entities with the devon4node CLI, this step is not neccesary, devon4node CLI do it for you.
+NOTE: if you generate the entities with the devon4node schematic, this step is not neccesary, devon4node schematic will do it for you.
 +
 - Inject the repository as dependency in your service:
 +

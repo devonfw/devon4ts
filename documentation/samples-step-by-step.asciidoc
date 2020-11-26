@@ -33,17 +33,35 @@ The employee application needs:
 
 == Create the application
 
-. Install devon4node CLI
+. Install Nest CLI
 +
-Execute the command `npm i -g @devon4node/cli`
+Execute the command `yarn global add @nestjs/cli`
++
+. Install devon4node schematics
++
+. Execute the command `yarn global add @devon4node/schematics`
 +
 . Create the new application
 +
-Execute the command `devon4node new employee`
+Execute the command `nest g -c @devon4node/schematics application employee`
 +
-Then, you need to select the components interactively. The result will be:
+. Then, we need to add some components, go inside the project folder and execute the following commands:
 +
-image::images/sample/new-app.png[]
+Go inside project folder: `cd employee`.
++
+Config module: `nest g -c @devon4node/schematics config-module`.
++
+Typeorm database, choose sqlite DB when asked `nest g -c @devon4node/schematics typeorm`.
++
+Add security: `nest g -c @devon4node/schematics security`.
++
+Swagger module: `nest g -c @devon4node/schematics swagger`.
++
+Auth-jwt authentication: `nest g -c @devon4node/schematics auth-jwt`.
++
+Add an application module: `nest g -c @devon4node/schematics module employee`.
++
+Add CRUD component: `nest g -c @devon4node/schematics crud employee/employee`.
 +
 With this, you will generate the following files:
 +
@@ -120,7 +138,7 @@ With this, you will generate the following files:
 Execute the commands:
 +
 ----
-cd employee
+yarn install
 code .
 ----
 +
@@ -232,9 +250,10 @@ export class Employee extends BaseEntity {
 +
 . Generate database migrations
 .. Build the application: `yarn build`
-.. Generate the tables creation migration: `devon4node db migration:generate -n CreateTables`
+.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node`
+.. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
-image::images/sample/generate-migrations.png[]
+image::images/sample/generate-migrations.PNG[] 
 +
 The optput will be something similar to:
 +
@@ -263,9 +282,9 @@ export class CreateTables1572480273012 implements MigrationInterface {
 +
 The number in the name is a timestamp, so may change in your application.
 +
-.. Create a migration to insert data:`devon4node db migration:create -n InsertData`
+.. Create a migration to insert data:`yarn run typeorm migration:generate -n InsertData`
 +
-image::images/sample/insert-data.png[]
+image::images/sample/insert-data.PNG[]
 +
 and fill in with the following code:
 +

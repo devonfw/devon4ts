@@ -21,131 +21,117 @@ As we mention in the page link:guide-key-principles[key principles], one of our 
 
 Those tools are:
 
-- link:guides-cli[devon4node CLI]
+- link:https://www.npmjs.com/package/@devon4node/schematics[devon4node schematics through Nest CLI]
 - link:https://github.com/devonfw/cobigen[CobiGen]
 
-== Differences between tools
+== Nest CLI and Devon4node schematics
+ 
+We are going to use the Nest CLI to generate code of our application, you can know more about NodeJs CLI in the official link:https://docs.nestjs.com/cli/overview:[documentation].
 
-As you may have noticed, we have two tools to generate code, instead of having just one. What is the reason? The reason is that each tool starts from a different input. devon4node CLI receives user input, while cobigen receives code already exists and generates the rest accordingly. So, in order to increase the productivity, we can combine the use of both.
+=== Install devon4node schematics
 
-== devon4node CLI
+First of all, you need to install Nest CLI 
 
-The description of devon4node CLI is discussed on his link:guides-cli[page]. Anyway, in this page we will explain how to use it with the interactive mode.
+Execute the command `yarn global add @nestjs/cli`.
+You can also use npm: `npm install -g @nestjs/cli`
 
-=== New application
+And then Devon4node schematics globally with the following command:
 
-To create a new devon4node application, you just need to type the command `devon4node new`
+`yarn global add @devon4node/schematics` or `npm install -g @devon4node/schematics`
 
-image::images/new-app1.jpg[]
+[NOTE] 
+====
+If you get an error trying execute any devon4node schematic related to collection not found, try to reinstall devon4node/schematics on the project folder or be sure that schematics folder is inside @devon4node in node_modules. 
+`yarn add @devon4node/schematics`
+====
 
-The interactive mode will request you some input. First, you need to choose the general components of the application. Those are described in the link:guides-cli[devon4node CLI] page.
+=== Generate new devon4node application
 
-If you choose database, then you can select the database that you want:
 
-image::images/new-app2.jpg[]
+To start creating a devon4node application, execute the command:
 
-Then, you can choose to create application modules or not.
+`nest g -c @devon4node/schematics application [application-name]`
 
-If yes, you need introduce the module name:
+If you do not put a name, the command line will ask you for one.
 
-image::images/new-app3.jpg[]
+=== Generate code for Typeorm
 
-And then, select the components
+Initialize typeorm into your current project in a correct way.
 
-image::images/new-app4.jpg[]
+`nest g -c @devon4node/schematics typeorm`
 
-and names
+Then, you will be asked about which DB you want to use.
 
-image::images/new-app5.jpg[]
+image:images/typeorm-schematic.PNG[]
 
-It will generate some files:
+=== Generate CRUD
 
-----
-CREATE /test-app/.prettierrc (51 bytes)
-CREATE /test-app/nest-cli.json (67 bytes)
-CREATE /test-app/package.json (2358 bytes)
-CREATE /test-app/README.md (3370 bytes)
-CREATE /test-app/tsconfig.build.json (97 bytes)
-CREATE /test-app/tsconfig.json (568 bytes)
-CREATE /test-app/tslint.json (426 bytes)
-CREATE /test-app/src/main.ts (1033 bytes)
-CREATE /test-app/test/app.e2e-spec.ts (561 bytes)
-CREATE /test-app/test/jest-e2e.json (183 bytes)
-CREATE /test-app/src/app/app.controller.spec.ts (617 bytes)
-CREATE /test-app/src/app/app.controller.ts (274 bytes)
-CREATE /test-app/src/app/app.module.ts (371 bytes)
-CREATE /test-app/src/app/app.service.ts (142 bytes)
-CREATE /test-app/src/app/core/core.module.ts (1047 bytes)
-CREATE /test-app/src/app/shared/logger/winston.logger.ts (1081 bytes)
-CREATE /test-app/src/app/core/configuration/configuration.module.ts (214 bytes)
-CREATE /test-app/src/app/core/configuration/model/index.ts (24 bytes)
-CREATE /test-app/src/app/core/configuration/model/types.ts (280 bytes)
-CREATE /test-app/src/app/core/configuration/services/configuration.service.spec.ts (2950 bytes)
-CREATE /test-app/src/app/core/configuration/services/configuration.service.ts (1078 bytes)
-CREATE /test-app/src/app/core/configuration/services/index.ts (42 bytes)
-CREATE /test-app/src/config/default.ts (322 bytes)
-CREATE /test-app/src/config/develop.ts (817 bytes)
-CREATE /test-app/src/config/production.ts (817 bytes)
-CREATE /test-app/src/config/test.ts (816 bytes)
-CREATE /test-app/src/config/uat.ts (817 bytes)
-CREATE /test-app/docker-compose.yml (25 bytes)
-CREATE /test-app/ormconfig.json (467 bytes)
-CREATE /test-app/src/app/shared/model/entities/base-entity.entity.ts (517 bytes)
-CREATE /test-app/src/app/core/auth/auth.module.ts (897 bytes)
-CREATE /test-app/src/app/core/auth/controllers/auth.controller.spec.ts (3086 bytes)
-CREATE /test-app/src/app/core/auth/controllers/auth.controller.ts (1087 bytes)
-CREATE /test-app/src/app/core/auth/controllers/index.ts (36 bytes)
-CREATE /test-app/src/app/core/auth/decorators/index.ts (36 bytes)
-CREATE /test-app/src/app/core/auth/decorators/roles.decorator.spec.ts (870 bytes)
-CREATE /test-app/src/app/core/auth/decorators/roles.decorator.ts (124 bytes)
-CREATE /test-app/src/app/core/auth/guards/index.ts (32 bytes)
-CREATE /test-app/src/app/core/auth/guards/roles.guard.spec.ts (2354 bytes)
-CREATE /test-app/src/app/core/auth/guards/roles.guard.ts (712 bytes)
-CREATE /test-app/src/app/core/auth/model/index.ts (74 bytes)
-CREATE /test-app/src/app/core/auth/model/roles.enum.ts (39 bytes)
-CREATE /test-app/src/app/core/auth/model/user-request.interface.ts (140 bytes)
-CREATE /test-app/src/app/core/auth/services/auth.service.spec.ts (3777 bytes)
-CREATE /test-app/src/app/core/auth/services/auth.service.ts (1076 bytes)
-CREATE /test-app/src/app/core/auth/services/index.ts (33 bytes)
-CREATE /test-app/src/app/core/auth/strategies/index.ts (33 bytes)
-CREATE /test-app/src/app/core/auth/strategies/jwt.strategy.spec.ts (713 bytes)
-CREATE /test-app/src/app/core/auth/strategies/jwt.strategy.ts (618 bytes)
-CREATE /test-app/src/app/core/user/user.module.ts (338 bytes)
-CREATE /test-app/src/app/core/user/model/index.ts (82 bytes)
-CREATE /test-app/src/app/core/user/model/dto/user-payload.dto.ts (188 bytes)
-CREATE /test-app/src/app/core/user/model/entities/user.entity.ts (542 bytes)
-CREATE /test-app/src/app/core/user/services/index.ts (33 bytes)
-CREATE /test-app/src/app/core/user/services/user.service.spec.ts (2127 bytes)
-CREATE /test-app/src/app/core/user/services/user.service.ts (1065 bytes)
-CREATE /test-app/test/auth/auth.service.mock.ts (948 bytes)
-CREATE /test-app/test/user/user.repository.mock.ts (1095 bytes)
-CREATE /test-app/src/app/test/test.module.ts (469 bytes)
-CREATE /test-app/src/app/test/model/entities/test.entity.ts (174 bytes)
-CREATE /test-app/src/app/test/model/index.ts (88 bytes)
-CREATE /test-app/src/app/test/controllers/test.crud.controller.ts (393 bytes)
-CREATE /test-app/src/app/test/services/test.crud.service.ts (394 bytes)
-CREATE /test-app/src/app/test/services/index.ts (69 bytes)
-CREATE /test-app/src/app/test/controllers/index.ts (75 bytes)
-CREATE /test-app/src/app/test/controllers/test.controller.spec.ts (496 bytes)
-CREATE /test-app/src/app/test/controllers/test.controller.ts (107 bytes)
-CREATE /test-app/src/app/test/services/test.service.spec.ts (464 bytes)
-CREATE /test-app/src/app/test/services/test.service.ts (92 bytes)
-CREATE /test-app/src/app/test/model/entities/another-test.entity.ts (181 bytes)
-----
+Generate CRUD methods for a entity. Requires TypeORM installed in the project.
 
-Then, install all dependencies, format the code and initialize git.
+It will add the @nestjsx/crud module as a project dependency. Then, generates an entity, a CRUD controller and a CRUD service. It also register the entity, controller and service in the module.
 
-=== Generate more components
+Execute `nest g -c @devon4node/schematics crud` and then you will need to write a name for the crud.
 
-The `generate` command has also an interactive mode. To execute `generate` command in interactive mode, you only need to change to an existing application and then execute the command `devon4node generate -i`
+image::images/crud-schematic.PNG[]
+ 
+=== Generate Typeorm entity
 
-image::images/generate-interactive.jpg[]
+Add a TypeOrm entity to your project. Requires TypeORM installed in the project.
 
-The functionality is the same as new command, but the difference is `generate` command do not generate the base application.
+Execute `nest g -c @devon4node/schematics entity` and you will be asked for an entity name.
+
+=== Add config-module
+
+Add the config module to the project.
+
+It will add the @devon4node/common module as a project dependency. Then, it will generate the configuration module into your project and add it in the core module. Also, it generates the config files for the most common environments.
+
+The command to execute will be `nest g -c @devon4node/schematics config-module`
+
+=== Add mailer module
+
+Add @devon4node/mailer module to project.
+
+It will add the @devon4node/mailer module as a project dependency. Also, it will add it to the core module and it will generate some email template examples.
+
+Write the command `nest g -c @devon4node/schematics mailer`
+
+
+=== Add swagger module
+
+Add swagger module to project.
+
+It will add the @nestjs/swagger module as a project dependency. Also, it will update the main.ts file in order to expose the endpoint for swagger. The default endpoint is: /v1/api
+
+Execute the command `nest g -c @devon4node/schematics swagger`
+
+=== Add auth-jwt module
+
+Add the auth JWT module to the project.
+
+It will add to your project the auth-jwt and user module. Also, it will import those modules into the core module.
+
+Execute `nest g -c @devon4node/schematics auth-jwt`
+
+=== Add security
+
+Add cors and helmet to your project.
+
+It will add helmet package as project dependency and update the main.ts file in order to enable the cors and helmet in your application.
+
+Execute `nest g -c @devon4node/schematics security`
 
 === Generate database migrations
 
-The last command that we have in order to generate command is `devon4node db migration:generate -n MigrationName`. It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the link:https://github.com/devonfw/devon4node/blob/develop/samples/todo/src/migration/1571244118394-CreateTables.ts[todo example]
+. Generate database migrations
+.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node` or `npm i -g ts-node`
+.. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
++
+image::images/insert-data.PNG[]
+It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the todo example
+
+As typeorm is the tool used for DB. You can check official documentation for more information. 
+See link:https://typeorm.io/#/using-cli[typeorm CLI documentation].
 
 == CobiGen
 

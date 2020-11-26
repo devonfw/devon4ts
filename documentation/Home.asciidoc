@@ -29,7 +29,6 @@ toc::[]
 == Guides
 
 - link:guides-key-principles.asciidoc[Key Principles]
-- link:guides-cli.asciidoc[devon4node CLI]
 - link:guides-code-generation.asciidoc[Code Generation]
 - link:guides-coding-conventions.asciidoc[Coding Conventions]
 - link:guides-dependency-injection.asciidoc[Dependency Injection]

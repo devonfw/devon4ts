@@ -117,7 +117,7 @@ devon4node defines a folder structure that every devon4node application must fol
 
 ----
 
-link:guides-cli[devon4node CLI] ensures this folder structure so, please, do not create files by your own, use the link:guides-cli[devon4node CLI].
+link:guides-code-generation[devon4node schematics] ensures this folder structure so, please, do not create files by your own, use the link:guides-code-generation[devon4node schematics].
 
 === NestJS components
 

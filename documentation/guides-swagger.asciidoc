@@ -21,7 +21,7 @@ We can use swagger (OpenAPI) in order to describe the endpoints that our applica
 
 NestJS provides a module which will read the code of our application and will expose one endpoint where we can see the swagger.
 
-Add swagger to a devon4node application is simple, you only need to execute the command `devon4node generate swagger` and it will do everything for you. The next time that you start your application, you will be able to see the swagger at `/v1/api` endpoint.
+Add swagger to a devon4node application is simple, you only need to execute the command `nest g -c @devon4node/schematics swagger` and it will do everything for you. The next time that you start your application, you will be able to see the swagger at `/v1/api` endpoint.
 
 The swagger module can read your code in order to create the swagger definition, but sometimes you need to help him by decorating your handlers.
 

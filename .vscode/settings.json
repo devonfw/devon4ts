@@ -1,5 +1,7 @@
+
 {
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.preferences.quoteStyle": "single",
-  "editor.formatOnSave": true
+    "java.home": "C:/devonfw-ide-scripts-2020.08.001/software/java",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.quoteStyle": "single",
+    "editor.formatOnSave": true
 }
