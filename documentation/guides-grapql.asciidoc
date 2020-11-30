@@ -40,7 +40,7 @@ For example, on a regular API a get by id method would return something like:
 ----
 But if we want to get *only* the wind data we have to create another endpoint that returns the specified data.
 
-But instead with graphQL we can get different information without creating new endpoints, in this case we only want the wind data so:
+But instead with graphQL we can get different information without creating new endpoints, in this case we only want the wind data so it would return:
 
 [source, json]
 ----
@@ -67,9 +67,8 @@ This tutorial uses the schema first method.
 
 We assume you have already a functioning TODO module / app.
 
-If not you can use https://github.com/devonfw/devon4node/wiki/samples#devon4node-samples[Devon4node TODO sample]
+If not you can use https://github.com/devonfw/devon4node/tree/develop/samples/graphql[Devon4node GraphQL sample]
 ====
-
 
 First we need to import GraphQLModule to our `app.module.ts`.
 
@@ -100,7 +99,13 @@ The `definitions` indicates the file where the typescript definitions will autom
 
 === Schema
 
+Graphql is a typed language with `object types`, `scalars`, and `enums`.
+
+We use `querys` to define the methods we are going to use for fetching data, and `mutations` are used for modifying this data, similar to how `GET` and `POST` work.
+
 Let's define the elements, querys and mutations that our module is going to have.
+
+For that we have to create a graphql file on our module, on this case we are going to name it "schema.graphql".
 
 [source,typescript]
 ----
@@ -120,11 +125,14 @@ type Mutation {
 }
 ----
 
+For more information about Types go to the official https://graphql.org/learn/schema/[graphQL documentation]
+
+
 === Resolver
 
 Resolvers has the instructions to turn GraphQL orders into the data requested.
 
-To create a resolver we go to our module and then create a new `todo.resolver.ts` file, import the decorators needed and set our resolver.
+To create a resolver we go to our module and then create a new `todo.resolver.ts` file, import the decorators needed and set the resolver.
 
 [source,typescript]
 ----
@@ -166,7 +174,7 @@ export class TodoResolver {
 
 Here we have also an argument decorator `@Args` which is an object with the arguments passed into the field in the query.
 
-By default we can access the query or mutation using it's name, for example:
+By default we can access the query or mutation using the method's name, for example:
 
 For the `deleteTodo` mutation.
 
@@ -199,9 +207,9 @@ Learn more about resolvers, mutations and their argument decorators on the https
 
 === Playground
 
-The playground allow us to test or resolvers, we can access by default on `http://localhost:3000/graphql`. 
+To test our backend we can use tools as Postman, but graphql already gives us a playground to test our resolvers, we can access by default on `http://localhost:3000/graphql`. 
 
-We can call a query this way:
+We can call a query, or several querys this way:
 
 [source,typescript]
 ----
@@ -249,7 +257,7 @@ mutation{
 
 And the output 
 
-[source,typescript]
+[source,json]
 ----
 {
   "data": {
@@ -260,4 +268,18 @@ And the output
 }
 ----
 
-In this case we return just one item so there is no array, we also got just the `task data` but if we want the `id too, we just have to add it on the request.
+In this case we return just one item so there is no array, we also got just the `task data` but if we want the `id` too, we just have to add it on the request.
+
+To make the playground unavailable we can add an option to the app.module import:
+
+[source,typescript]
+----
+...
+GraphQLModule.forRoot({
+  ...
+  playground: false,
+}),
+...
+----
+
+For further information go to the official https://docs.nestjs.com/graphql/quick-start[NestJS documentation]

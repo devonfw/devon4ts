@@ -41,6 +41,7 @@ toc::[]
 - link:guides-logger.asciidoc[Logger]
 - link:guides-mailer.asciidoc[Mailer Module]
 - link:guides-eslint-sonarqube-config[ESLint SonarQube Configuration]
+- link:guides-graphql[GraphQL]
 
 == devon4node applications
 
