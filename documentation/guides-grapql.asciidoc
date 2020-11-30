@@ -1,0 +1,285 @@
+:toc: macro
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+toc::[]
+:idprefix:
+:idseparator: -
+:reproducible:
+:source-highlighter: rouge
+:listing-caption: Listing
+
+= GraphQL on Devon4Node
+
+GraphQL is a query language that gets exactly the data that we ask for instead of static predefined responses.
+
+For example, on a regular API a get by id method would return something like:
+
+[source, json]
+----
+{
+  "location": {
+    "lon": 00.14,
+    "lat": 54.11
+  },
+  "station": "dsrEE3Sg",
+  "visibility": 5000,
+  "wind":{
+    "speed": 6.2,
+    "deg": 78
+  },
+  "logs": [...]
+  ...
+}
+----
+But if we want to get *only* the wind data we have to create another endpoint that returns the specified data.
+
+But instead with graphQL we can get different information without creating new endpoints, in this case we only want the wind data so it would return:
+
+[source, json]
+----
+{
+  "wind":{
+    "speed": 6.2,
+    "deg": 78
+  }
+}
+----
+
+To install it:
+
+[source,bash]
+----
+yarn add @nestjs/graphql graphql-tools graphql apollo-server-express
+----
+
+== Schema first
+
+[NOTE]
+====
+This tutorial uses the schema first method.
+
+We assume you have already a functioning TODO module / app.
+
+If not you can use https://github.com/devonfw/devon4node/tree/develop/samples/graphql[Devon4node GraphQL sample]
+====
+
+First we need to import GraphQLModule to our `app.module.ts`.
+
+[source,typescript]
+----
+...
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
+
+@Module({
+  imports: [
+    // Your module import
+    GraphQLModule.forRoot({
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+        outputAs: 'class',
+      },
+    }),
+  ],
+})
+export class AppModule {}
+----
+
+The `typePaths` indicates the location of the schema definition files.
+
+The `definitions` indicates the file where the typescript definitions will automatically save, adding the `outputAs: 'class'` saves those definitions as classes.
+
+=== Schema
+
+Graphql is a typed language with `object types`, `scalars`, and `enums`.
+
+We use `querys` to define the methods we are going to use for fetching data, and `mutations` are used for modifying this data, similar to how `GET` and `POST` work.
+
+Let's define the elements, querys and mutations that our module is going to have.
+
+For that we have to create a graphql file on our module, on this case we are going to name it "schema.graphql".
+
+[source,typescript]
+----
+type Todo {
+  id: ID
+  task: String
+}
+
+type Query {
+  todos: [Todo]
+  todoById: Todo
+}
+
+type Mutation {
+  createTodo(task: String): Todo
+  deleteTodo(id: String): Todo
+}
+----
+
+For more information about Types go to the official https://graphql.org/learn/schema/[graphQL documentation]
+
+
+=== Resolver
+
+Resolvers has the instructions to turn GraphQL orders into the data requested.
+
+To create a resolver we go to our module and then create a new `todo.resolver.ts` file, import the decorators needed and set the resolver.
+
+[source,typescript]
+----
+import { Resolver, Args, Mutation, Query } from '@nestjs/graphql';
+import { TodoService } from '../services/todo.service';
+import { Todo } from '../schemas/todo.schema';
+
+@Resolver()
+export class TodoResolver {
+  constructor(private readonly todoService: TodoService) {}
+
+  @Query('todos')
+  findAll(): Promise<Todo[]> {
+    return this.todoService.findAll();
+  }
+
+  @Query('todoById')
+  findOneById(@Args('id') id: string): Promise<Todo | null> {
+    return this.todoService.findOneById(id);
+  }
+
+  @Mutation()
+  createTodo(@Args('task') task: string): Promise<Todo> {
+    return this.todoService.create(task);
+  }
+
+  @Mutation()
+  deleteTodo(@Args('id') id: string): Promise<Todo | null> {
+    return this.todoService.delete(id);
+  }
+}
+----
+
+`@Resolver()` indicates that the next class is a resolver.
+
+`@Query` is used to get data.
+
+`@Mutation` is used to create or modify data.
+
+Here we have also an argument decorator `@Args` which is an object with the arguments passed into the field in the query.
+
+By default we can access the query or mutation using the method's name, for example:
+
+For the `deleteTodo` mutation.
+
+[source,typescript]
+----
+mutation {
+  deleteTodo( id: "6f7ed2q8" ){
+    id,
+    task
+  }
+}
+----
+
+But if we write something different on the decorator, we change the name, for example:
+
+For the `findAll` query, we named it `todos`.
+[source,typescript]
+----
+{
+  todos{
+    id,
+    task
+  }
+}
+----
+Also if we go back to the `schema.graphql`, we will see how we define the query with `todos`.
+
+Learn more about resolvers, mutations and their argument decorators on the https://docs.nestjs.com/graphql/resolvers#schema-first[NestJS documentation].
+
+
+=== Playground
+
+To test our backend we can use tools as Postman, but graphql already gives us a playground to test our resolvers, we can access by default on `http://localhost:3000/graphql`. 
+
+We can call a query, or several querys this way:
+
+[source,typescript]
+----
+{
+  findAll{
+    id,
+    task
+  }
+}
+----
+
+And the output will look something like:
+[source,typescript]
+----
+{
+  "data": {
+    "findAll": [
+      {
+        "id": "5fb54b30e686cb49500b6728",
+        "task": "clean dishes"
+      },
+      {
+        "id": "5fb54b3be686cb49500b672a",
+        "task": "burn house"
+      }
+    ]
+  }
+}
+----
+
+As we can see, we get a json "data" with an array of results.
+
+And for our mutations it's very similar, in this case we create a todo with task "rebuild house" and we are going to ask on the response just for the task data, we don't want the id.
+
+[source,typescript]
+----
+mutation{
+  createTodo (
+    task: "rebuild house"
+  ){
+    task
+  }
+}
+----
+
+And the output 
+
+[source,json]
+----
+{
+  "data": {
+    "createTodo": {
+      "task": "rebuild house"
+    }
+  }
+}
+----
+
+In this case we return just one item so there is no array, we also got just the `task data` but if we want the `id` too, we just have to add it on the request.
+
+To make the playground unavailable we can add an option to the app.module import:
+
+[source,typescript]
+----
+...
+GraphQLModule.forRoot({
+  ...
+  playground: false,
+}),
+...
+----
+
+For further information go to the official https://docs.nestjs.com/graphql/quick-start[NestJS documentation]
