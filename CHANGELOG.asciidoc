@@ -2,6 +2,13 @@
 
 This file documents all notable changes to https://github.com/devonfw/devon4node[devon4node].
 
+== 4.0
+
+On this release we have deprecated devon4node cli, now we use nest cli, and we have added a GraphQL sample.
+
+* https://github.com/devonfw/devon4node/pull/375[#375]: GraphQL Sample.
+* https://github.com/devonfw/devon4node/pull/357[#257]: D4N cli remove
+
 == 3.0
 
 On this release we have added more options to cli new command and fixed some bugs.
