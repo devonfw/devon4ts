@@ -9,7 +9,7 @@ env:
     - GH_REPO_SOURCE="github.com/${ORG}/${REPO_SOURCE}.git"
     - GH_REPO_DEST="github.com/${ORG}/${REPO_DEST}.git"
     - GH_REPO_CONSOLIDATE="github.com/${ORG}/${REPO_CONSOLIDATE}.git"
-    - secure: jaTrHaS+TJa3nF1xaE4ceZyPjX/5ehFVvco9czHgkM9Hc3Zwq+14C+k8Sli9dyGif4KggxFIsu87i05mLy+PASk7G2AuNMvXeWUa0fnzVCYpzbuyGHFjg+zYnApKbV8cV4MO6ObomeDdTQa1M7a6XN1WJaPnWzKx5AanL2m5qm44p1VoJkn/Km4wZSnsda241+uduEyJo+Zgf8gIRKtvKKs3GvZnoIGtNwE8yX8XYojEl2ZNALuyH3VapQU5QuzyUaRfFmedslwB43kpbBESpQncLW7lhvT1p/3uJDdGKuVyWY25EuFSE0ZnMwzh9rBdf2a3lPPewoer31mSynNSiDBuR8EuSFI/6DHOxJAirCSl74wdrc98qW0UepPqaj0XL2GNfsTkJVXGyQ85/erAxC67beqUR3YuR/3hZuoLqkXcFAU+kuyUN0bYoIkXFSyrDgzi+6OuSY21mU42sGyLOqCp4QV/LuiQCafqE6YY+N4dMvIQzQk6faPdkEL7uRg5OB9zVmZWvambU83k9/kWMtWgsphmEJCl+ODA+5a2MxFrMCfndzyZosw9G9TgRQqfbRdCfWqhM0i+vJX0Y+N0fGekE+pSghzTxQE68egp5gh1zbyXLt4WBQRK5I5ulI78nhEJuBXjO47OMWuYkR+3QUfqRQIiO/PrgVJQE8dutUE=
+      
 name: devon4node github actions
 
 # Controls when the action will run. 
