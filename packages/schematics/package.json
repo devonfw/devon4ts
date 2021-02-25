@@ -31,7 +31,7 @@
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",
     "prettier": "^2.0.0",
-    "ts-morph": "^7.0.0",
+    "ts-morph": "^10.0.1",
     "typescript": "^3.8.3"
   }
 }
