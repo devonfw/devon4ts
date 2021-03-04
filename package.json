@@ -18,7 +18,7 @@
     "format": "lerna run format"
   },
   "dependencies": {
-    "@angular-devkit/core": "^10.0.5",
+    "@angular-devkit/core": "^11.2.3",
     "@angular-devkit/schematics": "^10.0.5",
     "@angular-devkit/schematics-cli": "^0.1000.5",
     "@nestjs/cli": "^7.0.2",
