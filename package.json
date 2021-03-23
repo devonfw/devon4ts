@@ -35,7 +35,7 @@
     "prettier": "^2.0.0",
     "rxjs": "^6.5.4",
     "tmp-promise": "^3.0.2",
-    "ts-morph": "^7.0.0",
+    "ts-morph": "^10.0.2",
     "typeorm": "^0.2.24",
     "typescript": "^3.9.7",
     "yargs": "^15.1.0",
