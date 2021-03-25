@@ -23,7 +23,7 @@
     "@angular-devkit/schematics-cli": "^0.1000.5",
     "@nestjs/cli": "^7.0.2",
     "@nestjs/schematics": "^7.0.0",
-    "@schematics/angular": "^10.0.5",
+    "@schematics/angular": "^11.2.6",
     "chalk": "^4.0.0",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.3.3",
