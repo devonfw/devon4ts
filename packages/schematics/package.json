@@ -24,7 +24,7 @@
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^10.0.5",
-    "@angular-devkit/schematics": "^10.0.5",
+    "@angular-devkit/schematics": "^11.2.7",
     "@nestjs/schematics": "^7.0.0",
     "@schematics/angular": "^10.0.5",
     "js-yaml": "^3.13.1",
