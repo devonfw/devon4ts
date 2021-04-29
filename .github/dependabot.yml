@@ -1,0 +1,116 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@types/node"
+    versions:
+    - 14.14.22
+    - 14.14.24
+    - 14.14.25
+    - 14.14.26
+    - 14.14.28
+    - 14.14.30
+    - 14.14.31
+    - 14.14.32
+    - 14.14.33
+    - 14.14.34
+    - 14.14.35
+    - 14.14.36
+    - 14.14.37
+    - 14.14.39
+    - 14.14.41
+    - 15.0.0
+  - dependency-name: "@angular-devkit/schematics-cli"
+    versions:
+    - 0.1101.2
+    - 0.1101.3
+    - 0.1101.4
+    - 0.1102.0
+    - 0.1102.1
+    - 0.1102.10
+    - 0.1102.2
+    - 0.1102.3
+    - 0.1102.4
+    - 0.1102.5
+    - 0.1102.6
+    - 0.1102.7
+    - 0.1102.8
+    - 0.1102.9
+  - dependency-name: "@schematics/angular"
+    versions:
+    - 11.1.2
+    - 11.1.3
+    - 11.1.4
+    - 11.2.0
+    - 11.2.1
+    - 11.2.10
+    - 11.2.2
+    - 11.2.3
+    - 11.2.4
+    - 11.2.5
+    - 11.2.6
+    - 11.2.7
+    - 11.2.8
+    - 11.2.9
+  - dependency-name: "@angular-devkit/schematics"
+    versions:
+    - 11.1.2
+    - 11.1.3
+    - 11.1.4
+    - 11.2.0
+    - 11.2.1
+    - 11.2.10
+    - 11.2.2
+    - 11.2.3
+    - 11.2.4
+    - 11.2.5
+    - 11.2.6
+    - 11.2.7
+    - 11.2.8
+    - 11.2.9
+  - dependency-name: "@angular-devkit/core"
+    versions:
+    - 11.1.2
+    - 11.1.3
+    - 11.1.4
+    - 11.2.0
+    - 11.2.1
+    - 11.2.10
+    - 11.2.2
+    - 11.2.3
+    - 11.2.4
+    - 11.2.6
+    - 11.2.7
+    - 11.2.8
+    - 11.2.9
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: "@types/jest"
+    versions:
+    - 26.0.20
+    - 26.0.21
+    - 26.0.22
+  - dependency-name: "@commitlint/config-conventional"
+    versions:
+    - 11.0.0
+    - 12.0.0
+    - 12.0.1
+  - dependency-name: "@commitlint/cli"
+    versions:
+    - 11.0.0
+    - 12.0.0
+    - 12.0.1
+  - dependency-name: ts-morph
+    versions:
+    - 10.0.0
+    - 10.0.1
+    - 9.1.0
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
