@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "MailerSchematic",
+  "$id": "MailerSchematic",
   "title": "Mailer Schema",
   "type": "object",
   "properties": {

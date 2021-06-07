@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ServiceSchematic",
+  "$id": "ServiceSchematic",
   "title": "Service Schema",
   "type": "object",
   "properties": {

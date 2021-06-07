@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "RespositorySchematic",
+  "$id": "RespositorySchematic",
   "title": "Respository Schema",
   "type": "object",
   "properties": {

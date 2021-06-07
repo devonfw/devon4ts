@@ -1,6 +1,6 @@
 import { extname } from '@angular-devkit/core';
 import { FileEntry, forEach, Tree, Rule } from '@angular-devkit/schematics';
-import { safeDump, safeLoad } from 'js-yaml';
+import { dump, load } from 'js-yaml';
 import { cloneDeep, defaultsDeep, isPlainObject } from 'lodash';
 import { basename } from 'path';
 
@@ -52,11 +52,8 @@ export function mergeYmlFile(tree: Tree, fileEntry: FileEntry): FileEntry | null
     if (extname(fileEntry.path) === '.yml') {
       tree.overwrite(
         fileEntry.path,
-        safeDump(
-          defaultsDeep(
-            safeLoad(fileEntry.content.toString('utf-8')),
-            safeLoad(tree.read(fileEntry.path)!.toString('utf-8')),
-          ),
+        dump(
+          defaultsDeep(load(fileEntry.content.toString('utf-8')), load(tree.read(fileEntry.path)!.toString('utf-8'))),
         ),
       );
     }

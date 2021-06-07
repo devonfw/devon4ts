@@ -1,7 +1,14 @@
+interface IClassType<T> {
+  // tslint:disable-next-line: callable-types
+  new (...args: any[]): T;
+}
+
+type ClassType<T> = IClassType<T>;
+
 interface IConfigModuleOptions {
   configDir?: string;
   configPrefix?: string;
-  configType?: Function;
+  configType?: ClassType<any>;
   validate?: () => boolean;
 }
 

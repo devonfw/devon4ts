@@ -5,7 +5,8 @@
     "sourceMap": false,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": false
+    "incremental": false,
+    "types": ["node", "jest"]
   },
   "include": ["./lib/**/*"]
 }

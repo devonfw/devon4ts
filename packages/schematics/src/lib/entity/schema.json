@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "EntitySchematic",
+  "$id": "EntitySchematic",
   "title": "Entity Schema",
   "type": "object",
   "properties": {

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "AllInOneSchematic",
+  "$id": "AllInOneSchematic",
   "title": "All in one Schema",
   "type": "object",
   "properties": {

@@ -96,7 +96,7 @@ export class ClassSerializerInterceptor implements NestInterceptor {
   }
 
   private reflectSerializeMetadata(
-    // tslint:disable-next-line: ban-types
+    // eslint-disable-next-line @typescript-eslint/ban-types
     obj: object | Function,
   ): ClassTransformOptions | undefined {
     return this.reflector.get(CLASS_SERIALIZER_OPTIONS, obj);

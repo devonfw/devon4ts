@@ -15,7 +15,6 @@ function updatePackageJson(project: string | undefined): Rule {
 
     const content = JSON.parse(host.read(filePath)!.toString('utf-8'));
     content.dependencies.helmet = packagesVersion.helmet;
-    content.devDependencies['@types/helmet'] = packagesVersion.typesHelmet;
 
     host.overwrite(filePath, JSON.stringify(content, null, 2));
 
