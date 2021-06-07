@@ -5,7 +5,7 @@ import * as winston from 'winston';
 import { Config } from '../model/config/config.model';
 
 export class WinstonLogger extends Logger {
-  private static DEFAULT_LOG_LEVEL = 'info';
+  private static DEFAULT_LOG_LEVEL: 'info' | 'error' | 'warn' | 'http' | 'verbose' | 'debug' | 'silly' = 'info';
   private console = true;
   private logger?: winston.Logger;
 

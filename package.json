@@ -15,7 +15,8 @@
     "prepublish": "npm run build",
     "build:prod": "lerna run build:prod",
     "lint": "lerna run lint",
-    "format": "lerna run format"
+    "format": "lerna run format",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@angular-devkit/core": "^12.0.3",
