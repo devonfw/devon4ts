@@ -1,11 +1,11 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "id": "SecuritySchematic",
-    "title": "Security Schema",
-    "type": "object",
-    "properties": {
-        "path": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SecuritySchematic",
+  "title": "Security Schema",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string"
     }
+  }
 }

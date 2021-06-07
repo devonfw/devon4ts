@@ -1,5 +1,6 @@
 import { SetMetadata, CustomDecorator } from '@nestjs/common';
-import { ClassType } from 'class-transformer/ClassTransformer';
+import { ClassConstructor } from 'class-transformer';
 import { CRUD_TYPE_ID } from '../defaults';
 
-export const CrudType = <T = any>(type: ClassType<T>): CustomDecorator<string> => SetMetadata(CRUD_TYPE_ID, type);
+export const CrudType = <T = any>(type: ClassConstructor<T>): CustomDecorator<string> =>
+  SetMetadata(CRUD_TYPE_ID, type);

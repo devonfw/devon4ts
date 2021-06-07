@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SwaggerSchematic",
+  "$id": "SwaggerSchematic",
   "title": "Swagger Schema",
   "type": "object",
   "properties": {

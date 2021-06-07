@@ -67,3 +67,5 @@ template/database.db
 
 testing/
 **/testing/
+packages/cli
+samples/todo
