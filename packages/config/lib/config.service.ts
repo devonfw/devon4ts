@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import * as _ from 'lodash';
 import { isAbsolute, join } from 'path';
-import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME, PREFIX_SEPARATOR } from './config.constants';
+import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME, CONFIG_SEPARATOR } from './config.constants';
 import { ConfigModuleOptions } from './config.types';
 
 @Injectable()
@@ -31,29 +32,61 @@ export class ConfigService<T> {
   }
 
   private loadConfig(): void {
+    const valuesKeysUpper = Object.keys(this._values).map(e => e.toUpperCase());
     Object.keys(process.env)
-      .filter(e => e.startsWith(this.configModuleOptions.configPrefix! + PREFIX_SEPARATOR) && process.env[e])
+      .filter(e => valuesKeysUpper.reduce((acc, current) => e.startsWith(current) || acc, false) && process.env[e])
+      // 0 is not possible as it is impossible to have two environment variables with the same name
+      .sort((a, b) => (a > b ? 1 : -1))
       .forEach(e => {
-        const key = this.removePrefix(e);
-        let newValue: any = process.env[e]!;
-        const actualValue = _.get(this._values, key);
-
-        try {
-          newValue = JSON.parse(process.env[e]!);
-        } catch {
-          // nothing to do
-        }
-
-        if (!_.isPlainObject(newValue) || !_.isPlainObject(actualValue)) {
-          _.set(this._values as any, key, newValue);
-        } else {
-          _.set(this._values as any, key, _.defaultsDeep(newValue, actualValue));
+        const key = this.getKeyFromEnvVarName(e);
+        if (key) {
+          const actualValue = _.get(this._values, key);
+          this.parseValue(e, actualValue, key);
         }
       });
   }
 
-  private removePrefix(key: string): string {
-    return key.substr(this.configModuleOptions.configPrefix!.length + PREFIX_SEPARATOR.length);
+  private getKeyFromEnvVarName(envVar: string): string | undefined {
+    const parts = envVar.split(CONFIG_SEPARATOR);
+    let key: string | undefined = undefined;
+    let valuesKeys = Object.keys(this._values);
+
+    while (parts.length) {
+      const part = parts.shift();
+      const keyPart = valuesKeys.find(value => value.toUpperCase() === part);
+      if (!keyPart) {
+        if (key) {
+          return key + '.' + part!.toLowerCase();
+        }
+        return undefined;
+      }
+
+      if (key) {
+        key += '.' + keyPart;
+      } else {
+        key = keyPart;
+      }
+
+      valuesKeys = Object.keys(_.get(this._values, key));
+    }
+
+    return key;
+  }
+
+  private parseValue(envVarName: string, actualValue: any, key: string): void {
+    let newValue: any = process.env[envVarName]!;
+
+    try {
+      newValue = JSON.parse(process.env[envVarName]!);
+    } catch {
+      // nothing to do
+    }
+
+    if (!_.isPlainObject(newValue) || !_.isPlainObject(actualValue)) {
+      _.set(this._values as any, key, newValue);
+    } else {
+      _.set(this._values as any, key, _.defaultsDeep(newValue, actualValue));
+    }
   }
 
   private validateValues(): void {

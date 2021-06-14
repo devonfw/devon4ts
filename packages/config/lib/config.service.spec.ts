@@ -41,8 +41,8 @@ describe('ConfigService', () => {
   it('should override values with the values provided by environment variables', async () => {
     process.env.NODE_ENV = '';
     process.env.VALIDATE_CONFIG = 'false';
-    process.env['devon4node.isDev'] = 'false';
-    process.env['devon4node.host'] = 'myhost';
+    process.env['ISDEV'] = 'false';
+    process.env['HOST'] = 'myhost';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
@@ -53,39 +53,48 @@ describe('ConfigService', () => {
 
     const configService = module.get<ConfigService<BaseConfig>>(ConfigService);
     expect(configService.values).toStrictEqual({ ...config, isDev: false, host: 'myhost' });
+    process.env['ISDEV'] = '';
+    process.env['HOST'] = '';
   });
 
   it('should override values with the values provided by environment variables in nested objects', async () => {
     process.env.NODE_ENV = 'test';
     process.env.VALIDATE_CONFIG = 'false';
-    process.env['d4n.nested.value'] = 'becario';
-    process.env['d4n.nested.host'] = 'anotherhost';
+    process.env['NESTED_VALUE'] = 'becario';
+    process.env['NESTED_HOST'] = 'anotherhost';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           configDir: join('./test/config'),
-          configPrefix: 'd4n',
           configType: TestTypes,
         }),
       ],
     }).compile();
 
     const configService = module.get<ConfigService<BaseConfig>>(ConfigService);
+    // eslint-disable-next-line no-console
+    console.log(configService.values);
+    // eslint-disable-next-line no-console
+    console.log({
+      ...testConfig,
+      nested: { ...testConfig.nested, value: 'becario', host: 'anotherhost' },
+    });
     expect(configService.values).toStrictEqual({
       ...testConfig,
       nested: { ...testConfig.nested, value: 'becario', host: 'anotherhost' },
     });
+    process.env['NESTED_VALUE'] = '';
+    process.env['NESTED_HOST'] = '';
   });
 
   it('should combine nested objects', async () => {
     process.env.NODE_ENV = 'test';
     process.env.VALIDATE_CONFIG = 'no';
-    process.env['d4n.nested'] = JSON.stringify({ value: 'becario', host: 'anotherhost' });
+    process.env['NESTED'] = JSON.stringify({ value: 'becario', host: 'anotherhost' });
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           configDir: join('./test/config'),
-          configPrefix: 'd4n',
           configType: TestTypes,
         }),
       ],
@@ -96,17 +105,17 @@ describe('ConfigService', () => {
       ...testConfig,
       nested: { ...testConfig.nested, value: 'becario', host: 'anotherhost' },
     });
+    process.env['NESTED'] = '';
   });
 
   it('should validate the configuration', async () => {
     process.env.NODE_ENV = 'test';
     process.env.VALIDATE_CONFIG = 'yes';
-    process.env['d4n.nested.url'] = 'http://example.com';
+    process.env['NESTED_URL'] = 'http://example.com';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           configDir: join('./test/config'),
-          configPrefix: 'd4n',
           configType: TestTypes,
         }),
       ],
@@ -117,18 +126,19 @@ describe('ConfigService', () => {
       ...testConfig,
       nested: { ...testConfig.nested, url: 'http://example.com' },
     });
+    process.env['NESTED_URL'] = '';
   });
 
   it('should validate the configuration and fail if there is any error', () => {
     process.env.NODE_ENV = 'test';
     process.env.VALIDATE_CONFIG = 'yes';
+    process.env.ISDEV = '1';
 
     return expect(
       Test.createTestingModule({
         imports: [
           ConfigModule.forRoot({
             configDir: join('./test/config'),
-            configPrefix: 'new',
             configType: TestTypes,
           }),
         ],

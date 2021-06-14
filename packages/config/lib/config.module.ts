@@ -8,7 +8,6 @@ import { BaseConfig } from './base-config';
 export class ConfigModule {
   private static defaultOptions: Partial<ConfigModuleOptions> = {
     configDir: './dist/config',
-    configPrefix: 'devon4node',
     validate: ConfigModule.getValidate,
     configType: BaseConfig,
   };
