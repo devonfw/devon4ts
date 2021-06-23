@@ -17,7 +17,7 @@ toc::[]
 
 = devon4node Architecture
 
-As we mention in the introduction, devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications.
+As we have mentioned in the introduction, devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications.
 
 == HTTP layer
 
