@@ -1,4 +1,4 @@
-= devon4node
+= NodeJS
 
 link:https://www.devonfw.com/[devonfw] is a platform which provides solutions to building business applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions. devonfw is 100% Open Source (Apache License version 2.0) since the beginning of 2018.
 
