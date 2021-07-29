@@ -24,13 +24,25 @@
     rxjs "6.6.3"
     source-map "0.7.3"
 
-"@angular-devkit/core@12.0.3", "@angular-devkit/core@^12.0.3":
+"@angular-devkit/core@12.0.3":
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.0.3.tgz#01c796dd7d3e0c228b4628439ee1c34bbdda4f1f"
   integrity sha512-d6E4ldHzIerzFpXXZkynluIbZZeYD+VteFLBZ77lOXAuUYuuLEiW8h4bpJOqribeJli5c1cJ/yyELYHrbiiLcw==
   dependencies:
     ajv "8.2.0"
     ajv-formats "2.0.2"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
+"@angular-devkit/core@12.1.4", "@angular-devkit/core@^12.0.3":
+  version "12.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.1.4.tgz#7a5e745918f2099de97367ff917b3b057f6c18e1"
+  integrity sha512-KOzGD8JbP/7EeUwPiU5x+fo3ZEQ5R4IVW5WoH92PaO3mdpqXC7UL2MWLct8PUe9il9nqJMvrBMldSSvP9PCT2w==
+  dependencies:
+    ajv "8.6.0"
+    ajv-formats "2.1.0"
     fast-json-stable-stringify "2.1.0"
     magic-string "0.25.7"
     rxjs "6.6.7"
@@ -50,14 +62,14 @@
     symbol-observable "3.0.0"
 
 "@angular-devkit/schematics-cli@^12.0.3":
-  version "12.0.3"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-12.0.3.tgz#5681c5a90721fe772b5e7b0180a4dfe369135cfa"
-  integrity sha512-o9fYs8ZuYkIgWsttRLNC8bWaXb9SH3umHzNLjh1rMdbHzOy291iCvBicmxcLs4BsabIASMXq5CqBtsep50Eeeg==
+  version "12.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-12.1.4.tgz#812e663cf7247821e817ac3a1869b9b66aae612f"
+  integrity sha512-BJiyZu7TaOJUnH4XH4OKz1LjW1364BLAhpwCBAueu11YkI7hghlsx/ogvvd5RYX9JmQL70iVOVkBsoYA7XVreg==
   dependencies:
-    "@angular-devkit/core" "12.0.3"
-    "@angular-devkit/schematics" "12.0.3"
+    "@angular-devkit/core" "12.1.4"
+    "@angular-devkit/schematics" "12.1.4"
     ansi-colors "4.1.1"
-    inquirer "8.0.0"
+    inquirer "8.1.1"
     minimist "1.2.5"
     symbol-observable "4.0.0"
 
@@ -79,13 +91,22 @@
     ora "5.3.0"
     rxjs "6.6.3"
 
-"@angular-devkit/schematics@12.0.3", "@angular-devkit/schematics@^12.0.3":
+"@angular-devkit/schematics@12.0.3":
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-12.0.3.tgz#9c9a881db1fd4c07b78729f46e2932adf76906de"
   integrity sha512-FozSvAJPI1iNLkrMVfbQvrk6XxF86zkpnVoaOeT/S2WeS64uRLW9DZmFHJxD4K2+MUPkwx6x6Y8AjARIkGtcIA==
   dependencies:
     "@angular-devkit/core" "12.0.3"
     ora "5.4.0"
+    rxjs "6.6.7"
+
+"@angular-devkit/schematics@12.1.4", "@angular-devkit/schematics@^12.0.3":
+  version "12.1.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-12.1.4.tgz#8f20886bc8c56eb25d67981107f00298276dae79"
+  integrity sha512-yD3y3pK/K5piOgvALFoCCiPp4H8emNa3yZL+vlpEpewVLpF1MM55LeTxc0PI5s0uqtOGVnvcbA5wYgMm3YsUEA==
+  dependencies:
+    "@angular-devkit/core" "12.1.4"
+    ora "5.4.1"
     rxjs "6.6.7"
 
 "@babel/code-frame@7.12.11":
@@ -2396,6 +2417,13 @@ ajv-formats@2.0.2:
   dependencies:
     ajv "^8.0.0"
 
+ajv-formats@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.0.tgz#96eaf83e38d32108b66d82a9cb0cfa24886cdfeb"
+  integrity sha512-USH2jBb+C/hIpwD2iRjp0pe0k+MvzG0mlSn/FIdCgQhUb9ALPRjt2KIQdfZDS9r0ZIeUAg7gOu9KL0PFqGqr5Q==
+  dependencies:
+    ajv "^8.0.0"
+
 ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
@@ -2415,6 +2443,16 @@ ajv@8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.2.0.tgz#c89d3380a784ce81b2085f48811c4c101df4c602"
   integrity sha512-WSNGFuyWd//XO8n/m/EaOlNLtO0yL8EXT/74LqT4khdhpZjP7lkj/kT5uwRmGitKEVp/Oj7ZUHeGfPtgHhQ5CA==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
+ajv@8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.0.tgz#60cc45d9c46a477d80d92c48076d972c342e5720"
+  integrity sha512-cnUG4NSBiM4YFBxgZIj/In3/6KX+rQ2l2YPRVcvAMQGWEPKuXoPIhxzwqh31jA3IPbI4qEOp/5ILI4ynioXsGQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -5056,29 +5094,10 @@ inquirer@7.3.3, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-inquirer@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.0.0.tgz#957a46db1abcf0fdd2ab82deb7470e90afc7d0ac"
-  integrity sha512-ON8pEJPPCdyjxj+cxsYRe6XfCJepTxANdNnTebsTuQgXpRyZRRT9t4dJwjRubgmvn20CLSEnozRUayXyM9VTXA==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^4.1.0"
-    cli-cursor "^3.1.0"
-    cli-width "^3.0.0"
-    external-editor "^3.0.3"
-    figures "^3.0.0"
-    lodash "^4.17.21"
-    mute-stream "0.0.8"
-    run-async "^2.4.0"
-    rxjs "^6.6.6"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-    through "^2.3.6"
-
-inquirer@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.1.0.tgz#68ce5ce5376cf0e89765c993d8b7c1e62e184d69"
-  integrity sha512-1nKYPoalt1vMBfCMtpomsUc32wmOoWXAoq3kM/5iTfxyQ2f/BxjixQpC+mbZ7BI0JUXHED4/XPXekDVtJNpXYw==
+inquirer@8.1.1, inquirer@^8.1.0:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.1.1.tgz#7c53d94c6d03011c7bb2a947f0dca3b98246c26a"
+  integrity sha512-hUDjc3vBkh/uk1gPfMAD/7Z188Q8cvTGl0nxwaCdwSbzFh6ZKkZh+s2ozVxbE5G9ZNRyeY0+lgbAIOUFsFf98w==
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^4.1.1"
@@ -7034,6 +7053,21 @@ ora@5.4.0, ora@^5.3.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/ora/-/ora-5.4.0.tgz#42eda4855835b9cd14d33864c97a3c95a3f56bf4"
   integrity sha512-1StwyXQGoU6gdjYkyVcqOLnVlbKj+6yPNNOxJVgpt9t4eksKjiriiHuxktLYkgllwk+D6MbC4ihH84L1udRXPg==
+  dependencies:
+    bl "^4.1.0"
+    chalk "^4.1.0"
+    cli-cursor "^3.1.0"
+    cli-spinners "^2.5.0"
+    is-interactive "^1.0.0"
+    is-unicode-supported "^0.1.0"
+    log-symbols "^4.1.0"
+    strip-ansi "^6.0.0"
+    wcwidth "^1.0.1"
+
+ora@5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-5.4.1.tgz#1b2678426af4ac4a509008e5e4ac9e9959db9e18"
+  integrity sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==
   dependencies:
     bl "^4.1.0"
     chalk "^4.1.0"
