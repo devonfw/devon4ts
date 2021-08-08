@@ -13,7 +13,7 @@ describe('ConfigService', () => {
     process.env.NODE_ENV = '';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join(__dirname, '../test/config'),
         }),
       ],
@@ -28,7 +28,7 @@ describe('ConfigService', () => {
     process.env.VALIDATE_CONFIG = 'no';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join(__dirname, '../test/config'),
         }),
       ],
@@ -45,7 +45,7 @@ describe('ConfigService', () => {
     process.env['HOST'] = 'myhost';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join(__dirname, '../test/config'),
         }),
       ],
@@ -64,7 +64,7 @@ describe('ConfigService', () => {
     process.env['NESTED_HOST'] = 'anotherhost';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join('./test/config'),
           configType: TestTypes,
         }),
@@ -72,13 +72,7 @@ describe('ConfigService', () => {
     }).compile();
 
     const configService = module.get<ConfigService<BaseConfig>>(ConfigService);
-    // eslint-disable-next-line no-console
-    console.log(configService.values);
-    // eslint-disable-next-line no-console
-    console.log({
-      ...testConfig,
-      nested: { ...testConfig.nested, value: 'becario', host: 'anotherhost' },
-    });
+
     expect(configService.values).toStrictEqual({
       ...testConfig,
       nested: { ...testConfig.nested, value: 'becario', host: 'anotherhost' },
@@ -93,7 +87,7 @@ describe('ConfigService', () => {
     process.env['NESTED'] = JSON.stringify({ value: 'becario', host: 'anotherhost' });
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join('./test/config'),
           configType: TestTypes,
         }),
@@ -114,7 +108,7 @@ describe('ConfigService', () => {
     process.env['NESTED_URL'] = 'http://example.com';
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        ConfigModule.register({
           configDir: join('./test/config'),
           configType: TestTypes,
         }),
@@ -137,7 +131,7 @@ describe('ConfigService', () => {
     return expect(
       Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          ConfigModule.register({
             configDir: join('./test/config'),
             configType: TestTypes,
           }),

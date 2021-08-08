@@ -5,7 +5,7 @@ import * as path from 'path';
 describe('Controller Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only', () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: 'project',
       spec: false,
     };
@@ -22,7 +22,7 @@ describe('Controller Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: 'foo',
       path: 'bar',
       skipImport: true,
@@ -40,7 +40,7 @@ describe('Controller Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: 'fooBar',
       skipImport: true,
     };
@@ -57,10 +57,10 @@ describe('Controller Factory', () => {
     });
   });
   it('should manage declaration in app module', () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: '',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, any> = {
       name: 'foo',
     };
     runner.runSchematicAsync('application', optionsApp).subscribe(tree => {

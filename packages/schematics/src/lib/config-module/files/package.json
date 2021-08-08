@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@devon4node/config": "<%= packagesVersion.devon4nodeConfig %>"
+  },
+  "devDependencies": {
+    "type-fest": "<%= packagesVersion.typeFest"
   }
 }

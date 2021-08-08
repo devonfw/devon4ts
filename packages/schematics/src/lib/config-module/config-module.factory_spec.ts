@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Config-module', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage path', async () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, unknown> = {
       name: 'foo',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, unknown> = {
       path: 'foo',
     };
     let app;
@@ -41,10 +41,10 @@ describe('Config-module', () => {
     });
   });
   it('should manage declaration in core module', async () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, unknown> = {
       name: '',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, unknown> = {
       path: '',
     };
     let app;
@@ -66,8 +66,7 @@ describe('Config-module', () => {
             '@Global()\n' +
             '@Module({\n' +
             '  imports: [\n' +
-            '    ConfigModule.forRoot({\n' +
-            "      configPrefix: 'devon4node',\n" +
+            '    ConfigModule.register({\n' +
             '      configType: Config,\n' +
             '    }),\n' +
             '  ],\n' +

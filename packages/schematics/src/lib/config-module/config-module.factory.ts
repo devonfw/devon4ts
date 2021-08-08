@@ -47,8 +47,7 @@ function addToModule(project: string): Rule {
       tree.read(module)!.toString('utf-8'),
       'CoreModule',
       '@devon4node/config',
-      `ConfigModule.forRoot({
-        configPrefix: 'devon4node',
+      `ConfigModule.register({
         configType: Config,
       })`,
       'imports',

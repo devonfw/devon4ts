@@ -5,16 +5,16 @@ describe('Application Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
 
   it('should manage name only', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'project',
     };
     runner.runSchematicAsync('application', options).subscribe(tree => {
       const files: string[] = tree.files;
       expect(files).toEqual([
         '/project/.prettierrc',
-        '/project/README.md',
         '/project/nest-cli.json',
         '/project/package.json',
+        '/project/README.md',
         '/project/tsconfig.build.json',
         '/project/tsconfig.json',
         '/project/.eslintrc.js',
@@ -30,22 +30,24 @@ describe('Application Factory', () => {
         '/project/src/app/shared/logger/winston.logger.ts',
         '/project/test/app.e2e-spec.ts',
         '/project/test/jest-e2e.json',
+        '/project/.husky/.gitignore',
+        '/project/.husky/pre-commit',
         '/project/.vscode/extensions.json',
         '/project/.vscode/settings.json',
       ]);
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'dasherizeProject',
     };
     runner.runSchematicAsync('application', options).subscribe(tree => {
       const files: string[] = tree.files;
       expect(files).toEqual([
         '/dasherize-project/.prettierrc',
-        '/dasherize-project/README.md',
         '/dasherize-project/nest-cli.json',
         '/dasherize-project/package.json',
+        '/dasherize-project/README.md',
         '/dasherize-project/tsconfig.build.json',
         '/dasherize-project/tsconfig.json',
         '/dasherize-project/.eslintrc.js',
@@ -61,6 +63,8 @@ describe('Application Factory', () => {
         '/dasherize-project/src/app/shared/logger/winston.logger.ts',
         '/dasherize-project/test/app.e2e-spec.ts',
         '/dasherize-project/test/jest-e2e.json',
+        '/dasherize-project/.husky/.gitignore',
+        '/dasherize-project/.husky/pre-commit',
         '/dasherize-project/.vscode/extensions.json',
         '/dasherize-project/.vscode/settings.json',
       ]);

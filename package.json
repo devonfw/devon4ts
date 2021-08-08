@@ -15,6 +15,7 @@
     "prepublish": "npm run build",
     "build:prod": "lerna run build:prod",
     "lint": "lerna run lint",
+    "test": "lerna run test",
     "format": "lerna run format",
     "prepare": "husky install"
   },
@@ -83,7 +84,8 @@
     "jest": "^27.0.4",
     "lerna": "^4.0.0",
     "reflect-metadata": "^0.1.13",
-    "ts-jest": "^27.0.2"
+    "ts-jest": "^27.0.2",
+    "type-fest": "^1.2.1"
   },
   "config": {
     "commitizen": {

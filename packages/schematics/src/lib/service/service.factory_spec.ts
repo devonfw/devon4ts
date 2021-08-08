@@ -5,7 +5,7 @@ import * as path from 'path';
 describe('Service Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
@@ -18,7 +18,7 @@ describe('Service Factory', () => {
     });
   });
   it('should manage name as a path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/foo',
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
@@ -30,7 +30,7 @@ describe('Service Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'bar',
     };
@@ -43,7 +43,7 @@ describe('Service Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'fooBar',
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
@@ -55,7 +55,7 @@ describe('Service Factory', () => {
     });
   });
   it('should manage path to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'barBaz/foo',
       skipImport: true,
       flat: true,
@@ -69,10 +69,10 @@ describe('Service Factory', () => {
     });
   });
   it('should manage declaration in app module', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       flat: true,
     };
@@ -96,13 +96,13 @@ describe('Service Factory', () => {
     });
   });
   it('should manage declaration in foo module', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const obtionsModule: object = {
+    const obtionsModule: Record<string, any> = {
       name: 'foo',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'foo',
       flat: true,

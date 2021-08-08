@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Service Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should work', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: '',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -51,10 +51,10 @@ describe('Service Factory', () => {
     });
   });
   it('should set path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'app',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: 'app',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {

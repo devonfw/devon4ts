@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Security Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should work', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: '',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -16,7 +16,7 @@ describe('Security Factory', () => {
         expect(files.find(filename => filename === '/src/main.ts')).toBeDefined();
         expect(files.find(filename => filename === '/package.json')).toBeDefined();
 
-        expect(tree.readContent('/package.json')).toContain('@types/helmet');
+        expect(tree.readContent('/package.json')).toContain('"helmet":');
         expect(tree.readContent('/src/main.ts')).toEqual(
           "import { NestFactory } from '@nestjs/core';\n" +
             "import { AppModule } from './app/app.module';\n" +
@@ -47,10 +47,10 @@ describe('Security Factory', () => {
     });
   });
   it('should manage path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'foo',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: 'foo',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -58,7 +58,7 @@ describe('Security Factory', () => {
         const files: string[] = tree.files;
         expect(files.find(filename => filename === '/foo/src/main.ts')).toBeDefined();
         expect(files.find(filename => filename === '/foo/package.json')).toBeDefined();
-        expect(tree.readContent('/foo/package.json')).toContain('@types/helmet');
+        expect(tree.readContent('/foo/package.json')).toContain('"helmet":');
       });
     });
   });

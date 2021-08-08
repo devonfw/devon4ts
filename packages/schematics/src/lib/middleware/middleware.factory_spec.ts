@@ -4,7 +4,7 @@ import * as path from 'path';
 describe('Middleware Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only and create spec file', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
     };
     runner.runSchematicAsync('middleware', options).subscribe(tree => {
@@ -24,7 +24,7 @@ describe('Middleware Factory', () => {
     });
   });
   it('should manage name as a path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/foo',
       flat: false,
     };
@@ -44,7 +44,7 @@ describe('Middleware Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'baz',
       flat: false,
@@ -65,7 +65,7 @@ describe('Middleware Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'fooBar',
       flat: false,
     };
@@ -85,7 +85,7 @@ describe('Middleware Factory', () => {
     });
   });
   it('should manage path to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'barBaz/foo',
       flat: false,
     };

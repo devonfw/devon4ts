@@ -5,10 +5,10 @@ describe('Application Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
 
   it('should manage name only', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: '',
       name: 'crud',
     };
@@ -17,9 +17,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/.prettierrc',
-          '/README.md',
           '/nest-cli.json',
           '/package.json',
+          '/README.md',
           '/tsconfig.build.json',
           '/tsconfig.json',
           '/.eslintrc.js',
@@ -38,6 +38,8 @@ describe('Application Factory', () => {
           '/src/app/services/crud.crud.service.ts',
           '/test/app.e2e-spec.ts',
           '/test/jest-e2e.json',
+          '/.husky/.gitignore',
+          '/.husky/pre-commit',
           '/.vscode/extensions.json',
           '/.vscode/settings.json',
         ]);
@@ -45,10 +47,10 @@ describe('Application Factory', () => {
     });
   });
   it('should manage path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'project',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: 'project',
       name: 'crud',
     };
@@ -57,9 +59,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/project/.prettierrc',
-          '/project/README.md',
           '/project/nest-cli.json',
           '/project/package.json',
+          '/project/README.md',
           '/project/tsconfig.build.json',
           '/project/tsconfig.json',
           '/project/.eslintrc.js',
@@ -78,6 +80,8 @@ describe('Application Factory', () => {
           '/project/src/app/services/crud.crud.service.ts',
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
+          '/project/.husky/.gitignore',
+          '/project/.husky/pre-commit',
           '/project/.vscode/extensions.json',
           '/project/.vscode/settings.json',
         ]);
@@ -85,10 +89,10 @@ describe('Application Factory', () => {
     });
   });
   it('should manage name to split', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'project',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: 'project',
       name: 'crudFoo',
     };
@@ -97,9 +101,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/project/.prettierrc',
-          '/project/README.md',
           '/project/nest-cli.json',
           '/project/package.json',
+          '/project/README.md',
           '/project/tsconfig.build.json',
           '/project/tsconfig.json',
           '/project/.eslintrc.js',
@@ -118,6 +122,8 @@ describe('Application Factory', () => {
           '/project/src/app/services/crud-foo.crud.service.ts',
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
+          '/project/.husky/.gitignore',
+          '/project/.husky/pre-commit',
           '/project/.vscode/extensions.json',
           '/project/.vscode/settings.json',
         ]);

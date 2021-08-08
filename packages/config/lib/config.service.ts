@@ -4,7 +4,12 @@ import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import * as _ from 'lodash';
 import { isAbsolute, join } from 'path';
-import { CONFIG_OPTIONS_PROVIDER_NAME, CONFIG_VALUES_PROVIDER_NAME, CONFIG_SEPARATOR } from './config.constants';
+import {
+  CONFIG_OPTIONS_PROVIDER_NAME,
+  CONFIG_VALUES_PROVIDER_NAME,
+  CONFIG_SEPARATOR,
+  CONFIG_VALIDATION_PROVIDER_NAME,
+} from './config.constants';
 import { ConfigModuleOptions } from './config.types';
 
 @Injectable()
@@ -15,11 +20,10 @@ export class ConfigService<T> {
   constructor(
     @Inject(CONFIG_OPTIONS_PROVIDER_NAME) private readonly configModuleOptions: ConfigModuleOptions,
     @Inject(CONFIG_VALUES_PROVIDER_NAME) private _values: T,
+    @Inject(CONFIG_VALIDATION_PROVIDER_NAME) private validation: () => boolean,
   ) {
     this.loadConfig();
-    if (configModuleOptions.validate!()) {
-      this.validateValues();
-    }
+    this.validateValues();
   }
 
   static async loadConfigFromFile(configDir: string): Promise<any> {
@@ -28,6 +32,14 @@ export class ConfigService<T> {
       filePath = join(process.cwd(), filePath);
     }
     const config = await import(filePath);
+    if (ConfigService.configFile() !== 'default') {
+      let defaultFilePath = join(configDir || process.cwd(), ConfigService.configFile());
+      if (!isAbsolute(defaultFilePath)) {
+        defaultFilePath = join(process.cwd(), defaultFilePath);
+      }
+      const defaultConfig = await import(filePath);
+      return _.defaultsDeep({ ...config.default }, { ...defaultConfig.default });
+    }
     return { ...config.default };
   }
 
@@ -90,6 +102,10 @@ export class ConfigService<T> {
   }
 
   private validateValues(): void {
+    if (!this.validation()) {
+      return;
+    }
+
     const validationErrors = validateSync(plainToClass(this.configModuleOptions.configType as any, this._values));
     if (validationErrors.length) {
       throw new Error(JSON.stringify(validationErrors));

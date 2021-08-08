@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Mailer Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'foo',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       path: 'foo',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {

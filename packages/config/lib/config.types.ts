@@ -8,7 +8,6 @@ type ClassType<T> = IClassType<T>;
 interface IConfigModuleOptions {
   configDir?: string;
   configType?: ClassType<any>;
-  validate?: () => boolean;
 }
 
 export type ConfigModuleOptions = IConfigModuleOptions;

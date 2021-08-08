@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Auth Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should set on module app', async () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: 'path',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, any> = {
       path: 'path',
     };
     let app;
