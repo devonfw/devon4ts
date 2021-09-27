@@ -94,7 +94,7 @@ const coffeeList: Coffe[];
 
 === Declarations
 
-For all variable declarations we must use `const` or `let`. `var` is forbidden. We to use `const` when possible.
+For all variable declarations we must use `const` or `let`. `var` is forbidden. We prefer to use  `const` when possible.
 
 === Programming practices
 
