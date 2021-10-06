@@ -23,7 +23,7 @@ NestJS resolve the dependency injection in their modules. When you define a prov
 
 == Inject dependencies in NestJS
 
-In oder to inject a dependency in a NestJS component, you need to declare it in the component constructor. Example:
+In order to inject a dependency in a NestJS component, you need to declare it in the component constructor. Example:
 
 [source,typescript]
 ----
@@ -57,7 +57,7 @@ export class CoffeeController {
 
 image::images/plantuml/dependency-injection1.png[]
 
-In the previous image, the Module A can inject dependencies exported by Module B, Module E and Module F. If module B reexport Module C and Module D, they are also accesibles by Module A.
+In the previous image, the Module A can inject dependencies exported by Module B, Module E and Module F. If module B reexport Module C and Module D, they are also accessible by Module A.
 
 If there is a conflict with the injection token, it resolves the provider with less distance with the module. For example: if the modules C and F exports a `UserService` provider, the Module A will resolve the `UserService` exported by the Module F, because the distance from Module A to Module F is 1, and the distance from Module A to Module C is 2.
 

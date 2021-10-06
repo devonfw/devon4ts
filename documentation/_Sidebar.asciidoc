@@ -11,7 +11,7 @@
 *** link:guides-code-generation.asciidoc[Code Generation]
 *** link:guides-coding-conventions.asciidoc[Coding Conventions]
 *** link:guides-dependency-injection.asciidoc[Dependency Injection]
-*** link:guides-configuration-module.asciidoc[Cofiguration Module]
+*** link:guides-configuration-module.asciidoc[Configuration Module]
 *** link:guides-auth-jwt.asciidoc[Auth JWT Module]
 *** link:guides-swagger.asciidoc[Swagger]
 *** link:guides-typeorm.asciidoc[TypeORM]
