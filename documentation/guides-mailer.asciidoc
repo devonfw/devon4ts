@@ -68,7 +68,7 @@ The structure of MailerModuleOptions is:
 }
 ----
 
-Here, you need to specify the link:https://handlebarsjs.com/reference.html[Handlebars compile options], the link:https://nodemailer.com/smtp[nodemailer transport options] and the email address which will send the emails.
+Here, you need to specify the link:https://handlebarsjs.com/api-reference/compilation.html#handlebars-compile-template-options[Handlebars compile options], the link:https://nodemailer.com/smtp[nodemailer transport options] and the email address which will send the emails.
 Then, you need to call to forRoot function in the module imports. Example:
 
 [source,typescript]
