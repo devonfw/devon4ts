@@ -21,7 +21,6 @@ In the folder /samples, you can find some devon4node examples that could be usef
 
 The samples are:
 
-* link:https://github.com/devonfw/devon4node/tree/develop/samples/todo[Todo]
 * link:https://github.com/devonfw/devon4node/tree/develop/samples/employee[Employee]
 * link:https://github.com/devonfw/devon4node/tree/develop/samples/components-example[Components example]
 
