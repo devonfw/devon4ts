@@ -130,7 +130,7 @@ For more information about Types go to the official https://graphql.org/learn/sc
 
 === Resolver
 
-Resolvers has the instructions to turn GraphQL orders into the data requested.
+Resolver has the instructions to turn GraphQL orders into the data requested.
 
 To create a resolver we go to our module and then create a new `todo.resolver.ts` file, import the decorators needed and set the resolver.
 
