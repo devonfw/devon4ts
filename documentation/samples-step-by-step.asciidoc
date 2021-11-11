@@ -255,7 +255,7 @@ export class Employee extends BaseEntity {
 +
 image::images/sample/generate-migrations.PNG[] 
 +
-The optput will be something similar to:
+The output will be something similar to:
 +
 [source,typescript]
 ----
