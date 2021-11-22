@@ -83,4 +83,3 @@ $ yarn start
 ----
 
 In order to see the execution order, you can call to `http://localhost:3000/v1`. It will show you the execution order of all components except the filters. If you want to know the execution order while a filter is applied, call to the endpoint with the following queries: `?hello=error`, `?hello=controller`, `?hello=global`.
-

@@ -43,7 +43,7 @@ export class CoffeeController {
 
 As you can see in the example, to create a controller you only need to decorate a class with the `Controller` decorator. This example is handling all request to `coffee/coffees`.
 
-Also, you have defined one handler. This handler is listening to POST request for the route `coffee/coffees/search`. In addition, this handler is waiting for a CoffeeSearch object and returns an array of Coffee. In order to keep it simple, that's all that you need in order to define one route.
+Also, you have defined one handler. This handler is listening to POST request for the route `coffee/coffees/search`. In addition, this handler is waiting for a `CoffeeSearch` object and returns an array of Coffee. In order to keep it simple, that's all that you need in order to define one route.
 
 One important thing that can be observed in this example is that there is no business logic. It delegates to the service layer and return the response to the client. At this point, transformations from the value that you receive from the service layer to the desired return type are also allowed.
 

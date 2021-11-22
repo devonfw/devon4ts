@@ -19,7 +19,7 @@ toc::[]
 
 Serialization is the process of translating data structures or object state into a format that can be transmitted across network and reconstructed later.
 
-NestJS by default serialize all data to JSON (JSON.stringify). Sometimes this is not enough. In some situations you need to exclude some property (e.g password). Instead doing it manually, devon4node provides an interceptor (ClassSerializerInterceptor) that will do it for you. You only need to return a class instance as always and the interceptor will transform those class to the expected data.
+NestJS by default serialize all data to JSON (JSON.stringify). Sometimes this is not enough. In some situations you need to exclude some property (e.g password). Instead doing it manually, devon4node provides an interceptor (`ClassSerializerInterceptor`) that will do it for you. You only need to return a class instance as always and the interceptor will transform those class to the expected data.
 
 The `ClassSerializerInterceptor` takes the link:https://github.com/typestack/class-transformer[class-transformer] decorators in order to know how to transform the class and then send the result to the client.
 

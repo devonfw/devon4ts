@@ -46,7 +46,7 @@ database: {
 },
 ----
 
-This object is a TypeORM ConnectionOptions. For fore information about it visit the link:https://typeorm.io/#/connection-options/[TypeORM Connection Options page].
+This object is a TypeORM `ConnectionOptions`. For fore information about it visit the link:https://typeorm.io/#/connection-options/[TypeORM Connection Options page].
 
 There is also a special case: the default configuration. As the devon4node CLI need the database configuration when you use the `devon4node db` command, we also provide the ormconfig.json file. In this file you must put the configuration for you local environment. In order to do not have duplicated the configuration for local environment, in the default config file the database property is set-up like:
 
@@ -63,10 +63,10 @@ Entity is a class that maps to a database table. The devon4node schematics has a
 
 In the entity, you must define all columns, relations, primary keys of your database table. By default, devon4node provides a class named `BaseEntity`. All entities created with the devon4node schematics will extends the `BaseEntity`. This entity provides you some common columns:
 
-- id: the primary key of you table
-- version: the version of the entry (used for auditing purposes)
-- createdAt: creation date of the entry (used for auditing purposes)
-- updatedAt: last update date of the entry (used for auditing purposes)
+- `id`: the primary key of you table
+- `version`: the version of the entry (used for auditing purposes)
+- `createdAt`: creation date of the entry (used for auditing purposes)
+- `updatedAt`: last update date of the entry (used for auditing purposes)
 
 For more information about Entities, please visit the link:https://typeorm.io/#/entities[TypeORM entities page]
 

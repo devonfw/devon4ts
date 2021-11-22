@@ -202,12 +202,12 @@ For the `findAll` query, we named it `todos`.
 ----
 Also if we go back to the `schema.graphql`, we will see how we define the query with `todos`.
 
-Learn more about resolvers, mutations and their argument decorators on the https://docs.nestjs.com/graphql/resolvers#schema-first[NestJS documentation].
+Learn more about Resolvers, mutations and their argument decorators on the https://docs.nestjs.com/graphql/resolvers#schema-first[NestJS documentation].
 
 
 === Playground
 
-To test our backend we can use tools as Postman, but graphql already gives us a playground to test our resolvers, we can access by default on `http://localhost:3000/graphql`. 
+To test our backend we can use tools as Postman, but graphql already gives us a playground to test our Resolvers, we can access by default on `http://localhost:3000/graphql`. 
 
 We can call a query, or several queries this way:
 

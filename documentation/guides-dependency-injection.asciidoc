@@ -79,7 +79,7 @@ When you want to change the provider name, you can use a NestJS feature called l
 })
 ----
 
-With this, when you inject want to inject UserService as dependency, the MockUserService will be injected.
+With this, when you inject want to inject `UserService` as dependency, the `MockUserService` will be injected.
 
 Custom provider token can be also a string:
 
