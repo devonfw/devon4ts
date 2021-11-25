@@ -99,7 +99,7 @@ Then, you need to call to forRoot function in the module imports. Example:
 })
 ----
 
-=== forRootAsync()
+=== `forRootAsync()`
 
 The method forRootAsync enables you to get the mailer configuration in a asynchronous way. It is useful when you need to get the configuration using, for example, a service (e.g. ConfigurationService).
 
