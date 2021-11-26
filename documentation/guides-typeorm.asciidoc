@@ -19,13 +19,13 @@ toc::[]
 
 TypeORM is the default ORM provided by devon4node. It supports MySQL, MariaDB, Postgres, CockroachDB, SQLite, Microsoft SQL Server, Oracle, sql.js relational database and also supports MongoDB NoSQL database.
 
-Add TypeORM support to a devon4node application is very easy: you only need to execute the command `nest g -c @devon4node/schematics typeorm` and it will add all required dependencies to the project and also imports the @nestjs/typeorm module.
+Add TypeORM support to a devon4node application is very easy: you only need to execute the command `nest g -c @devon4node/schematics typeorm` and it will add all required dependencies to the project and also imports the `@nestjs/typeorm` module.
 
 For more information about TypeORM and the integration with NestJS you can visit link:https://typeorm.io[TypeORM webpage], link:https://github.com/typeorm/typeorm[TypeORM GitHub repository] and link:https://docs.nestjs.com/recipes/sql-typeorm[NestJS TypeORM documentation page]
 
 == Configuration
 
-When you have the configuration module, the typeorm generator will add one property in order to be able to configure the database depending on the environment. Example:
+When you have the configuration module, the TypeORM generator will add one property in order to be able to configure the database depending on the environment. Example:
 
 [source,typescript]
 ----
