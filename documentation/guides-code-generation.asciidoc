@@ -76,7 +76,7 @@ image::images/crud-schematic.PNG[]
  
 === Generate TypeORM entity
 
-Add a TypeOrm entity to your project. Requires TypeORM installed in the project.
+Add a TypeORM entity to your project. Requires TypeORM installed in the project.
 
 Execute `nest g -c @devon4node/schematics entity` and you will be asked for an entity name.
 
