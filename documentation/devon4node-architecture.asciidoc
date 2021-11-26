@@ -70,13 +70,13 @@ image::images/plantuml/modules.png[]
 
 In devon4node we three different kind of modules:
 
-- AppModule: this is the root module. Everything that our application need must be imported here.
-- Global Modules: this is a special kind of modules. When you make a module global, it's accessible for every module in your application. Your can see it in the next diagram. It's the same as the previous one, but now the CoreModule is global:
+- `AppModule`: this is the root module. Everything that our application need must be imported here.
+- Global Modules: this is a special kind of modules. When you make a module global, it's accessible for every module in your application. Your can see it in the next diagram. It's the same as the previous one, but now the `CoreModule` is global:
 +
 image::images/plantuml/module2.png[]
 +
-One example of global module is the CoreModule. In the CoreModule you must import every module which have providers that needs to be accessible in all modules of you application
-- Feature (or application) modules: modules which contains the logic of our application. We must import it in the AppModule.
+One example of global module is the `CoreModule`. In the `CoreModule` you must import every module which have providers that needs to be accessible in all modules of you application
+- Feature (or application) modules: modules which contains the logic of our application. We must import it in the `AppModule`.
 
 For more information about modules, see link:https://docs.nestjs.com/modules[NestJS documentation page]
 

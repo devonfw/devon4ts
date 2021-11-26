@@ -55,8 +55,8 @@ if (condition) {
 
 ==== File naming
 
-The file name must follow the pattern: (name in kebap case).(kind of component).(extension)
-The test file name must follow the pattern: (name in kebap case).(kind of component).spec.(extension)
+The file name must follow the pattern: (name in kebab case).(kind of component).(extension)
+The test file name must follow the pattern: (name in kebab case).(kind of component).spec.(extension)
 
 Example:
 
