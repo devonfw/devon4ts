@@ -30,10 +30,10 @@
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "@nestjs/common": "^7.0.4",
+    "@nestjs/common": "^8.0.6",
     "class-transformer": "^0.4.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4"
+    "rxjs": "^7.3.0"
   },
   "repository": {
     "type": "git",
