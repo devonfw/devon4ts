@@ -1,0 +1,90 @@
+:toc: macro
+toc::[]
+:idprefix:
+:idseparator: -
+
+= 12-factor-app with devon4j
+
+This document mainly focuses on discussing how can you create 12 factor app with devon4j. To know more about this 12 factors you can refer https://12factor.net/[here] . Twelve factor is mainly focus on creating cloud native applications. These are the guidelines on what factors you need to consider in different stages of application lifecycle.
+
+
+
+|===
+|Factor |Action
+
+|Codebase
+|*One codebase tracked in revision control, many deploys* +
+
+One codebase should be created with each process or service.
+Twelve factor app says do not share code between application. +
+If you must share code, build library and manage that through dependencies. +
+
+To create and manage library in spring boot refer https://docs.nestjs.com/cli/libraries[here]  +
+
+
+This factor mainly points at having seperate commit history for each service or process in case you are using any submodules consider using submodules in your revision control system as well.
+
+|Dependencies
+|*Explicitly declare and isolate dependencies*
+
+In devon4node we can declare dependencies in package.json. To isolate app from environment we can dockerize devon4j application.
+
+*References:* +
+
+Dockerize Nestjs app refer  https://dev.to/abbasogaji/how-to-dockerize-your-nestjs-app-for-production-2lmf[here].
+
+Dockerize Node app refer 
+https://blog.appsignal.com/2021/10/19/how-to-dockerize-an-existing-nodejs-application.html[here]
+
+|Config
+|*Store config in the environment*
+
+Here, configuration means anything which can vary between different deployment such as credential to external sources, backing services etc. To do such configuration in your java application refer guide https://docs.nestjs.com/techniques/configuration[here]
+
+|Backing services
+|*Treat backing services as attached resources*
+
+To design your services, refer devon4j guide https://github.com/devonfw/devon4j/blob/master/documentation/guide-service-layer.asciidoc#jax-rs-configuration[here] 
+
+|Build, release, run
+|*Strictly separate build and run stages*
+
+To create docker image for nestjs refer https://progressivecoder.com/how-to-create-a-multi-stage-nestjs-docker-deployment/[here]
+Refer guide https://github.com/ssarmokadam/devon4j/blob/12-factor-app-doc/documentation/build-release-run-12factor.asciidoc[here] for more details.
+
+|Processes
+|Do not store your states in in-memory cache instead use Redis or Memcached Refer guide for stateless programming in devon4node  
+https://docs.nestjs.com/fundamentals/injection-scopes[here]
+
+|Port binding
+|The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
+This is achieved in spring boot application as well as Quarkus. + 
+Both have embedded tomcat in it by default so we do not need to deploy explicitly and can be run as standalone application.
+
+|Concurrency
+|As process in application are stateless it will be easy to scale out application based on requirement. Refer guide for stateless programming  
+https://docs.nestjs.com/fundamentals/injection-scopes[here]
+because of stateless processes we can scale out easily.
+
+|Disposability
+|Check if start time of your application is less than or equal to minute or you may want to investigate cause for slower start up of your application. To improve your start up time you can refer https://docs.nestjs.com/first-steps[here]
+
+For graceful shutdown of web server nestjs refer document https://docs.nestjs.com/fundamentals/lifecycle-events[here]
+
+
+|Dev/prod parity
+|With docker this can be achieved.
+we should have the right processes like continuous integration and delivery to facilitate bridging this gap further.
+
+|Logs
+|*Treat logs as event streams*
+
+12 factor app treats log as event stream and do not consider details like log files to store etc. In practice to achieve this logs can be written to stdout and stderr etc and variables like log_level can be defined in environment variable or configuration management can take care of it. 
+
+In cloud provider such as AWS, services like AWS cloudwatch are available. AWS cloudwatch is a monitoring service and can be integrated easily in almost all other services. Redirecting application logs is possible from services like EC2 and ECS to cloudwatch. Similarly other cloud provider have different services for monitoring. 
+
+Also project can choose to redirect this log events to `datadog`,`splunk`,`ELK` etc
+
+|Admin processes
+|Create scripts for your admin jobs or consider to create Kubernetes job for this processes.
+|===
