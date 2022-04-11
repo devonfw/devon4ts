@@ -56,8 +56,8 @@ https://docs.nestjs.com/fundamentals/injection-scopes[here]
 
 |Port binding
 |The web app exports HTTP as a service by binding to a port, and listening to requests coming in on that port.
-This is achieved in spring boot application as well as Quarkus. + 
-Both have embedded tomcat in it by default so we do not need to deploy explicitly and can be run as standalone application.
+This is achieved in nestjs application. + 
+Refer https://docs.nestjs.com/microservices/basics[here].
 
 |Concurrency
 |As process in application are stateless it will be easy to scale out application based on requirement. Refer guide for stateless programming  
