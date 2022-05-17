@@ -37,6 +37,6 @@ export class CoffeeService {
 }
 ----
 
-This is the CoffeeService that we inject in the example of link:layer-controller[controller layer]. As you can see, a service is a regular class with the `Injectable` decorator. Also, it inject as dependency the data access layer (in this specific case, the Repository<Coffee>).
+This is the `CoffeeService` that we inject in the example of link:layer-controller[controller layer]. As you can see, a service is a regular class with the `Injectable` decorator. Also, it inject as dependency the data access layer (in this specific case, the Repository<Coffee>).
 
 The services expose methods in order to transform the input from the controllers by applying some business logic. They can also request data from the data access layer. And that's all.

@@ -21,7 +21,6 @@ In the folder /samples, you can find some devon4node examples that could be usef
 
 The samples are:
 
-* link:https://github.com/devonfw/devon4node/tree/develop/samples/todo[Todo]
 * link:https://github.com/devonfw/devon4node/tree/develop/samples/employee[Employee]
 * link:https://github.com/devonfw/devon4node/tree/develop/samples/components-example[Components example]
 
@@ -68,7 +67,13 @@ $ yarn start
 
 Now, you can access to the application using the url `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
 
-This is a simple example without authentication. With this example you can learn how to work with database migrations. You can find them in the folder /src/migrations. The TypeORM is configured in order to execute the migrations every time that you start this application (`"migrationsRun": true` at ormconfig.json). You can also execute the migration manually by typing the command `devon4node db migration:run`, or revert executing `devon4node db migration:revert`. Take into account that the database that this application is using is an in-memory sqlite, so every time that you stop the application all data is lost.
+This is a simple example without authentication. With this example you can learn how to work with database migrations. You can find them in the folder /src/migrations. The TypeORM is configured in order to execute the migrations every time that you start this application at ormconfig.json with the following flag:
+[source]
+----
+"migrationsRun": true
+----
+
+You can also execute the migration manually by typing the command `devon4node db migration:run`, or revert executing `devon4node db migration:revert`. Take into account that the database that this application is using is an in-memory sqlite, so every time that you stop the application all data is lost.
 
 == Components example
 
@@ -84,4 +89,3 @@ $ yarn start
 ----
 
 In order to see the execution order, you can call to `http://localhost:3000/v1`. It will show you the execution order of all components except the filters. If you want to know the execution order while a filter is applied, call to the endpoint with the following queries: `?hello=error`, `?hello=controller`, `?hello=global`.
-

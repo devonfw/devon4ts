@@ -51,7 +51,7 @@ Go inside project folder: `cd employee`.
 +
 Config module: `nest g -c @devon4node/schematics config-module`.
 +
-Typeorm database, choose sqlite DB when asked `nest g -c @devon4node/schematics typeorm`.
+TypeORM database, choose sqlite DB when asked `nest g -c @devon4node/schematics typeorm`.
 +
 Add security: `nest g -c @devon4node/schematics security`.
 +
@@ -250,12 +250,12 @@ export class Employee extends BaseEntity {
 +
 . Generate database migrations
 .. Build the application: `yarn build`
-.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node`
+.. In order to create migration scripts with TypeORM, you need to install ts-node: `yarn global add ts-node`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
 image::images/sample/generate-migrations.PNG[] 
 +
-The optput will be something similar to:
+The output will be something similar to:
 +
 [source,typescript]
 ----

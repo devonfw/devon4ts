@@ -54,9 +54,9 @@ To start creating a devon4node application, execute the command:
 
 If you do not put a name, the command line will ask you for one.
 
-=== Generate code for Typeorm
+=== Generate code for TypeORM
 
-Initialize typeorm into your current project in a correct way.
+Initialize TypeORM into your current project in a correct way.
 
 `nest g -c @devon4node/schematics typeorm`
 
@@ -74,9 +74,9 @@ Execute `nest g -c @devon4node/schematics crud` and then you will need to write 
 
 image::images/crud-schematic.PNG[]
  
-=== Generate Typeorm entity
+=== Generate TypeORM entity
 
-Add a TypeOrm entity to your project. Requires TypeORM installed in the project.
+Add a TypeORM entity to your project. Requires TypeORM installed in the project.
 
 Execute `nest g -c @devon4node/schematics entity` and you will be asked for an entity name.
 
@@ -124,14 +124,14 @@ Execute `nest g -c @devon4node/schematics security`
 === Generate database migrations
 
 . Generate database migrations
-.. In order to create migration scripts with typeorm, you need to install ts-node: `yarn global add ts-node` or `npm i -g ts-node`
+.. In order to create migration scripts with TypeORM, you need to install ts-node: `yarn global add ts-node` or `npm i -g ts-node`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
 image::images/insert-data.PNG[]
 It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the todo example
 
-As typeorm is the tool used for DB. You can check official documentation for more information. 
-See link:https://typeorm.io/#/using-cli[typeorm CLI documentation].
+As TypeORM is the tool used for DB. You can check official documentation for more information. 
+See link:https://typeorm.io/#/using-cli[TypeORM CLI documentation].
 
 == CobiGen
 
