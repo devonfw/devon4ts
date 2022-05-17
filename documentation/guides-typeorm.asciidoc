@@ -17,15 +17,15 @@ toc::[]
 
 = TypeORM
 
-TypeORM is the default ORM provided by devon4node. It supports MySQL, MariaDB, Postgres, CockroachDB, SQLite, Microsoft SQL Server, Oracle, sql.js relational dabases and also supports MongoDB NoSQL database.
+TypeORM is the default ORM provided by devon4node. It supports MySQL, MariaDB, Postgres, CockroachDB, SQLite, Microsoft SQL Server, Oracle, sql.js relational database and also supports MongoDB NoSQL database.
 
-Add TypeORM support to a devon4node application is very easy: you only need to execute the command `nest g -c @devon4node/schematics typeorm` and it will add all required dependencies to the project and also imports the @nestjs/typeorm module.
+Add TypeORM support to a devon4node application is very easy: you only need to execute the command `nest g -c @devon4node/schematics typeorm` and it will add all required dependencies to the project and also imports the `@nestjs/typeorm` module.
 
 For more information about TypeORM and the integration with NestJS you can visit link:https://typeorm.io[TypeORM webpage], link:https://github.com/typeorm/typeorm[TypeORM GitHub repository] and link:https://docs.nestjs.com/recipes/sql-typeorm[NestJS TypeORM documentation page]
 
 == Configuration
 
-When you have the configuration module, the typeorm generator will add one property in order to be able to configure the database depending on the environment. Example:
+When you have the configuration module, the TypeORM generator will add one property in order to be able to configure the database depending on the environment. Example:
 
 [source,typescript]
 ----
@@ -46,9 +46,9 @@ database: {
 },
 ----
 
-This object is a TypeORM ConnectionOptions. For fore information about it visit the link:https://typeorm.io/#/connection-options/[TypeORM Connection Options page].
+This object is a TypeORM `ConnectionOptions`. For fore information about it visit the link:https://typeorm.io/#/connection-options/[TypeORM Connection Options page].
 
-There is also a special case: the default configuration. As the devon4node CLI need the database configuration when you use the `devon4node db` command, we also provide the ormconfig.json file. In this file you must put the configuration for you local environment. In order to do not have duplicated the configuration for local environment, in the default config file the database property is setted like:
+There is also a special case: the default configuration. As the devon4node CLI need the database configuration when you use the `devon4node db` command, we also provide the ormconfig.json file. In this file you must put the configuration for you local environment. In order to do not have duplicated the configuration for local environment, in the default config file the database property is set-up like:
 
 [source,typescript]
 ----
@@ -63,10 +63,10 @@ Entity is a class that maps to a database table. The devon4node schematics has a
 
 In the entity, you must define all columns, relations, primary keys of your database table. By default, devon4node provides a class named `BaseEntity`. All entities created with the devon4node schematics will extends the `BaseEntity`. This entity provides you some common columns:
 
-- id: the primary key of you table
-- version: the version of the entry (used for auditing purposes)
-- createdAt: creation date of the entry (used for auditing purposes)
-- updatedAt: last update date of the entry (used for auditing purposes)
+- `id`: the primary key of you table
+- `version`: the version of the entry (used for auditing purposes)
+- `createdAt`: creation date of the entry (used for auditing purposes)
+- `updatedAt`: last update date of the entry (used for auditing purposes)
 
 For more information about Entities, please visit the link:https://typeorm.io/#/entities[TypeORM entities page]
 
@@ -85,7 +85,7 @@ To use a repository you only need to:
 })
 ----
 +
-NOTE: if you generate the entities with the devon4node schematic, this step is not neccesary, devon4node schematic will do it for you.
+NOTE: if you generate the entities with the devon4node schematic, this step is not necessary, devon4node schematic will do it for you.
 +
 - Inject the repository as dependency in your service:
 +

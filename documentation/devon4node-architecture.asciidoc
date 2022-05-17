@@ -17,13 +17,13 @@ toc::[]
 
 = devon4node Architecture
 
-As we mention in the introduction, devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications.
+As we have mentioned in the introduction, devon4node is based on link:https://nestjs.com/[NestJS]. Nest (NestJS) is a framework for building efficient, scalable Node.js server-side applications.
 
 == HTTP layer
 
 By using link:https://nestjs.com/[NestJS], devon4node is a platform-agnostic framework. NestJS focuses only on the logical layer, and delegates the transport layer to another framework, such as ExpressJS. You can see it in the following diagram:
 
-image::images/devon4node-architechture.png[]
+image::images/devon4node-architecture.png[]
 
 As you can see, NestJS do not listen directly for incoming request. It has an adapter to communicate with ExpressJS and ExpressJS is the responsible for that. ExpressJS is only one of the frameworks that NestJS can work with. We have also another adapter available out-of-the-box: the link:https://www.fastify.io/[Fastify] adapter. With that, you can replace ExpressJS for Fastify But you can still use all your NestJS components. You can also create your own adapter to make NestJS work with other HTTP framework.
 
@@ -70,13 +70,13 @@ image::images/plantuml/modules.png[]
 
 In devon4node we three different kind of modules:
 
-- AppModule: this is the root module. Everything that our application need must be imported here.
-- Global Modules: this is a special kind of modules. When you make a module global, it's accessible for every module in your application. Your can see it in the next diagram. It's the same as the previous one, but now the CoreModule is global:
+- `AppModule`: this is the root module. Everything that our application need must be imported here.
+- Global Modules: this is a special kind of modules. When you make a module global, it's accessible for every module in your application. Your can see it in the next diagram. It's the same as the previous one, but now the `CoreModule` is global:
 +
 image::images/plantuml/module2.png[]
 +
-One example of global module is the CoreModule. In the CoreModule you must import every module which have providers that needs to be accessible in all modules of you application
-- Feature (or application) modules: modules which contains the logic of our application. We must import it in the AppModule.
+One example of global module is the `CoreModule`. In the `CoreModule` you must import every module which have providers that needs to be accessible in all modules of you application
+- Feature (or application) modules: modules which contains the logic of our application. We must import it in the `AppModule`.
 
 For more information about modules, see link:https://docs.nestjs.com/modules[NestJS documentation page]
 
