@@ -19,7 +19,7 @@ const templateWithConfig = `if (configModule.values.isDev) {
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup((configModule.values.globalPrefix || '') + '/api', app, swaggerDoc);
+    SwaggerModule.setup('v' + (configModule.values.defaultVersion) + '/api', app, swaggerDoc);
   }`;
 
 const template = `if (process.env.NODE_ENV === 'develop') {
@@ -31,7 +31,7 @@ const template = `if (process.env.NODE_ENV === 'develop') {
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('api', app, swaggerDoc);
+    SwaggerModule.setup('v1/api', app, swaggerDoc);
   }`;
 
 const defaultSwaggerValue = `{
@@ -57,8 +57,9 @@ function updatePackageJson(project: string): Rule {
     const packageJsonPath = join(project as Path, 'package.json');
     const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
 
-    packageJson.dependencies['@nestjs/swagger'] = packagesVersion.nestjsSwagger;
-    packageJson.dependencies['swagger-ui-express'] = packagesVersion.swaggerUiExpress;
+    packageJson.dependencies[packagesVersion.nestjsSwagger.packageName] = packagesVersion.nestjsSwagger.packageVersion;
+    packageJson.dependencies[packagesVersion.swaggerUiExpress.packageName] =
+      packagesVersion.swaggerUiExpress.packageVersion;
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     return tree;

@@ -86,6 +86,17 @@ export function addDefaultImports(fileContent: string, importValues: string, imp
 
   tsFile.addImportDeclaration({
     moduleSpecifier: importFrom,
+    defaultImport: importValues,
+  });
+
+  return tsFile.getText();
+}
+
+export function addImportsAs(fileContent: string, importValues: string, importFrom: string): string {
+  const tsFile = createSourceFile(fileContent);
+
+  tsFile.addImportDeclaration({
+    moduleSpecifier: importFrom,
     namespaceImport: importValues,
   });
 

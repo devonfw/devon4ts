@@ -4,7 +4,6 @@ import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
 import { addToModuleDecorator } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
-import { packagesVersion } from '../packagesVersion';
 
 interface ICrudOptions {
   name: string;
@@ -14,9 +13,6 @@ interface ICrudOptions {
 function updatePackageJson(path: string): Rule {
   return (tree: Tree): Tree => {
     const packageJson = JSON.parse(tree.read(join(path as Path, 'package.json'))!.toString());
-
-    packageJson.dependencies['@nestjsx/crud'] = packagesVersion.nestjsxCrud;
-    packageJson.dependencies['@nestjsx/crud-typeorm'] = packagesVersion.nestjsxCrudTypeorm;
 
     tree.overwrite(join(path as Path, 'package.json'), JSON.stringify(packageJson, null, 2));
     return tree;
@@ -37,8 +33,8 @@ function updateModule(crudName: string, modulePath: string) {
     let fileContent = addToModuleDecorator(
       tree.read(module)!.toString('utf-8'),
       moduleName,
-      './services/' + crudName + '.crud.service',
-      strings.classify(crudName) + 'CrudService',
+      './services/' + crudName + '.service',
+      strings.classify(crudName) + 'Service',
       'providers',
       false,
     );
@@ -46,8 +42,8 @@ function updateModule(crudName: string, modulePath: string) {
     fileContent = addToModuleDecorator(
       fileContent!,
       moduleName,
-      './controllers/' + crudName + '.crud.controller',
-      strings.classify(crudName) + 'CrudController',
+      './controllers/' + crudName + '.controller',
+      strings.classify(crudName) + 'Controller',
       'controllers',
       false,
     );

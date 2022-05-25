@@ -1,9 +1,9 @@
 import { Path, strings } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
-import { packagesVersion } from '../packagesVersion';
 import { addDefaultImports, insertLinesToFunctionBefore } from '../../utils/ast-utils';
 import { formatTsFile } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 export interface ISecurityInitializer {
   path?: string;
@@ -14,7 +14,7 @@ function updatePackageJson(project: string | undefined): Rule {
     const filePath = join((project || '.') as Path, 'package.json');
 
     const content = JSON.parse(host.read(filePath)!.toString('utf-8'));
-    content.dependencies.helmet = packagesVersion.helmet;
+    content.dependencies[packagesVersion.helmet.packageName] = packagesVersion.helmet.packageVersion;
 
     host.overwrite(filePath, JSON.stringify(content, null, 2));
 

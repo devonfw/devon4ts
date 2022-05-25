@@ -1,7 +1,7 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
-describe('Application Factory', () => {
+describe('Crud Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
 
   it('should manage name only', () => {
@@ -17,9 +17,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/.prettierrc',
+          '/README.md',
           '/nest-cli.json',
           '/package.json',
-          '/README.md',
           '/tsconfig.build.json',
           '/tsconfig.json',
           '/.eslintrc.js',
@@ -34,8 +34,8 @@ describe('Application Factory', () => {
           '/src/app/shared/filters/business-logic.filter.ts',
           '/src/app/shared/logger/winston.logger.ts',
           '/src/app/model/entities/crud.entity.ts',
-          '/src/app/controllers/crud.crud.controller.ts',
-          '/src/app/services/crud.crud.service.ts',
+          '/src/app/controllers/crud.controller.ts',
+          '/src/app/services/crud.service.ts',
           '/test/app.e2e-spec.ts',
           '/test/jest-e2e.json',
           '/.husky/.gitignore',
@@ -59,9 +59,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/project/.prettierrc',
+          '/project/README.md',
           '/project/nest-cli.json',
           '/project/package.json',
-          '/project/README.md',
           '/project/tsconfig.build.json',
           '/project/tsconfig.json',
           '/project/.eslintrc.js',
@@ -76,8 +76,8 @@ describe('Application Factory', () => {
           '/project/src/app/shared/filters/business-logic.filter.ts',
           '/project/src/app/shared/logger/winston.logger.ts',
           '/project/src/app/model/entities/crud.entity.ts',
-          '/project/src/app/controllers/crud.crud.controller.ts',
-          '/project/src/app/services/crud.crud.service.ts',
+          '/project/src/app/controllers/crud.controller.ts',
+          '/project/src/app/services/crud.service.ts',
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
           '/project/.husky/.gitignore',
@@ -101,9 +101,9 @@ describe('Application Factory', () => {
         const files: string[] = tree.files;
         expect(files).toEqual([
           '/project/.prettierrc',
+          '/project/README.md',
           '/project/nest-cli.json',
           '/project/package.json',
-          '/project/README.md',
           '/project/tsconfig.build.json',
           '/project/tsconfig.json',
           '/project/.eslintrc.js',
@@ -118,8 +118,8 @@ describe('Application Factory', () => {
           '/project/src/app/shared/filters/business-logic.filter.ts',
           '/project/src/app/shared/logger/winston.logger.ts',
           '/project/src/app/model/entities/crud-foo.entity.ts',
-          '/project/src/app/controllers/crud-foo.crud.controller.ts',
-          '/project/src/app/services/crud-foo.crud.service.ts',
+          '/project/src/app/controllers/crud-foo.controller.ts',
+          '/project/src/app/services/crud-foo.service.ts',
           '/project/test/app.e2e-spec.ts',
           '/project/test/jest-e2e.json',
           '/project/.husky/.gitignore',

@@ -65,6 +65,7 @@ function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean):
       true,
     );
   } else {
+    coreContent = addImports(coreContent, 'join', 'path');
     coreContent = addToModuleDecorator(
       coreContent,
       'CoreModule',

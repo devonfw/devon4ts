@@ -11,15 +11,14 @@ describe('Auth Factory', () => {
       path: 'path',
     };
     let app;
-    app = await runner.runSchematicAsync('application', optionsApp);
+    app = runner.runSchematicAsync('application', optionsApp);
     app.subscribe(async tree => {
-      app = await runner.runSchematicAsync('auth-jwt', optionsModule, tree);
+      app = runner.runSchematicAsync('auth-jwt', optionsModule, tree);
       app.subscribe(tree => {
         const files: string[] = tree.files;
         expect(files.find(filename => filename === '/path/src/app/core/core.module.ts')).toBeDefined();
         expect(tree.readContent('/path/src/app/core/core.module.ts')).toEqual(
-          "import { Global, Module } from '@nestjs/common';\n" +
-            "import { ClassSerializerInterceptor } from '@devon4node/common/serializer';\n" +
+          "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
             "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
             "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +

@@ -12,9 +12,9 @@ describe('Application Factory', () => {
       const files: string[] = tree.files;
       expect(files).toEqual([
         '/project/.prettierrc',
+        '/project/README.md',
         '/project/nest-cli.json',
         '/project/package.json',
-        '/project/README.md',
         '/project/tsconfig.build.json',
         '/project/tsconfig.json',
         '/project/.eslintrc.js',
@@ -45,9 +45,9 @@ describe('Application Factory', () => {
       const files: string[] = tree.files;
       expect(files).toEqual([
         '/dasherize-project/.prettierrc',
+        '/dasherize-project/README.md',
         '/dasherize-project/nest-cli.json',
         '/dasherize-project/package.json',
-        '/dasherize-project/README.md',
         '/dasherize-project/tsconfig.build.json',
         '/dasherize-project/tsconfig.json',
         '/dasherize-project/.eslintrc.js',

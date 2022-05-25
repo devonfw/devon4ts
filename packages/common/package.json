@@ -26,14 +26,9 @@
     "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "lodash": "^4.17.15"
-  },
+  "dependencies": {},
   "peerDependencies": {
-    "@nestjs/common": "^8.0.6",
-    "class-transformer": "^0.4.0",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.3.0"
+    "@nestjs/common": "^8.0.0"
   },
   "repository": {
     "type": "git",

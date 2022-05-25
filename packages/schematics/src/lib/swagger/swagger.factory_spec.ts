@@ -1,7 +1,7 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
-describe('Service Factory', () => {
+describe('Swagger Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should work', () => {
     const app: Record<string, any> = {
@@ -20,17 +20,24 @@ describe('Service Factory', () => {
           "import { NestFactory } from '@nestjs/core';\n" +
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
-            "import { ValidationPipe } from '@nestjs/common';\n" +
+            "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
             "import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
-            '  const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });\n' +
+            '  const app = await NestFactory.create(AppModule, { bufferLogs: true });\n' +
+            '\n' +
+            '  const logger = app.get(WinstonLogger);\n' +
+            '  app.useLogger(logger);\n' +
+            '\n' +
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
             '    }),\n' +
             '  );\n' +
-            "  app.setGlobalPrefix('v1');\n" +
+            '  app.enableVersioning({\n' +
+            '    type: VersioningType.URI,\n' +
+            "    defaultVersion: '1',\n" +
+            '  });\n' +
             "  if (process.env.NODE_ENV === 'develop') {\n" +
             '    const options = new DocumentBuilder()\n' +
             "      .setTitle('NestJS application')\n" +
@@ -40,7 +47,7 @@ describe('Service Factory', () => {
             '      .build();\n' +
             '\n' +
             '    const swaggerDoc = SwaggerModule.createDocument(app, options);\n' +
-            "    SwaggerModule.setup('api', app, swaggerDoc);\n" +
+            "    SwaggerModule.setup('v1/api', app, swaggerDoc);\n" +
             '  }\n' +
             '  await app.listen(3000);\n' +
             '}\n' +
@@ -67,17 +74,22 @@ describe('Service Factory', () => {
           "import { NestFactory } from '@nestjs/core';\n" +
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
-            "import { ValidationPipe } from '@nestjs/common';\n" +
+            "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
             "import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
-            '  const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });\n' +
+            '  const app = await NestFactory.create(AppModule, { bufferLogs: true });\n\n' +
+            '  const logger = app.get(WinstonLogger);\n' +
+            '  app.useLogger(logger);\n\n' +
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
             '    }),\n' +
             '  );\n' +
-            "  app.setGlobalPrefix('v1');\n" +
+            '  app.enableVersioning({\n' +
+            '    type: VersioningType.URI,\n' +
+            "    defaultVersion: '1',\n" +
+            '  });\n' +
             "  if (process.env.NODE_ENV === 'develop') {\n" +
             '    const options = new DocumentBuilder()\n' +
             "      .setTitle('NestJS application')\n" +
@@ -87,7 +99,7 @@ describe('Service Factory', () => {
             '      .build();\n' +
             '\n' +
             '    const swaggerDoc = SwaggerModule.createDocument(app, options);\n' +
-            "    SwaggerModule.setup('api', app, swaggerDoc);\n" +
+            "    SwaggerModule.setup('v1/api', app, swaggerDoc);\n" +
             '  }\n' +
             '  await app.listen(3000);\n' +
             '}\n' +

@@ -27,15 +27,15 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "fs-extra": "^10.0.0",
-    "nodemailer": "^6.4.4"
+    "fs-extra": "^10.1.0",
+    "nodemailer": "^6.7.5"
   },
   "peerDependencies": {
-    "@nestjs/common": "^8.0.6",
-    "@nestjs/core": "^8.0.6",
-    "handlebars": "^4.7.7",
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/core": "^8.0.0",
+    "handlebars": "^4.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.3.0"
+    "rxjs": "^7.0.0"
   },
   "repository": {
     "type": "git",

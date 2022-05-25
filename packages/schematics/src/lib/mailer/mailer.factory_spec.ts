@@ -17,11 +17,11 @@ describe('Mailer Factory', () => {
         expect(files.find(filename => filename === '/foo/templates/partials/layout.handlebars')).toBeDefined();
         expect(files.find(filename => filename === '/foo/templates/views/example.handlebars')).toBeDefined();
         expect(tree.readContent('/foo/src/app/core/core.module.ts')).toEqual(
-          "import { Global, Module } from '@nestjs/common';\n" +
-            "import { ClassSerializerInterceptor } from '@devon4node/common/serializer';\n" +
+          "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
             "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
             "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +
+            "import { join } from 'path';\n" +
             "import { MailerModule } from '@devon4node/mailer';\n" +
             '\n' +
             '@Global()\n' +

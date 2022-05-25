@@ -21,17 +21,22 @@ describe('Security Factory', () => {
           "import { NestFactory } from '@nestjs/core';\n" +
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
-            "import { ValidationPipe } from '@nestjs/common';\n" +
-            "import * as helmet from 'helmet';\n" +
+            "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
+            "import helmet from 'helmet';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
-            '  const app = await NestFactory.create(AppModule, { logger: new WinstonLogger() });\n' +
+            '  const app = await NestFactory.create(AppModule, { bufferLogs: true });\n\n' +
+            '  const logger = app.get(WinstonLogger);\n' +
+            '  app.useLogger(logger);\n\n' +
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
             '    }),\n' +
             '  );\n' +
-            "  app.setGlobalPrefix('v1');\n" +
+            '  app.enableVersioning({\n' +
+            '    type: VersioningType.URI,\n' +
+            "    defaultVersion: '1',\n" +
+            '  });\n' +
             '  app.use(helmet());\n' +
             '  app.enableCors({\n' +
             "    origin: '*',\n" +

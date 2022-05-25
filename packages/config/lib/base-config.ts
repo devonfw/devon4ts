@@ -14,7 +14,7 @@ export class BaseConfig {
   @IsOptional()
   @IsString()
   clientUrl?: string;
-  @IsOptional()
+  @IsDefined()
   @IsString()
-  globalPrefix?: string;
+  defaultVersion!: string;
 }

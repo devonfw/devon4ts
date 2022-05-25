@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@nestjs/typeorm": "<%= packagesVersion.nestjsTypeorm %>",
-    "typeorm": "<%= packagesVersion.typeorm %>",
-    "<%= packagesVersion.dbpackages[db][0] %>": "<%= packagesVersion.dbpackages[db][1] %>"
+    "<%= packagesVersion.nestjsTypeorm.packageName %>": "<%= packagesVersion.nestjsTypeorm.packageVersion %>",
+    "<%= packagesVersion.typeorm.packageName %>": "<%= packagesVersion.typeorm.packageVersion %>",
+    "<%= packagesVersion[db].packageName %>": "<%= packagesVersion[db].packageVersion %>"
   }
 }

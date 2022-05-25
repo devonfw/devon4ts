@@ -32,7 +32,12 @@ function updateMain(project: string) {
     mainFile = mainFile.replace('./app.module', './app/app.module');
     mainFile = mainFile.replace(
       'NestFactory.create(AppModule)',
-      'NestFactory.create(AppModule, { logger: new WinstonLogger() })',
+      `NestFactory.create(AppModule, { bufferLogs: true });
+
+      const logger = app.get(WinstonLogger);
+      app.useLogger(logger);
+
+      `,
     );
 
     mainFile = insertLinesToFunctionBefore(
@@ -50,12 +55,15 @@ function updateMain(project: string) {
       mainFile,
       'bootstrap',
       'app.listen',
-      // tslint:disable-next-line: quotemark
-      "app.setGlobalPrefix('v1');",
+      `app.enableVersioning({
+        type: VersioningType.URI,
+        defaultVersion: '1',
+      });`,
     );
 
     mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
+    mainFile = addImports(mainFile, 'VersioningType', '@nestjs/common');
     mainFile = addReturnTypeToFunction(mainFile, 'bootstrap', 'Promise<void>');
     host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 

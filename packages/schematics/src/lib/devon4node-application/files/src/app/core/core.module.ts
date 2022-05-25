@@ -1,5 +1,4 @@
-import { Global, Module } from '@nestjs/common';
-import { ClassSerializerInterceptor } from '@devon4node/common/serializer';
+import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import { WinstonLogger } from '../shared/logger/winston.logger';
 import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';

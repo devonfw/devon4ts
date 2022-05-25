@@ -1,9 +1,9 @@
 /* istanbul ignore file */
-import { Logger, LogLevel } from '@nestjs/common';
+import { ConsoleLogger, Logger, LogLevel } from '@nestjs/common';
 import { join } from 'path';
 import * as winston from 'winston';
 
-export class WinstonLogger extends Logger {
+export class WinstonLogger extends ConsoleLogger {
   private static DEFAULT_LOG_LEVEL: 'info' | 'error' | 'warn' | 'http' | 'verbose' | 'debug' | 'silly' = 'info';
   private console = true;
   private logger?: winston.Logger;
