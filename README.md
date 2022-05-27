@@ -27,8 +27,7 @@ Visit [key principles document](https://github.com/devonfw/.github/blob/master/k
 
 ## Samples
 
-- [TODO example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a TODO management application.
-- [Employee example](https://github.com/devonfw/devon4node/tree/develop/samples/todo): simple backend example for a employee management application.
-- [Components example](https://github.com/devonfw/devon4node/tree/develop/samples/employee): simple backend example which will show you the execution order of the devon4node components.
-- [GraphQL example](https://github.com/devonfw/devon4node/tree/develop/samples/graphql): simple GraphQL example with starter configuration.
+- [Employee example](https://github.com/devonfw-sample/devon4node-samples/tree/develop/employee): simple backend example for a employee management application.
+- [Components example](https://github.com/devonfw-sample/devon4node/tree/develop/components-example): simple backend example which will show you the execution order of the devon4node components.
+- [GraphQL example](https://github.com/devonfw-sample/devon4node/tree/develop/graphql): simple GraphQL example with starter configuration.
 - [My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.

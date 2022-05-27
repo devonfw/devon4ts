@@ -21,7 +21,7 @@ Devon4node configuration module allows you to manage the multiple configurations
 
 The main difference with other configuration modules is that `@devon4node/config` stores all configuration in typescript files. With that you will be able to configure different values depending on the environment, but also you can configure functions, arrays, objects and so on. As some configurations must secret and that configuration will be known only at runtime, it also provides a mechanism to override your configuration by using environment variables.
 
-With `@devon4node/config` you will be able to valide your configuration based on class-validator.
+With `@devon4node/config` you will be able to validate your configuration based on class-validator.
 
 == Include Configuration Module in your project
 
@@ -32,7 +32,6 @@ devon4node provides a way to generate a configuration module inside your appicat
 ** default configuration: configuration for your local development environment.
 ** develop environment configuration for the develop environment.
 ** uat environment configuration for the uat environment.
-** production environment configuration for the production environment.
 ** production environment configuration for the production environment.
 ** test environment configuration used by test.
 

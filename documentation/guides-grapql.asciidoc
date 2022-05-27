@@ -67,7 +67,7 @@ This tutorial uses the schema first method.
 
 We assume you have already a functioning TODO module / app.
 
-If not you can use https://github.com/devonfw/devon4node/tree/develop/samples/graphql[Devon4node GraphQL sample]
+If not you can use https://github.com/devonfw-sample/devon4node-samples/tree/develop/graphql[Devon4node GraphQL sample]
 ====
 
 First we need to import GraphQLModule to our `app.module.ts`.
@@ -207,7 +207,7 @@ Learn more about Resolvers, mutations and their argument decorators on the https
 
 === Playground
 
-To test our backend we can use tools as Postman, but graphql already gives us a playground to test our Resolvers, we can access by default on `http://localhost:3000/graphql`. 
+To test our backend we can use tools as Postman, but graphql already gives us a playground to test our Resolvers, we can access by default on `http://localhost:3000/graphql`.
 
 We can call a query, or several queries this way:
 
@@ -255,7 +255,7 @@ mutation{
 }
 ----
 
-And the output 
+And the output
 
 [source,json]
 ----
