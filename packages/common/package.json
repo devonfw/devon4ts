@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/common",
-  "version": "3.1.1",
+  "version": "4.0.0-alpha.0",
   "description": "devon4node common library.",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,6 @@
     "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {},
   "peerDependencies": {
     "@nestjs/common": "^8.0.0"
   },
