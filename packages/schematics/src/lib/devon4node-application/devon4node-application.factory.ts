@@ -21,7 +21,7 @@ import { packagesVersion } from '../packagesVersion';
 import { mergeFiles } from '../../utils/merge';
 import { formatTsFile } from '../../utils/tree-utils';
 
-interface IDevon4nodeApplicationOptions {
+export interface IDevon4nodeApplicationOptions {
   name: string;
 }
 

@@ -10,6 +10,7 @@
     "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>"
   },
   "devDependencies": {
+    "<%= devon4nodeSchematics.packageName %>": "<%= devon4nodeSchematics.packageVersion %>",
     "<%= husky.packageName %>": "<%= husky.packageVersion %>",
     "<%= prettyQuick.packageName %>": "<%= prettyQuick.packageVersion %>",
     "<%= eslintPluginPrettier.packageName %>": "<%= eslintPluginPrettier.packageVersion %>"

@@ -41,6 +41,17 @@ function removeImportsFromTsFile(tsFile: SourceFile, importFrom: string): void {
   }
 }
 
+function updateImportsFromTsFile(tsFile: SourceFile, importFrom: string, newImportFrom: string): void {
+  const importsDeclaration = tsFile
+    .getImportDeclarations()
+    .filter(e => e.getModuleSpecifier().getLiteralValue() === importFrom);
+  if (importsDeclaration && importsDeclaration.length) {
+    importsDeclaration.forEach(e => {
+      e.set({ moduleSpecifier: newImportFrom });
+    });
+  }
+}
+
 function createSourceFile(fileContent: string): SourceFile {
   const tsProject = new Project({
     manipulationSettings: {
@@ -69,6 +80,14 @@ export function removeImports(fileContent: string, importFrom: string): string {
   const tsFile = createSourceFile(fileContent);
 
   removeImportsFromTsFile(tsFile, importFrom);
+
+  return tsFile.getText();
+}
+
+export function updateImports(fileContent: string, importFrom: string, newImportFrom: string): string {
+  const tsFile = createSourceFile(fileContent);
+
+  updateImportsFromTsFile(tsFile, importFrom, newImportFrom);
 
   return tsFile.getText();
 }
