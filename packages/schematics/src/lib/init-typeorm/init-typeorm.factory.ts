@@ -2,14 +2,14 @@ import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
+  addDecoratorToClassProp as addDecoratorsToClassProp,
   addEntryToObjctLiteralVariable,
   addImports,
   addPropToClass,
   addToModuleDecorator,
-  addDecoratorToClassProp as addDecoratorsToClassProp,
 } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface ITypeormOptions {
@@ -138,6 +138,7 @@ export function initTypeorm(options: ITypeormOptions): Rule {
       ),
       addTypeormToCoreModule(options.path),
       addDatabaseConfiguration(options.path),
+      installNodePackages(),
     ]);
   };
 }

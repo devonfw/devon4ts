@@ -7,7 +7,7 @@ import {
   addPropToClass,
   insertLinesToFunctionBefore,
 } from '../../utils/ast-utils';
-import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.values.isDev) {
@@ -110,13 +110,13 @@ function updateNestCliJson(project: string) {
 
     if (nestCliJson.compilerOptions) {
       if (nestCliJson.compilerOptions.plugins) {
-        nestCliJson.compilerOptions.plugins.push('@nestjs/swagger/plugin');
+        nestCliJson.compilerOptions.plugins.push('@nestjs/swagger');
       } else {
-        nestCliJson.compilerOptions.plugins = ['@nestjs/swagger/plugin'];
+        nestCliJson.compilerOptions.plugins = ['@nestjs/swagger'];
       }
     } else {
       nestCliJson.compilerOptions = {
-        plugins: ['@nestjs/swagger/plugin'],
+        plugins: ['@nestjs/swagger'],
       };
     }
 
@@ -211,6 +211,7 @@ export function swagger(options: { path?: string }): Rule {
       updateMain(options.path),
       updateNestCliJson(options.path),
       updateBaseEntity(options.path),
+      installNodePackages(),
     ]);
   };
 }

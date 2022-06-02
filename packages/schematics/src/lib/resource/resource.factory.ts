@@ -2,7 +2,7 @@ import { basename, dirname, join, normalize } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import { branchAndMerge, chain, externalSchematic, FileEntry, forEach, Rule, Tree } from '@angular-devkit/schematics';
 import { updateImports } from '../../utils/ast-utils';
-import { formatTsFile } from '../../utils/tree-utils';
+import { formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface IResourceOptions {
@@ -215,6 +215,7 @@ export function main(options: IResourceOptions): Rule {
       externalSchematic('@nestjs/schematics', 'resource', normalizedOptions),
       moveToDevon4nodePaths(options.name),
       updatePackageJson(),
+      installNodePackages(),
     ]),
   );
 }

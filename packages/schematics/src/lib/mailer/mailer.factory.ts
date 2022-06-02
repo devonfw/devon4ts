@@ -2,14 +2,14 @@ import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import {
+  addDecoratorToClassProp,
   addEntryToObjctLiteralVariable,
   addImports,
   addPropToClass,
   addToModuleDecorator,
-  addDecoratorToClassProp,
 } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 interface IMailerOptions {
@@ -142,6 +142,7 @@ export function mailer(options: IMailerOptions): Rule {
         ]),
       ),
       addMailerToProject(projectPath),
+      installNodePackages(),
     ]);
   };
 }

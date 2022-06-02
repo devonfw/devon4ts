@@ -2,7 +2,7 @@ import { Path, strings } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { join } from 'path';
 import { addDefaultImports, insertLinesToFunctionBefore } from '../../utils/ast-utils';
-import { formatTsFile } from '../../utils/tree-utils';
+import { formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface ISecurityInitializer {
@@ -50,6 +50,6 @@ export function security(options: ISecurityInitializer): Rule {
       options.path = '.';
     }
     options.path = strings.dasherize(options.path);
-    return chain([updatePackageJson(options.path), updateMain(options.path)]);
+    return chain([updatePackageJson(options.path), updateMain(options.path), installNodePackages()]);
   };
 }

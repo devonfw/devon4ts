@@ -1,5 +1,6 @@
 import { join, Path } from '@angular-devkit/core';
-import { FileEntry, forEach, Rule, Tree } from '@angular-devkit/schematics';
+import { FileEntry, forEach, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { format, Options } from 'prettier';
 
@@ -79,4 +80,11 @@ export function existsConfigModule(tree: Tree, path: string): boolean {
   }
 
   return !!tree.read(core)?.toString().includes('ConfigModule');
+}
+
+export function installNodePackages(): Rule {
+  return (host: Tree, context: SchematicContext): Tree => {
+    context.addTask(new NodePackageInstallTask({ packageManager: 'yarn' }));
+    return host;
+  };
 }

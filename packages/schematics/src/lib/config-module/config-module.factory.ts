@@ -1,10 +1,10 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { packagesVersion } from '../packagesVersion';
-import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { addImports, addToModuleDecorator, insertLinesToFunctionAfter } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
+import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 interface IConfigOptions {
   name: string;
@@ -94,6 +94,7 @@ export function configModule(options: IConfigOptions): Rule {
       ),
       addToModule(options.path),
       updateMain(options.path),
+      installNodePackages(),
     ]);
   };
 }
