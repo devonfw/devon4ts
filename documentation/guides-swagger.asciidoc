@@ -25,6 +25,6 @@ Add swagger to a devon4node application is simple, you only need to execute the 
 
 The swagger module can read your code in order to create the swagger definition, but sometimes you need to help him by decorating your handlers.
 
-For more information about decorators and other behaviour about swagger module, you can see the link:https://docs.nestjs.com/recipes/swagger[NestJS swagger documentation page]
+For more information about decorators and other behavior about swagger module, you can see the link:https://docs.nestjs.com/recipes/swagger[NestJS swagger documentation page]
 
 NOTE: the OpenAPI specification that this module supports is v2.0. The OpenAPI v3.0 is not available yet by using this module.

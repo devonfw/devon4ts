@@ -12,7 +12,7 @@ toc::[]
 :idprefix:
 :idseperator: -
 :reproducible:
-:source-highligter: rouge
+:source-highlighter: rouge
 :listing-caption: Listing
 
 = Importing your ESLint reports into SonarQube
