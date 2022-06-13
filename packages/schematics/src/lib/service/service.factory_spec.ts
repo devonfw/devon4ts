@@ -10,10 +10,10 @@ describe('Service Factory', () => {
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/services/foo.service.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/src/app/services/foo.service.spec.ts')).toBeDefined();
-      expect(tree.readContent('/src/app/services/foo.service.ts')).toEqual(
-        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FooService {}\n',
+      expect(files.find(filename => filename === '/src/app/services/foos.service.ts')).toBeDefined();
+      expect(files.find(filename => filename === '/src/app/services/foos.service.spec.ts')).toBeDefined();
+      expect(tree.readContent('/src/app/services/foos.service.ts')).toEqual(
+        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FoosService {}\n',
       );
     });
   });
@@ -23,9 +23,9 @@ describe('Service Factory', () => {
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/bar/services/foo.service.ts')).toBeDefined();
-      expect(tree.readContent('/src/app/bar/services/foo.service.ts')).toEqual(
-        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FooService {}\n',
+      expect(files.find(filename => filename === '/src/app/bar/services/foos.service.ts')).toBeDefined();
+      expect(tree.readContent('/src/app/bar/services/foos.service.ts')).toEqual(
+        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FoosService {}\n',
       );
     });
   });
@@ -36,9 +36,9 @@ describe('Service Factory', () => {
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/bar/src/app/services/foo.service.ts')).toBeDefined();
-      expect(tree.readContent('/bar/src/app/services/foo.service.ts')).toEqual(
-        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FooService {}\n',
+      expect(files.find(filename => filename === '/bar/src/app/services/foos.service.ts')).toBeDefined();
+      expect(tree.readContent('/bar/src/app/services/foos.service.ts')).toEqual(
+        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FoosService {}\n',
       );
     });
   });
@@ -48,9 +48,12 @@ describe('Service Factory', () => {
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/services/foo-bar.service.ts')).toBeDefined();
-      expect(tree.readContent('/src/app/services/foo-bar.service.ts')).toEqual(
-        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FooBarService {}\n',
+      expect(files.find(filename => filename === '/src/app/services/foo-bars.service.ts')).toBeDefined();
+      expect(tree.readContent('/src/app/services/foo-bars.service.ts')).toEqual(
+        "import { Injectable } from '@nestjs/common';\n" +
+          '\n' +
+          '@Injectable()\n' +
+          'export class FooBarsService {}\n',
       );
     });
   });
@@ -62,9 +65,9 @@ describe('Service Factory', () => {
     };
     runner.runSchematicAsync('service', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/bar-baz/services/foo.service.ts')).toBeDefined();
-      expect(tree.readContent('/src/app/bar-baz/services/foo.service.ts')).toEqual(
-        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FooService {}\n',
+      expect(files.find(filename => filename === '/src/app/bar-baz/services/foos.service.ts')).toBeDefined();
+      expect(tree.readContent('/src/app/bar-baz/services/foos.service.ts')).toEqual(
+        "import { Injectable } from '@nestjs/common';\n" + '\n' + '@Injectable()\n' + 'export class FoosService {}\n',
       );
     });
   });
@@ -83,12 +86,12 @@ describe('Service Factory', () => {
             "import { AppController } from './app.controller';\n" +
             "import { AppService } from './app.service';\n" +
             "import { CoreModule } from './core/core.module';\n" +
-            "import { FooService } from './services/foo.service';\n" +
+            "import { FoosService } from './services/foos.service';\n" +
             '\n' +
             '@Module({\n' +
             '  imports: [CoreModule],\n' +
             '  controllers: [AppController],\n' +
-            '  providers: [FooService, AppService],\n' +
+            '  providers: [FoosService, AppService],\n' +
             '})\n' +
             'export class AppModule {}\n',
         );

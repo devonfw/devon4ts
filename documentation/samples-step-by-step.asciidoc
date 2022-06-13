@@ -15,16 +15,40 @@ toc::[]
 :source-highlighter: rouge
 :listing-caption: Listing
 
-= Create the employee sample step by step
+= Create the employee sample application step by step
 
-== Application requisites
+Here you will learn step by step how to create a devon4node application.
 
-The employee application needs:
+== Prerequisites
+
+=== Typescript
+
+In order to follow this guide, you must have a basic knowledge about typescript and its syntax. You can learn Typescript using this resources:
+
+* link:https://github.com/soyrochus/diggingjsandts/blob/master/Digging%20(in)%20JavaScript%20and%20TypeScript.pdf[Digging (in) Javascript and Typescript]
+* link:https://www.typescriptlang.org/docs/handbook/intro.html[Typescript handbook]
+* link:https://basarat.gitbook.io/typescript/[Typescript Deep Dive]
+
+=== Node.js
+
+Node.js is the runtime used in devon4node. It is required a basic knowledge about Node.js before starting to use devon4node.
+
+* link:https://nodejs.dev/learn/[Learn Node.js]
+
+=== NestJS
+
+devon4node is not a framework, is a set of good practices, modules and code generators to use with NestJS. In order to use devon4node, it requires NestJS basic knowledge. You can learn about NestJS in its link:https://docs.nestjs.com/[official documentation].
+
+== Employee application
+
+=== Application requisites
+
+The employee application will have:
 
 * A configuration module
 * A SQLite in memory database
-* Security: CORS
-* Swagger support
+* Security: CORS + security headers
+* OpenAPI (aka Swagger) support
 * Authentication using JWT
 * CRUD for manage employees. The employees will have the following properties:
 ** name
@@ -253,7 +277,7 @@ export class Employee extends BaseEntity {
 .. In order to create migration scripts with TypeORM, you need to install ts-node: `yarn global add ts-node`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
-image::images/sample/generate-migrations.PNG[] 
+image::images/sample/generate-migrations.PNG[]
 +
 The output will be something similar to:
 +

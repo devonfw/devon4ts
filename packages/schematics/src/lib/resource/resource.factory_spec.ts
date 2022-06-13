@@ -6,7 +6,7 @@ describe('Resource Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   const defaultResourceOptions: IResourceOptions = {
     crud: false,
-    name: 'test',
+    name: 'tests',
     spec: true,
     type: 'rest',
   };
@@ -15,11 +15,11 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions };
     runner.runSchematicAsync('application', { name: 'test' }).subscribe(tree => {
       runner.runSchematicAsync('resource', options, tree).subscribe(tree => {
-        expect(tree.exists('/src/app/test/test.module.ts')).toBeDefined();
-        expect(tree.exists('/src/app/test/controllers/test.controller.spec.ts')).toBeDefined();
-        expect(tree.exists('/src/app/test/controllers/test.controller.ts')).toBeDefined();
-        expect(tree.exists('/src/app/test/services/test.service.spec.ts')).toBeDefined();
-        expect(tree.exists('/src/app/test/services/test.service.ts')).toBeDefined();
+        expect(tree.exists('/src/app/tests/tests.module.ts')).toBeDefined();
+        expect(tree.exists('/src/app/tests/controllers/tests.controller.spec.ts')).toBeDefined();
+        expect(tree.exists('/src/app/tests/controllers/tests.controller.ts')).toBeDefined();
+        expect(tree.exists('/src/app/tests/services/tests.service.spec.ts')).toBeDefined();
+        expect(tree.exists('/src/app/tests/services/tests.service.ts')).toBeDefined();
 
         done();
       });
@@ -29,15 +29,15 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.controller.spec.ts',
-        '/test/controllers/test.controller.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.controller.spec.ts',
+        '/tests/controllers/tests.controller.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.controller`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.controller`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../services/tests.service`);
 
       done();
     });
@@ -46,22 +46,22 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.controller.spec.ts',
-        '/test/controllers/test.controller.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.dto.ts',
-        '/test/model/dtos/update-test.dto.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.controller.spec.ts',
+        '/tests/controllers/tests.controller.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.dto.ts',
+        '/tests/model/dtos/update-test.dto.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.controller`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../model/dtos/update-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.controller`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/update-test.dto`);
       done();
     });
   });
@@ -69,15 +69,15 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, type: 'graphql-code-first' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.resolver.spec.ts',
-        '/test/controllers/test.resolver.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.resolver.spec.ts',
+        '/tests/controllers/tests.resolver.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.resolver`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.resolver.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.resolver`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.resolver.ts`)).toContain(`../services/tests.service`);
 
       done();
     });
@@ -86,18 +86,18 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true, type: 'graphql-code-first' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.resolver.spec.ts',
-        '/test/controllers/test.resolver.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.input.ts',
-        '/test/model/dtos/update-test.input.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.resolver.spec.ts',
+        '/tests/controllers/tests.resolver.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.input.ts',
+        '/tests/model/dtos/update-test.input.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.resolver`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.resolver.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.resolver`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.resolver.ts`)).toContain(`../services/tests.service`);
       done();
     });
   });
@@ -105,19 +105,19 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true, type: 'graphql-schema-first' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.graphql',
-        '/test/test.module.ts',
-        '/test/controllers/test.resolver.spec.ts',
-        '/test/controllers/test.resolver.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.input.ts',
-        '/test/model/dtos/update-test.input.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.graphql',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.resolver.spec.ts',
+        '/tests/controllers/tests.resolver.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.input.ts',
+        '/tests/model/dtos/update-test.input.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.resolver`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.resolver.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.resolver`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.resolver.ts`)).toContain(`../services/tests.service`);
       done();
     });
   });
@@ -125,19 +125,19 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true, type: 'graphql-schema-first' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.graphql',
-        '/test/test.module.ts',
-        '/test/controllers/test.resolver.spec.ts',
-        '/test/controllers/test.resolver.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.input.ts',
-        '/test/model/dtos/update-test.input.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.graphql',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.resolver.spec.ts',
+        '/tests/controllers/tests.resolver.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.input.ts',
+        '/tests/model/dtos/update-test.input.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.resolver`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.resolver.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.resolver`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.resolver.ts`)).toContain(`../services/tests.service`);
       done();
     });
   });
@@ -145,15 +145,15 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, type: 'microservice' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.controller.spec.ts',
-        '/test/controllers/test.controller.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.controller.spec.ts',
+        '/tests/controllers/tests.controller.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.controller`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.controller`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../services/tests.service`);
 
       done();
     });
@@ -162,22 +162,22 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true, type: 'microservice' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.controller.spec.ts',
-        '/test/controllers/test.controller.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.dto.ts',
-        '/test/model/dtos/update-test.dto.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.controller.spec.ts',
+        '/tests/controllers/tests.controller.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.dto.ts',
+        '/tests/model/dtos/update-test.dto.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.controller`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/controllers/test.controller.ts`)).toContain(`../model/dtos/update-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.controller`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/controllers/tests.controller.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/update-test.dto`);
       done();
     });
   });
@@ -185,15 +185,15 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, type: 'ws' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.gateway.spec.ts',
-        '/test/controllers/test.gateway.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.gateway.spec.ts',
+        '/tests/controllers/tests.gateway.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.gateway`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.gateway.ts`)).toContain(`../services/test.service`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.gateway`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.gateway.ts`)).toContain(`../services/tests.service`);
 
       done();
     });
@@ -202,22 +202,22 @@ describe('Resource Factory', () => {
     const options = { ...defaultResourceOptions, crud: true, type: 'ws' };
     runner.runSchematicAsync('resource', options).subscribe(tree => {
       expect(tree.files).toEqual([
-        '/test/test.module.ts',
-        '/test/controllers/test.gateway.spec.ts',
-        '/test/controllers/test.gateway.ts',
-        '/test/services/test.service.spec.ts',
-        '/test/services/test.service.ts',
-        '/test/model/dtos/create-test.dto.ts',
-        '/test/model/dtos/update-test.dto.ts',
-        '/test/model/entities/test.entity.ts',
+        '/tests/tests.module.ts',
+        '/tests/controllers/tests.gateway.spec.ts',
+        '/tests/controllers/tests.gateway.ts',
+        '/tests/services/tests.service.spec.ts',
+        '/tests/services/tests.service.ts',
+        '/tests/model/dtos/create-test.dto.ts',
+        '/tests/model/dtos/update-test.dto.ts',
+        '/tests/model/entities/test.entity.ts',
       ]);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./controllers/test.gateway`);
-      expect(tree.readContent(`/test/test.module.ts`)).toContain(`./services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.gateway.ts`)).toContain(`../services/test.service`);
-      expect(tree.readContent(`/test/controllers/test.gateway.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/controllers/test.gateway.ts`)).toContain(`../model/dtos/update-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/create-test.dto`);
-      expect(tree.readContent(`/test/services/test.service.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./controllers/tests.gateway`);
+      expect(tree.readContent(`/tests/tests.module.ts`)).toContain(`./services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.gateway.ts`)).toContain(`../services/tests.service`);
+      expect(tree.readContent(`/tests/controllers/tests.gateway.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/controllers/tests.gateway.ts`)).toContain(`../model/dtos/update-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/create-test.dto`);
+      expect(tree.readContent(`/tests/services/tests.service.ts`)).toContain(`../model/dtos/update-test.dto`);
       done();
     });
   });

@@ -64,6 +64,39 @@
         "message": "Would you like to generate CRUD entry points?",
         "type": "confirmation"
       }
+    },
+    "orm": {
+      "type": "string",
+      "description": "ORM to generate specific files.",
+      "default": "none",
+      "enum": [
+        "none",
+        "typeorm",
+        "prisma",
+        "mongoose"
+      ],
+      "x-prompt": {
+        "message": "Which ORM are you using? (No efect if you are not generating the CRUD)",
+        "type": "list",
+        "items": [
+          {
+            "value": "none",
+            "label": "I'm not using any ORM"
+          },
+          {
+            "value": "typeorm",
+            "label": "TypeORM"
+          },
+          {
+            "value": "prisma",
+            "label": "Prisma"
+          },
+          {
+            "value": "mongoose",
+            "label": "Mongoose"
+          }
+        ]
+      }
     }
   },
   "required": [

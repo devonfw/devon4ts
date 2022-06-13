@@ -21,6 +21,7 @@ describe('Swagger Factory', () => {
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
             "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
+            "import { EntityNotFoundFilter } from './app/shared/filters/entity-not-found.filter';\n" +
             "import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
@@ -32,8 +33,12 @@ describe('Swagger Factory', () => {
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
+            '      transformOptions: {\n' +
+            '        excludeExtraneousValues: true,\n' +
+            '      },\n' +
             '    }),\n' +
             '  );\n' +
+            '  app.useGlobalFilters(new EntityNotFoundFilter(logger));\n' +
             '  app.enableVersioning({\n' +
             '    type: VersioningType.URI,\n' +
             "    defaultVersion: '1',\n" +
@@ -53,7 +58,7 @@ describe('Swagger Factory', () => {
             '}\n' +
             'bootstrap();\n',
         );
-        expect(tree.readContent('/nest-cli.json')).toContain('@nestjs/swagger/plugin');
+        expect(tree.readContent('/nest-cli.json')).toContain('@nestjs/swagger');
       });
     });
   });
@@ -75,6 +80,7 @@ describe('Swagger Factory', () => {
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
             "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
+            "import { EntityNotFoundFilter } from './app/shared/filters/entity-not-found.filter';\n" +
             "import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
@@ -84,8 +90,12 @@ describe('Swagger Factory', () => {
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
+            '      transformOptions: {\n' +
+            '        excludeExtraneousValues: true,\n' +
+            '      },\n' +
             '    }),\n' +
             '  );\n' +
+            '  app.useGlobalFilters(new EntityNotFoundFilter(logger));\n' +
             '  app.enableVersioning({\n' +
             '    type: VersioningType.URI,\n' +
             "    defaultVersion: '1',\n" +
@@ -105,7 +115,7 @@ describe('Swagger Factory', () => {
             '}\n' +
             'bootstrap();\n',
         );
-        expect(tree.readContent('/app/nest-cli.json')).toContain('@nestjs/swagger/plugin');
+        expect(tree.readContent('/app/nest-cli.json')).toContain('@nestjs/swagger');
       });
     });
   });

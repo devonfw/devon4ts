@@ -18,9 +18,8 @@ describe('Mailer Factory', () => {
         expect(files.find(filename => filename === '/foo/templates/views/example.handlebars')).toBeDefined();
         expect(tree.readContent('/foo/src/app/core/core.module.ts')).toEqual(
           "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
-            "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
+            "import { APP_INTERCEPTOR } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
-            "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +
             "import { join } from 'path';\n" +
             "import { MailerModule } from '@devon4node/mailer';\n" +
             '\n' +
@@ -45,11 +44,7 @@ describe('Mailer Factory', () => {
             '    }),\n' +
             '  ],\n' +
             '  controllers: [],\n' +
-            '  providers: [\n' +
-            '    { provide: APP_FILTER, useClass: BusinessLogicFilter },\n' +
-            '    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },\n' +
-            '    WinstonLogger,\n' +
-            '  ],\n' +
+            '  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],\n' +
             '  exports: [MailerModule, WinstonLogger],\n' +
             '})\n' +
             'export class CoreModule {}\n',

@@ -1,8 +1,24 @@
-import { basename, dirname, join, normalize } from '@angular-devkit/core';
+import { basename, dirname, join, normalize, Path, strings } from '@angular-devkit/core';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
-import { branchAndMerge, chain, externalSchematic, FileEntry, forEach, Rule, Tree } from '@angular-devkit/schematics';
+import {
+  apply,
+  chain,
+  externalSchematic,
+  FileEntry,
+  forEach,
+  MergeStrategy,
+  mergeWith,
+  move,
+  noop,
+  Rule,
+  schematic,
+  template,
+  Tree,
+  url,
+} from '@angular-devkit/schematics';
+import * as pluralize from 'pluralize';
 import { updateImports } from '../../utils/ast-utils';
-import { formatTsFile, installNodePackages } from '../../utils/tree-utils';
+import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 export interface IResourceOptions {
@@ -10,9 +26,11 @@ export interface IResourceOptions {
   spec: boolean;
   type: string;
   crud: boolean;
+  orm?: string;
 }
 
 const defaultOptions = {
+  orm: 'none',
   path: 'app',
   language: 'ts',
   flat: false,
@@ -20,7 +38,8 @@ const defaultOptions = {
 };
 
 function updateDtoImports(content: string, name: string): string {
-  const dtoImports = `./dto/${dasherize('create-' + name)}.dto`;
+  const nameSingular = pluralize(name, 1);
+  const dtoImports = `./dto/${dasherize('create-' + nameSingular)}.dto`;
   let contentCopy = content;
   let fileType = 'input';
 
@@ -30,13 +49,13 @@ function updateDtoImports(content: string, name: string): string {
 
   contentCopy = updateImports(
     contentCopy,
-    `./dto/${dasherize('create-' + name)}.${fileType}`,
-    `../model/dtos/${dasherize('create-' + name)}.${fileType}`,
+    `./dto/${dasherize('create-' + nameSingular)}.${fileType}`,
+    `../model/dtos/${dasherize('create-' + nameSingular)}.${fileType}`,
   );
   contentCopy = updateImports(
     contentCopy,
-    `./dto/${dasherize('update-' + name)}.${fileType}`,
-    `../model/dtos/${dasherize('update-' + name)}.${fileType}`,
+    `./dto/${dasherize('update-' + nameSingular)}.${fileType}`,
+    `../model/dtos/${dasherize('update-' + nameSingular)}.${fileType}`,
   );
 
   return contentCopy;
@@ -63,14 +82,15 @@ function updateControllers(fileEntry: FileEntry, name: string): FileEntry {
 function updateResolvers(fileEntry: FileEntry, name: string): FileEntry {
   const fileName = basename(fileEntry.path);
   const dirName = dirname(fileEntry.path);
+  const nameSingular = pluralize(name, 1);
 
   let content = fileEntry.content.toString();
 
   content = updateImports(content, `./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`);
   content = updateImports(
     content,
-    `./entities/${dasherize(name)}.entity`,
-    `../model/entities/${dasherize(name)}.entity`,
+    `./entities/${dasherize(nameSingular)}.entity`,
+    `../model/entities/${dasherize(nameSingular)}.entity`,
   );
 
   if (!fileName.endsWith('spec.ts')) {
@@ -200,22 +220,64 @@ function updatePackageJson(): Rule {
   };
 }
 
-export function main(options: IResourceOptions): Rule {
-  const normalizedOptions = Object.assign(defaultOptions, options);
-  return branchAndMerge(
-    chain([
-      (host: Tree): Tree => {
-        const files = ['/package.json', '/nest-cli.json', '/tsconfig.json'];
-        if (!files.map(file => host.exists(file)).some(exists => exists)) {
-          normalizedOptions.path = '';
-        }
+function overrideCrud(options: IResourceOptions): Rule {
+  if (!options.crud) {
+    noop();
+  }
 
-        return host;
-      },
-      externalSchematic('@nestjs/schematics', 'resource', normalizedOptions),
-      moveToDevon4nodePaths(options.name),
-      updatePackageJson(),
-      installNodePackages(),
-    ]),
-  );
+  const templateOpts = {
+    name: options.name,
+    nameSingular: pluralize(options.name, 1),
+  };
+  return chain([
+    options.orm === 'typeorm'
+      ? schematic('entity', {
+          name: join(options.name as Path, pluralize(options.name, 1)),
+          overwrite: true,
+        })
+      : noop(),
+    mergeWith(
+      apply(url(`./files/${options.orm}/${options.type}`), [
+        template({
+          ...strings,
+          ...templateOpts,
+        }),
+        move(join('src/app/' as Path, options.name)),
+      ]),
+      MergeStrategy.Overwrite,
+    ),
+  ]);
+
+  // TODO: refactor this to include more ORMs
+
+  return noop();
+}
+
+function transform(options: IResourceOptions): IResourceOptions & {
+  path: string;
+  language: string;
+  flat: boolean;
+  skipImport: boolean;
+} {
+  return { ...defaultOptions, ...options, name: dasherize(options.name) };
+}
+
+export function main(options: IResourceOptions): Rule {
+  const normalizedOptions = transform(options);
+  return chain([
+    (host: Tree): Tree => {
+      const files = ['/package.json', '/nest-cli.json', '/tsconfig.json'];
+      if (!files.map(file => host.exists(file)).some(exists => exists)) {
+        normalizedOptions.path = '';
+      }
+
+      return host;
+    },
+    externalSchematic('@nestjs/schematics', 'resource', normalizedOptions),
+    moveToDevon4nodePaths(normalizedOptions.name),
+    overrideCrud(normalizedOptions),
+    updatePackageJson(),
+    formatTsFiles(),
+    installNodePackages(),
+  ]);
 }

@@ -64,15 +64,9 @@ Then, you will be asked about which DB you want to use.
 
 image:images/typeorm-schematic.PNG[]
 
-=== Generate CRUD
+=== Generate Resource
 
-Generate CRUD methods for a entity. Requires TypeORM installed in the project.
-
-Add an entity (if not exists), controller and service in the module in order to provide all CRUD methods to manage the entity.
-
-Execute `nest g -c @devon4node/schematics crud` and then you will need to write a name for the crud.
-
-image::images/crud-schematic.PNG[]
+Same as NestJS Resource but using devon4node folder structure.
 
 === Generate TypeORM entity
 
@@ -115,7 +109,7 @@ Execute `nest g -c @devon4node/schematics auth-jwt`
 
 === Add security
 
-Add cors and helmet to your project.
+Add CORS and helmet to your project.
 
 It will add helmet package as project dependency and update the main.ts file in order to enable the cors and helmet in your application.
 
@@ -128,7 +122,7 @@ Execute `nest g -c @devon4node/schematics security`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
 image::images/insert-data.PNG[]
-It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the todo example
+It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the ToDo example
 
 As TypeORM is the tool used for DB. You can check official documentation for more information.
 See link:https://typeorm.io/#/using-cli[TypeORM CLI documentation].

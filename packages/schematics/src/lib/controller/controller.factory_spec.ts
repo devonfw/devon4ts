@@ -11,13 +11,13 @@ describe('Controller Factory', () => {
     };
     runner.runSchematicAsync('controller', optionsApp).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/controllers/project.controller.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/src/app/controllers/project.controller.spec.ts')).not.toBeDefined();
-      expect(tree.readContent('/src/app/controllers/project.controller.ts')).toEqual(
+      expect(files.find(filename => filename === '/src/app/controllers/projects.controller.ts')).toBeDefined();
+      expect(files.find(filename => filename === '/src/app/controllers/projects.controller.spec.ts')).not.toBeDefined();
+      expect(tree.readContent('/src/app/controllers/projects.controller.ts')).toEqual(
         "import { Controller } from '@nestjs/common';\n" +
           '\n' +
           "@Controller('projects')\n" +
-          'export class ProjectController {}\n',
+          'export class ProjectsController {}\n',
       );
     });
   });
@@ -29,13 +29,13 @@ describe('Controller Factory', () => {
     };
     runner.runSchematicAsync('controller', optionsApp).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/bar/src/app/controllers/foo.controller.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/bar/src/app/controllers/foo.controller.spec.ts')).toBeDefined();
-      expect(tree.readContent('/bar/src/app/controllers/foo.controller.ts')).toEqual(
+      expect(files.find(filename => filename === '/bar/src/app/controllers/foos.controller.ts')).toBeDefined();
+      expect(files.find(filename => filename === '/bar/src/app/controllers/foos.controller.spec.ts')).toBeDefined();
+      expect(tree.readContent('/bar/src/app/controllers/foos.controller.ts')).toEqual(
         "import { Controller } from '@nestjs/common';\n" +
           '\n' +
           "@Controller('foos')\n" +
-          'export class FooController {}\n',
+          'export class FoosController {}\n',
       );
     });
   });
@@ -46,13 +46,13 @@ describe('Controller Factory', () => {
     };
     runner.runSchematicAsync('controller', optionsApp).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/src/app/controllers/foo-bar.controller.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/src/app/controllers/foo-bar.controller.spec.ts')).toBeDefined();
-      expect(tree.readContent('/src/app/controllers/foo-bar.controller.ts')).toEqual(
+      expect(files.find(filename => filename === '/src/app/controllers/foo-bars.controller.ts')).toBeDefined();
+      expect(files.find(filename => filename === '/src/app/controllers/foo-bars.controller.spec.ts')).toBeDefined();
+      expect(tree.readContent('/src/app/controllers/foo-bars.controller.ts')).toEqual(
         "import { Controller } from '@nestjs/common';\n" +
           '\n' +
           "@Controller('foo-bars')\n" +
-          'export class FooBarController {}\n',
+          'export class FooBarsController {}\n',
       );
     });
   });
@@ -70,11 +70,11 @@ describe('Controller Factory', () => {
             "import { AppController } from './app.controller';\n" +
             "import { AppService } from './app.service';\n" +
             "import { CoreModule } from './core/core.module';\n" +
-            "import { FooController } from './controllers/foo.controller';\n" +
+            "import { FoosController } from './controllers/foos.controller';\n" +
             '\n' +
             '@Module({\n' +
             '  imports: [CoreModule],\n' +
-            '  controllers: [FooController, AppController],\n' +
+            '  controllers: [FoosController, AppController],\n' +
             '  providers: [AppService],\n' +
             '})\n' +
             'export class AppModule {}\n',

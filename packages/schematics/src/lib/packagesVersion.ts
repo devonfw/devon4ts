@@ -14,7 +14,7 @@ export const packagesVersion = {
   nestjsJwt: { packageName: '@nestjs/jwt', packageVersion: '^8.0.0' },
   nestjsPassport: { packageName: '@nestjs/passport', packageVersion: '^8.2.1' },
   nestjsSwagger: { packageName: '@nestjs/swagger', packageVersion: '^5.2.1' },
-  nestjsTypeorm: { packageName: '@nestjs/typeorm', packageVersion: '^8.0.4' },
+  nestjsTypeorm: { packageName: '@nestjs/typeorm', packageVersion: '~8.0.4' },
   nestjsMappedTypes: { packageName: '@nestjs/mapped-types', packageVersion: '^1.0.1' },
   passport: { packageName: 'passport', packageVersion: '^0.5.3' },
   passportJwt: { packageName: 'passport-jwt', packageVersion: '^4.0.0' },

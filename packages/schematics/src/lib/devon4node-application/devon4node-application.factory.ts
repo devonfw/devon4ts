@@ -47,8 +47,12 @@ function updateMain(project: string) {
       `app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
     }),
-  );`,
+  );
+  app.useGlobalFilters(new EntityNotFoundFilter(logger));`,
     );
 
     mainFile = insertLinesToFunctionBefore(
@@ -64,6 +68,7 @@ function updateMain(project: string) {
     mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
     mainFile = addImports(mainFile, 'VersioningType', '@nestjs/common');
+    mainFile = addImports(mainFile, 'EntityNotFoundFilter', './app/shared/filters/entity-not-found.filter');
     mainFile = addReturnTypeToFunction(mainFile, 'bootstrap', 'Promise<void>');
     host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 

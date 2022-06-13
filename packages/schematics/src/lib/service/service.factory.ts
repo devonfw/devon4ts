@@ -2,6 +2,7 @@ import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, filter, mergeWith, move, noop, Rule, template, url } from '@angular-devkit/schematics';
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
+import * as pluralize from 'pluralize';
 import { addToModuleDecorator } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 
@@ -40,7 +41,7 @@ function updateModule(serviceName: string, modulePath: Path) {
 }
 
 export function main(options: IServiceOptions): Rule {
-  const name = strings.dasherize(basename(options.name as Path));
+  const name = pluralize(strings.dasherize(basename(options.name as Path)));
   const projectPath = options.path || '.';
   const path: Path = strings.dasherize(normalize(join(projectPath as Path, 'src/app', options.name, '..'))) as Path;
 

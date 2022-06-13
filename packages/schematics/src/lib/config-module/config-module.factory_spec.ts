@@ -22,6 +22,7 @@ describe('Config-module', () => {
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
             "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
+            "import { EntityNotFoundFilter } from './app/shared/filters/entity-not-found.filter';\n" +
             "import { ConfigService } from '@devon4node/config';\n" +
             "import { Config } from './app/shared/model/config/config.model';\n" +
             '\n' +
@@ -33,8 +34,12 @@ describe('Config-module', () => {
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
+            '      transformOptions: {\n' +
+            '        excludeExtraneousValues: true,\n' +
+            '      },\n' +
             '    }),\n' +
             '  );\n' +
+            '  app.useGlobalFilters(new EntityNotFoundFilter(logger));\n' +
             '  app.enableVersioning({\n' +
             '    type: VersioningType.URI,\n' +
             '    defaultVersion: configModule.values.defaultVersion,\n' +
@@ -62,9 +67,8 @@ describe('Config-module', () => {
         expect(files.find(filename => filename === '/src/app/core/core.module.ts')).toBeDefined();
         expect(tree.readContent('/src/app/core/core.module.ts')).toEqual(
           "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
-            "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
+            "import { APP_INTERCEPTOR } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
-            "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +
             "import { ConfigModule } from '@devon4node/config';\n" +
             "import { Config } from '../shared/model/config/config.model';\n" +
             '\n' +
@@ -76,11 +80,7 @@ describe('Config-module', () => {
             '    }),\n' +
             '  ],\n' +
             '  controllers: [],\n' +
-            '  providers: [\n' +
-            '    { provide: APP_FILTER, useClass: BusinessLogicFilter },\n' +
-            '    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },\n' +
-            '    WinstonLogger,\n' +
-            '  ],\n' +
+            '  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],\n' +
             '  exports: [ConfigModule, WinstonLogger],\n' +
             '})\n' +
             'export class CoreModule {}\n',

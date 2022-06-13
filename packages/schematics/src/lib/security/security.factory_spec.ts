@@ -22,6 +22,7 @@ describe('Security Factory', () => {
             "import { AppModule } from './app/app.module';\n" +
             "import { WinstonLogger } from './app/shared/logger/winston.logger';\n" +
             "import { ValidationPipe, VersioningType } from '@nestjs/common';\n" +
+            "import { EntityNotFoundFilter } from './app/shared/filters/entity-not-found.filter';\n" +
             "import helmet from 'helmet';\n" +
             '\n' +
             'async function bootstrap(): Promise<void> {\n' +
@@ -31,8 +32,12 @@ describe('Security Factory', () => {
             '  app.useGlobalPipes(\n' +
             '    new ValidationPipe({\n' +
             '      transform: true,\n' +
+            '      transformOptions: {\n' +
+            '        excludeExtraneousValues: true,\n' +
+            '      },\n' +
             '    }),\n' +
             '  );\n' +
+            '  app.useGlobalFilters(new EntityNotFoundFilter(logger));\n' +
             '  app.enableVersioning({\n' +
             '    type: VersioningType.URI,\n' +
             "    defaultVersion: '1',\n" +

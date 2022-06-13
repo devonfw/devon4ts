@@ -19,9 +19,8 @@ describe('Auth Factory', () => {
         expect(files.find(filename => filename === '/path/src/app/core/core.module.ts')).toBeDefined();
         expect(tree.readContent('/path/src/app/core/core.module.ts')).toEqual(
           "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
-            "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
+            "import { APP_INTERCEPTOR } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
-            "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +
             "import { AuthModule } from './auth/auth.module';\n" +
             "import { UserModule } from './user/user.module';\n" +
             '\n' +
@@ -29,11 +28,7 @@ describe('Auth Factory', () => {
             '@Module({\n' +
             '  imports: [UserModule, AuthModule],\n' +
             '  controllers: [],\n' +
-            '  providers: [\n' +
-            '    { provide: APP_FILTER, useClass: BusinessLogicFilter },\n' +
-            '    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },\n' +
-            '    WinstonLogger,\n' +
-            '  ],\n' +
+            '  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],\n' +
             '  exports: [UserModule, AuthModule, WinstonLogger],\n' +
             '})\n' +
             'export class CoreModule {}\n',
