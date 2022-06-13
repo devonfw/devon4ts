@@ -19,7 +19,7 @@ toc::[]
 
 This module enables you to send emails in devon4node. It also provides a template engine using Handlebars.
 
-It is a NestJS module that inject into your application a `MailerService`, which is the responsible to send the emails using the nodemailer library.
+It is a NestJS module that inject into your application a `MailerService`, which is the responsible to send the emails using the `nodemailer` library.
 
 == Installing
 

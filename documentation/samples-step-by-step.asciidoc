@@ -17,13 +17,13 @@ toc::[]
 
 = Create the employee sample application step by step
 
-Here you will learn step by step how to create a devon4node application.
+Here, you will learn step by step how to create a devon4node application.
 
 == Prerequisites
 
 === Typescript
 
-In order to follow this guide, you must have a basic knowledge about typescript and its syntax. You can learn Typescript using this resources:
+In order to follow this guide, you must have a basic knowledge about typescript and its syntax. You can learn Typescript using these resources:
 
 * link:https://github.com/soyrochus/diggingjsandts/blob/master/Digging%20(in)%20JavaScript%20and%20TypeScript.pdf[Digging (in) Javascript and Typescript]
 * link:https://www.typescriptlang.org/docs/handbook/intro.html[Typescript handbook]
@@ -41,30 +41,52 @@ devon4node is not a framework, is a set of good practices, modules and code gene
 
 == Employee application
 
+The `employee` is an application that allows you to manage your employee's information. With this applacation you will be able to register employees with its details, update existing employees details, get the registered employees and delete exiting employees.
+
+In this guide, we will create the employee's application step by step, showing you how to create a devon4node application from scratch.
+
 === Application requisites
 
-The employee application will have:
-
-* A configuration module
-* A SQLite in memory database
-* Security: CORS + security headers
-* OpenAPI (aka Swagger) support
-* Authentication using JWT
-* CRUD for manage employees. The employees will have the following properties:
-** name
-** surname
-** email
+* A configuration module, to manage different environments configuration properly.
+* A SQLite in memory database managed by TypeORM.
+* Security: CORS + security headers.
+* OpenAPI (aka Swagger) support following code-fist strategy.
+* Authentication using JWT.
+* CRUD to manage employees.
+** Create: only available for registered users.
+** Read: available for everyone.
+** Update: only available for registered users.
+** Delete: only available for admins.
+* Employees properties:
+** name: mandatory
+** surname: mandatory
+** email: mandatory
+** address: optional
 
 == Create the application
 
-. Install Nest CLI
+=== First steps (optional)
+
+If this is the first time that you are using `NestJS` or `devon4node`, you need some packages installed globally in your machine:
+
+* `Nest` CLI
 +
-Execute the command `yarn global add @nestjs/cli`
+[source,bash]
+npm i -g @nestjs/cli
 +
-. Install devon4node schematics
+This will provide you the `nest` command.
 +
-. Execute the command `yarn global add @devon4node/schematics`
+* `devon4node` schematics
 +
+[source,bash]
+npm i -g @devon4node/schematics
++
+This will provide you the `devon4node` code generators.
+
+`Yarn` is our preferred package manager. However, in this case we have used `npm` because the folder where npm global packages are installed is added to the PATH by default, while yarn's is not. You can use `yarn global add` if you add the yarn's bin folder to the PATH manually (use `yarn global bin` to get the bin folder path)
+
+=== Create the application skeleton
+
 . Create the new application
 +
 Execute the command `nest g -c @devon4node/schematics application employee`
