@@ -12,9 +12,9 @@ import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.values.isDev) {
     const options = new DocumentBuilder()
-      .setTitle(configModule.values.swaggerConfig.swaggerTitle)
-      .setDescription(configModule.values.swaggerConfig.swaggerDescription)
-      .setVersion(configModule.values.swaggerConfig.swaggerVersion)
+      .setTitle(configModule.values.swaggerConfig?.swaggerTitle ?? 'NestJS application')
+      .setDescription(configModule.values.swaggerConfig?.swaggerDescription ?? '')
+      .setVersion(configModule.values.swaggerConfig?.swaggerVersion ?? '0.0.1')
       .addBearerAuth()
       .build();
 

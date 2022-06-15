@@ -40,8 +40,8 @@ export class <%=classify(name)%>Service {
   }
 
   async update(id: number, update<%=classify(nameSingular)%>Dto: Update<%=classify(nameSingular)%>Dto): Promise<<%=classify(nameSingular)%>> {
-    const <%=nameSingular%> = plainToClass(<%=classify(nameSingular)%>, { ...update<%=classify(nameSingular)%>Dto, id });
     const found = await this.repository.findOne(id);
+    const <%=nameSingular%> = plainToClass(<%=classify(nameSingular)%>, { ...found, ...update<%=classify(nameSingular)%>Dto, id });
 
     if (!found) {
       throw new EntityNotFound(<%=classify(nameSingular)%>, id);

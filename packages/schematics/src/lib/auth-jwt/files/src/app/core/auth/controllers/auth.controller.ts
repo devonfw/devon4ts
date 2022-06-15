@@ -6,6 +6,7 @@ import { User } from '../../user/model/entities/user.entity';
 import { GetUser } from '../decorators/get-user.decorator';
 import { LoginDTO } from '../model/login.dto';
 import { AuthService } from '../services/auth.service';
+import { CreateUserDto } from '../../user/model/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +20,7 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() user: User): Promise<User> {
+  async register(@Body() user: CreateUserDto): Promise<User> {
     try {
       const registered = await this.authService.register(user);
       return registered;

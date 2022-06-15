@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { classToPlain } from 'class-transformer';
+import { classToPlain, plainToClass } from 'class-transformer';
 import { UserService } from '../../user/services/user.service';
 import { User } from '../../user/model/entities/user.entity';
 import { LoginDTO } from '../model/login.dto';
+import { CreateUserDto } from '../../user/model/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  register(user: User): Promise<User> {
-    return this.usersService.registerUser(user);
+  register(user: CreateUserDto): Promise<User> {
+    return this.usersService.registerUser(plainToClass(User, user));
   }
 }

@@ -58,7 +58,11 @@ export function formatTsFile(content: string): string {
 
 export function formatTsFiles(): Rule {
   return forEach((fileEntry: FileEntry) => {
-    if (!fileEntry.path.startsWith('/node_modules') && fileEntry.path.endsWith('.ts')) {
+    if (
+      !fileEntry.path.startsWith('/node_modules') &&
+      !fileEntry.path.startsWith('/dist') &&
+      fileEntry.path.endsWith('.ts')
+    ) {
       return {
         path: fileEntry.path,
         content: Buffer.from(formatTsFile(fileEntry.content.toString())),

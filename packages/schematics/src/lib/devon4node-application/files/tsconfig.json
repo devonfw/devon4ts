@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "strict": true,
-    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true
   }
 }

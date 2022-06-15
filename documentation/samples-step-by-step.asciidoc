@@ -47,21 +47,21 @@ In this guide, we will create the employee's application step by step, showing y
 
 === Application requisites
 
-* A configuration module, to manage different environments configuration properly.
-* A SQLite in memory database managed by TypeORM.
-* Security: CORS + security headers.
-* OpenAPI (aka Swagger) support following code-fist strategy.
-* Authentication using JWT.
+* A link:guides-configuration-module.asciidoc[configuration module], to manage different environments configuration properly.
+* A SQLite in memory database managed by link:https://typeorm.io/[TypeORM].
+* Security: link:https://docs.nestjs.com/security/cors[CORS] + link:https://docs.nestjs.com/security/helmet[security headers].
+* link:https://docs.nestjs.com/openapi/introduction[OpenAPI] (aka Swagger) support following code-fist strategy.
+* link:https://docs.nestjs.com/security/authentication#jwt-functionality[Authentication] using JWT.
 * CRUD to manage employees.
 ** Create: only available for registered users.
 ** Read: available for everyone.
 ** Update: only available for registered users.
 ** Delete: only available for admins.
 * Employees properties:
-** name: mandatory
-** surname: mandatory
-** email: mandatory
-** address: optional
+** name: mandatory string
+** surname: mandatory string
+** email: mandatory email string
+** address: optional string
 
 == Create the application
 
@@ -87,30 +87,78 @@ This will provide you the `devon4node` code generators.
 
 === Create the application skeleton
 
-. Create the new application
-+
-Execute the command `nest g -c @devon4node/schematics application employee`
-+
+To create a `devon4node` application, you must run the `nest new` command. If you use it without any extra parameter you will create a `NestJS` application. In order to generate a `devon4node` application, you need to run the following command:
+
+[source,bash]
+nest new -c @devon4node/schematics employee
+
+When asked for package manager, you must choose `yarn`.
+
+The output should be something like:
+
+[source]
+----
+❯ nest new -c @devon4node/schematics employee
+⚡  We will scaffold your app in a few seconds..
+
+CREATE employee/.prettierrc (228 bytes)
+CREATE employee/README.md (3340 bytes)
+CREATE employee/nest-cli.json (121 bytes)
+CREATE employee/package.json (2243 bytes)
+CREATE employee/tsconfig.build.json (97 bytes)
+CREATE employee/tsconfig.json (657 bytes)
+CREATE employee/src/main.ts (836 bytes)
+CREATE employee/test/app.e2e-spec.ts (630 bytes)
+CREATE employee/test/jest-e2e.json (183 bytes)
+CREATE employee/src/app/app.controller.spec.ts (617 bytes)
+CREATE employee/src/app/app.controller.ts (274 bytes)
+CREATE employee/src/app/app.module.ts (308 bytes)
+CREATE employee/src/app/app.service.ts (142 bytes)
+CREATE employee/.eslintrc.js (859 bytes)
+CREATE employee/.husky/pre-commit (88 bytes)
+CREATE employee/.vscode/extensions.json (63 bytes)
+CREATE employee/.vscode/settings.json (150 bytes)
+CREATE employee/src/app/core/core.module.ts (401 bytes)
+CREATE employee/src/app/shared/exceptions/entity-not-found.exception.ts (419 bytes)
+CREATE employee/src/app/shared/filters/entity-not-found.filter.ts (711 bytes)
+CREATE employee/src/app/shared/logger/winston.logger.ts (2665 bytes)
+
+? Which package manager would you ❤️  to use? yarn
+----
+
+Now you have a clean base application to start building. To do that, you can choose the pieces that you need, some provided by `devon4node` link:guides-code-generation.asciidoc[code generators], others not, but you must always follow the `devon4node` link:guides-key-principles.asciidoc[key principles] and link:guides-coding-conventions.asciidoc[coding conventions].
+
+=== Configuration Module
+
 . Then, we need to add some components, go inside the project folder and execute the following commands:
 +
 Go inside project folder: `cd employee`.
 +
-Config module: `nest g -c @devon4node/schematics config-module`.
-+
-TypeORM database, choose sqlite DB when asked `nest g -c @devon4node/schematics typeorm`.
-+
-Add security: `nest g -c @devon4node/schematics security`.
-+
-Swagger module: `nest g -c @devon4node/schematics swagger`.
-+
-Auth-jwt authentication: `nest g -c @devon4node/schematics auth-jwt`.
-+
-Add an application module: `nest g -c @devon4node/schematics module employee`.
-+
-Add CRUD component: `nest g -c @devon4node/schematics crud employee/employee`.
-+
-With this, you will generate the following files:
-+
+Config module: `nest g config-module`.
+
+=== Database
+
+In the `NodeJS` ecosystem there are many alternatives to connect to the database. You can use the drivers directly or use a ORM, but our recommendation is to use `TypeORM`
+
+`devon4node` provides a generator to integrate into your project link:https://typeorm.io/[TypeORM].
+TypeORM database, choose sqlite DB when asked `nest g typeorm`.
+
+=== Security
+
+Add security: `nest g security`.
+
+=== OpenAPI
+
+Swagger module: `nest g swagger`.
+
+=== Authentication
+
+Auth-jwt authentication: `nest g auth-jwt`.
+
+=== Employee module with CRUD
+
+`nest g resource employees`.
+
 ----
 /employee/.prettierrc
 /employee/nest-cli.json

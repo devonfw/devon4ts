@@ -10,7 +10,7 @@ import {
   addToModuleDecorator,
 } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 const defaultJwtConfig = {
@@ -118,6 +118,7 @@ export function authJWT(options: IAuthJWTOptions): Rule {
       // updatePackageJson(options.path),
       addAuthToCoreModule(options.path),
       config ? addJWTConfiguration(options.path) : noop,
+      installNodePackages(),
     ]);
   };
 }
