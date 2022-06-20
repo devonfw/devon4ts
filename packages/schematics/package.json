@@ -26,7 +26,7 @@
     "@angular-devkit/core": "^13.3.6",
     "@angular-devkit/schematics": "^13.3.6",
     "@nestjs/schematics": "^8.0.11",
-    "@schematics/angular": "^13.3.6",
+    "@schematics/angular": "^14.0.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "pluralize": "^8.0.0",

@@ -28,7 +28,7 @@
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/schematics": "^8.0.11",
-    "@schematics/angular": "^13.3.6",
+    "@schematics/angular": "^14.0.2",
     "bcrypt": "^5.0.1",
     "fs-extra": "^10.1.0",
     "js-yaml": "^4.1.0",
