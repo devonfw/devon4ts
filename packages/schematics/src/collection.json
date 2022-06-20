@@ -22,11 +22,6 @@
       "factory": "./lib/config-module/config-module.factory#configModule",
       "schema": "./lib/config-module/schema.json"
     },
-    "crud": {
-      "description": "Generate CRUD methods for a entity.",
-      "factory": "./lib/crud/crud.factory#crud",
-      "schema": "./lib/crud/schema.json"
-    },
     "mailer": {
       "description": "Add @devon4node/mailer module to project.",
       "factory": "./lib/mailer/mailer.factory#mailer",
@@ -41,11 +36,6 @@
       "description": "Add the auth JWT module to the project.",
       "factory": "./lib/auth-jwt/auth.factory#authJWT",
       "schema": "./lib/auth-jwt/schema.json"
-    },
-    "all-in-one": {
-      "description": "Execute multiple schematics at the same time.",
-      "factory": "./lib/allinone/all-in-one.factory#allInOne",
-      "schema": "./lib/allinone/schema.json"
     },
     "security": {
       "description": "Add cors and helmet to your project.",
@@ -96,6 +86,11 @@
       "factory": "./lib/pipe/pipe.factory#main",
       "description": "Create a Nest pipe.",
       "schema": "./lib/pipe/schema.json"
+    },
+    "resource": {
+      "factory": "./lib/resource/resource.factory#main",
+      "description": "Create a Nest resource.",
+      "schema": "./lib/resource/schema.json"
     }
   }
 }

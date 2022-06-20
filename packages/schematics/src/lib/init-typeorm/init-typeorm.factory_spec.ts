@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Typeorm Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should work', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       db: 'mysql',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -44,10 +44,10 @@ describe('Typeorm Factory', () => {
     });
   });
   it('should manage path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'foo',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       db: 'mysql',
       path: 'foo',
     };

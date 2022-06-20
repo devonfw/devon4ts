@@ -7,19 +7,19 @@ import {
   addPropToClass,
   insertLinesToFunctionBefore,
 } from '../../utils/ast-utils';
-import { existsConfigModule, formatTsFile } from '../../utils/tree-utils';
+import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
 const templateWithConfig = `if (configModule.values.isDev) {
     const options = new DocumentBuilder()
-      .setTitle(configModule.values.swaggerConfig.swaggerTitle)
-      .setDescription(configModule.values.swaggerConfig.swaggerDescription)
-      .setVersion(configModule.values.swaggerConfig.swaggerVersion)
+      .setTitle(configModule.values.swaggerConfig?.swaggerTitle ?? 'NestJS application')
+      .setDescription(configModule.values.swaggerConfig?.swaggerDescription ?? '')
+      .setVersion(configModule.values.swaggerConfig?.swaggerVersion ?? '0.0.1')
       .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup((configModule.values.globalPrefix || '') + '/api', app, swaggerDoc);
+    SwaggerModule.setup('v' + (configModule.values.defaultVersion) + '/api', app, swaggerDoc);
   }`;
 
 const template = `if (process.env.NODE_ENV === 'develop') {
@@ -31,7 +31,7 @@ const template = `if (process.env.NODE_ENV === 'develop') {
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('api', app, swaggerDoc);
+    SwaggerModule.setup('v1/api', app, swaggerDoc);
   }`;
 
 const defaultSwaggerValue = `{
@@ -57,8 +57,9 @@ function updatePackageJson(project: string): Rule {
     const packageJsonPath = join(project as Path, 'package.json');
     const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
 
-    packageJson.dependencies['@nestjs/swagger'] = packagesVersion.nestjsSwagger;
-    packageJson.dependencies['swagger-ui-express'] = packagesVersion.swaggerUiExpress;
+    packageJson.dependencies[packagesVersion.nestjsSwagger.packageName] = packagesVersion.nestjsSwagger.packageVersion;
+    packageJson.dependencies[packagesVersion.swaggerUiExpress.packageName] =
+      packagesVersion.swaggerUiExpress.packageVersion;
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     return tree;
@@ -109,13 +110,13 @@ function updateNestCliJson(project: string) {
 
     if (nestCliJson.compilerOptions) {
       if (nestCliJson.compilerOptions.plugins) {
-        nestCliJson.compilerOptions.plugins.push('@nestjs/swagger/plugin');
+        nestCliJson.compilerOptions.plugins.push('@nestjs/swagger');
       } else {
-        nestCliJson.compilerOptions.plugins = ['@nestjs/swagger/plugin'];
+        nestCliJson.compilerOptions.plugins = ['@nestjs/swagger'];
       }
     } else {
       nestCliJson.compilerOptions = {
-        plugins: ['@nestjs/swagger/plugin'],
+        plugins: ['@nestjs/swagger'],
       };
     }
 
@@ -210,6 +211,7 @@ export function swagger(options: { path?: string }): Rule {
       updateMain(options.path),
       updateNestCliJson(options.path),
       updateBaseEntity(options.path),
+      installNodePackages(),
     ]);
   };
 }

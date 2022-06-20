@@ -5,7 +5,7 @@ import * as path from 'path';
 describe('Module Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       skipImport: true,
     };
@@ -18,7 +18,7 @@ describe('Module Factory', () => {
     });
   });
   it('should manage name as a path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/foo',
       skipImport: true,
     };
@@ -31,7 +31,7 @@ describe('Module Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'bar',
       skipImport: true,
@@ -45,7 +45,7 @@ describe('Module Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'fooBar',
       skipImport: true,
     };
@@ -58,7 +58,7 @@ describe('Module Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'bar',
       skipImport: true,
@@ -72,7 +72,7 @@ describe('Module Factory', () => {
     });
   });
   it('should manage path to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'barBaz/foo',
       skipImport: true,
     };
@@ -85,10 +85,10 @@ describe('Module Factory', () => {
     });
   });
   it('should manage declaration in app module', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -111,13 +111,13 @@ describe('Module Factory', () => {
     });
   });
   it('should manage declaration in bar module', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, any> = {
       name: 'bar',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/foo',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {

@@ -15,282 +15,508 @@ toc::[]
 :source-highlighter: rouge
 :listing-caption: Listing
 
-= Create the employee sample step by step
+= Create the employee sample application step by step
 
-== Application requisites
+Here, you will learn step by step how to create a devon4node application.
 
-The employee application needs:
+== Prerequisites
 
-* A configuration module
-* A SQLite in memory database
-* Security: CORS
-* Swagger support
-* Authentication using JWT
-* CRUD for manage employees. The employees will have the following properties:
-** name
-** surname
-** email
+=== Typescript
+
+In order to follow this guide, you must have a basic knowledge about typescript and its syntax. You can learn Typescript using these resources:
+
+* link:https://github.com/soyrochus/diggingjsandts/blob/master/Digging%20(in)%20JavaScript%20and%20TypeScript.pdf[Digging (in) Javascript and Typescript]
+* link:https://www.typescriptlang.org/docs/handbook/intro.html[Typescript handbook]
+* link:https://basarat.gitbook.io/typescript/[Typescript Deep Dive]
+
+=== Node.js
+
+Node.js is the runtime used in devon4node. It is required a basic knowledge about Node.js before starting to use devon4node.
+
+* link:https://nodejs.dev/learn/[Learn Node.js]
+
+=== NestJS
+
+devon4node is not a framework, is a set of good practices, modules and code generators to use with NestJS. In order to use devon4node, it requires NestJS basic knowledge. You can learn about NestJS in its link:https://docs.nestjs.com/[official documentation].
+
+== Employee application
+
+The `employee` is an application that allows you to manage your employee's information. With this applacation you will be able to register employees with its details, update existing employees details, get the registered employees and delete exiting employees.
+
+In this guide, we will create the employee's application step by step, showing you how to create a devon4node application from scratch.
+
+=== Application requisites
+
+* A link:guides-configuration-module.asciidoc[configuration module], to manage different environments configuration properly.
+* A SQLite in memory database managed by link:https://typeorm.io/[TypeORM].
+* Security: link:https://docs.nestjs.com/security/cors[CORS] + link:https://docs.nestjs.com/security/helmet[security headers].
+* link:https://docs.nestjs.com/openapi/introduction[OpenAPI] (aka Swagger) support following code-fist strategy.
+* link:https://docs.nestjs.com/security/authentication#jwt-functionality[Authentication] using JWT.
+* CRUD to manage employees.
+** Create: only available for registered users.
+** Read: available for everyone.
+** Update: only available for registered users.
+** Delete: only available for admins.
+* Employees properties:
+** name: mandatory string
+** surname: mandatory string
+** email: mandatory email string
+** address: optional string
 
 == Create the application
 
-. Install Nest CLI
+=== First steps (optional)
+
+If this is the first time that you are using `NestJS` or `devon4node`, you need some packages installed globally in your machine:
+
+* `Nest` CLI
 +
-Execute the command `yarn global add @nestjs/cli`
-+
-. Install devon4node schematics
-+
-. Execute the command `yarn global add @devon4node/schematics`
-+
-. Create the new application
-+
-Execute the command `nest g -c @devon4node/schematics application employee`
-+
-. Then, we need to add some components, go inside the project folder and execute the following commands:
-+
-Go inside project folder: `cd employee`.
-+
-Config module: `nest g -c @devon4node/schematics config-module`.
-+
-TypeORM database, choose sqlite DB when asked `nest g -c @devon4node/schematics typeorm`.
-+
-Add security: `nest g -c @devon4node/schematics security`.
-+
-Swagger module: `nest g -c @devon4node/schematics swagger`.
-+
-Auth-jwt authentication: `nest g -c @devon4node/schematics auth-jwt`.
-+
-Add an application module: `nest g -c @devon4node/schematics module employee`.
-+
-Add CRUD component: `nest g -c @devon4node/schematics crud employee/employee`.
-+
-With this, you will generate the following files:
-+
+[source,bash]
 ----
-/employee/.prettierrc
-/employee/nest-cli.json
-/employee/package.json
-/employee/README.md
-/employee/tsconfig.build.json
-/employee/tsconfig.json
-/employee/tslint.json
-/employee/src/main.ts
-/employee/test/app.e2e-spec.ts
-/employee/test/jest-e2e.json
-/employee/src/app/app.controller.spec.ts
-/employee/src/app/app.controller.ts
-/employee/src/app/app.module.ts
-/employee/src/app/app.service.ts
-/employee/src/app/core/core.module.ts
-/employee/src/app/shared/logger/winston.logger.ts
-/employee/src/app/core/configuration/configuration.module.ts
-/employee/src/app/core/configuration/model/index.ts
-/employee/src/app/core/configuration/model/types.ts
-/employee/src/app/core/configuration/services/configuration.service.spec.ts
-/employee/src/app/core/configuration/services/configuration.service.ts
-/employee/src/app/core/configuration/services/index.ts
-/employee/src/config/default.ts
-/employee/src/config/develop.ts
-/employee/src/config/production.ts
-/employee/src/config/test.ts
-/employee/src/config/uat.ts
-/employee/docker-compose.yml
-/employee/ormconfig.json
-/employee/src/app/shared/model/entities/base-entity.entity.ts
-/employee/src/app/core/auth/auth.module.ts
-/employee/src/app/core/auth/controllers/auth.controller.spec.ts
-/employee/src/app/core/auth/controllers/auth.controller.ts
-/employee/src/app/core/auth/controllers/index.ts
-/employee/src/app/core/auth/decorators/index.ts
-/employee/src/app/core/auth/decorators/roles.decorator.spec.ts
-/employee/src/app/core/auth/decorators/roles.decorator.ts
-/employee/src/app/core/auth/guards/index.ts
-/employee/src/app/core/auth/guards/roles.guard.spec.ts
-/employee/src/app/core/auth/guards/roles.guard.ts
-/employee/src/app/core/auth/model/index.ts
-/employee/src/app/core/auth/model/roles.enum.ts
-/employee/src/app/core/auth/model/user-request.interface.ts
-/employee/src/app/core/auth/services/auth.service.spec.ts
-/employee/src/app/core/auth/services/auth.service.ts
-/employee/src/app/core/auth/services/index.ts
-/employee/src/app/core/auth/strategies/index.ts
-/employee/src/app/core/auth/strategies/jwt.strategy.spec.ts
-/employee/src/app/core/auth/strategies/jwt.strategy.ts
-/employee/src/app/core/user/user.module.ts
-/employee/src/app/core/user/model/index.ts
-/employee/src/app/core/user/model/dto/user-payload.dto.ts
-/employee/src/app/core/user/model/entities/user.entity.ts
-/employee/src/app/core/user/services/index.ts
-/employee/src/app/core/user/services/user.service.spec.ts
-/employee/src/app/core/user/services/user.service.ts
-/employee/test/auth/auth.service.mock.ts
-/employee/test/user/user.repository.mock.ts
-/employee/src/app/employee/employee.module.ts
-/employee/src/app/employee/model/entities/employee.entity.ts
-/employee/src/app/employee/model/index.ts
-/employee/src/app/employee/controllers/employee.crud.controller.ts
-/employee/src/app/employee/services/employee.crud.service.ts
-/employee/src/app/employee/services/index.ts
-/employee/src/app/employee/controllers/index.ts
+npm i -g @nestjs/cli
 ----
 +
-. Open the VSCode
+This will provide you the `nest` command.
 +
-Execute the commands:
+* `devon4node` schematics
 +
+[source,bash]
 ----
-yarn install
-code .
+npm i -g @devon4node/schematics
 ----
 +
-. Fill in the entity: src/app/employee/model/entities/employee.entity.ts
-.. Add the columns
+This will provide you the `devon4node` code generators.
+
+`Yarn` is our preferred package manager. However, in this case we have used `npm` because the folder where npm global packages are installed is added to the PATH by default, while yarn's is not. You can use `yarn global add` if you add the yarn's bin folder to the PATH manually (use `yarn global bin` to get the bin folder path)
+
+=== Create the application skeleton
+
+To create a `devon4node` application, you must run the `nest new` command. If you use it without any extra parameter you will create a `NestJS` application. In order to generate a `devon4node` application, you need to run the following command:
+
+[source,bash]
+----
+nest new -c @devon4node/schematics employee
+----
+
+When asked for package manager, you must choose `yarn`.
+
+The output should be something like:
+
+[source]
+----
+❯ nest new -c @devon4node/schematics employee
+⚡  We will scaffold your app in a few seconds..
+
+CREATE employee/.prettierrc (228 bytes)
+CREATE employee/README.md (3340 bytes)
+CREATE employee/nest-cli.json (121 bytes)
+CREATE employee/package.json (2243 bytes)
+CREATE employee/tsconfig.build.json (97 bytes)
+CREATE employee/tsconfig.json (657 bytes)
+CREATE employee/src/main.ts (836 bytes)
+CREATE employee/test/app.e2e-spec.ts (630 bytes)
+CREATE employee/test/jest-e2e.json (183 bytes)
+CREATE employee/src/app/app.controller.spec.ts (617 bytes)
+CREATE employee/src/app/app.controller.ts (274 bytes)
+CREATE employee/src/app/app.module.ts (308 bytes)
+CREATE employee/src/app/app.service.ts (142 bytes)
+CREATE employee/.eslintrc.js (859 bytes)
+CREATE employee/.husky/pre-commit (88 bytes)
+CREATE employee/.vscode/extensions.json (63 bytes)
+CREATE employee/.vscode/settings.json (150 bytes)
+CREATE employee/src/app/core/core.module.ts (401 bytes)
+CREATE employee/src/app/shared/exceptions/entity-not-found.exception.ts (419 bytes)
+CREATE employee/src/app/shared/filters/entity-not-found.filter.ts (711 bytes)
+CREATE employee/src/app/shared/logger/winston.logger.ts (2665 bytes)
+
+? Which package manager would you ❤️  to use? yarn
+----
+
+Now you have a clean base application to start building. To do that, you can choose the pieces that you need, some provided by `devon4node` link:guides-code-generation.asciidoc[code generators], others not, but you must always follow the `devon4node` link:guides-key-principles.asciidoc[key principles] and link:guides-coding-conventions.asciidoc[coding conventions].
+
+=== Configuration Module
+
+There are many options to manage the application configuration. `NestJS` provides a link:https://docs.nestjs.com/techniques/configuration[module], but out prefered way is to use our own link:guides-configuration-module.asciidoc[configuration module]. The fastest way to include the configuration module into your project is using the following command:
+
+[source]
+----
+nest g config-module
+----
+
+The output:
+
+[source]
+----
+❯ nest g config-module
+CREATE src/app/shared/model/config/config.model.ts (720 bytes)
+CREATE src/config/default.ts (391 bytes)
+CREATE src/config/develop.ts (209 bytes)
+CREATE src/config/production.ts (210 bytes)
+CREATE src/config/test.ts (366 bytes)
+CREATE src/config/uat.ts (210 bytes)
+UPDATE package.json (2323 bytes)
+UPDATE src/app/shared/logger/winston.logger.ts (3179 bytes)
+UPDATE src/app/core/core.module.ts (593 bytes)
+UPDATE src/main.ts (1074 bytes)
+✔ Packages installed successfully.
+----
+
+=== Database
+
+In the `NodeJS` ecosystem there are many alternatives to connect to the database. You can use the drivers directly or use a ORM, but our recommendation is to use `TypeORM`.
+
+`devon4node` provides a generator to integrate into your project link:https://typeorm.io/[TypeORM]. You only need to execute the command:
+
+[source,bash]
+----
+nest g typeorm
+----
+
+Then, you must select the database when asked. In this example we will use `SQLite`.
+
+The output:
+
+[source]
+----
+❯ nest g typeorm
+? What kind of database do you want to use? sqlite
+CREATE docker-compose.yml (25 bytes)
+CREATE ormconfig.json (467 bytes)
+CREATE src/app/shared/model/entities/base-entity.entity.ts (484 bytes)
+UPDATE package.json (2415 bytes)
+UPDATE src/app/core/core.module.ts (863 bytes)
+UPDATE src/app/shared/model/config/config.model.ts (863 bytes)
+UPDATE src/config/default.ts (409 bytes)
+UPDATE src/config/develop.ts (573 bytes)
+UPDATE src/config/production.ts (574 bytes)
+UPDATE src/config/test.ts (730 bytes)
+UPDATE src/config/uat.ts (574 bytes)
+✔ Packages installed successfully.
+----
+
+Now, you have your project already configured to work with `TypeORM`.
+
+=== Security
+
+To secure your application against common attacks, you only have to execute the following command:
+
+[source]
+----
+nest g security
+----
+
+The output:
+
+[source]
+----
+❯ nest g security
+UPDATE package.json (2439 bytes)
+UPDATE src/main.ts (1277 bytes)
+✔ Packages installed successfully.
+----
+
+This installs in your application link:https://github.com/helmetjs/helmet[helmet], and enables link:https://docs.nestjs.com/security/helmet[helmet] and link:https://docs.nestjs.com/security/cors[CORS]
+
+=== OpenAPI
+
+To generate `OpenAPI` (aka `swagger`) documentation based in your code, you only need to execute:
+
+[source]
+----
+nest g swagger
+----
+
+The output:
+
+[source]
+----
+❯ nest g swagger
+UPDATE package.json (2508 bytes)
+UPDATE src/app/shared/model/config/config.model.ts (1162 bytes)
+UPDATE src/config/default.ts (547 bytes)
+UPDATE src/config/develop.ts (711 bytes)
+UPDATE src/config/test.ts (868 bytes)
+UPDATE src/main.ts (1876 bytes)
+UPDATE nest-cli.json (196 bytes)
+UPDATE src/app/shared/model/entities/base-entity.entity.ts (598 bytes)
+✔ Packages installed successfully.
+----
+
+=== Authentication
+
+To know all the details about `authenticaiton` in a `devon4node` (or `NestJS`) application, you can follow this link:https://docs.nestjs.com/security/authentication[guide].
+
+In order to improve the productivity, `devon4node` has a code generator to add into your project everything described in that link:https://docs.nestjs.com/security/authentication#jwt-functionality[guide]:
+
+[source]
+----
+nest g auth-jwt
+----
+
+The output should something similar to:
+
+[source]
+----
+❯ nest g auth-jwt
+CREATE src/app/core/auth/auth.module.ts (850 bytes)
+CREATE src/app/core/auth/controllers/auth.controller.spec.ts (3037 bytes)
+CREATE src/app/core/auth/controllers/auth.controller.ts (1311 bytes)
+CREATE src/app/core/auth/decorators/get-user.decorator.ts (331 bytes)
+CREATE src/app/core/auth/decorators/roles.decorator.spec.ts (869 bytes)
+CREATE src/app/core/auth/decorators/roles.decorator.ts (163 bytes)
+CREATE src/app/core/auth/guards/roles.guard.spec.ts (2277 bytes)
+CREATE src/app/core/auth/guards/roles.guard.ts (708 bytes)
+CREATE src/app/core/auth/model/login.dto.ts (360 bytes)
+CREATE src/app/core/auth/model/roles.enum.ts (39 bytes)
+CREATE src/app/core/auth/model/user-request.interface.ts (133 bytes)
+CREATE src/app/core/auth/services/auth.service.spec.ts (3373 bytes)
+CREATE src/app/core/auth/services/auth.service.ts (1263 bytes)
+CREATE src/app/core/auth/strategies/jwt.strategy.spec.ts (690 bytes)
+CREATE src/app/core/auth/strategies/jwt.strategy.ts (669 bytes)
+CREATE src/app/core/user/user.module.ts (359 bytes)
+CREATE src/app/core/user/model/dto/create-user.dto.ts (325 bytes)
+CREATE src/app/core/user/model/dto/user-payload.dto.ts (181 bytes)
+CREATE src/app/core/user/model/entities/user.entity.ts (542 bytes)
+CREATE src/app/core/user/services/user.service.spec.ts (2083 bytes)
+CREATE src/app/core/user/services/user.service.ts (1088 bytes)
+CREATE test/auth/auth.service.mock.ts (913 bytes)
+CREATE test/user/user.repository.mock.ts (1024 bytes)
+UPDATE package.json (2779 bytes)
+UPDATE src/app/core/core.module.ts (1017 bytes)
+UPDATE src/app/shared/model/config/config.model.ts (1279 bytes)
+UPDATE src/config/default.ts (617 bytes)
+UPDATE src/config/develop.ts (781 bytes)
+UPDATE src/config/production.ts (644 bytes)
+UPDATE src/config/test.ts (938 bytes)
+UPDATE src/config/uat.ts (644 bytes)
+✔ Packages installed successfully.
+----
+
+=== Create the employee CRUD
+
+Generate a CRUD into your project is fast and easy, your only need to execute the following command:
+
+[source]
+----
+nest g resource employees
+----
+
+The output should something similar to:
+
+[source]
+----
+❯ nest g resource employees
+? What transport layer do you use? REST API
+? Would you like to generate CRUD entry points? Yes
+? Which ORM are you using? (No efect if you are not generating the CRUD) TypeORM
+CREATE src/app/employees/employees.module.ts (458 bytes)
+CREATE src/app/employees/controllers/employees.controller.spec.ts (616 bytes)
+CREATE src/app/employees/controllers/employees.controller.ts (1224 bytes)
+CREATE src/app/employees/services/employees.service.spec.ts (481 bytes)
+CREATE src/app/employees/services/employees.service.ts (1999 bytes)
+CREATE src/app/employees/model/dtos/create-employee.dto.ts (34 bytes)
+CREATE src/app/employees/model/dtos/update-employee.dto.ts (180 bytes)
+CREATE src/app/employees/model/entities/employee.entity.ts (169 bytes)
+UPDATE src/app/app.module.ts (389 bytes)
+UPDATE package.json (2817 bytes)
+UPDATE test/app.e2e-spec.ts (609 bytes)
+✔ Packages installed successfully.
+----
+
+This generate the entity, DTOs, controllers and services to expose the CRUD for an empty `entity`, so now we need to customize it to add the properties, secure the endpoints as described before and improve the default generated OpenAPI documentation.
+
+. Fill the link:https://typeorm.io/entities[entity] (`src/app/employees/model/entities/employee.entity.ts`) with the properties and ORM decorators.
 +
+.`src/app/employees/model/entities/employee.entity.ts`
 [source,typescript]
 ----
 @Entity()
 export class Employee extends BaseEntity {
-  @Column('varchar', { length: 255, nullable: true })
-  name?: string;
+  @Column({ length: 255, nullable: false })
+  name!: string;
 
-  @Column('varchar', { length: 255, nullable: true })
-  surname?: string;
+  @Column({ length: 255, nullable: false })
+  surname!: string;
 
-  @Column('varchar', { length: 255, nullable: true })
-  email?: string;
+  @Column({ length: 255, nullable: false })
+  email!: string;
+
+  @Column({ length: 255, nullable: true })
+  address?: string;
 }
 ----
 +
-.. Add the validations
+. Fill the `DTOs` with the properties, the validators and the transformations.
 +
+.`src/app/employees/model/dtos/create-employee.dto.ts`
 [source,typescript]
 ----
-@Entity()
-export class Employee extends BaseEntity {
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+export class CreateEmployeeDto {
+  @IsDefined()
+  @IsString()
   @MaxLength(255)
-  @Column('varchar', { length: 255, nullable: true })
-  name?: string;
+  @Expose()
+  name!: string;
 
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
+  @IsDefined()
+  @IsString()
   @MaxLength(255)
-  @Column('varchar', { length: 255, nullable: true })
-  surname?: string;
+  @Expose()
+  surname!: string;
 
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @MaxLength(255)
+  @IsDefined()
+  @IsString()
   @IsEmail()
-  @Column('varchar', { length: 255, nullable: true })
-  email?: string;
+  @MaxLength(255)
+  @Expose()
+  email!: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  @Expose()
+  address?: string;
 }
 ----
 +
-.. Add the transformations
+The `@Expose()` decorator is important, if you forget it the link:https://docs.nestjs.com/pipes#transformation-use-case[transformation pipe] will ignore it. It works in that way in order to ignore extra fields that are not defined in the DTO.
 +
-In this specific case, we will not transform any property, but you can see an example in the `src/app/shared/model/entities/base-entity.entity.ts` file.
+. secure endpoints:
 +
+In order to require authentication to your enpoints, you only need to add the `AuthGuard` guard as shown below:
++
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
-export abstract class BaseEntity {
-  @PrimaryGeneratedColumn('increment')
-  id!: number;
-
-  @VersionColumn({ default: 1 })
-  @Exclude({ toPlainOnly: true })
-  version!: number;
-
-  @CreateDateColumn()
-  @Exclude({ toPlainOnly: true })
-  createdAt!: string;
-
-  @UpdateDateColumn()
-  @Exclude({ toPlainOnly: true })
-  updatedAt!: string;
+@Post()
+@UseGuards(AuthGuard())
+create(@Body() createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+  return this.service.create(createEmployeeDto);
 }
 ----
 +
-.. Add swagger metadata
+Now, you need to provide a valid `Bearer JWT token` in order to use the create endpoint. Also, to require a specific role to use an endpoint, you need to use the provided `RolesGuard` and specify the allowed roles by using the `@Roles` decorator:
 +
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
-@Entity()
-export class Employee extends BaseEntity {
-  @ApiPropertyOptional()
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @MaxLength(255)
-  @Column('varchar', { length: 255, nullable: true })
-  name?: string;
-
-  @ApiPropertyOptional()
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @MaxLength(255)
-  @Column('varchar', { length: 255, nullable: true })
-  surname?: string;
-
-  @ApiPropertyOptional()
-  @IsDefined({ groups: [CrudValidationGroups.CREATE] })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @MaxLength(255)
-  @IsEmail()
-  @Column('varchar', { length: 255, nullable: true })
-  email?: string;
+@Delete(':id')
+@UseGuards(AuthGuard(), RolesGuard)
+@Roles(roles.ADMIN)
+remove(@Param('id') id: string): Promise<Employee> {
+  return this.service.remove(+id);
 }
 ----
 +
-. Add swagger metadata to `src/app/employee/controllers/employee.crud.controller.ts`
+. Add swagger metadata
 +
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
-@ApiTags('employee')
+@ApiTags('employees')
+----
++
+. Add swagger metadata
++
+By default, devon4node installs the link:https://docs.nestjs.com/openapi/cli-plugin[`@nestjs/swagger` plugin]. With that plugin, most of the `OpenAPI` documentation will be generated automatically, but you can provide more information with decorators:
++
+.`src/app/employees/controllers/employees.controller.ts`
+[source,typescript]
+----
+@Controller('employees')
+@ApiTags('employees')
+export class EmployeesController {
+  ...
+}
+----
++
+Also, you can add to the `OpenAPI` documentation the secured endpoints:
++
+.`src/app/employees/controllers/employees.controller.ts`
+[source,typescript]
+----
+@ApiBearerAuth()
+----
++
+As the `findAll` returns a complex type, the plugin can't infer the return type properly. To document properly the return type of the `findAll` you can use the `@nestjs/swagger` decorators:
++
+.`src/app/employees/controllers/employees.controller.ts`
+[source,typescript]
+----
+@Get()
+@ApiQuery({ name: 'pageNumber', type: String, required: false })
+@ApiQuery({ name: 'pageSize', type: String, required: false })
+@ApiOkResponse({
+  schema: {
+    oneOf: [
+      { type: 'array', items: { $ref: getSchemaPath(Employee) } },
+      {
+        type: 'object',
+        properties: {
+          content: { type: 'array', items: { $ref: getSchemaPath(Employee) } },
+          page: {
+            type: 'object',
+            properties: { pageNumber: { type: 'number' }, total: { type: 'number' }, pageSize: { type: 'number' } },
+          },
+        },
+      },
+    ],
+  },
+})
+findAll(@GetPage() page?: PageRequest): Promise<Employee[] | Page<Employee>> {
+  return this.service.findAll(page);
+}
 ----
 +
 . Generate database migrations
-.. Build the application: `yarn build`
-.. In order to create migration scripts with TypeORM, you need to install ts-node: `yarn global add ts-node`
-.. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
-image::images/sample/generate-migrations.PNG[] 
+As you're building a new application you also need to create the database tables. `TypeORM` provides a mechanism to generate the database migrations based on your entities:
++
+[source]
+----
+yarn build
+npx typeorm migration:generate -n CreateTables
+----
 +
 The output will be something similar to:
 +
+.`src/migration/1655725262254-CreateTables.ts`
 [source,typescript]
 ----
-export class CreateTables1572480273012 implements MigrationInterface {
-  name = 'CreateTables1572480273012';
+export class CreateTables1655725262254 implements MigrationInterface {
+  name = 'CreateTables1655725262254';
 
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "username" varchar(255) NOT NULL, "password" varchar(255) NOT NULL, "role" integer NOT NULL DEFAULT (0))`,
-      undefined,
+      `CREATE TABLE "employee" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "name" varchar(255) NOT NULL, "surname" varchar(255) NOT NULL, "email" varchar(255) NOT NULL, "address" varchar(255))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "employee" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "name" varchar(255), "surname" varchar(255), "email" varchar(255))`,
-      undefined,
+      `CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "version" integer NOT NULL DEFAULT (1), "createdAt" datetime NOT NULL DEFAULT (datetime('now')), "updatedAt" datetime NOT NULL DEFAULT (datetime('now')), "username" varchar(255) NOT NULL, "password" varchar(255) NOT NULL, "role" integer NOT NULL DEFAULT (0))`,
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(`DROP TABLE "employee"`, undefined);
-    await queryRunner.query(`DROP TABLE "user"`, undefined);
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE "user"`);
+    await queryRunner.query(`DROP TABLE "employee"`);
   }
 }
 ----
 +
 The number in the name is a timestamp, so may change in your application.
 +
-.. Create a migration to insert data:`yarn run typeorm migration:generate -n InsertData`
+Now, you can populate the database with the initial data:
 +
-image::images/sample/insert-data.PNG[]
+[source]
+----
+npx typeorm migration:create -n InsertData
+----
 +
 and fill in with the following code:
 +
+.`src/migration/1655725316517-CreateTables.ts`
 [source,typescript]
 ----
-export class InsertData1572480830290 implements MigrationInterface {
+export class InsertData1655725316517 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
       `INSERT INTO EMPLOYEE(id, name, surname, email) VALUES(1, 'Santiago', 'Fowler', 'Santiago.Fowler@example.com');`,
@@ -333,80 +559,6 @@ image::images/sample/start-app.png[]
 +
 image::images/sample/swagger.png[]
 +
-. Make petitions to the employee CRUD: `http://localhost:3000/v1/employee/employees`
+. Make petitions to the employee CRUD: `http://localhost:3000/v1/employees`
 +
 image::images/sample/employees.png[]
-+
-. Write the tests
-+
-As we do not create any method, only add some properties to the entity, all application must be tested by the autogenerated code. As we add some modules, you need to uncomment some lines in the `src/app/core/configuration/services/configuration.service.spec.ts`:
-+
-[source,typescript]
-----
-describe('ConfigurationService', () => {
-  const configService: ConfigurationService = new ConfigurationService();
-
-  it('should return the values of test config file', () => {
-    expect(configService.isDev).toStrictEqual(def.isDev);
-    expect(configService.host).toStrictEqual(def.host);
-    expect(configService.port).toStrictEqual(def.port);
-    expect(configService.clientUrl).toStrictEqual(def.clientUrl);
-    expect(configService.globalPrefix).toStrictEqual(def.globalPrefix);
-    // Remove comments if you add those modules
-    expect(configService.database).toStrictEqual(def.database);
-    expect(configService.swaggerConfig).toStrictEqual(def.swaggerConfig);
-    expect(configService.jwtConfig).toStrictEqual(def.jwtConfig);
-    // expect(configService.mailerConfig).toStrictEqual(def.mailerConfig);
-  });
-  it('should take the value of environment varible if defined', () => {
-    process.env.isDev = 'true';
-    process.env.host = 'notlocalhost';
-    process.env.port = '123456';
-    process.env.clientUrl = 'http://theclienturl.net';
-    process.env.globalPrefix = 'v2';
-    process.env.swaggerConfig = JSON.stringify({
-      swaggerTitle: 'Test Application',
-    });
-    process.env.database = JSON.stringify({
-      type: 'oracle',
-      cli: { entitiesDir: 'src/notentitiesdir' },
-    });
-    process.env.jwtConfig = JSON.stringify({ secret: 'NOTSECRET' });
-    // process.env.mailerConfig = JSON.stringify({ mailOptions: { host: 'notlocalhost' }});
-
-    expect(configService.isDev).toBe(true);
-    expect(configService.host).toBe('notlocalhost');
-    expect(configService.port).toBe(123456);
-    expect(configService.clientUrl).toBe('http://theclienturl.net');
-    expect(configService.globalPrefix).toBe('v2');
-    const database: any = { ...def.database, type: 'oracle' };
-    database.cli.entitiesDir = 'src/notentitiesdir';
-    expect(configService.database).toStrictEqual(database);
-    expect(configService.swaggerConfig).toStrictEqual({
-      ...def.swaggerConfig,
-      swaggerTitle: 'Test Application',
-    });
-    expect(configService.jwtConfig).toStrictEqual({
-      ...def.jwtConfig,
-      secret: 'NOTSECRET',
-    });
-    // const mail: any = { ...def.mailerConfig };
-    // mail.mailOptions.host = 'notlocalhost';
-    // expect(configService.mailerConfig).toStrictEqual(mail);
-
-    process.env.isDev = undefined;
-    process.env.host = undefined;
-    process.env.port = undefined;
-    process.env.clientUrl = undefined;
-    process.env.globalPrefix = undefined;
-    process.env.database = undefined;
-    process.env.swaggerConfig = undefined;
-    process.env.jwtConfig = undefined;
-    // process.env.mailerConfig = undefined;
-  });
-});
-----
-+
-And the output should be:
-+
-image::images/sample/test.png[]

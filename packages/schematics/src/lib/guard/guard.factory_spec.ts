@@ -3,7 +3,7 @@ import * as path from 'path';
 describe('Guard Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only and create spec file', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
     };
     runner.runSchematicAsync('guard', options).subscribe(tree => {
@@ -26,7 +26,7 @@ describe('Guard Factory', () => {
     });
   });
   it('should manage name has a path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/foo',
     };
     runner.runSchematicAsync('guard', options).subscribe(tree => {
@@ -48,7 +48,7 @@ describe('Guard Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       path: 'baz',
     };
@@ -71,7 +71,7 @@ describe('Guard Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'fooBar',
     };
     runner.runSchematicAsync('guard', options).subscribe(tree => {
@@ -93,7 +93,7 @@ describe('Guard Factory', () => {
     });
   });
   it('should manage path to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'barBaz/foo',
     };
     runner.runSchematicAsync('guard', options).subscribe(tree => {
@@ -115,7 +115,7 @@ describe('Guard Factory', () => {
     });
   });
   it('should be undefined if no spec file', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'foo',
       spec: false,
     };

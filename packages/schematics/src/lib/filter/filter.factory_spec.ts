@@ -5,7 +5,7 @@ describe('Filter Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
 
   it('should manage name only and create a spec file', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'filter',
     };
     runner.runSchematicAsync('filter', options).subscribe(tree => {
@@ -23,7 +23,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should manage name has a path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'bar/filter',
     };
     runner.runSchematicAsync('filter', options).subscribe(tree => {
@@ -40,7 +40,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'filter',
       path: 'baz',
     };
@@ -58,7 +58,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'filterBar',
     };
     runner.runSchematicAsync('filter', options).subscribe(tree => {
@@ -75,7 +75,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should manage path to dasherize', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'barBaz/filter',
     };
     runner.runSchematicAsync('filter', options).subscribe(tree => {
@@ -92,7 +92,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should add source root to path', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'filter',
       sourceRoot: 'sourceroot',
     };
@@ -112,7 +112,7 @@ describe('Filter Factory', () => {
     });
   });
   it('should not create spec files', () => {
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'filter',
       spec: false,
     };

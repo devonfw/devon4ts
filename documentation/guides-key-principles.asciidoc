@@ -67,7 +67,7 @@ With these examples you can get an idea of how simple it can be to code a devon4
 
 == Reusability
 
-NestJS (and devon4node) applications are designed in a modular way. This allows you to isolate some functionality in a module, and then reuse it in every application that you need. This is the same behaviour that Angular has. You can see it in the NestJS modules like link:https://github.com/nestjs/typeorm[TypeORM], link:https://github.com/nestjs/swagger[Swagger] and others. Also, in devon4node we have the link:https://www.npmjs.com/package/@devon4node/mailer[Mailer module].
+NestJS (and devon4node) applications are designed in a modular way. This allows you to isolate some functionality in a module, and then reuse it in every application that you need. This is the same behavior that Angular has. You can see it in the NestJS modules like link:https://github.com/nestjs/typeorm[TypeORM], link:https://github.com/nestjs/swagger[Swagger] and others. Also, in devon4node we have the link:https://www.npmjs.com/package/@devon4node/mailer[Mailer module].
 
 In your applications, you only need to import those modules and then you will be able to use the functionality that they implement. Example
 

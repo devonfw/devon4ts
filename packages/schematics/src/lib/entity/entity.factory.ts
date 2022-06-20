@@ -1,5 +1,5 @@
 import { join, Path, strings } from '@angular-devkit/core';
-import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
+import { apply, chain, MergeStrategy, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { basename, normalize } from 'path';
 import { addImports, addTypeormFeatureToModule } from '../../utils/ast-utils';
@@ -9,6 +9,7 @@ interface IEntityOptions {
   name: string;
   path?: string;
   flat?: boolean;
+  overwrite?: boolean;
 }
 
 function transform(options: IEntityOptions): IEntityOptions {
@@ -62,6 +63,7 @@ export function main(options: IEntityOptions): Rule {
         formatTsFiles(),
         move(options.path!),
       ]),
+      options.overwrite ? MergeStrategy.Overwrite : MergeStrategy.Default,
     ),
     addEntityToModule(options),
   ]);

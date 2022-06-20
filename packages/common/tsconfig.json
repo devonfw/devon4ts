@@ -4,8 +4,12 @@
     "noImplicitAny": true,
     "sourceMap": false,
     "incremental": false,
-    "outDir": "./",
+    "outDir": "./dist",
     "baseUrl": "./"
   },
-  "exclude": ["node_modules", "dist", "./**/*.spec.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "./**/*.spec.ts"
+  ]
 }

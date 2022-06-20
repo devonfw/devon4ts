@@ -4,10 +4,10 @@ import * as path from 'path';
 describe('Repository Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should manage name only', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'project',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {
@@ -33,10 +33,10 @@ describe('Repository Factory', () => {
     });
   });
   it('should manage name and path', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: 'app',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'project',
       path: 'app',
     };
@@ -49,10 +49,10 @@ describe('Repository Factory', () => {
     });
   });
   it('should manage name to dasherize', () => {
-    const app: object = {
+    const app: Record<string, any> = {
       name: '',
     };
-    const options: object = {
+    const options: Record<string, any> = {
       name: 'fooBar',
     };
     runner.runSchematicAsync('application', app).subscribe(tree => {

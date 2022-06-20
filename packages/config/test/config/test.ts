@@ -5,7 +5,7 @@ const config: TestTypes = {
   port: 3000,
   host: 'localhost',
   clientUrl: 'localhost:4200',
-  globalPrefix: 'v1',
+  defaultVersion: '1',
   nested: {
     value: '123',
     type: 'oracle',

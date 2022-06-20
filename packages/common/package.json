@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/common",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "devon4node common library.",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "publish:npm": "npm publish --access public",
     "prepublish:next": "npm run build",
     "publish:next": "npm publish --access public --tag next",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "format": "prettier --write \"**/*.ts\"",
     "lint": "eslint serializer/**/*.ts --fix"
   },
@@ -26,14 +26,8 @@
     "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "lodash": "^4.17.15"
-  },
   "peerDependencies": {
-    "@nestjs/common": "^7.0.4",
-    "class-transformer": "^0.4.0",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4"
+    "@nestjs/common": "^8.0.0"
   },
   "repository": {
     "type": "git",

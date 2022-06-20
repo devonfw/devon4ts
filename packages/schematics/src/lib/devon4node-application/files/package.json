@@ -4,15 +4,16 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "winston": "<%= winston %>",
-    "class-transformer": "<%= classTransformer %>",
-    "class-validator": "<%= classValidator %>",
-    "@devon4node/common": "<%= devon4nodeCommon %>"
+    "<%= winston.packageName %>": "<%= winston.packageVersion %>",
+    "<%= classTransformer.packageName %>": "<%= classTransformer.packageVersion %>",
+    "<%= classValidator.packageName %>": "<%= classValidator.packageVersion %>",
+    "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>"
   },
   "devDependencies": {
-    "husky": "<%= husky %>",
-    "pretty-quick": "<%= prettyQuick %>",
-    "eslint-plugin-prettier": "<%= eslintPluginPrettier %>"
+    "<%= devon4nodeSchematics.packageName %>": "<%= devon4nodeSchematics.packageVersion %>",
+    "<%= husky.packageName %>": "<%= husky.packageVersion %>",
+    "<%= prettyQuick.packageName %>": "<%= prettyQuick.packageVersion %>",
+    "<%= eslintPluginPrettier.packageName %>": "<%= eslintPluginPrettier.packageVersion %>"
   },
   "jest": {
     "coverageDirectory": "../coverage"

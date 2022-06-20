@@ -1,10 +1,11 @@
 {
   "name": "@devon4node/config",
-  "version": "3.1.1",
+  "version": "4.0.1",
   "description": "devon4node module for easy application configuration.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "prepublish": "npm run build",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "prepublish:next": "npm run build",
@@ -31,10 +32,10 @@
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
-    "@nestjs/common": "^7.0.4",
-    "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
-    "lodash": "^4.17.15"
+    "@nestjs/common": "^8.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "lodash": "^4.17.21"
   },
   "repository": {
     "type": "git",

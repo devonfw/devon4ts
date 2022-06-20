@@ -4,25 +4,23 @@ import * as path from 'path';
 describe('Auth Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
   it('should set on module app', async () => {
-    const optionsApp: object = {
+    const optionsApp: Record<string, any> = {
       name: 'path',
     };
-    const optionsModule: object = {
+    const optionsModule: Record<string, any> = {
       path: 'path',
     };
     let app;
-    app = await runner.runSchematicAsync('application', optionsApp);
+    app = runner.runSchematicAsync('application', optionsApp);
     app.subscribe(async tree => {
-      app = await runner.runSchematicAsync('auth-jwt', optionsModule, tree);
+      app = runner.runSchematicAsync('auth-jwt', optionsModule, tree);
       app.subscribe(tree => {
         const files: string[] = tree.files;
         expect(files.find(filename => filename === '/path/src/app/core/core.module.ts')).toBeDefined();
         expect(tree.readContent('/path/src/app/core/core.module.ts')).toEqual(
-          "import { Global, Module } from '@nestjs/common';\n" +
-            "import { ClassSerializerInterceptor } from '@devon4node/common/serializer';\n" +
-            "import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';\n" +
+          "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';\n" +
+            "import { APP_INTERCEPTOR } from '@nestjs/core';\n" +
             "import { WinstonLogger } from '../shared/logger/winston.logger';\n" +
-            "import { BusinessLogicFilter } from '../shared/filters/business-logic.filter';\n" +
             "import { AuthModule } from './auth/auth.module';\n" +
             "import { UserModule } from './user/user.module';\n" +
             '\n' +
@@ -30,11 +28,7 @@ describe('Auth Factory', () => {
             '@Module({\n' +
             '  imports: [UserModule, AuthModule],\n' +
             '  controllers: [],\n' +
-            '  providers: [\n' +
-            '    { provide: APP_FILTER, useClass: BusinessLogicFilter },\n' +
-            '    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },\n' +
-            '    WinstonLogger,\n' +
-            '  ],\n' +
+            '  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }, WinstonLogger],\n' +
             '  exports: [UserModule, AuthModule, WinstonLogger],\n' +
             '})\n' +
             'export class CoreModule {}\n',

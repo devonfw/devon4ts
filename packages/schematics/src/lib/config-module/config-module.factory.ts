@@ -1,10 +1,10 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { packagesVersion } from '../packagesVersion';
-import { addImports, insertLinesToFunctionAfter, addToModuleDecorator } from '../../utils/ast-utils';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { addImports, addToModuleDecorator, insertLinesToFunctionAfter } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
+import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 interface IConfigOptions {
   name: string;
@@ -15,16 +15,17 @@ function updateMain(project: string): Rule {
   return (tree: Tree): Tree => {
     let content = tree.read((project || '.') + '/src/main.ts')!.toString('utf-8');
     content = content.replace('await app.listen(3000);', 'await app.listen(configModule.values.port);');
-    content = content.replace("app.setGlobalPrefix('v1');", 'app.setGlobalPrefix(configModule.values.globalPrefix);');
+    content = content.replace("defaultVersion: '1',", 'defaultVersion: configModule.values.defaultVersion,');
 
     content = insertLinesToFunctionAfter(
       content,
       'bootstrap',
       'NestFactory.create',
-      'const configModule = app.get(ConfigService);',
+      'const configModule = app.get<ConfigService<Config>>(ConfigService);',
     );
 
     content = addImports(content, 'ConfigService', '@devon4node/config');
+    content = addImports(content, 'Config', './app/shared/model/config/config.model');
 
     if (content) {
       tree.overwrite((project || '.') + '/src/main.ts', formatTsFile(content));
@@ -47,8 +48,7 @@ function addToModule(project: string): Rule {
       tree.read(module)!.toString('utf-8'),
       'CoreModule',
       '@devon4node/config',
-      `ConfigModule.forRoot({
-        configPrefix: 'devon4node',
+      `ConfigModule.register({
         configType: Config,
       })`,
       'imports',
@@ -94,6 +94,7 @@ export function configModule(options: IConfigOptions): Rule {
       ),
       addToModule(options.path),
       updateMain(options.path),
+      installNodePackages(),
     ]);
   };
 }

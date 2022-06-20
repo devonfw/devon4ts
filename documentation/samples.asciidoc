@@ -21,8 +21,8 @@ In the folder /samples, you can find some devon4node examples that could be usef
 
 The samples are:
 
-* link:https://github.com/devonfw/devon4node/tree/develop/samples/employee[Employee]
-* link:https://github.com/devonfw/devon4node/tree/develop/samples/components-example[Components example]
+* link:https://github.com/devonfw-sample/devon4node-samples/tree/develop/employee[Employee]
+* link:https://github.com/devonfw-sample/devon4node-samples/tree/develop/components-example[Components example]
 
 Also, we have another realistic example in the link:https://github.com/devonfw/my-thai-star/tree/develop/node[My Thai Star repository]. This example is the implementation of My Thai Star backend, which is compatible with the frontend made with Angular. To do that, this node implementation exposes the same API as Java backend. Take care with this example, as we need to follow the Java API, some components do not follow the devon4node patterns and code conventions.
 
@@ -39,7 +39,7 @@ $ yarn build
 $ yarn start
 ----
 
-Now, you can access to the application using the url `http://localhost:3000/v1/todo/todos`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:3000/v1/api`.
+Now, you can access to the application using the URL `http://localhost:3000/v1/todo/todos`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:3000/v1/api`.
 
 Also, in this example we show you how to control the access to you application by implementing an authentication mechanism using JWT and rol based strategy. In order to access to the list of todos (`http://localhost:3000/v1/todo/todos`), first you need to call to `POST http://localhost:3000/v1/auth/login` and in the body you need to send the user information:
 
@@ -65,7 +65,7 @@ $ yarn build
 $ yarn start
 ----
 
-Now, you can access to the application using the url `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
+Now, you can access to the application using the URL `http://localhost:8081/v1/employee/employees`. If you want to now all endpoints exposed, you can see the swagger at: `http://localhost:8081/v1/api`.
 
 This is a simple example without authentication. With this example you can learn how to work with database migrations. You can find them in the folder /src/migrations. The TypeORM is configured in order to execute the migrations every time that you start this application at ormconfig.json with the following flag:
 [source]

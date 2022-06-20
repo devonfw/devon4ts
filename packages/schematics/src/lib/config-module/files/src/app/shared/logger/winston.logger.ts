@@ -1,17 +1,17 @@
 /* istanbul ignore file */
 import { ConfigService } from '@devon4node/config';
-import { Logger, LogLevel, Optional } from '@nestjs/common';
+import { ConsoleLogger, Logger, LogLevel, Optional } from '@nestjs/common';
 import * as winston from 'winston';
 import { Config } from '../model/config/config.model';
 
-export class WinstonLogger extends Logger {
+export class WinstonLogger extends ConsoleLogger {
   private static DEFAULT_LOG_LEVEL: 'info' | 'error' | 'warn' | 'http' | 'verbose' | 'debug' | 'silly' = 'info';
   private console = true;
   private logger?: winston.Logger;
 
   constructor(@Optional() private readonly configService?: ConfigService<Config>) {
     super();
-    const logLevel = this.configService?.values.loggerConfig?.loggerLevel! || WinstonLogger.DEFAULT_LOG_LEVEL;
+    const logLevel = this.configService?.values.loggerConfig?.loggerLevel || WinstonLogger.DEFAULT_LOG_LEVEL;
     const generalDir = this.configService?.values.loggerConfig?.generalLogFile;
     const errorDir = this.configService?.values.loggerConfig?.errorLogFile;
     const transports: any[] = [];

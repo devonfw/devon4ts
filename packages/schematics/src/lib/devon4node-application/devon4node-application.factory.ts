@@ -21,7 +21,7 @@ import { packagesVersion } from '../packagesVersion';
 import { mergeFiles } from '../../utils/merge';
 import { formatTsFile } from '../../utils/tree-utils';
 
-interface IDevon4nodeApplicationOptions {
+export interface IDevon4nodeApplicationOptions {
   name: string;
 }
 
@@ -32,7 +32,12 @@ function updateMain(project: string) {
     mainFile = mainFile.replace('./app.module', './app/app.module');
     mainFile = mainFile.replace(
       'NestFactory.create(AppModule)',
-      'NestFactory.create(AppModule, { logger: new WinstonLogger() })',
+      `NestFactory.create(AppModule, { bufferLogs: true });
+
+      const logger = app.get(WinstonLogger);
+      app.useLogger(logger);
+
+      `,
     );
 
     mainFile = insertLinesToFunctionBefore(
@@ -42,20 +47,28 @@ function updateMain(project: string) {
       `app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
     }),
-  );`,
+  );
+  app.useGlobalFilters(new EntityNotFoundFilter(logger));`,
     );
 
     mainFile = insertLinesToFunctionBefore(
       mainFile,
       'bootstrap',
       'app.listen',
-      // tslint:disable-next-line: quotemark
-      "app.setGlobalPrefix('v1');",
+      `app.enableVersioning({
+        type: VersioningType.URI,
+        defaultVersion: '1',
+      });`,
     );
 
     mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
     mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
+    mainFile = addImports(mainFile, 'VersioningType', '@nestjs/common');
+    mainFile = addImports(mainFile, 'EntityNotFoundFilter', './app/shared/filters/entity-not-found.filter');
     mainFile = addReturnTypeToFunction(mainFile, 'bootstrap', 'Promise<void>');
     host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 

@@ -4,10 +4,13 @@ This file documents all notable changes to https://github.com/devonfw/devon4node
 
 == 4.0
 
-On this release we have deprecated devon4node cli, now we use nest cli, and we have added a GraphQL sample.
-
-* https://github.com/devonfw/devon4node/pull/375[#375]: GraphQL Sample.
-* https://github.com/devonfw/devon4node/pull/357[#257]: D4N cli remove
+* Upgrade packages to work with NestJS 8.
+* Update @devon4node/config: change environment variables naming
+* Moved samples to https://github.com/devonfw-sample/devon4node-samples/
+* Update @devon4node/schematics:
+** Generate code compatible with NestJS 8
+** Remove CRUD schematic
+** Make resource schematic compatible with devon4node structure
 
 == 3.0
 
@@ -23,7 +26,7 @@ On this release we have added more options to cli new command and fixed some bug
 On this release the cli, packages and documentation have been updated, also fixed some bugs.
 
 * https://github.com/devonfw/devon4node/pull/108[#108]: Update cli documentation.
-* https://github.com/devonfw/devon4node/pull/107[#107]: Update the coding conventions guide. 
+* https://github.com/devonfw/devon4node/pull/107[#107]: Update the coding conventions guide.
 * https://github.com/devonfw/devon4node/pull/106[#106]: Remove autocomplete documentation as it is not working.
 * https://github.com/devonfw/devon4node/pull/71[#71]: Update schematics to generate new config module.
 * https://github.com/devonfw/devon4node/pull/69[#96]: First draft of the doc on the import of ESLint reports into SonarQube.

@@ -19,7 +19,7 @@ toc::[]
 
 devon4node provides a way to generate a default authentication module using JWT (JSON Web Token). It uses the `@nestjs/passport` library describe link:https://docs.nestjs.com/techniques/authentication[here].
 
-To generate the devon4node auth-jwt module you only need to execute the command: `nest generate -c @devon4node/schematics auth-jwt`. We generate this module inside the applications instead of distributing a npm package because this module is prone to be modified depending on the requirements. It also generate a basic user module.
+To generate the devon4node `auth-jwt` module you only need to execute the command: `nest generate -c @devon4node/schematics auth-jwt`. We generate this module inside the applications instead of distributing a npm package because this module is prone to be modified depending on the requirements. It also generate a basic user module.
 
 In this page we will explain the default implementation provided by devon4node. For more information about authentication, JWT, passport and other you can see:
 
@@ -30,7 +30,7 @@ In this page we will explain the default implementation provided by devon4node. 
 
 == Auth JWT endpoints
 
-In order to execute authentication operations, the auth-jwt module exposes the following endpoints:
+In order to execute authentication operations, the `auth-jwt` module exposes the following endpoints:
 
 - `POST /auth/login`: receive an username and a password and return the token in the header if the combination of username and password is correct.
 - `POST /auth/register`: register a new user.
@@ -38,7 +38,7 @@ In order to execute authentication operations, the auth-jwt module exposes the f
 
 == Protect endpoints with auth-jwt
 
-In order to protect your endpoints with auth-jwt module you only need to add the `AuthGuard()` in the `UseGuards` decorator. Example:
+In order to protect your endpoints with `auth-jwt` module you only need to add the `AuthGuard()` in the `UseGuards` decorator. Example:
 
 [source,typescript]
 ----
@@ -49,11 +49,11 @@ currentUser(@Request() req: UserRequest) {
 }
 ----
 
-Now, all request to currentuser are protected by the `AuthGuard`.
+Now, all request to `currentuser` are protected by the `AuthGuard`.
 
 == Role based Access Control
 
-The auth-jwt module provides also a way to control the access to some endpoints by using roles. For example, if you want to grant access to a endpoint only to admins, you only need to add the `Roles` decorator to those endpoints with the roles allowed. Example:
+The `auth-jwt` module provides also a way to control the access to some endpoints by using roles. For example, if you want to grant access to a endpoint only to admins, you only need to add the `Roles` decorator to those endpoints with the roles allowed. Example:
 
 [source,typescript]
 ----

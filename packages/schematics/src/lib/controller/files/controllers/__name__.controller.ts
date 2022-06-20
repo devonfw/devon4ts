@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('<%=fullName%>')
+@Controller('<%=name%>')
 export class <%=classify(name)%>Controller {}

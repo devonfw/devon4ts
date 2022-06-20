@@ -1,10 +1,12 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Post, UseGuards, Response } from '@nestjs/common';
-import { Response as eResponse } from 'express';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, Response, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { Response as eResponse } from 'express';
 import { User } from '../../user/model/entities/user.entity';
-import { AuthService } from '../services/auth.service';
-import { LoginDTO } from '../model/login.dto';
 import { GetUser } from '../decorators/get-user.decorator';
+import { LoginDTO } from '../model/login.dto';
+import { AuthService } from '../services/auth.service';
+import { CreateUserDto } from '../../user/model/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -18,15 +20,16 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() user: User): Promise<User> {
+  async register(@Body() user: CreateUserDto): Promise<User> {
     try {
       const registered = await this.authService.register(user);
       return registered;
     } catch (e) {
-      throw new BadRequestException(e.message);
+      throw new BadRequestException(e);
     }
   }
 
+  @ApiBearerAuth()
   @Get('currentuser')
   @UseGuards(AuthGuard())
   currentUser(@GetUser() user: User): User {

@@ -41,6 +41,17 @@ function removeImportsFromTsFile(tsFile: SourceFile, importFrom: string): void {
   }
 }
 
+function updateImportsFromTsFile(tsFile: SourceFile, importFrom: string, newImportFrom: string): void {
+  const importsDeclaration = tsFile
+    .getImportDeclarations()
+    .filter(e => e.getModuleSpecifier().getLiteralValue() === importFrom);
+  if (importsDeclaration && importsDeclaration.length) {
+    importsDeclaration.forEach(e => {
+      e.set({ moduleSpecifier: newImportFrom });
+    });
+  }
+}
+
 function createSourceFile(fileContent: string): SourceFile {
   const tsProject = new Project({
     manipulationSettings: {
@@ -73,6 +84,14 @@ export function removeImports(fileContent: string, importFrom: string): string {
   return tsFile.getText();
 }
 
+export function updateImports(fileContent: string, importFrom: string, newImportFrom: string): string {
+  const tsFile = createSourceFile(fileContent);
+
+  updateImportsFromTsFile(tsFile, importFrom, newImportFrom);
+
+  return tsFile.getText();
+}
+
 export function addImports(fileContent: string, importValues: string, importFrom: string): string {
   const tsFile = createSourceFile(fileContent);
 
@@ -82,6 +101,17 @@ export function addImports(fileContent: string, importValues: string, importFrom
 }
 
 export function addDefaultImports(fileContent: string, importValues: string, importFrom: string): string {
+  const tsFile = createSourceFile(fileContent);
+
+  tsFile.addImportDeclaration({
+    moduleSpecifier: importFrom,
+    defaultImport: importValues,
+  });
+
+  return tsFile.getText();
+}
+
+export function addImportsAs(fileContent: string, importValues: string, importFrom: string): string {
   const tsFile = createSourceFile(fileContent);
 
   tsFile.addImportDeclaration({
