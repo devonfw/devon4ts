@@ -23,7 +23,7 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^13.3.6",
+    "@angular-devkit/core": "^14.0.2",
     "@angular-devkit/schematics": "^13.3.6",
     "@nestjs/schematics": "^8.0.11",
     "@schematics/angular": "^13.3.6",
