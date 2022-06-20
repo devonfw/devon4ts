@@ -34,6 +34,17 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
+"@angular-devkit/core@14.0.2":
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.0.2.tgz#47f62a57cf36a2e102188a89ae00f5e5a05d837d"
+  integrity sha512-lT875LhgO+23HvjUmuCZomH/0ivetzo8xsaT+7YM8SeUpmjsNTpTA/xNAQ4uD4JGscsJeCKsGT/zJIwPAAe6vQ==
+  dependencies:
+    ajv "8.11.0"
+    ajv-formats "2.1.1"
+    jsonc-parser "3.0.0"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics-cli@13.3.5":
   version "13.3.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-13.3.5.tgz#e9b6199189d6e5d8e08bb53e2c9cac45314513c8"
@@ -46,17 +57,17 @@
     minimist "1.2.6"
     symbol-observable "4.0.0"
 
-"@angular-devkit/schematics-cli@^13.3.6":
-  version "13.3.8"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-13.3.8.tgz#ab290128d2b8b4e98acfc8e5ca142c6b6f94bdd3"
-  integrity sha512-HrNjry96QrKneUKVj9A0L8NGYh9KIAahT/t08WJNixWSD84I1o654ZT+J/loVVyllQuu4mYC6R6F+t/vnBwMgw==
+"@angular-devkit/schematics-cli@^14.0.2":
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.0.2.tgz#4d157123f993f45122a3008add1b284548b67039"
+  integrity sha512-baqwuiN56mPFVVhthZHwvltjPNrczijM6Hvk9wYqlNeYuawqDD8h57u3PMGzgr9SKLHyCoFNwMQ0B57FN7oXtA==
   dependencies:
-    "@angular-devkit/core" "13.3.8"
-    "@angular-devkit/schematics" "13.3.8"
+    "@angular-devkit/core" "14.0.2"
+    "@angular-devkit/schematics" "14.0.2"
     ansi-colors "4.1.1"
-    inquirer "8.2.0"
-    minimist "1.2.6"
+    inquirer "8.2.4"
     symbol-observable "4.0.0"
+    yargs-parser "21.0.1"
 
 "@angular-devkit/schematics@13.3.5":
   version "13.3.5"
@@ -77,6 +88,17 @@
     "@angular-devkit/core" "13.3.8"
     jsonc-parser "3.0.0"
     magic-string "0.25.7"
+    ora "5.4.1"
+    rxjs "6.6.7"
+
+"@angular-devkit/schematics@14.0.2":
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-14.0.2.tgz#8d878bcdb9d8ad876c254ebec55b7da6773e05df"
+  integrity sha512-NCAYwvQBL71MbAzeF8XOM9LXYfZbUK7THYCW8UteKDY4Df6EdVOGhBdWY2LstAkZeVCaQWSJU7FcVRS9Ulvg0A==
+  dependencies:
+    "@angular-devkit/core" "14.0.2"
+    jsonc-parser "3.0.0"
+    magic-string "0.26.1"
     ora "5.4.1"
     rxjs "6.6.7"
 
@@ -2511,6 +2533,16 @@ ajv-keywords@^3.5.2:
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
 
+ajv@8.11.0, ajv@^8.0.0:
+  version "8.11.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
+  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 ajv@8.9.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.9.0.tgz#738019146638824dea25edcf299dcba1b0e7eb18"
@@ -2529,16 +2561,6 @@ ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5, ajv@^6.12.6:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
-    uri-js "^4.2.2"
-
-ajv@^8.0.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
-  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
-  dependencies:
-    fast-deep-equal "^3.1.1"
-    json-schema-traverse "^1.0.0"
-    require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
 ansi-colors@4.1.1:
@@ -5243,6 +5265,27 @@ inquirer@8.2.0:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
+inquirer@8.2.4:
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.4.tgz#ddbfe86ca2f67649a67daa6f1051c128f684f0b4"
+  integrity sha512-nn4F01dxU8VeKfq192IjLsxu0/OmMZ4Lg3xKAns148rCaXP6ntAoEkVYZThWjwON8AlzdZZi6oqnhNbxUG9hVg==
+  dependencies:
+    ansi-escapes "^4.2.1"
+    chalk "^4.1.1"
+    cli-cursor "^3.1.0"
+    cli-width "^3.0.0"
+    external-editor "^3.0.3"
+    figures "^3.0.0"
+    lodash "^4.17.21"
+    mute-stream "0.0.8"
+    ora "^5.4.1"
+    run-async "^2.4.0"
+    rxjs "^7.5.5"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+    through "^2.3.6"
+    wrap-ansi "^7.0.0"
+
 internal-slot@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/internal-slot/-/internal-slot-1.0.3.tgz#7347e307deeea2faac2ac6205d4bc7d34967f59c"
@@ -6396,6 +6439,13 @@ magic-string@0.25.7:
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
   dependencies:
     sourcemap-codec "^1.4.4"
+
+magic-string@0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.1.tgz#ba9b651354fa9512474199acecf9c6dbe93f97fd"
+  integrity sha512-ndThHmvgtieXe8J/VGPjG+Apu7v7ItcD5mhEIvOscWjPF/ccOiLxHaSuCAS2G+3x4GKsAbT8u7zdyamupui8Tg==
+  dependencies:
+    sourcemap-codec "^1.4.8"
 
 make-dir@^2.1.0:
   version "2.1.0"
@@ -8249,7 +8299,7 @@ source-map@^0.7.3:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
   integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
-sourcemap-codec@^1.4.4:
+sourcemap-codec@^1.4.4, sourcemap-codec@^1.4.8:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
@@ -9402,7 +9452,7 @@ yargs-parser@20.x, yargs-parser@^20.2.2, yargs-parser@^20.2.3:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
   integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
 
-yargs-parser@^21.0.0:
+yargs-parser@21.0.1, yargs-parser@^21.0.0:
   version "21.0.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.1.tgz#0267f286c877a4f0f728fceb6f8a3e4cb95c6e35"
   integrity sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==

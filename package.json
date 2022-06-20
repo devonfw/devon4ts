@@ -23,7 +23,7 @@
   "dependencies": {
     "@angular-devkit/core": "^13.3.6",
     "@angular-devkit/schematics": "^13.3.6",
-    "@angular-devkit/schematics-cli": "^13.3.6",
+    "@angular-devkit/schematics-cli": "^14.0.2",
     "@nestjs/cli": "^8.2.6",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.1",
