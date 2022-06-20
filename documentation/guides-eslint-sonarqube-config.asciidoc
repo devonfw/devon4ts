@@ -10,7 +10,7 @@ endif::[]
 
 toc::[]
 :idprefix:
-:idseperator: -
+:idseparator: -
 :reproducible:
 :source-highlighter: rouge
 :listing-caption: Listing

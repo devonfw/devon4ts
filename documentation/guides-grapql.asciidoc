@@ -40,7 +40,7 @@ For example, on a regular API a get by id method would return something like:
 ----
 But if we want to get *only* the wind data we have to create another endpoint that returns the specified data.
 
-But instead with graphQL we can get different information without creating new endpoints, in this case we only want the wind data so it would return:
+But instead with GraphQL we can get different information without creating new endpoints, in this case we only want the wind data so it would return:
 
 [source, json]
 ----
@@ -70,7 +70,7 @@ We assume you have already a functioning TODO module / app.
 If not you can use https://github.com/devonfw-sample/devon4node-samples/tree/develop/graphql[Devon4node GraphQL sample]
 ====
 
-First we need to import GraphQLModule to our `app.module.ts`.
+First we need to import `GraphQLModule` to our `app.module.ts`.
 
 [source,typescript]
 ----
@@ -99,13 +99,13 @@ The `definitions` indicates the file where the typescript definitions will autom
 
 === Schema
 
-Graphql is a typed language with `object types`, `scalars`, and `enums`.
+GraphQL is a typed language with `object types`, `scalars`, and `enums`.
 
 We use `query` to define the methods we are going to use for fetching data, and `mutations` are used for modifying this data, similar to how `GET` and `POST` work.
 
 Let's define the elements, queries and mutations that our module is going to have.
 
-For that we have to create a graphql file on our module, on this case we are going to name it "schema.graphql".
+For that we have to create a GraphQL file on our module, on this case we are going to name it `schema.graphql`.
 
 [source,typescript]
 ----
@@ -125,7 +125,7 @@ type Mutation {
 }
 ----
 
-For more information about Types go to the official https://graphql.org/learn/schema/[graphQL documentation]
+For more information about Types go to the official https://graphql.org/learn/schema/[GraphQL documentation]
 
 
 === Resolver
@@ -207,7 +207,7 @@ Learn more about Resolvers, mutations and their argument decorators on the https
 
 === Playground
 
-To test our backend we can use tools as Postman, but graphql already gives us a playground to test our Resolvers, we can access by default on `http://localhost:3000/graphql`.
+To test our backend we can use tools as Postman, but GraphQL already gives us a playground to test our Resolvers, we can access by default on `http://localhost:3000/graphql`.
 
 We can call a query, or several queries this way:
 

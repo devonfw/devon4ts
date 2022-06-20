@@ -72,14 +72,18 @@ If this is the first time that you are using `NestJS` or `devon4node`, you need 
 * `Nest` CLI
 +
 [source,bash]
+----
 npm i -g @nestjs/cli
+----
 +
 This will provide you the `nest` command.
 +
 * `devon4node` schematics
 +
 [source,bash]
+----
 npm i -g @devon4node/schematics
+----
 +
 This will provide you the `devon4node` code generators.
 
@@ -90,7 +94,9 @@ This will provide you the `devon4node` code generators.
 To create a `devon4node` application, you must run the `nest new` command. If you use it without any extra parameter you will create a `NestJS` application. In order to generate a `devon4node` application, you need to run the following command:
 
 [source,bash]
+----
 nest new -c @devon4node/schematics employee
+----
 
 When asked for package manager, you must choose `yarn`.
 
@@ -130,10 +136,12 @@ Now you have a clean base application to start building. To do that, you can cho
 
 === Configuration Module
 
-There are many options to manage the application configuration. `NestJS` provides a link:https://docs.nestjs.com/techniques/configuration[module], but out prefered way is to use our own link:guides-configuration-module.asciidoc[configuration module]. The fastes way to include the configuration module into your project is using the following command:
+There are many options to manage the application configuration. `NestJS` provides a link:https://docs.nestjs.com/techniques/configuration[module], but out prefered way is to use our own link:guides-configuration-module.asciidoc[configuration module]. The fastest way to include the configuration module into your project is using the following command:
 
 [source]
+----
 nest g config-module
+----
 
 The output:
 
@@ -160,7 +168,9 @@ In the `NodeJS` ecosystem there are many alternatives to connect to the database
 `devon4node` provides a generator to integrate into your project link:https://typeorm.io/[TypeORM]. You only need to execute the command:
 
 [source,bash]
+----
 nest g typeorm
+----
 
 Then, you must select the database when asked. In this example we will use `SQLite`.
 
@@ -191,7 +201,9 @@ Now, you have your project already configured to work with `TypeORM`.
 To secure your application against common attacks, you only have to execute the following command:
 
 [source]
+----
 nest g security
+----
 
 The output:
 
@@ -210,7 +222,9 @@ This installs in your application link:https://github.com/helmetjs/helmet[helmet
 To generate `OpenAPI` (aka `swagger`) documentation based in your code, you only need to execute:
 
 [source]
+----
 nest g swagger
+----
 
 The output:
 
@@ -235,7 +249,9 @@ To know all the details about `authenticaiton` in a `devon4node` (or `NestJS`) a
 In order to improve the productivity, `devon4node` has a code generator to add into your project everything described in that link:https://docs.nestjs.com/security/authentication#jwt-functionality[guide]:
 
 [source]
+----
 nest g auth-jwt
+----
 
 The output should something similar to:
 
@@ -281,7 +297,9 @@ UPDATE src/config/uat.ts (644 bytes)
 Generate a CRUD into your project is fast and easy, your only need to execute the following command:
 
 [source]
+----
 nest g resource employees
+----
 
 The output should something similar to:
 
@@ -305,11 +323,11 @@ UPDATE test/app.e2e-spec.ts (609 bytes)
 ✔ Packages installed successfully.
 ----
 
-This generate the entity, dtos, controllers and services to expose the CRUD for an empty `entity`, so now we need to customize it to add the properties, secure the endpoints as described before and improve the default generated OpenAPI documentation.
+This generate the entity, DTOs, controllers and services to expose the CRUD for an empty `entity`, so now we need to customize it to add the properties, secure the endpoints as described before and improve the default generated OpenAPI documentation.
 
 . Fill the link:https://typeorm.io/entities[entity] (`src/app/employees/model/entities/employee.entity.ts`) with the properties and ORM decorators.
 +
-.src/app/employees/model/entities/employee.entity.ts
+.`src/app/employees/model/entities/employee.entity.ts`
 [source,typescript]
 ----
 @Entity()
@@ -330,7 +348,7 @@ export class Employee extends BaseEntity {
 +
 . Fill the `DTOs` with the properties, the validators and the transformations.
 +
-.src/app/employees/model/dtos/create-employee.dto.ts
+.`src/app/employees/model/dtos/create-employee.dto.ts`
 [source,typescript]
 ----
 export class CreateEmployeeDto {
@@ -367,7 +385,7 @@ The `@Expose()` decorator is important, if you forget it the link:https://docs.n
 +
 In order to require authentication to your enpoints, you only need to add the `AuthGuard` guard as shown below:
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @Post()
@@ -379,7 +397,7 @@ create(@Body() createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
 +
 Now, you need to provide a valid `Bearer JWT token` in order to use the create endpoint. Also, to require a specific role to use an endpoint, you need to use the provided `RolesGuard` and specify the allowed roles by using the `@Roles` decorator:
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @Delete(':id')
@@ -392,7 +410,7 @@ remove(@Param('id') id: string): Promise<Employee> {
 +
 . Add swagger metadata
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @ApiTags('employees')
@@ -402,7 +420,7 @@ remove(@Param('id') id: string): Promise<Employee> {
 +
 By default, devon4node installs the link:https://docs.nestjs.com/openapi/cli-plugin[`@nestjs/swagger` plugin]. With that plugin, most of the `OpenAPI` documentation will be generated automatically, but you can provide more information with decorators:
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @Controller('employees')
@@ -414,15 +432,15 @@ export class EmployeesController {
 +
 Also, you can add to the `OpenAPI` documentation the secured endpoints:
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @ApiBearerAuth()
 ----
 +
-As the `findAll` returns a complex type, the plugin can't infer the return type properly. To documentate properly the return type of the `findAll` you can use the `@nestjs/swagger` decorators:
+As the `findAll` returns a complex type, the plugin can't infer the return type properly. To document properly the return type of the `findAll` you can use the `@nestjs/swagger` decorators:
 +
-.src/app/employees/controllers/employees.controller.ts
+.`src/app/employees/controllers/employees.controller.ts`
 [source,typescript]
 ----
 @Get()
@@ -462,7 +480,7 @@ npx typeorm migration:generate -n CreateTables
 +
 The output will be something similar to:
 +
-.src/migration/1655725262254-CreateTables.ts
+.`src/migration/1655725262254-CreateTables.ts`
 [source,typescript]
 ----
 export class CreateTables1655725262254 implements MigrationInterface {
@@ -495,7 +513,7 @@ npx typeorm migration:create -n InsertData
 +
 and fill in with the following code:
 +
-.src/migration/1655725316517-CreateTables.ts
+.`src/migration/1655725316517-CreateTables.ts`
 [source,typescript]
 ----
 export class InsertData1655725316517 implements MigrationInterface {

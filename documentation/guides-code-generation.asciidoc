@@ -95,15 +95,15 @@ Write the command `nest g -c @devon4node/schematics mailer`
 
 Add swagger module to project.
 
-It will add the @nestjs/swagger module as a project dependency. Also, it will update the main.ts file in order to expose the endpoint for swagger. The default endpoint is: /v1/api
+It will add the `@nestjs/swagger` module as a project dependency. Also, it will update the main.ts file in order to expose the endpoint for swagger. The default endpoint is: `/v1/api`
 
 Execute the command `nest g -c @devon4node/schematics swagger`
 
-=== Add auth-jwt module
+=== Add `auth-jwt` module
 
-Add the auth JWT module to the project.
+Add the `auth JWT` module to the project.
 
-It will add to your project the auth-jwt and user module. Also, it will import those modules into the core module.
+It will add to your project the `auth-jwt` and user module. Also, it will import those modules into the core module.
 
 Execute `nest g -c @devon4node/schematics auth-jwt`
 
@@ -111,7 +111,7 @@ Execute `nest g -c @devon4node/schematics auth-jwt`
 
 Add CORS and helmet to your project.
 
-It will add helmet package as project dependency and update the main.ts file in order to enable the cors and helmet in your application.
+It will add helmet package as project dependency and update the main.ts file in order to enable the CORS and helmet in your application.
 
 Execute `nest g -c @devon4node/schematics security`
 
@@ -122,7 +122,7 @@ Execute `nest g -c @devon4node/schematics security`
 .. Generate the tables creation migration: `yarn run typeorm migration:generate -n CreateTables`
 +
 image::images/insert-data.PNG[]
-It will connect to the database, read all entities and then it will generate a migration file with all sql queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all sql queries need to create all tables defined in the entities. You can find a example in the ToDo example
+It will connect to the database, read all entities and then it will generate a migration file with all SQL queries need to transform the current status of the database to the status defined by the entities. If the database is empty, it will generate all SQL queries need to create all tables defined in the entities. You can find a example in the `ToDo example`
 
 As TypeORM is the tool used for DB. You can check official documentation for more information.
 See link:https://typeorm.io/#/using-cli[TypeORM CLI documentation].
