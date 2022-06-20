@@ -31,15 +31,15 @@ devon4node provides a way to generate a configuration module inside your applica
 * config folder where all environment configuration are stored.
 ** default configuration: configuration for your local development environment.
 ** develop environment configuration for the develop environment.
-** uat environment configuration for the uat environment.
+** UAT environment configuration for the UAT environment.
 ** production environment configuration for the production environment.
 ** test environment configuration used by test.
 
 NOTE: some code generators will add some properties to this module, so, be sure that the config module is the first module that you generate in your application.
 
-== Configure the ConfigModule
+== Configure the `ConfigModule`
 
-When you register the ConfigModule in your application you can configure it. As the ConfigModule should be a module that you will need in all modules in your application, it is registered by default in the CoreModule (remember that CoreModule is global).
+When you register the `ConfigModule` in your application you can configure it. As the `ConfigModule` should be a module that you will need in all modules in your application, it is registered by default in the `CoreModule` (remember that `CoreModule` is global).
 
 Example:
 
@@ -60,10 +60,10 @@ Example:
 export class CoreModule {}
 ----
 
-The values that you can provide to the ConfgModule are:
+The values that you can provide to the `ConfigModule` are:
 
-- **configDir**: path to the directory where all config files are stored. This is the path to the compiled JavaScript files, not the path that include the TypeScript files. The default value is: './dist/config'
-- **configType**: the type of the config files. You can use the default type generated at **shared/config/config.model.ts** or generate you own type. In this type is where you can define the validation by using the **class-validator** decorators.
+- `configDir`: path to the directory where all config files are stored. This is the path to the compiled JavaScript files, not the path that include the TypeScript files. The default value is: './dist/config'
+- `configType`: the type of the config files. You can use the default type generated at **shared/config/config.model.ts** or generate you own type. In this type is where you can define the validation by using the **class-validator** decorators.
 
 == Use the configuration service
 
@@ -80,17 +80,17 @@ export class MyProvider {
 }
 ----
 
-The generic type is required in order to provide the intellisense to configService.values.
+The generic type is required in order to provide the `intellisense` to `configService.values`.
 
 == Choose an environment file
 
-By default, when you use the configuration service it will take the properties defined in the default.ts file. If you want to change the configuration file, you only need to set the NODE_ENV environment property with the name of the desired environment. Examples: in windows execute `set NODE_ENV=develop` before executing the application, in linux execute `NODE_ENV=develop` before executing the application or `NODE_ENV=develop yarn start`.
+By default, when you use the configuration service it will take the properties defined in the default.ts file. If you want to change the configuration file, you only need to set the NODE_ENV environment property with the name of the desired environment. Examples: in windows execute `set NODE_ENV=develop` before executing the application, in Linux execute `NODE_ENV=develop` before executing the application or `NODE_ENV=develop yarn start`.
 
 In most scenarios, when you want to use a environment file you want to use the same values as the default.ts file and override some properties. For that, what @devon4node/config do is a merge of the default configuration file with the selected configuration file, so you don't need to repeat all configuration values in all configuration files, you need to put only the values that are different to the default one.
 
 == Override configuration properties
 
-Sometimes, you want to keep some configuration property secure, and you do not want to publish it to the repository, or you want to reuse some configuration file but you need to change some properties. For those scenarios, you can override configuration properties by defining a environment variable. The pattern for the environment variables name is: the property name in upper case, if it is a nested object you must separate the properties with underscores (`_`). For example, if you want to override the property `host`, you can do: `export HOST="newhost"` (in windows: `set HOST="newhost"`). It also works with objects. For example, if you want to change the value of secret in the property jwtConfig for link:https://github.com/devonfw/devon4node/blob/develop/samples/employee/src/config/develop.ts[this example], you can set a environment variable like this: `export JWTCONFIG_SECRET="newsecret"`. If you want to override jwtConfig totally (or partially) you can set a JSON string. It will take object and merge the jwtConfig property with the properties defined inside the environment variable. The other properties maintain their value. The behavior is the same for the nested objects. Example: JWTCONFIG='{"secret":"mysecret"}' will override the jwtConfig.secret value, but the other values will remain with the value defined at configuration file.
+Sometimes, you want to keep some configuration property secure, and you do not want to publish it to the repository, or you want to reuse some configuration file but you need to change some properties. For those scenarios, you can override configuration properties by defining a environment variable. The pattern for the environment variables name is: the property name in upper case, if it is a nested object you must separate the properties with underscores (`_`). For example, if you want to override the property `host`, you can do: `export HOST="newhost"` (in windows: `set HOST="newhost"`). It also works with objects. For example, if you want to change the value of secret in the property `jwtConfig` for link:https://github.com/devonfw/devon4node/blob/develop/samples/employee/src/config/develop.ts[this example], you can set a environment variable like this: `export JWTCONFIG_SECRET="newsecret"`. If you want to override `jwtConfig` totally (or partially) you can set a JSON string. It will take object and merge the `jwtConfig` property with the properties defined inside the environment variable. The other properties maintain their value. The behavior is the same for the nested objects. Example: JWTCONFIG='{"secret":"mysecret"}' will override the `jwtConfig`.secret value, but the other values will remain with the value defined at configuration file.
 
 NOTE: you can only override properties that exists in the config file. If you want to use a secret configuration that will be setted at runtime, first you must define it in the config file and set a fake value or just an empty string.
 
@@ -104,7 +104,7 @@ In order to add a new property to the configuration module, you need to follow s
 
 Example:
 
-We want to add the property `devonfwUrl` to our ConfigService, so:
+We want to add the property `devonfwUrl` to our `ConfigService`, so:
 
 We add the following code in Config class:
 
