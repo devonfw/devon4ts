@@ -1,5 +1,4 @@
 on:
-
   push:
     paths-ignore:
       - 'documentation/**'
@@ -17,28 +16,19 @@ jobs:
       config: ${{ steps.filter.outputs.config }}
       mailer: ${{ steps.filter.outputs.mailer }}
       schematics: ${{ steps.filter.outputs.schematics }}
-      components-example: ${{ steps.filter.outputs.components-example }}
-      employee: ${{ steps.filter.outputs.employee }}
-      graphql: ${{ steps.filter.outputs.graphql }}
     steps:
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          common:
-            - 'packages/common/**'
-          config:
-            - 'packages/config/**'
-          mailer:
-            - 'packages/mailer/**'
-          schematics:
-            - 'packages/schematics/**'
-          components-example:
-            - 'samples/components-example/**'
-          employee:
-            - 'samples/employee/**'
-          graphql:
-            - 'samples/graphql/**'
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            common:
+              - 'packages/common/**'
+            config:
+              - 'packages/config/**'
+            mailer:
+              - 'packages/mailer/**'
+            schematics:
+              - 'packages/schematics/**'
 
   # JOB to build common code
   common:
@@ -93,47 +83,5 @@ jobs:
       - name: build
         run: |
           cd packages/schematics
-          yarn install
-          yarn run build
-
-  # JOB to build components-example code
-  components-example:
-    needs: changes
-    if: ${{ needs.changes.outputs.components-example == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: build
-        run: |
-          cd samples/components-example
-          yarn install
-          yarn run build
-
-  # JOB to build employee code
-  employee:
-    needs: changes
-    if: ${{ needs.changes.outputs.employee == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: build
-        run: |
-          cd samples/employee
-          yarn install
-          yarn run build
-
-  # JOB to build graphql code
-  graphql:
-    needs: changes
-    if: ${{ needs.changes.outputs.graphql == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: build
-        run: |
-          cd samples/graphql
           yarn install
           yarn run build
