@@ -79,7 +79,7 @@
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^27.1.5",
     "type-fest": "^2.12.2",
-    "zx": "^6.1.0"
+    "zx": "^7.0.1"
   },
   "config": {
     "commitizen": {
