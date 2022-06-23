@@ -17,9 +17,9 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import * as pluralize from 'pluralize';
-import { updateImports } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 export interface IResourceOptions {
   name: string;
@@ -40,25 +40,23 @@ const defaultOptions = {
 function updateDtoImports(content: string, name: string): string {
   const nameSingular = pluralize(name, 1);
   const dtoImports = `./dto/${dasherize('create-' + nameSingular)}.dto`;
-  let contentCopy = content;
+  const contentCopy = content;
   let fileType = 'input';
 
   if (contentCopy.includes(dtoImports)) {
     fileType = 'dto';
   }
 
-  contentCopy = updateImports(
-    contentCopy,
-    `./dto/${dasherize('create-' + nameSingular)}.${fileType}`,
-    `../model/dtos/${dasherize('create-' + nameSingular)}.${fileType}`,
-  );
-  contentCopy = updateImports(
-    contentCopy,
-    `./dto/${dasherize('update-' + nameSingular)}.${fileType}`,
-    `../model/dtos/${dasherize('update-' + nameSingular)}.${fileType}`,
-  );
-
-  return contentCopy;
+  return new ASTFileBuilder(contentCopy)
+    .updateImports(
+      `./dto/${dasherize('create-' + nameSingular)}.${fileType}`,
+      `../model/dtos/${dasherize('create-' + nameSingular)}.${fileType}`,
+    )
+    .updateImports(
+      `./dto/${dasherize('update-' + nameSingular)}.${fileType}`,
+      `../model/dtos/${dasherize('update-' + nameSingular)}.${fileType}`,
+    )
+    .build();
 }
 
 function updateControllers(fileEntry: FileEntry, name: string): FileEntry {
@@ -67,7 +65,9 @@ function updateControllers(fileEntry: FileEntry, name: string): FileEntry {
 
   let content = fileEntry.content.toString();
 
-  content = updateImports(content, `./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`);
+  content = new ASTFileBuilder(content)
+    .updateImports(`./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`)
+    .build();
 
   if (!fileName.endsWith('spec.ts')) {
     content = updateDtoImports(content, name);
@@ -86,12 +86,13 @@ function updateResolvers(fileEntry: FileEntry, name: string): FileEntry {
 
   let content = fileEntry.content.toString();
 
-  content = updateImports(content, `./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`);
-  content = updateImports(
-    content,
-    `./entities/${dasherize(nameSingular)}.entity`,
-    `../model/entities/${dasherize(nameSingular)}.entity`,
-  );
+  content = new ASTFileBuilder(content)
+    .updateImports(`./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`)
+    .updateImports(
+      `./entities/${dasherize(nameSingular)}.entity`,
+      `../model/entities/${dasherize(nameSingular)}.entity`,
+    )
+    .build();
 
   if (!fileName.endsWith('spec.ts')) {
     content = updateDtoImports(content, name);
@@ -125,7 +126,9 @@ function updateGateways(fileEntry: FileEntry, name: string): FileEntry {
 
   let content = fileEntry.content.toString();
 
-  content = updateImports(content, `./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`);
+  content = new ASTFileBuilder(content)
+    .updateImports(`./${dasherize(name)}.service`, `../services/${dasherize(name)}.service`)
+    .build();
 
   if (!fileName.endsWith('spec.ts')) {
     content = updateDtoImports(content, name);
@@ -138,15 +141,14 @@ function updateGateways(fileEntry: FileEntry, name: string): FileEntry {
 }
 
 function updateModule(fileEntry: FileEntry, name: string): FileEntry {
-  let content = fileEntry.content.toString();
-
-  content = updateImports(content, `./${dasherize(name)}.service`, `./services/${dasherize(name)}.service`);
-  content = updateImports(content, `./${dasherize(name)}.controller`, `./controllers/${dasherize(name)}.controller`);
-  content = updateImports(content, `./${dasherize(name)}.resolver`, `./controllers/${dasherize(name)}.resolver`);
-  content = updateImports(content, `./${dasherize(name)}.gateway`, `./controllers/${dasherize(name)}.gateway`);
+  const content = new ASTFileBuilder(fileEntry.content.toString())
+    .updateImports(`./${dasherize(name)}.service`, `./services/${dasherize(name)}.service`)
+    .updateImports(`./${dasherize(name)}.controller`, `./controllers/${dasherize(name)}.controller`)
+    .updateImports(`./${dasherize(name)}.resolver`, `./controllers/${dasherize(name)}.resolver`)
+    .updateImports(`./${dasherize(name)}.gateway`, `./controllers/${dasherize(name)}.gateway`);
 
   return {
-    content: Buffer.from(formatTsFile(content)),
+    content: Buffer.from(formatTsFile(content.build())),
     path: fileEntry.path,
   };
 }

@@ -1,10 +1,10 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { addImports, addToModuleDecorator, insertLinesToFunctionAfter } from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
 import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface IConfigOptions {
   name: string;
@@ -17,15 +17,15 @@ function updateMain(project: string): Rule {
     content = content.replace('await app.listen(3000);', 'await app.listen(configModule.values.port);');
     content = content.replace("defaultVersion: '1',", 'defaultVersion: configModule.values.defaultVersion,');
 
-    content = insertLinesToFunctionAfter(
-      content,
-      'bootstrap',
-      'NestFactory.create',
-      'const configModule = app.get<ConfigService<Config>>(ConfigService);',
-    );
-
-    content = addImports(content, 'ConfigService', '@devon4node/config');
-    content = addImports(content, 'Config', './app/shared/model/config/config.model');
+    content = new ASTFileBuilder(content)
+      .insertLinesToFunctionAfter(
+        'bootstrap',
+        'NestFactory.create',
+        'const configModule = app.get<ConfigService<Config>>(ConfigService);',
+      )
+      .addImports('ConfigService', '@devon4node/config')
+      .addImports('Config', './app/shared/model/config/config.model')
+      .build();
 
     if (content) {
       tree.overwrite((project || '.') + '/src/main.ts', formatTsFile(content));
@@ -44,19 +44,20 @@ function addToModule(project: string): Rule {
       return tree;
     }
 
-    let fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
-      'CoreModule',
-      '@devon4node/config',
-      `ConfigModule.register({
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8'))
+      .addToModuleDecorator(
+        'CoreModule',
+        '@devon4node/config',
+        `ConfigModule.register({
         configType: Config,
       })`,
-      'imports',
-      true,
-    );
+        'imports',
+        true,
+      )
+      ?.addImports('Config', '../shared/model/config/config.model')
+      .build();
 
     if (fileContent) {
-      fileContent = addImports(fileContent, 'Config', '../shared/model/config/config.model');
       tree.overwrite(module, formatTsFile(fileContent));
     }
 

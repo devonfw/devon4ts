@@ -11,15 +11,10 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import {
-  addImports,
-  addToModuleDecorator,
-  insertLinesToFunctionBefore,
-  addReturnTypeToFunction,
-} from '../../utils/ast-utils';
-import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { mergeFiles } from '../../utils/merge';
 import { formatTsFile } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 export interface IDevon4nodeApplicationOptions {
   name: string;
@@ -40,11 +35,11 @@ function updateMain(project: string) {
       `,
     );
 
-    mainFile = insertLinesToFunctionBefore(
-      mainFile,
-      'bootstrap',
-      'app.listen',
-      `app.useGlobalPipes(
+    mainFile = new ASTFileBuilder(mainFile)
+      .insertLinesToFunctionBefore(
+        'bootstrap',
+        'app.listen',
+        `app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       transformOptions: {
@@ -53,23 +48,21 @@ function updateMain(project: string) {
     }),
   );
   app.useGlobalFilters(new EntityNotFoundFilter(logger));`,
-    );
-
-    mainFile = insertLinesToFunctionBefore(
-      mainFile,
-      'bootstrap',
-      'app.listen',
-      `app.enableVersioning({
+      )
+      .insertLinesToFunctionBefore(
+        'bootstrap',
+        'app.listen',
+        `app.enableVersioning({
         type: VersioningType.URI,
         defaultVersion: '1',
       });`,
-    );
-
-    mainFile = addImports(mainFile, 'WinstonLogger', './app/shared/logger/winston.logger');
-    mainFile = addImports(mainFile, 'ValidationPipe', '@nestjs/common');
-    mainFile = addImports(mainFile, 'VersioningType', '@nestjs/common');
-    mainFile = addImports(mainFile, 'EntityNotFoundFilter', './app/shared/filters/entity-not-found.filter');
-    mainFile = addReturnTypeToFunction(mainFile, 'bootstrap', 'Promise<void>');
+      )
+      .addImports('WinstonLogger', './app/shared/logger/winston.logger')
+      .addImports('ValidationPipe', '@nestjs/common')
+      .addImports('VersioningType', '@nestjs/common')
+      .addImports('EntityNotFoundFilter', './app/shared/filters/entity-not-found.filter')
+      .addReturnTypeToFunction('bootstrap', 'Promise<void>')
+      .build();
     host.overwrite(join(project as Path, 'src/main.ts'), formatTsFile(mainFile));
 
     return host;
@@ -86,8 +79,7 @@ function addDeclarationToModule(project: string): Rule {
       return tree;
     }
 
-    const fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8')).addToModuleDecorator(
       'AppModule',
       './core/core.module',
       'CoreModule',
@@ -96,7 +88,7 @@ function addDeclarationToModule(project: string): Rule {
     );
 
     if (fileContent) {
-      tree.overwrite(module, formatTsFile(fileContent));
+      tree.overwrite(module, formatTsFile(fileContent.build()));
     }
 
     return tree;

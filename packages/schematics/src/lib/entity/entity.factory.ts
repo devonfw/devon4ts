@@ -2,8 +2,8 @@ import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, MergeStrategy, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { basename, normalize } from 'path';
-import { addImports, addTypeormFeatureToModule } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface IEntityOptions {
   name: string;
@@ -36,15 +36,12 @@ function addEntityToModule(options: IEntityOptions): Rule {
       return tree;
     }
 
-    let content = tree.read(module)!.toString();
+    const content = new ASTFileBuilder(tree.read(module)!.toString())
+      .addImports(strings.classify(options.name), './model/entities/' + options.name + '.entity')
+      .addImports('TypeOrmModule', '@nestjs/typeorm')
+      .addTypeormFeatureToModule(moduleName, strings.classify(options.name));
 
-    content = addImports(content, strings.classify(options.name), './model/entities/' + options.name + '.entity');
-    content = addImports(content, 'TypeOrmModule', '@nestjs/typeorm');
-
-    tree.overwrite(
-      module,
-      formatTsFile(addTypeormFeatureToModule(content, moduleName, strings.classify(options.name))),
-    );
+    tree.overwrite(module, formatTsFile(content.build()));
 
     return tree;
   };

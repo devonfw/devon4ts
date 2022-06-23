@@ -410,14 +410,6 @@ remove(@Param('id') id: string): Promise<Employee> {
 +
 . Add swagger metadata
 +
-.`src/app/employees/controllers/employees.controller.ts`
-[source,typescript]
-----
-@ApiTags('employees')
-----
-+
-. Add swagger metadata
-+
 By default, devon4node installs the link:https://docs.nestjs.com/openapi/cli-plugin[`@nestjs/swagger` plugin]. With that plugin, most of the `OpenAPI` documentation will be generated automatically, but you can provide more information with decorators:
 +
 .`src/app/employees/controllers/employees.controller.ts`

@@ -1,8 +1,8 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, noop, Rule, schematic, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { addImports, addTypeormRepositoryToModule, removeImports } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface IRespositoryOptions {
   name: string;
@@ -33,19 +33,12 @@ function addRepositoryToModule(options: IRespositoryOptions): Rule {
       return tree;
     }
 
-    let content = tree.read(module)!.toString();
+    const content = new ASTFileBuilder(tree.read(module)!.toString())
+      .removeImports('./model/entities/' + options.name + '.entity')
+      .addImports(strings.classify(options.name + '-repository'), './repositories/' + options.name + '.repository')
+      .addTypeormRepositoryToModule(moduleName, strings.classify(options.name));
 
-    content = removeImports(content, './model/entities/' + options.name + '.entity');
-    content = addImports(
-      content,
-      strings.classify(options.name + '-repository'),
-      './repositories/' + options.name + '.repository',
-    );
-
-    tree.overwrite(
-      module,
-      formatTsFile(addTypeormRepositoryToModule(content, moduleName, strings.classify(options.name))),
-    );
+    tree.overwrite(module, formatTsFile(content.build()));
 
     return tree;
   };
