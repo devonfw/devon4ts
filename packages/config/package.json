@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/config",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "devon4node module for easy application configuration.",
   "main": "dist/index.js",
   "scripts": {

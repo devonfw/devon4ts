@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/mailer",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "devon4node module that allows you to send emails in a easy way.",
   "main": "dist/index.js",
   "scripts": {
