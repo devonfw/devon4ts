@@ -8,7 +8,7 @@
     "lint": "eslint src/**/*.ts --fix",
     "test": "npm run build && jasmine src/**/*_spec.js",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
-    "copy:schemas": "cp node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
+    "copy:schemas": "cp ../../node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
     "prepublish:npm": "yarn build",
     "publish:npm": "npm publish --access public",
     "prepublish:next": "yarn build",
