@@ -3,7 +3,7 @@ import { apply, chain, filter, mergeWith, move, noop, Rule, template, url } from
 import { Tree } from '@angular-devkit/schematics/src/tree/interface';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
-import { addToModuleDecorator } from '../../utils/ast-utils';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 
 interface IServiceOptions {
@@ -23,8 +23,7 @@ function updateModule(serviceName: string, modulePath: Path) {
       return tree;
     }
 
-    const fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8')).addToModuleDecorator(
       moduleName,
       './services/' + serviceName + '.service',
       strings.classify(serviceName) + 'Service',
@@ -33,7 +32,7 @@ function updateModule(serviceName: string, modulePath: Path) {
     );
 
     if (fileContent) {
-      tree.overwrite(module, formatTsFile(fileContent));
+      tree.overwrite(module, formatTsFile(fileContent.build()));
     }
 
     return tree;

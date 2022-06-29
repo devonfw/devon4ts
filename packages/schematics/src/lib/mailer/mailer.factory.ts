@@ -1,16 +1,10 @@
 import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import {
-  addDecoratorToClassProp,
-  addEntryToObjctLiteralVariable,
-  addImports,
-  addPropToClass,
-  addToModuleDecorator,
-} from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
 import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface IMailerOptions {
   path?: string;
@@ -42,16 +36,14 @@ function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean):
     return;
   }
 
-  let coreContent: string | undefined = tree.read(core)!.toString();
+  let coreContent: ASTFileBuilder | undefined = new ASTFileBuilder(tree.read(core)!.toString());
 
-  if (coreContent.includes('MailerModule')) {
+  if (coreContent.build().includes('MailerModule')) {
     return;
   }
 
   if (existsConfig) {
-    coreContent = addImports(coreContent, 'ConfigService', '@devon4node/config');
-    coreContent = addToModuleDecorator(
-      coreContent,
+    coreContent = coreContent.addImports('ConfigService', '@devon4node/config').addToModuleDecorator(
       'CoreModule',
       '@devon4node/mailer',
       `MailerModule.forRootAsync({
@@ -65,34 +57,35 @@ function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean):
       true,
     );
   } else {
-    coreContent = addImports(coreContent, 'join', 'path');
-    coreContent = addToModuleDecorator(
-      coreContent,
-      'CoreModule',
-      '@devon4node/mailer',
-      'MailerModule.forRoot(' + defaultMailerValues + ')',
-      'imports',
-      true,
-    );
+    coreContent = coreContent
+      .addImports('join', 'path')
+      .addToModuleDecorator(
+        'CoreModule',
+        '@devon4node/mailer',
+        'MailerModule.forRoot(' + defaultMailerValues + ')',
+        'imports',
+        true,
+      );
   }
 
   if (coreContent) {
-    tree.overwrite(core, formatTsFile(coreContent));
+    tree.overwrite(core, formatTsFile(coreContent.build()));
   }
 }
 
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
-  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = addImports(typesFileContent, 'MailerModuleOptions', '@devon4node/mailer');
-  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
-  typesFileContent = addPropToClass(typesFileContent, 'Config', 'mailerConfig', 'MailerModuleOptions', 'exclamation');
-  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'mailerConfig', [
-    { name: 'IsDefined', arguments: [] },
-    { name: 'IsNotEmptyObject', arguments: [] },
-  ]);
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
+    .addImports('MailerModuleOptions', '@devon4node/mailer')
+    .addImports('IsDefined', 'class-validator')
+    .addImports('IsNotEmptyObject', 'class-validator')
+    .addPropToClass('Config', 'mailerConfig', 'MailerModuleOptions', 'exclamation')
+    .addDecoratorToClassProp('Config', 'mailerConfig', [
+      { name: 'IsDefined', arguments: [] },
+      { name: 'IsNotEmptyObject', arguments: [] },
+    ])
+    .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -101,12 +94,11 @@ function updateConfigFiles(project: string | undefined, tree: Tree): void {
   const configDir: Path = join((project || '.') as Path, 'src/config');
 
   tree.getDir(configDir).subfiles.forEach(file => {
-    let fileContent = tree.read(join(configDir, file))!.toString('utf-8');
-    fileContent = addImports(fileContent, 'join', 'path');
+    const fileContent = new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
+      .addImports('join', 'path')
+      .addEntryToObjctLiteralVariable('def', 'mailerConfig', defaultMailerValues);
 
-    fileContent = addEntryToObjctLiteralVariable(fileContent, 'def', 'mailerConfig', defaultMailerValues);
-
-    tree.overwrite(join(configDir, file), formatTsFile(fileContent));
+    tree.overwrite(join(configDir, file), formatTsFile(fileContent.build()));
   });
 }
 

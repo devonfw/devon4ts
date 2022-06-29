@@ -1,13 +1,7 @@
 import { join, Path } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import {
-  addDecoratorToClassProp as addDecoratorsToClassProp,
-  addEntryToObjctLiteralVariable,
-  addImports,
-  addPropToClass,
-  addToModuleDecorator,
-} from '../../utils/ast-utils';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { mergeFiles } from '../../utils/merge';
 import { existsConfigModule, formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
@@ -29,15 +23,14 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
 
     const config = existsConfigModule(tree, project || '.');
 
-    let fileContent: string | undefined = tree.read(module)!.toString('utf-8');
+    let fileContent: ASTFileBuilder | undefined = new ASTFileBuilder(tree.read(module)!.toString('utf-8'));
 
-    if (fileContent!.includes('TypeOrmModule.forRoot')) {
+    if (fileContent.build().includes('TypeOrmModule.forRoot')) {
       return tree;
     }
 
     if (!config) {
-      fileContent = addToModuleDecorator(
-        fileContent,
+      fileContent = fileContent.addToModuleDecorator(
         'CoreModule',
         '@nestjs/typeorm',
         'TypeOrmModule.forRoot()',
@@ -45,9 +38,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
         false,
       );
     } else {
-      fileContent = addImports(fileContent, 'ConfigService', '@devon4node/config');
-      fileContent = addToModuleDecorator(
-        fileContent,
+      fileContent = fileContent.addImports('ConfigService', '@devon4node/config').addToModuleDecorator(
         'CoreModule',
         '@nestjs/typeorm',
         `TypeOrmModule.forRootAsync({
@@ -63,7 +54,7 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
     }
 
     if (fileContent) {
-      tree.overwrite(module, formatTsFile(fileContent));
+      tree.overwrite(module, formatTsFile(fileContent.build()));
     }
 
     return tree;
@@ -73,17 +64,17 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
-  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = addImports(typesFileContent, 'ConnectionOptions', 'typeorm');
-  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
-  typesFileContent = addPropToClass(typesFileContent, 'Config', 'database', 'ConnectionOptions', 'exclamation');
-  typesFileContent = addDecoratorsToClassProp(typesFileContent, 'Config', 'database', [
-    { name: 'IsDefined', arguments: [] },
-    { name: 'IsNotEmptyObject', arguments: [] },
-  ]);
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
+    .addImports('ConnectionOptions', 'typeorm')
+    .addImports('IsDefined', 'class-validator')
+    .addImports('IsNotEmptyObject', 'class-validator')
+    .addPropToClass('Config', 'database', 'ConnectionOptions', 'exclamation')
+    .addDecoratorToClassProp('Config', 'database', [
+      { name: 'IsDefined', arguments: [] },
+      { name: 'IsNotEmptyObject', arguments: [] },
+    ]);
 
-  tree.overwrite(typesFile, formatTsFile(typesFileContent));
+  tree.overwrite(typesFile, formatTsFile(typesFileContent.build()));
 }
 
 function updateConfigFiles(project: string | undefined, tree: Tree): void {
@@ -94,12 +85,13 @@ function updateConfigFiles(project: string | undefined, tree: Tree): void {
     tree.overwrite(
       join(configDir, file),
       formatTsFile(
-        addEntryToObjctLiteralVariable(
-          tree.read(join(configDir, file))!.toString('utf-8'),
-          'def',
-          'database',
-          file === 'default.ts' ? 'require("../../ormconfig.json")' : ormconfigContent,
-        ),
+        new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
+          .addEntryToObjctLiteralVariable(
+            'def',
+            'database',
+            file === 'default.ts' ? 'require("../../ormconfig.json")' : ormconfigContent,
+          )
+          .build(),
       ),
     );
   });

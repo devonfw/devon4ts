@@ -1,14 +1,8 @@
 import { join, Path, strings } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
-import {
-  addDecoratorToClassProp,
-  addEntryToObjctLiteralVariable,
-  addImports,
-  addPropToClass,
-  insertLinesToFunctionBefore,
-} from '../../utils/ast-utils';
 import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 const templateWithConfig = `if (configModule.values.isDev) {
     const options = new DocumentBuilder()
@@ -74,26 +68,27 @@ function updateBaseEntity(project: string) {
       return tree;
     }
 
-    let fileContent = tree.read(baseEntityPath)!.toString();
-    fileContent = addImports(fileContent, 'ApiHideProperty', '@nestjs/swagger');
-    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'version', [
-      {
-        name: 'ApiHideProperty',
-        arguments: [],
-      },
-    ]);
-    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'createdAt', [
-      {
-        name: 'ApiHideProperty',
-        arguments: [],
-      },
-    ]);
-    fileContent = addDecoratorToClassProp(fileContent, 'BaseEntity', 'updatedAt', [
-      {
-        name: 'ApiHideProperty',
-        arguments: [],
-      },
-    ]);
+    const fileContent = new ASTFileBuilder(tree.read(baseEntityPath)!.toString())
+      .addImports('ApiHideProperty', '@nestjs/swagger')
+      .addDecoratorToClassProp('BaseEntity', 'version', [
+        {
+          name: 'ApiHideProperty',
+          arguments: [],
+        },
+      ])
+      .addDecoratorToClassProp('BaseEntity', 'createdAt', [
+        {
+          name: 'ApiHideProperty',
+          arguments: [],
+        },
+      ])
+      .addDecoratorToClassProp('BaseEntity', 'updatedAt', [
+        {
+          name: 'ApiHideProperty',
+          arguments: [],
+        },
+      ])
+      .build();
 
     if (fileContent) {
       tree.overwrite(baseEntityPath, fileContent);
@@ -130,27 +125,28 @@ function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-
-  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'IsString', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'ValidateNested', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'Type', 'class-transformer');
-  typesFileContent = addPropToClass(typesFileContent, 'Config', 'swaggerConfig', 'SwaggerConfig', 'question');
   typesFileContent = typesFileContent.replace('export class Config', swaggerInterface + '\n\nexport class Config');
-  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'swaggerConfig', [
-    {
-      name: 'IsDefined',
-      arguments: [],
-    },
-    {
-      name: 'ValidateNested',
-      arguments: [],
-    },
-    {
-      name: 'Type',
-      arguments: ['() => SwaggerConfig'],
-    },
-  ]);
+  typesFileContent = new ASTFileBuilder(typesFileContent)
+    .addImports('IsDefined', 'class-validator')
+    .addImports('IsString', 'class-validator')
+    .addImports('ValidateNested', 'class-validator')
+    .addImports('Type', 'class-transformer')
+    .addPropToClass('Config', 'swaggerConfig', 'SwaggerConfig', 'question')
+    .addDecoratorToClassProp('Config', 'swaggerConfig', [
+      {
+        name: 'IsDefined',
+        arguments: [],
+      },
+      {
+        name: 'ValidateNested',
+        arguments: [],
+      },
+      {
+        name: 'Type',
+        arguments: ['() => SwaggerConfig'],
+      },
+    ])
+    .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -165,12 +161,9 @@ function updateConfigFiles(project: string | undefined, tree: Tree): void {
       tree.overwrite(
         join(configDir, file),
         formatTsFile(
-          addEntryToObjctLiteralVariable(
-            tree.read(join(configDir, file))!.toString('utf-8'),
-            'def',
-            'swaggerConfig',
-            defaultSwaggerValue,
-          ),
+          new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
+            .addEntryToObjctLiteralVariable('def', 'swaggerConfig', defaultSwaggerValue)
+            .build(),
         ),
       );
     });
@@ -181,20 +174,20 @@ function updateMain(project: string) {
     const config = existsConfigModule(tree, project || '.');
 
     const mainPath = join(project as Path, 'src/main.ts');
-    let main = tree.read(mainPath)!.toString();
-    main = addImports(main, 'DocumentBuilder', '@nestjs/swagger');
-    main = addImports(main, 'SwaggerModule', '@nestjs/swagger');
+    const main = new ASTFileBuilder(tree.read(mainPath)!.toString())
+      .addImports('DocumentBuilder', '@nestjs/swagger')
+      .addImports('SwaggerModule', '@nestjs/swagger');
 
     if (!config) {
-      main = insertLinesToFunctionBefore(main, 'bootstrap', 'app.listen', template);
+      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', template);
     } else {
-      main = insertLinesToFunctionBefore(main, 'bootstrap', 'app.listen', templateWithConfig);
+      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', templateWithConfig);
       updateConfigTypeFile(project, tree);
       updateConfigFiles(project, tree);
     }
 
     if (main) {
-      tree.overwrite(mainPath, formatTsFile(main));
+      tree.overwrite(mainPath, formatTsFile(main.build()));
     }
     return tree;
   };

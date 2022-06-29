@@ -2,8 +2,8 @@ import { basename, dirname, join, normalize, Path, strings } from '@angular-devk
 import { apply, chain, mergeWith, move, Rule, schematic, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import * as pluralize from 'pluralize';
-import { addToModuleDecorator } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface ICrudOptions {
   name: string;
@@ -30,26 +30,24 @@ function updateModule(crudName: string, modulePath: string) {
       return tree;
     }
 
-    let fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
-      moduleName,
-      './services/' + crudName + '.service',
-      strings.classify(crudName) + 'Service',
-      'providers',
-      false,
-    );
-
-    fileContent = addToModuleDecorator(
-      fileContent!,
-      moduleName,
-      './controllers/' + crudName + '.controller',
-      strings.classify(crudName) + 'Controller',
-      'controllers',
-      false,
-    );
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8'))
+      .addToModuleDecorator(
+        moduleName,
+        './services/' + crudName + '.service',
+        strings.classify(crudName) + 'Service',
+        'providers',
+        false,
+      )
+      ?.addToModuleDecorator(
+        moduleName,
+        './controllers/' + crudName + '.controller',
+        strings.classify(crudName) + 'Controller',
+        'controllers',
+        false,
+      );
 
     if (fileContent) {
-      tree.overwrite(module, formatTsFile(fileContent));
+      tree.overwrite(module, formatTsFile(fileContent.build()));
     }
 
     return tree;

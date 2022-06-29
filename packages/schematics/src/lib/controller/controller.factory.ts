@@ -1,9 +1,9 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, filter, mergeWith, move, noop, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { addToModuleDecorator } from '../../utils/ast-utils';
 import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 import * as pluralize from 'pluralize';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 interface IControllerOptions {
   name: string;
@@ -22,8 +22,7 @@ function updateModule(controllerName: string, modulePath: Path) {
       return tree;
     }
 
-    const fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8')).addToModuleDecorator(
       moduleName,
       './controllers/' + controllerName + '.controller',
       strings.classify(controllerName) + 'Controller',
@@ -32,7 +31,7 @@ function updateModule(controllerName: string, modulePath: Path) {
     );
 
     if (fileContent) {
-      tree.overwrite(module, formatTsFile(fileContent));
+      tree.overwrite(module, formatTsFile(fileContent.build()));
     }
 
     return tree;

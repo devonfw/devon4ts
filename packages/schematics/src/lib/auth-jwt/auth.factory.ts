@@ -2,16 +2,10 @@ import { join, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { noop } from 'rxjs';
-import {
-  addDecoratorToClassProp,
-  addEntryToObjctLiteralVariable,
-  addImports,
-  addPropToClass,
-  addToModuleDecorator,
-} from '../../utils/ast-utils';
 import { mergeFiles } from '../../utils/merge';
 import { existsConfigModule, formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
 const defaultJwtConfig = {
   secret: 'SECRET',
@@ -32,16 +26,10 @@ function addAuthToCoreModule(project: string): Rule {
       return tree;
     }
 
-    let fileContent = addToModuleDecorator(
-      tree.read(module)!.toString('utf-8'),
-      'CoreModule',
-      './auth/auth.module',
-      'AuthModule',
-      'imports',
-      true,
-    );
-
-    fileContent = addToModuleDecorator(fileContent!, 'CoreModule', './user/user.module', 'UserModule', 'imports', true);
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8'))
+      .addToModuleDecorator('CoreModule', './auth/auth.module', 'AuthModule', 'imports', true)
+      ?.addToModuleDecorator('CoreModule', './user/user.module', 'UserModule', 'imports', true)
+      ?.build();
 
     if (fileContent) {
       tree.overwrite(module, formatTsFile(fileContent));
@@ -54,15 +42,16 @@ function addAuthToCoreModule(project: string): Rule {
 function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
   const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
 
-  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = addImports(typesFileContent, 'JwtModuleOptions', '@nestjs/jwt');
-  typesFileContent = addImports(typesFileContent, 'IsDefined', 'class-validator');
-  typesFileContent = addImports(typesFileContent, 'IsNotEmptyObject', 'class-validator');
-  typesFileContent = addPropToClass(typesFileContent, 'Config', 'jwtConfig', 'JwtModuleOptions', 'exclamation');
-  typesFileContent = addDecoratorToClassProp(typesFileContent, 'Config', 'jwtConfig', [
-    { name: 'IsDefined', arguments: [] },
-    { name: 'IsNotEmptyObject', arguments: [] },
-  ]);
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
+    .addImports('JwtModuleOptions', '@nestjs/jwt')
+    .addImports('IsDefined', 'class-validator')
+    .addImports('IsNotEmptyObject', 'class-validator')
+    .addPropToClass('Config', 'jwtConfig', 'JwtModuleOptions', 'exclamation')
+    .addDecoratorToClassProp('Config', 'jwtConfig', [
+      { name: 'IsDefined', arguments: [] },
+      { name: 'IsNotEmptyObject', arguments: [] },
+    ])
+    .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
@@ -74,12 +63,9 @@ function updateConfigFiles(project: string | undefined, tree: Tree): void {
     tree.overwrite(
       join(configDir, file),
       formatTsFile(
-        addEntryToObjctLiteralVariable(
-          tree.read(join(configDir, file))!.toString('utf-8'),
-          'def',
-          'jwtConfig',
-          JSON.stringify(defaultJwtConfig),
-        ),
+        new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
+          .addEntryToObjctLiteralVariable('def', 'jwtConfig', JSON.stringify(defaultJwtConfig))
+          .build(),
       ),
     );
   });
