@@ -34,17 +34,6 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
-"@angular-devkit/core@14.0.2":
-  version "14.0.2"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.0.2.tgz#47f62a57cf36a2e102188a89ae00f5e5a05d837d"
-  integrity sha512-lT875LhgO+23HvjUmuCZomH/0ivetzo8xsaT+7YM8SeUpmjsNTpTA/xNAQ4uD4JGscsJeCKsGT/zJIwPAAe6vQ==
-  dependencies:
-    ajv "8.11.0"
-    ajv-formats "2.1.1"
-    jsonc-parser "3.0.0"
-    rxjs "6.6.7"
-    source-map "0.7.3"
-
 "@angular-devkit/core@14.0.4", "@angular-devkit/core@^14.0.2":
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.0.4.tgz#b387857ed694a0dd77015b133e7297acb39ba275"
@@ -69,12 +58,12 @@
     symbol-observable "4.0.0"
 
 "@angular-devkit/schematics-cli@^14.0.2":
-  version "14.0.2"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.0.2.tgz#4d157123f993f45122a3008add1b284548b67039"
-  integrity sha512-baqwuiN56mPFVVhthZHwvltjPNrczijM6Hvk9wYqlNeYuawqDD8h57u3PMGzgr9SKLHyCoFNwMQ0B57FN7oXtA==
+  version "14.0.4"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.0.4.tgz#d97ef93572a708bcd74c7b92f35e70a25711473e"
+  integrity sha512-BadGlb/V7U9GmIXodn1UWWsCoYTblg1eKYeCjdfvRw+cdr72uDH3Tdd2P66uJb/IS0wFH7jBKdRWXpNzA+hzXA==
   dependencies:
-    "@angular-devkit/core" "14.0.2"
-    "@angular-devkit/schematics" "14.0.2"
+    "@angular-devkit/core" "14.0.4"
+    "@angular-devkit/schematics" "14.0.4"
     ansi-colors "4.1.1"
     inquirer "8.2.4"
     symbol-observable "4.0.0"
@@ -99,17 +88,6 @@
     "@angular-devkit/core" "13.3.6"
     jsonc-parser "3.0.0"
     magic-string "0.25.7"
-    ora "5.4.1"
-    rxjs "6.6.7"
-
-"@angular-devkit/schematics@14.0.2":
-  version "14.0.2"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-14.0.2.tgz#8d878bcdb9d8ad876c254ebec55b7da6773e05df"
-  integrity sha512-NCAYwvQBL71MbAzeF8XOM9LXYfZbUK7THYCW8UteKDY4Df6EdVOGhBdWY2LstAkZeVCaQWSJU7FcVRS9Ulvg0A==
-  dependencies:
-    "@angular-devkit/core" "14.0.2"
-    jsonc-parser "3.0.0"
-    magic-string "0.26.1"
     ora "5.4.1"
     rxjs "6.6.7"
 
