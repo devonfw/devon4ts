@@ -9181,9 +9181,9 @@ zen-observable@0.8.15:
   integrity sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
 
 zx@^7.0.1:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/zx/-/zx-7.0.4.tgz#dea054523ef2a5d25fc2194739a1b02dbb45d24e"
-  integrity sha512-Z0uybYYLtL8ODx9ZOU88EKi6OLZ9ZTDRXX5igtcAsePUIseOWdACSaMxPjzgp0hqWkx0sZz/Lxs8bBSAHOsnNA==
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/zx/-/zx-7.0.7.tgz#e812b3bfecd49304fd6a415deeae16335edf7d5e"
+  integrity sha512-cWF5cWqqrTVxgEPmQ8w/LvUXOK3rJTdgC+Tt1nz113+YncNIO0X6UXgCY72UfE8Az/lwOubbEJARXpQ+7RiM9g==
   dependencies:
     "@types/fs-extra" "^9.0.13"
     "@types/minimist" "^1.2.2"
