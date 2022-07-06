@@ -1962,12 +1962,12 @@
     "@octokit/openapi-types" "^12.2.0"
 
 "@schematics/angular@^14.0.2":
-  version "14.0.4"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-14.0.4.tgz#abc422fcbf89caea8f785454f8b8793badae8e80"
-  integrity sha512-2t7B8ZplJzLfrU7SjciaUquaOAWCi6SD954Q1Ej/SZfWlLjs8k1SvlKb+Syzo9TMByMuzdKTrdnmNRHekvMZEQ==
+  version "14.0.5"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-14.0.5.tgz#0bcbbc65a4b9a9d9794a7c069b0ad16a36bd7013"
+  integrity sha512-xZjXHLn1djIvKJFiOfspTrzAomtDGRqGgsOo06glBkC+cqKCyyXU1Hgxnd3S5V+8a6TpYgX25AXihtE3BeCJzg==
   dependencies:
-    "@angular-devkit/core" "14.0.4"
-    "@angular-devkit/schematics" "14.0.4"
+    "@angular-devkit/core" "14.0.5"
+    "@angular-devkit/schematics" "14.0.5"
     jsonc-parser "3.0.0"
 
 "@sinclair/typebox@^0.23.3":
