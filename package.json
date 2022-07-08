@@ -24,7 +24,7 @@
     "@angular-devkit/core": "^14.0.2",
     "@angular-devkit/schematics": "^14.0.2",
     "@angular-devkit/schematics-cli": "^14.0.2",
-    "@nestjs/cli": "^8.2.6",
+    "@nestjs/cli": "^9.0.0",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.2",
     "@nestjs/schematics": "^8.0.11",

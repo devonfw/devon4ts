@@ -22,18 +22,6 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
-"@angular-devkit/core@13.3.6":
-  version "13.3.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.3.6.tgz#656284327d6f84a866a8d3cc8625895fe740602d"
-  integrity sha512-ZmD586B+RnM2CG5+jbXh2NVfIydTc/yKSjppYDDOv4I530YBm6vpfZMwClpiNk6XLbMv7KqX4Tlr4wfxlPYYbA==
-  dependencies:
-    ajv "8.9.0"
-    ajv-formats "2.1.1"
-    fast-json-stable-stringify "2.1.0"
-    magic-string "0.25.7"
-    rxjs "6.6.7"
-    source-map "0.7.3"
-
 "@angular-devkit/core@14.0.5", "@angular-devkit/core@^14.0.2":
   version "14.0.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.0.5.tgz#19f5940b53aeb0ce56479c44670d3bc3b2df92b1"
@@ -45,19 +33,7 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
-"@angular-devkit/schematics-cli@13.3.6":
-  version "13.3.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-13.3.6.tgz#5246c112b6b837a9d0a348cb6b79a8c4948e90c8"
-  integrity sha512-5tTuu9gbXM0bMk0sin4phmWA3U1Qz53zT/rpEfzQ/+c/s8CoqZ5N1qOnYtemRct3Jxsz1kn4TBpHeriR4r5hHg==
-  dependencies:
-    "@angular-devkit/core" "13.3.6"
-    "@angular-devkit/schematics" "13.3.6"
-    ansi-colors "4.1.1"
-    inquirer "8.2.0"
-    minimist "1.2.6"
-    symbol-observable "4.0.0"
-
-"@angular-devkit/schematics-cli@^14.0.2":
+"@angular-devkit/schematics-cli@14.0.5", "@angular-devkit/schematics-cli@^14.0.2":
   version "14.0.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.0.5.tgz#a1ec438cca8814650bf7ecbcbb7c182e69437669"
   integrity sha512-S+u0KjglyI3jEZWwIuBvFjEwY3Zk5lCWfhet+95sFKJEjEYgF4Fuk8Mau/9cr55hIcpZqTQUvyxnS/VDoj4WLg==
@@ -75,17 +51,6 @@
   integrity sha512-0N/kL/Vfx0yVAEwa3HYxNx9wYb+G9r1JrLjJQQzDp+z9LtcojNf7j3oey6NXrDUs1WjVZOa/AIdRl3/DuaoG5w==
   dependencies:
     "@angular-devkit/core" "13.3.5"
-    jsonc-parser "3.0.0"
-    magic-string "0.25.7"
-    ora "5.4.1"
-    rxjs "6.6.7"
-
-"@angular-devkit/schematics@13.3.6":
-  version "13.3.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.6.tgz#b02e1eff714c2cf44a54de92410d07cc8cefbb0e"
-  integrity sha512-yLh5xc92C/FiaAp27coPiKWpSUmwoXF7vMxbJYJTyOXlt0mUITAEAwtrZQNr4yAxW/yvgTdyg7PhXaveQNTUuQ==
-  dependencies:
-    "@angular-devkit/core" "13.3.6"
     jsonc-parser "3.0.0"
     magic-string "0.25.7"
     ora "5.4.1"
@@ -1546,15 +1511,15 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@nestjs/cli@^8.2.6":
-  version "8.2.8"
-  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-8.2.8.tgz#63e5b477f90e6d0238365dcc6236b95bf4f0c807"
-  integrity sha512-y5Imcw1EY0OxD3POAM7SLUB1rFdn5FjbfSsyJrokjKmXY+i6KcBdbRrv3Ox7aeJ4W7wXuckIXZEUlK6lC52dnA==
+"@nestjs/cli@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/cli/-/cli-9.0.0.tgz#f9ab4c33cfbc9ee54d792fe29e0f582e0bf04b06"
+  integrity sha512-xT5uOoIEcaB/Fn6UeF7atfKqKiEEsTeRKPiM55p+e5H9WVw8FC2r4ceZgaINJbsw0QWskVj/ZQadMo6dA6hXxw==
   dependencies:
-    "@angular-devkit/core" "13.3.6"
-    "@angular-devkit/schematics" "13.3.6"
-    "@angular-devkit/schematics-cli" "13.3.6"
-    "@nestjs/schematics" "^8.0.3"
+    "@angular-devkit/core" "14.0.5"
+    "@angular-devkit/schematics" "14.0.5"
+    "@angular-devkit/schematics-cli" "14.0.5"
+    "@nestjs/schematics" "^9.0.0"
     chalk "3.0.0"
     chokidar "3.5.3"
     cli-table3 "0.6.2"
@@ -1621,13 +1586,24 @@
     multer "1.4.4-lts.1"
     tslib "2.4.0"
 
-"@nestjs/schematics@^8.0.11", "@nestjs/schematics@^8.0.3":
+"@nestjs/schematics@^8.0.11":
   version "8.0.11"
   resolved "https://registry.yarnpkg.com/@nestjs/schematics/-/schematics-8.0.11.tgz#5d0c56184826660a2c01b1c326dbdbb12880e864"
   integrity sha512-W/WzaxgH5aE01AiIErE9QrQJ73VR/M/8p8pq0LZmjmNcjZqU5kQyOWUxZg13WYfSpJdOa62t6TZRtFDmgZPoIg==
   dependencies:
     "@angular-devkit/core" "13.3.5"
     "@angular-devkit/schematics" "13.3.5"
+    fs-extra "10.1.0"
+    jsonc-parser "3.0.0"
+    pluralize "8.0.0"
+
+"@nestjs/schematics@^9.0.0":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/schematics/-/schematics-9.0.1.tgz#2ec1b3fc4cd2c44310d4d7d1f5f276a18d24964b"
+  integrity sha512-QU7GbnQvADFXdumcdADmv4vil3bhnYl2IFHWKieRt0MgIhghgBxIB7kDKWhswcuZ0kZztVbyYjo9aCrlf62fcw==
+  dependencies:
+    "@angular-devkit/core" "14.0.5"
+    "@angular-devkit/schematics" "14.0.5"
     fs-extra "10.1.0"
     jsonc-parser "3.0.0"
     pluralize "8.0.0"
@@ -5184,26 +5160,6 @@ inquirer@7.3.3, inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-inquirer@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.0.tgz#f44f008dd344bbfc4b30031f45d984e034a3ac3a"
-  integrity sha512-0crLweprevJ02tTuA6ThpoAERAGyVILC4sS74uib58Xf/zSr1/ZWtmm7D5CI+bSQEaA04f0K7idaHpQbSWgiVQ==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^4.1.1"
-    cli-cursor "^3.1.0"
-    cli-width "^3.0.0"
-    external-editor "^3.0.3"
-    figures "^3.0.0"
-    lodash "^4.17.21"
-    mute-stream "0.0.8"
-    ora "^5.4.1"
-    run-async "^2.4.0"
-    rxjs "^7.2.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-    through "^2.3.6"
-
 inquirer@8.2.4:
   version "8.2.4"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.4.tgz#ddbfe86ca2f67649a67daa6f1051c128f684f0b4"
@@ -6499,7 +6455,7 @@ minimist@1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-minimist@1.2.6, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
+minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -7816,7 +7772,7 @@ rxjs@6.6.7, rxjs@^6.4.0, rxjs@^6.6.0:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.2.0, rxjs@^7.5.5:
+rxjs@^7.5.5:
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.5.tgz#2ebad89af0f560f460ad5cc4213219e1f7dd4e9f"
   integrity sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==
