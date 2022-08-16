@@ -1,128 +1,42 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+
 describe('Guard Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
-  it('should manage name only and create spec file', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo.guard.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/app/foo.guard.spec.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo.guard.ts')).toEqual(
-        "import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooGuard implements CanActivate {\n' +
-          '  canActivate(\n' +
-          '    context: ExecutionContext,\n' +
-          '  ): boolean | Promise<boolean> | Observable<boolean> {\n' +
-          '    return true;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should throw an error if not executed at project root folder', done => {
+    runner.runSchematicAsync('guard', { name: 'foo' }).subscribe(
+      () => {
+        fail();
+      },
+      error => {
+        expect(error).toStrictEqual(new Error('You must run the schematic at devon4node project root folder.'));
+        done();
+      },
+    );
   });
-  it('should manage name has a path', () => {
-    const options: Record<string, any> = {
-      name: 'bar/foo',
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar/foo.guard.ts')).toBeDefined();
-      expect(tree.readContent('/app/bar/foo.guard.ts')).toEqual(
-        "import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooGuard implements CanActivate {\n' +
-          '  canActivate(\n' +
-          '    context: ExecutionContext,\n' +
-          '  ): boolean | Promise<boolean> | Observable<boolean> {\n' +
-          '    return true;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should create the guard inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('guard', { name: 'guard' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/guards/guard.guard.ts');
+    expect(tree.files).toContain('/src/app/guards/guard.guard.spec.ts');
   });
-  it('should manage name and path', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-      path: 'baz',
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/baz/src/app/guards/foo.guard.ts')).toBeDefined();
-      expect(tree.readContent('/baz/src/app/guards/foo.guard.ts')).toEqual(
-        "import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooGuard implements CanActivate {\n' +
-          '  canActivate(\n' +
-          '    context: ExecutionContext,\n' +
-          '  ): boolean | Promise<boolean> | Observable<boolean> {\n' +
-          '    return true;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should not generate spec if spec param is false', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('guard', { name: 'guard', spec: false }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/guards/guard.guard.ts');
+    expect(tree.files).not.toContain('/src/app/guards/guard.guard.spec.ts');
   });
-  it('should manage name to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'fooBar',
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo-bar.guard.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo-bar.guard.ts')).toEqual(
-        "import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooBarGuard implements CanActivate {\n' +
-          '  canActivate(\n' +
-          '    context: ExecutionContext,\n' +
-          '  ): boolean | Promise<boolean> | Observable<boolean> {\n' +
-          '    return true;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
-  });
-  it('should manage path to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'barBaz/foo',
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar-baz/foo.guard.ts')).not.toBeUndefined();
-      expect(tree.readContent('/app/bar-baz/foo.guard.ts')).toEqual(
-        "import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooGuard implements CanActivate {\n' +
-          '  canActivate(\n' +
-          '    context: ExecutionContext,\n' +
-          '  ): boolean | Promise<boolean> | Observable<boolean> {\n' +
-          '    return true;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
-  });
-  it('should be undefined if no spec file', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-      spec: false,
-    };
-    runner.runSchematicAsync('guard', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo.guard.spec.ts')).toBeUndefined();
-      expect(files.find(filename => filename === '/app/foo.guard.ts')).toBeDefined();
-    });
+
+  it('should create the guard at specified module inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('guard', { name: 'module/guard' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/module/guards/guard.guard.ts');
+    expect(tree.files).toContain('/src/app/module/guards/guard.guard.spec.ts');
   });
 });

@@ -3,10 +3,11 @@
   "version": "4.0.1",
   "description": "Schematics for devon4node",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\"",
     "lint": "eslint src/**/*.ts --fix",
-    "test": "npm run build && jasmine src/**/*_spec.js",
+    "test": "jest",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "rm": "rm -r src/**/*.js && rm -r src/**/*.d.ts && rm -r src/**/*.js.map",
     "copy:schemas": "cp ../../node_modules/@nestjs/schematics/dist/lib/module/schema.json src/lib/module/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/filter/schema.json src/lib/filter/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/guard/schema.json src/lib/guard/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/interceptor/schema.json src/lib/interceptor/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/middleware/schema.json src/lib/middleware/schema.json && cp ../../node_modules/@nestjs/schematics/dist/lib/pipe/schema.json src/lib/pipe/schema.json",
     "prepublish:npm": "yarn build",
@@ -25,7 +26,7 @@
   "dependencies": {
     "@angular-devkit/core": "^14.0.2",
     "@angular-devkit/schematics": "^14.0.2",
-    "@nestjs/schematics": "^8.0.11",
+    "@nestjs/schematics": "^9.0.0",
     "@schematics/angular": "^14.0.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
@@ -33,5 +34,21 @@
     "prettier": "^2.7.1",
     "ts-morph": "^15.1.0",
     "typescript": "^4.7.4"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "roots": [
+      "src"
+    ],
+    "testRegex": "_spec.ts$",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
   }
 }

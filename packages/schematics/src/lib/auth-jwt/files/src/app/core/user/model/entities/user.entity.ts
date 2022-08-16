@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '../../../../shared/model/entities/base-entity.entity';
+import { BaseEntity } from '../../../../shared/model/entities/base.entity';
 import { roles } from '../../../auth/model/roles.enum';
 
 @Entity()

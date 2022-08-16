@@ -3,9 +3,5 @@
   "$id": "AuthSchematic",
   "title": "Auth JWT Schema",
   "type": "object",
-  "properties": {
-    "path": {
-      "type": "string"
-    }
-  }
+  "properties": {}
 }

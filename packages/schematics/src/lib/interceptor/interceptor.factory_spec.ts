@@ -3,106 +3,40 @@ import * as path from 'path';
 
 describe('Interceptor Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
-  it('should manage name only and create spec file', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-    };
-    runner.runSchematicAsync('interceptor', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo.interceptor.ts')).toBeDefined();
-      expect(files.find(filename => filename === '/app/foo.interceptor.spec.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo.interceptor.ts')).toEqual(
-        "import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooInterceptor implements NestInterceptor {\n' +
-          '  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {\n' +
-          '    return next.handle();\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should throw an error if not executed at project root folder', done => {
+    runner.runSchematicAsync('interceptor', { name: 'foo' }).subscribe(
+      () => {
+        fail();
+      },
+      error => {
+        expect(error).toStrictEqual(new Error('You must run the schematic at devon4node project root folder.'));
+        done();
+      },
+    );
   });
-  it('should manage name as a path', () => {
-    const options: Record<string, any> = {
-      name: 'bar/foo',
-    };
-    runner.runSchematicAsync('interceptor', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar/foo.interceptor.ts')).toBeDefined();
-      expect(tree.readContent('/app/bar/foo.interceptor.ts')).toEqual(
-        "import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooInterceptor implements NestInterceptor {\n' +
-          '  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {\n' +
-          '    return next.handle();\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should create the interceptor inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('interceptor', { name: 'interceptor' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/interceptors/interceptor.interceptor.ts');
+    expect(tree.files).toContain('/src/app/interceptors/interceptor.interceptor.spec.ts');
   });
-  it('should manage name and path', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-      path: 'baz',
-    };
-    runner.runSchematicAsync('interceptor', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/baz/src/app/interceptors/foo.interceptor.ts')).toBeDefined();
-      expect(tree.readContent('/baz/src/app/interceptors/foo.interceptor.ts')).toEqual(
-        "import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooInterceptor implements NestInterceptor {\n' +
-          '  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {\n' +
-          '    return next.handle();\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should not generate spec if spec param is false', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('interceptor', { name: 'interceptor', spec: false }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/interceptors/interceptor.interceptor.ts');
+    expect(tree.files).not.toContain('/src/app/interceptors/interceptor.interceptor.spec.ts');
   });
-  it('should manage name to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'fooBar',
-    };
-    runner.runSchematicAsync('interceptor', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo-bar.interceptor.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo-bar.interceptor.ts')).toEqual(
-        "import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooBarInterceptor implements NestInterceptor {\n' +
-          '  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {\n' +
-          '    return next.handle();\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
-  });
-  it('should manage path to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'barBaz/foo',
-    };
-    runner.runSchematicAsync('interceptor', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar-baz/foo.interceptor.ts')).toBeDefined();
-      expect(tree.readContent('/app/bar-baz/foo.interceptor.ts')).toEqual(
-        "import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';\n" +
-          "import { Observable } from 'rxjs';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooInterceptor implements NestInterceptor {\n' +
-          '  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {\n' +
-          '    return next.handle();\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should create the interceptor at specified module inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('interceptor', { name: 'module/interceptor' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/module/interceptors/interceptor.interceptor.ts');
+    expect(tree.files).toContain('/src/app/module/interceptors/interceptor.interceptor.spec.ts');
   });
 });

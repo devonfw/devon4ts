@@ -1,28 +1,24 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, mergeWith, move, noop, Rule, schematic, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { formatTsFile, formatTsFiles, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 interface IRespositoryOptions {
   name: string;
-  path?: string;
 }
 
 function transform(options: IRespositoryOptions): IRespositoryOptions {
   const newOptions = Object.assign({}, options);
 
   newOptions.name = strings.dasherize(basename(options.name as Path));
-  newOptions.path = strings.dasherize(
-    normalize('/' + join((options.path || '') as Path, 'src/app/', options.name, '../model/entities')),
-  );
 
   return newOptions;
 }
 
-function addRepositoryToModule(options: IRespositoryOptions): Rule {
+function addRepositoryToModule(options: IRespositoryOptions, path: Path): Rule {
   return (tree: Tree): Tree => {
-    const modulePosiblePath = join(options.path! as Path, '../..');
+    const modulePosiblePath = join(path, '..');
     const moduleName = strings.classify(basename(modulePosiblePath) + '-module');
 
     const module = new ModuleFinder(tree).find({
@@ -46,10 +42,10 @@ function addRepositoryToModule(options: IRespositoryOptions): Rule {
 
 export function main(options: IRespositoryOptions): Rule {
   const name = strings.dasherize(basename(options.name as Path));
-  const projectPath = options.path || '.';
-  const path = normalize(join(projectPath as Path, 'src/app', options.name, '../repositories'));
+  const path = normalize(join('src/app' as Path, options.name, '../repositories'));
 
   return chain([
+    stopExecutionIfNotRunningAtRootFolder(),
     (tree: Tree): Rule => {
       if (!tree.exists(join(path, '../model/entities', name + '.entity.ts'))) {
         return schematic('entity', options);
@@ -67,6 +63,6 @@ export function main(options: IRespositoryOptions): Rule {
         move(path),
       ]),
     ),
-    addRepositoryToModule(transform(options)),
+    addRepositoryToModule(transform(options), path),
   ]);
 }

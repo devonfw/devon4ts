@@ -1,8 +1,10 @@
 import {
+  ArrayLiteralExpression,
   ClassDeclaration,
   IndentationText,
   ObjectLiteralExpression,
   Project,
+  PropertyAssignment,
   PropertyAssignmentStructure,
   QuoteKind,
   SourceFile,
@@ -89,10 +91,17 @@ export class ASTFileBuilder {
   }
 
   addDefaultImports(importValues: string, importFrom: string): ASTFileBuilder {
-    this.source.addImportDeclaration({
-      moduleSpecifier: importFrom,
-      defaultImport: importValues,
-    });
+    const importsDeclaration = this.source
+      .getImportDeclarations()
+      .filter(e => e.getModuleSpecifier().getLiteralValue() === importFrom);
+    if (importsDeclaration && importsDeclaration.length) {
+      importsDeclaration[0].setDefaultImport(importValues);
+    } else {
+      this.source.addImportDeclaration({
+        moduleSpecifier: importFrom,
+        defaultImport: importValues,
+      });
+    }
 
     return this;
   }
@@ -108,17 +117,10 @@ export class ASTFileBuilder {
 
   addToModuleDecorator(
     moduleNameToAdd: string,
-    moduleToInsert: string,
     moduleNameToInsert: string,
     property: string,
-    exports: boolean,
   ): ASTFileBuilder | undefined {
     try {
-      this.addImports(
-        moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert,
-        moduleToInsert,
-      );
-
       const tsClass: ClassDeclaration = this.source.getClassOrThrow(moduleNameToAdd);
       const decorator = tsClass.getDecorators().filter(value => value.getName() === 'Module')[0];
       const argument = decorator.getArguments()[0] as ObjectLiteralExpression;
@@ -133,25 +135,6 @@ export class ASTFileBuilder {
           name: property,
           initializer: '[' + moduleNameToInsert + ']',
         });
-      }
-
-      if (exports) {
-        const exportsArg = argument.getProperty('exports');
-
-        if (exportsArg) {
-          const exportsArgs = exportsArg.getStructure() as PropertyAssignmentStructure;
-          exportsArgs.initializer = (exportsArgs.initializer as string).replace(
-            '[',
-            '[ ' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ',',
-          );
-          argument.getProperty('exports')!.set(exportsArgs as any);
-        } else {
-          argument.addPropertyAssignment({
-            name: 'exports',
-            initializer:
-              '[' + (moduleNameToInsert.includes('.') ? moduleNameToInsert.split('.')[0] : moduleNameToInsert) + ']',
-          });
-        }
       }
     } catch (e) {
       // Do nothing
@@ -278,16 +261,20 @@ export class ASTFileBuilder {
     return this;
   }
 
-  addEntryToObjctLiteralVariable(varName: string, propName: string, propInitializer: string): ASTFileBuilder {
+  addPropertyToObjectLiteralVariable(
+    varName: string,
+    propertyName: string,
+    propertyInitializer: string,
+  ): ASTFileBuilder {
     const varDeclaration = this.source.getVariableDeclaration(varName);
 
     if (varDeclaration) {
       const object = varDeclaration.getInitializerIfKind(SyntaxKind.ObjectLiteralExpression);
 
-      if (object && !object.getProperty(propName)) {
+      if (object && !object.getProperty(propertyName)) {
         object.addPropertyAssignment({
-          name: propName,
-          initializer: propInitializer,
+          name: propertyName,
+          initializer: propertyInitializer,
         });
       }
     }
@@ -354,6 +341,56 @@ export class ASTFileBuilder {
         returnType: getterReturnType,
         statements: getterContent,
       });
+    }
+
+    return this;
+  }
+
+  addPropertyToObjectLiteralParam(
+    varName: string,
+    paramIndex: number,
+    propertyName: string,
+    propertyInitializer: string | string[],
+  ): ASTFileBuilder {
+    const varDeclaration = this.source.getVariableDeclaration(varName);
+
+    if (varDeclaration) {
+      const object =
+        varDeclaration.getInitializerIfKind(SyntaxKind.NewExpression) ??
+        varDeclaration.getInitializerIfKind(SyntaxKind.CallExpression);
+
+      if (object) {
+        const arg = object.getArguments()[paramIndex] as ObjectLiteralExpression | undefined;
+
+        if (arg && arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
+          const property = arg.getProperty(propertyName);
+          if (property) {
+            const initializer = (property as PropertyAssignment).getInitializer();
+            if (initializer?.getKind() === SyntaxKind.ArrayLiteralExpression) {
+              if (Array.isArray(propertyInitializer)) {
+                propertyInitializer.forEach(elem => {
+                  (initializer as ArrayLiteralExpression).addElement(elem);
+                });
+              } else {
+                (initializer as ArrayLiteralExpression).addElement(propertyInitializer);
+              }
+            } else {
+              property.set({
+                initializer: Array.isArray(propertyInitializer)
+                  ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
+                  : propertyInitializer,
+              });
+            }
+          } else {
+            arg.addPropertyAssignment({
+              name: propertyName,
+              initializer: Array.isArray(propertyInitializer)
+                ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
+                : propertyInitializer,
+            });
+          }
+        }
+      }
     }
 
     return this;

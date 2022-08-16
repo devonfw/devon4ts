@@ -1,14 +1,13 @@
 import { basename, join, normalize, Path, strings } from '@angular-devkit/core';
 import { apply, chain, filter, mergeWith, move, noop, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { formatTsFile, formatTsFiles } from '../../utils/tree-utils';
+import { formatTsFile, formatTsFiles, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import * as pluralize from 'pluralize';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
-interface IControllerOptions {
+export interface IControllerOptions {
   name: string;
-  path: string;
-  spec: boolean;
+  spec?: boolean;
 }
 
 function updateModule(controllerName: string, modulePath: Path) {
@@ -22,13 +21,9 @@ function updateModule(controllerName: string, modulePath: Path) {
       return tree;
     }
 
-    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8')).addToModuleDecorator(
-      moduleName,
-      './controllers/' + controllerName + '.controller',
-      strings.classify(controllerName) + 'Controller',
-      'controllers',
-      false,
-    );
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8'))
+      .addImports(strings.classify(controllerName) + 'Controller', './controllers/' + controllerName + '.controller')
+      .addToModuleDecorator(moduleName, strings.classify(controllerName) + 'Controller', 'controllers');
 
     if (fileContent) {
       tree.overwrite(module, formatTsFile(fileContent.build()));
@@ -40,10 +35,10 @@ function updateModule(controllerName: string, modulePath: Path) {
 
 export function main(options: IControllerOptions): Rule {
   const name = pluralize(strings.dasherize(basename(options.name as Path)));
-  const projectPath = options.path || '.';
-  const path: Path = strings.dasherize(normalize(join(projectPath as Path, 'src/app', options.name, '..'))) as Path;
+  const path: Path = normalize(join('src/app' as Path, strings.dasherize(options.name), '..'));
 
   return chain([
+    stopExecutionIfNotRunningAtRootFolder(),
     mergeWith(
       apply(url('./files'), [
         options.spec ? noop() : filter(p => !p.endsWith('.spec.ts')),

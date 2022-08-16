@@ -1,0 +1,10 @@
+{
+  "isDev": true,
+  "port": 3000,
+  "defaultVersion": "1",
+  "logger": {
+    "loggerLevel": "info",
+    "color": false,
+    "oneLineStack": true
+  }
+}

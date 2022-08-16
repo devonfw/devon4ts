@@ -8,11 +8,9 @@
       "type": "string",
       "description": "The entity name. To create a entity with name Banana in the module fruits you need to introduce fruits/banana",
       "x-prompt": "Introduce the entity name"
-    },
-    "path": {
-      "type": "string",
-      "description": "Change the application folder where you will create the entity"
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

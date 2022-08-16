@@ -3,9 +3,5 @@
   "$id": "SecuritySchematic",
   "title": "Security Schema",
   "type": "object",
-  "properties": {
-    "path": {
-      "type": "string"
-    }
-  }
+  "properties": {}
 }

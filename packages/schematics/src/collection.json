@@ -17,10 +17,10 @@
       "factory": "./lib/entity/entity.factory#main",
       "schema": "./lib/entity/schema.json"
     },
-    "config-module": {
-      "description": "Add the config module to the project.",
-      "factory": "./lib/config-module/config-module.factory#configModule",
-      "schema": "./lib/config-module/schema.json"
+    "convict": {
+      "description": "Initialize convict to manage the configuration  into the project.",
+      "factory": "./lib/convict/convict.factory#initConvict",
+      "schema": "./lib/convict/schema.json"
     },
     "mailer": {
       "description": "Add @devon4node/mailer module to project.",

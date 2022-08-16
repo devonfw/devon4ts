@@ -1,5 +1,6 @@
-import { externalSchematic, Rule } from '@angular-devkit/schematics';
 import { Path } from '@angular-devkit/core';
+import { chain, externalSchematic, Rule } from '@angular-devkit/schematics';
+import { transformOptionsToNestJS, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 export interface IModuleOptions {
   name: string;
@@ -14,9 +15,9 @@ export interface IModuleOptions {
 }
 
 export function main(options: IModuleOptions): Rule {
-  const newOptions = { ...options };
-  newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
-  newOptions.language = 'ts';
-
-  return externalSchematic('@nestjs/schematics', 'module', newOptions);
+  return chain([
+    stopExecutionIfNotRunningAtRootFolder(),
+    transformOptionsToNestJS(options, './', false),
+    externalSchematic('@nestjs/schematics', 'module', options),
+  ]);
 }

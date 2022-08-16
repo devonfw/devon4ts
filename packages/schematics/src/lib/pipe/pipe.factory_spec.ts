@@ -3,105 +3,40 @@ import * as path from 'path';
 
 describe('Pipe Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
-  it('should manage name only', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-      flat: false,
-    };
-    runner.runSchematicAsync('pipe', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo/foo.pipe.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo/foo.pipe.ts')).toEqual(
-        "import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooPipe implements PipeTransform {\n' +
-          '  transform(value: any, metadata: ArgumentMetadata) {\n' +
-          '    return value;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should throw an error if not executed at project root folder', done => {
+    runner.runSchematicAsync('pipe', { name: 'foo' }).subscribe(
+      () => {
+        fail();
+      },
+      error => {
+        expect(error).toStrictEqual(new Error('You must run the schematic at devon4node project root folder.'));
+        done();
+      },
+    );
   });
-  it('should manage name as a path', () => {
-    const options: Record<string, any> = {
-      name: 'bar/foo',
-      flat: false,
-    };
-    runner.runSchematicAsync('pipe', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar/foo/foo.pipe.ts')).toBeDefined();
-      expect(tree.readContent('/app/bar/foo/foo.pipe.ts')).toEqual(
-        "import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooPipe implements PipeTransform {\n' +
-          '  transform(value: any, metadata: ArgumentMetadata) {\n' +
-          '    return value;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should create the pipe inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('pipe', { name: 'pipe' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/pipes/pipe.pipe.ts');
+    expect(tree.files).toContain('/src/app/pipes/pipe.pipe.spec.ts');
   });
-  it('should manage name and path', () => {
-    const options: Record<string, any> = {
-      name: 'foo',
-      path: 'baz',
-      flat: false,
-    };
-    runner.runSchematicAsync('pipe', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/baz/src/app/foo/foo.pipe.ts')).toBeDefined();
-      expect(tree.readContent('/baz/src/app/foo/foo.pipe.ts')).toEqual(
-        "import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooPipe implements PipeTransform {\n' +
-          '  transform(value: any, metadata: ArgumentMetadata) {\n' +
-          '    return value;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should not generate spec if spec param is false', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('pipe', { name: 'pipe', spec: false }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/pipes/pipe.pipe.ts');
+    expect(tree.files).not.toContain('/src/app/pipes/pipe.pipe.spec.ts');
   });
-  it('should manage name to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'fooBar',
-      flat: false,
-    };
-    runner.runSchematicAsync('pipe', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/foo-bar/foo-bar.pipe.ts')).toBeDefined();
-      expect(tree.readContent('/app/foo-bar/foo-bar.pipe.ts')).toEqual(
-        "import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooBarPipe implements PipeTransform {\n' +
-          '  transform(value: any, metadata: ArgumentMetadata) {\n' +
-          '    return value;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
-  });
-  it('should manage path to dasherize', () => {
-    const options: Record<string, any> = {
-      name: 'barBaz/foo',
-      flat: false,
-    };
-    runner.runSchematicAsync('pipe', options).subscribe(tree => {
-      const files: string[] = tree.files;
-      expect(files.find(filename => filename === '/app/bar-baz/foo/foo.pipe.ts')).toBeDefined();
-      expect(tree.readContent('/app/bar-baz/foo/foo.pipe.ts')).toEqual(
-        "import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';\n" +
-          '\n' +
-          '@Injectable()\n' +
-          'export class FooPipe implements PipeTransform {\n' +
-          '  transform(value: any, metadata: ArgumentMetadata) {\n' +
-          '    return value;\n' +
-          '  }\n' +
-          '}\n',
-      );
-    });
+
+  it('should create the pipe at specified module inside src/app folder', async () => {
+    let tree = await runner.runSchematicAsync('application', { name: '' }).toPromise();
+    tree = await runner.runSchematicAsync('pipe', { name: 'module/pipe' }, tree).toPromise();
+
+    expect(tree.files).toContain('/src/app/module/pipes/pipe.pipe.ts');
+    expect(tree.files).toContain('/src/app/module/pipes/pipe.pipe.spec.ts');
   });
 });

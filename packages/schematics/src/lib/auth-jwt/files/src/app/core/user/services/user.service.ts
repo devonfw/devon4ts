@@ -10,7 +10,7 @@ import { plainToClass } from 'class-transformer';
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string): Promise<User | null> {
     return this.userRepository.findOne({
       where: {
         username,

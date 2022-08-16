@@ -1,27 +1,153 @@
 import { join, Path } from '@angular-devkit/core';
-import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
+import { apply, chain, filter, mergeWith, noop, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
+import {
+  existsConvictConfig,
+  formatTsFile,
+  formatTsFiles,
+  installNodePackages,
+  runningAtRootFolder,
+} from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+
+const databaseConvictOptions: Record<string, string> = {
+  mysql: `${printType('mysql')}
+    ${printHost('localhost')}
+    ${printPort(3306)}
+    ${printUsername('test')}
+    ${printPassword('test')}
+    ${printDatabase('test')}`,
+  mariadb: `${printType('mariadb')}
+    ${printHost('localhost')}
+    ${printPort(3306)}
+    ${printUsername('test')}
+    ${printPassword('test')}
+    ${printDatabase('test')}`,
+  sqlite: `${printType('sqlite')} ${printDatabase(':memory:')}`,
+  postgres: `${printType('postgres')}
+    ${printHost('localhost')}
+    ${printPort(5432)}
+    ${printUsername('test')}
+    ${printPassword('test')}
+    ${printDatabase('test')}`,
+  cockroachdb: `${printType('cockroachdb')}
+    ${printHost('localhost')}
+    ${printPort(2625)},
+    ${printUsername('root')}
+    ${printPassword('')}
+    ${printDatabase('defaultdb')}`,
+  mssql: `${printType('mssql')}
+    ${printHost('localhost')}
+    ${printUsername('sa')}
+    ${printPassword('Admin12345')}
+    ${printDatabase('tempdb')}`,
+  oracle: `${printType('oracle')}
+    ${printHost('localhost')}
+    ${printPort(1521)}
+    ${printUsername('system')}
+    ${printPassword('oracle')}
+    ${printSID('xe.oracle.docker')}`,
+  mongodb: `${printType('mongodb')} ${printDatabase('test')}`,
+};
+
+const defaultDatabaseConvictOptions = `synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean }`;
 
 export interface ITypeormOptions {
   db: 'postgres' | 'cockroachdb' | 'mariadb' | 'mysql' | 'sqlite' | 'oracle' | 'mssql' | 'mongodb';
-  path?: string;
 }
 
-function addTypeormToCoreModule(project: string | undefined): Rule {
+function printType(type: string): string {
+  return `type: {
+    doc: 'Database provider type',
+    default: '${type}',
+    format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+    env: 'DATABASE_TYPE',
+    arg: 'databaseType',
+  },`;
+}
+
+function printHost(host: string): string {
+  return `host: {
+    doc: 'Database host URL',
+    default: '${host}',
+    format: String,
+    env: 'DATABASE_HOST',
+    arg: 'databaseHost',
+  },`;
+}
+
+function printPort(port: number): string {
+  return `port: {
+    doc: 'Database port',
+    default: ${port},
+    format: 'port',
+    env: 'DATABASE_PORT',
+    arg: 'databasePort',
+  },`;
+}
+
+function printUsername(username: string): string {
+  return `username: {
+    doc: 'Database connection username',
+    default: '${username}',
+    format: String,
+    env: 'DATABASE_USERNAME',
+    arg: 'databaseUsername',
+  },`;
+}
+
+function printPassword(password: string): string {
+  return `password: {
+    doc: 'Database connection password',
+    default: '${password}',
+    format: String,
+    secret: true,
+    env: 'DATABASE_PASSWORD',
+    arg: 'databasePassword',
+  },`;
+}
+
+function printDatabase(database: string): string {
+  return `database: {
+    doc: 'Database connection schema',
+    default: '${database}',
+    format: String,
+    env: 'DATABASE_DATABASE',
+    arg: 'databaseDatabase',
+  },`;
+}
+
+function printSID(sid: string): string {
+  return `sid: {
+    doc: 'Database connection SID',
+    default: '${sid}',
+    format: String,
+    env: 'DATABASE_SID',
+    arg: 'databaseSid',
+  },`;
+}
+
+function addTypeormToCoreModule(): Rule {
   return (tree: Tree): Tree => {
     const module = new ModuleFinder(tree).find({
       name: 'core',
-      path: join('.' as Path, project || '.', 'src/app/core/') as Path,
+      path: 'src/app/core/' as Path,
     });
     if (!module) {
       return tree;
     }
-
-    const config = existsConfigModule(tree, project || '.');
 
     let fileContent: ASTFileBuilder | undefined = new ASTFileBuilder(tree.read(module)!.toString('utf-8'));
 
@@ -29,29 +155,17 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
       return tree;
     }
 
-    if (!config) {
-      fileContent = fileContent.addToModuleDecorator(
+    fileContent = fileContent
+      .addImports('AppDataSource', '../shared/database/main-data-source')
+      .addImports('TypeOrmModule', '@nestjs/typeorm')
+      .addToModuleDecorator(
         'CoreModule',
-        '@nestjs/typeorm',
-        'TypeOrmModule.forRoot()',
-        'imports',
-        false,
-      );
-    } else {
-      fileContent = fileContent.addImports('ConfigService', '@devon4node/config').addToModuleDecorator(
-        'CoreModule',
-        '@nestjs/typeorm',
         `TypeOrmModule.forRootAsync({
-          imports: [ConfigModule],
-          useFactory: (config: ConfigService<Config>) => {
-            return config.values.database;
-          },
-          inject: [ConfigService],
+          useFactory: () => ({}),
+          dataSourceFactory: async () => AppDataSource,
         })`,
         'imports',
-        false,
       );
-    }
 
     if (fileContent) {
       tree.overwrite(module, formatTsFile(fileContent.build()));
@@ -61,51 +175,30 @@ function addTypeormToCoreModule(project: string | undefined): Rule {
   };
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
+function updateConfigTypeFile(tree: Tree, database: string, project?: string): void {
+  const typesFile: Path = join((project || '.') as Path, 'src/config.ts');
 
-  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
-    .addImports('ConnectionOptions', 'typeorm')
-    .addImports('IsDefined', 'class-validator')
-    .addImports('IsNotEmptyObject', 'class-validator')
-    .addPropToClass('Config', 'database', 'ConnectionOptions', 'exclamation')
-    .addDecoratorToClassProp('Config', 'database', [
-      { name: 'IsDefined', arguments: [] },
-      { name: 'IsNotEmptyObject', arguments: [] },
-    ]);
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8')).addPropertyToObjectLiteralParam(
+    'config',
+    0,
+    'database',
+    `{
+      ${databaseConvictOptions[database]}
+      ${defaultDatabaseConvictOptions},
+    }`,
+  );
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent.build()));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree): void {
-  const configDir: Path = join((project || '.') as Path, 'src/config');
-  const ormconfigContent = tree.read(join((project || '.') as Path, 'ormconfig.json'))!.toString('utf-8');
-
-  tree.getDir(configDir).subfiles.forEach(file => {
-    tree.overwrite(
-      join(configDir, file),
-      formatTsFile(
-        new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
-          .addEntryToObjctLiteralVariable(
-            'def',
-            'database',
-            file === 'default.ts' ? 'require("../../ormconfig.json")' : ormconfigContent,
-          )
-          .build(),
-      ),
-    );
-  });
-}
-
-function addDatabaseConfiguration(project: string | undefined): Rule {
+function addDatabaseConfiguration(database: string, project?: string): Rule {
   return (tree: Tree): Tree => {
-    const config = existsConfigModule(tree, project || '.');
+    const config = existsConvictConfig(tree);
     if (!config) {
       return tree;
     }
 
-    updateConfigTypeFile(project, tree);
-    updateConfigFiles(project, tree);
+    updateConfigTypeFile(tree, database, project);
 
     return tree;
   };
@@ -113,23 +206,27 @@ function addDatabaseConfiguration(project: string | undefined): Rule {
 
 export function initTypeorm(options: ITypeormOptions): Rule {
   return (tree: Tree): Rule => {
-    if (!options.path) {
-      options.path = '.';
+    if (!runningAtRootFolder(tree)) {
+      return noop();
     }
+
+    const config = existsConvictConfig(tree);
+
     return chain([
       mergeWith(
         apply(url('./files'), [
+          config ? noop() : filter(filePath => !filePath.startsWith('/config')),
           template({
             ...options,
             packagesVersion,
+            config,
           }),
           formatTsFiles(),
-          move(options.path as Path),
           mergeFiles(tree),
         ]),
       ),
-      addTypeormToCoreModule(options.path),
-      addDatabaseConfiguration(options.path),
+      addTypeormToCoreModule(),
+      addDatabaseConfiguration(options.db),
       installNodePackages(),
     ]);
   };

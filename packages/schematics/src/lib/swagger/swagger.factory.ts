@@ -1,22 +1,28 @@
-import { join, Path, strings } from '@angular-devkit/core';
-import { chain, Rule, Tree } from '@angular-devkit/schematics';
-import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
-import { packagesVersion } from '../packagesVersion';
+import { Path } from '@angular-devkit/core';
+import { apply, chain, mergeWith, Rule, Tree, url } from '@angular-devkit/schematics';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { mergeFiles } from '../../utils/merge';
+import {
+  existsConvictConfig,
+  formatTsFile,
+  installNodePackages,
+  stopExecutionIfNotRunningAtRootFolder,
+} from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
-const templateWithConfig = `if (configModule.values.isDev) {
+const swaggerTemplateWithConfig = `if (config.isDev) {
     const options = new DocumentBuilder()
-      .setTitle(configModule.values.swaggerConfig?.swaggerTitle ?? 'NestJS application')
-      .setDescription(configModule.values.swaggerConfig?.swaggerDescription ?? '')
-      .setVersion(configModule.values.swaggerConfig?.swaggerVersion ?? '0.0.1')
+      .setTitle(config.swagger?.title ?? 'NestJS application')
+      .setDescription(config.swagger?.description ?? '')
+      .setVersion(config.swagger?.version ?? '0.0.1')
       .addBearerAuth()
       .build();
 
     const swaggerDoc = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('v' + (configModule.values.defaultVersion) + '/api', app, swaggerDoc);
+    SwaggerModule.setup('v' + (config.defaultVersion) + '/api', app, swaggerDoc);
   }`;
 
-const template = `if (process.env.NODE_ENV === 'develop') {
+const swaggerTemplate = `if (process.env.NODE_ENV === 'develop') {
     const options = new DocumentBuilder()
       .setTitle('NestJS application')
       .setDescription('')
@@ -28,41 +34,39 @@ const template = `if (process.env.NODE_ENV === 'develop') {
     SwaggerModule.setup('v1/api', app, swaggerDoc);
   }`;
 
-const defaultSwaggerValue = `{
-    swaggerTitle: 'NestJS Application',
-    swaggerDescription: 'API Documentation',
-    swaggerVersion: '0.0.1',
+const defaultSwaggerConfig = `{
+    title: {
+      doc: 'Swagger documentation title',
+      default: 'NestJS Application',
+      format: String,
+    },
+    description: {
+      doc: 'Swagger documentation description',
+      default: 'API Documentation',
+      format: String,
+    },
+    version: {
+      doc: 'Swagger documentation version',
+      default: '0.0.1',
+      format: String,
+    },
   },`;
 
-const swaggerInterface = `export class SwaggerConfig {
-  @IsDefined()
-  @IsString()
-  swaggerTitle!: string;
-  @IsDefined()
-  @IsString()
-  swaggerDescription!: string;
-  @IsDefined()
-  @IsString()
-  swaggerVersion!: string;
-}`;
-
-function updatePackageJson(project: string): Rule {
+function updatePackageJson(): Rule {
   return (tree: Tree): Tree => {
-    const packageJsonPath = join(project as Path, 'package.json');
+    const packageJsonPath = 'package.json';
     const packageJson = JSON.parse(tree.read(packageJsonPath)!.toString());
 
     packageJson.dependencies[packagesVersion.nestjsSwagger.packageName] = packagesVersion.nestjsSwagger.packageVersion;
-    packageJson.dependencies[packagesVersion.swaggerUiExpress.packageName] =
-      packagesVersion.swaggerUiExpress.packageVersion;
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
     return tree;
   };
 }
 
-function updateBaseEntity(project: string) {
+function updateBaseEntity() {
   return (tree: Tree): Tree => {
-    const baseEntityPath = join(project as Path, 'src/app/shared/model/entities/base-entity.entity.ts');
+    const baseEntityPath = 'src/app/shared/model/entities/base.entity.ts';
 
     if (!tree.exists(baseEntityPath)) {
       return tree;
@@ -98,9 +102,9 @@ function updateBaseEntity(project: string) {
   };
 }
 
-function updateNestCliJson(project: string) {
+function updateNestCliJson() {
   return (tree: Tree): Tree => {
-    const nestCliJsonPath = join(project as Path, 'nest-cli.json');
+    const nestCliJsonPath = 'nest-cli.json';
     const nestCliJson = JSON.parse(tree.read(nestCliJsonPath)!.toString());
 
     if (nestCliJson.compilerOptions) {
@@ -121,69 +125,31 @@ function updateNestCliJson(project: string) {
   };
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
+function updateConfigTypeFile(tree: Tree): void {
+  const typesFile: Path = 'src/config.ts' as Path;
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
-  typesFileContent = typesFileContent.replace('export class Config', swaggerInterface + '\n\nexport class Config');
   typesFileContent = new ASTFileBuilder(typesFileContent)
-    .addImports('IsDefined', 'class-validator')
-    .addImports('IsString', 'class-validator')
-    .addImports('ValidateNested', 'class-validator')
-    .addImports('Type', 'class-transformer')
-    .addPropToClass('Config', 'swaggerConfig', 'SwaggerConfig', 'question')
-    .addDecoratorToClassProp('Config', 'swaggerConfig', [
-      {
-        name: 'IsDefined',
-        arguments: [],
-      },
-      {
-        name: 'ValidateNested',
-        arguments: [],
-      },
-      {
-        name: 'Type',
-        arguments: ['() => SwaggerConfig'],
-      },
-    ])
+    .addPropertyToObjectLiteralParam('config', 0, 'swagger', defaultSwaggerConfig)
     .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree): void {
-  const configDir: Path = join((project || '.') as Path, 'src/config');
-
-  tree
-    .getDir(configDir)
-    .subfiles.filter(file => ['default.ts', 'develop.ts', 'test.ts'].includes(file))
-    .forEach(file => {
-      tree.overwrite(
-        join(configDir, file),
-        formatTsFile(
-          new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
-            .addEntryToObjctLiteralVariable('def', 'swaggerConfig', defaultSwaggerValue)
-            .build(),
-        ),
-      );
-    });
-}
-
-function updateMain(project: string) {
+function updateMain() {
   return (tree: Tree): Tree => {
-    const config = existsConfigModule(tree, project || '.');
+    const config = existsConvictConfig(tree);
 
-    const mainPath = join(project as Path, 'src/main.ts');
+    const mainPath = 'src/main.ts';
     const main = new ASTFileBuilder(tree.read(mainPath)!.toString())
       .addImports('DocumentBuilder', '@nestjs/swagger')
       .addImports('SwaggerModule', '@nestjs/swagger');
 
     if (!config) {
-      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', template);
+      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', swaggerTemplate);
     } else {
-      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', templateWithConfig);
-      updateConfigTypeFile(project, tree);
-      updateConfigFiles(project, tree);
+      main.insertLinesToFunctionBefore('bootstrap', 'app.listen', swaggerTemplateWithConfig);
+      updateConfigTypeFile(tree);
     }
 
     if (main) {
@@ -193,17 +159,15 @@ function updateMain(project: string) {
   };
 }
 
-export function swagger(options: { path?: string }): Rule {
-  return (): any => {
-    if (!options.path) {
-      options.path = '.';
-    }
-    options.path = strings.dasherize(options.path);
+export function swagger(): Rule {
+  return (tree: Tree): Rule => {
     return chain([
-      updatePackageJson(options.path),
-      updateMain(options.path),
-      updateNestCliJson(options.path),
-      updateBaseEntity(options.path),
+      stopExecutionIfNotRunningAtRootFolder(),
+      mergeWith(apply(url('./files'), [mergeFiles(tree)])),
+      updatePackageJson(),
+      updateMain(),
+      updateNestCliJson(),
+      updateBaseEntity(),
       installNodePackages(),
     ]);
   };

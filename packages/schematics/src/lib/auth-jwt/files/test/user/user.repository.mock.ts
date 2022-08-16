@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { FindConditions, FindOneOptions } from 'typeorm';
+import { FindOptionsWhere, FindOneOptions } from 'typeorm';
 import { User } from '../../src/app/core/user/model/entities/user.entity';
 
 export class UserRepositoryMock {
@@ -26,7 +26,7 @@ export class UserRepositoryMock {
   // async to mantain the same return type as UserService
   async findOne(options: FindOneOptions<User> | undefined): Promise<Partial<User> | undefined> {
     return _.find(this.users, {
-      username: (options!.where! as FindConditions<User>).username as string,
+      username: (options!.where! as FindOptionsWhere<User>).username as string,
     });
   }
 

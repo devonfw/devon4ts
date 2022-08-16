@@ -30,7 +30,7 @@ export class <%=classify(name)%>Service {
   }
 
   async findOne(id: number): Promise<<%=classify(nameSingular)%>> {
-    const found = await this.repository.findOne(id);
+    const found = await this.repository.findOneBy({ id: id });
 
     if (!found) {
       throw new EntityNotFound(<%=classify(nameSingular)%>, id);
@@ -40,7 +40,7 @@ export class <%=classify(name)%>Service {
   }
 
   async update(id: number, update<%=classify(nameSingular)%>Dto: Update<%=classify(nameSingular)%>Dto): Promise<<%=classify(nameSingular)%>> {
-    const found = await this.repository.findOne(id);
+    const found = await this.repository.findOneBy({ id: id });
     const <%=camelize(nameSingular)%> = plainToClass(<%=classify(nameSingular)%>, { ...found, ...update<%=classify(nameSingular)%>Dto, id });
 
     if (!found) {
@@ -51,7 +51,7 @@ export class <%=classify(name)%>Service {
   }
 
   async remove(id: number): Promise<<%=classify(nameSingular)%>> {
-    const found = await this.repository.findOne(id);
+    const found = await this.repository.findOneBy({ id: id });
 
     if (!found) {
       throw new EntityNotFound(<%=classify(nameSingular)%>, id);

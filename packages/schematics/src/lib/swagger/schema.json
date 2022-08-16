@@ -3,10 +3,5 @@
   "$id": "SwaggerSchematic",
   "title": "Swagger Schema",
   "type": "object",
-  "properties": {
-    "path": {
-      "type": "string",
-      "description": "Path to project."
-    }
-  }
+  "properties": {}
 }

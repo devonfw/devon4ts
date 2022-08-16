@@ -3,10 +3,5 @@
   "$id": "MailerSchematic",
   "title": "Mailer Schema",
   "type": "object",
-  "properties": {
-    "path": {
-      "type": "string",
-      "description": "Path to project."
-    }
-  }
+  "properties": {}
 }

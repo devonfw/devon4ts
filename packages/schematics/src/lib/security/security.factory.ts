@@ -1,17 +1,12 @@
-import { Path, strings } from '@angular-devkit/core';
+import { Path } from '@angular-devkit/core';
 import { chain, Rule, Tree } from '@angular-devkit/schematics';
-import { join } from 'path';
-import { formatTsFile, installNodePackages } from '../../utils/tree-utils';
-import { packagesVersion } from '../packagesVersion';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { formatTsFile, installNodePackages, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
-export interface ISecurityInitializer {
-  path?: string;
-}
-
-function updatePackageJson(project: string | undefined): Rule {
+function updatePackageJson(): Rule {
   return (host: Tree): Tree => {
-    const filePath = join((project || '.') as Path, 'package.json');
+    const filePath = 'package.json' as Path;
 
     const content = JSON.parse(host.read(filePath)!.toString('utf-8'));
     content.dependencies[packagesVersion.helmet.packageName] = packagesVersion.helmet.packageVersion;
@@ -22,17 +17,16 @@ function updatePackageJson(project: string | undefined): Rule {
   };
 }
 
-function updateMain(project: string | undefined): Rule {
+function updateMain(): Rule {
   return (tree: Tree): Tree => {
-    const filePath = join((project || '.') as Path, '/src/main.ts');
+    const filePath = '/src/main.ts' as Path;
     const content = new ASTFileBuilder(tree.read(filePath)!.toString('utf-8'))
       .addDefaultImports('helmet', 'helmet')
       .insertLinesToFunctionBefore('bootstrap', 'app.listen', 'app.use(helmet());')
       .insertLinesToFunctionBefore(
         'bootstrap',
         'app.listen',
-        // tslint:disable-next-line: quotemark
-        "app.enableCors({ origin: '*', credentials: true, exposedHeaders: 'Authorization', allowedHeaders: 'authorization, content-type',});",
+        `app.enableCors({ origin: '*', credentials: true, exposedHeaders: 'Authorization', allowedHeaders: 'authorization, content-type',});`,
       )
       .build();
 
@@ -43,12 +37,6 @@ function updateMain(project: string | undefined): Rule {
   };
 }
 
-export function security(options: ISecurityInitializer): Rule {
-  return (): any => {
-    if (!options.path) {
-      options.path = '.';
-    }
-    options.path = strings.dasherize(options.path);
-    return chain([updatePackageJson(options.path), updateMain(options.path), installNodePackages()]);
-  };
+export function security(): Rule {
+  return chain([stopExecutionIfNotRunningAtRootFolder(), updatePackageJson(), updateMain(), installNodePackages()]);
 }

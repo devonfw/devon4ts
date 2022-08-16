@@ -17,9 +17,6 @@
         "mongodb"
       ],
       "x-prompt": "What kind of database do you want to use?"
-    },
-    "path": {
-      "type": "string"
     }
   },
   "required": [
