@@ -50,5 +50,6 @@
     },
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
-  }
+  },
+  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }
