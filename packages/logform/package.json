@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/logform",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "devon4node Winston Logger formatters.",
   "main": "dist/index.js",
   "scripts": {
