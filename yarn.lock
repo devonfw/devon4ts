@@ -67,12 +67,12 @@
     yargs-parser "21.1.1"
 
 "@angular-devkit/schematics-cli@^14.2.3":
-  version "14.2.3"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.2.3.tgz#b7310a111b1edd4270dd0fa98dd2b19de0e4ac56"
-  integrity sha512-MjXMpRfiKGvuUObG38lkYmE7794eiKVw5yndtFKtCNVlKoL0eEZ1unnhQjm3cEpZV8++IFHuhZpWhcZxPaMlqQ==
+  version "14.2.6"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.2.6.tgz#19182fee2cb0b8539f44a480cda49590cf5bd64a"
+  integrity sha512-buYhzP3MrMQIovWITwAMxQTh7ckYPRiox9XjwuujDXVQ69HOwmoBY+bbiaZwLZT1UQF5bkwGEPN+FSw8NurXvA==
   dependencies:
-    "@angular-devkit/core" "14.2.3"
-    "@angular-devkit/schematics" "14.2.3"
+    "@angular-devkit/core" "14.2.6"
+    "@angular-devkit/schematics" "14.2.6"
     ansi-colors "4.1.3"
     inquirer "8.2.4"
     symbol-observable "4.0.0"
