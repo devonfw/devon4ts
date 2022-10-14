@@ -7,7 +7,8 @@
     "<%= winston.packageName %>": "<%= winston.packageVersion %>",
     "<%= classTransformer.packageName %>": "<%= classTransformer.packageVersion %>",
     "<%= classValidator.packageName %>": "<%= classValidator.packageVersion %>",
-    "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>"
+    "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>",
+    "<%= devon4nodeLogform.packageName %>": "<%= devon4nodeLogform.packageVersion %>"
   },
   "devDependencies": {
     "<%= devon4nodeSchematics.packageName %>": "<%= devon4nodeSchematics.packageVersion %>",

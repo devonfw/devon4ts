@@ -29,7 +29,7 @@ function updateMain(project: string) {
       'NestFactory.create(AppModule)',
       `NestFactory.create(AppModule, { bufferLogs: true });
 
-      const logger = app.get(WinstonLogger);
+      const logger = await app.resolve(WinstonLogger);
       app.useLogger(logger);
 
       `,
@@ -79,13 +79,9 @@ function addDeclarationToModule(project: string): Rule {
       return tree;
     }
 
-    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8')).addToModuleDecorator(
-      'AppModule',
-      './core/core.module',
-      'CoreModule',
-      'imports',
-      false,
-    );
+    const fileContent = new ASTFileBuilder(tree.read(module)!.toString('utf-8'))
+      .addImports('CoreModule', './core/core.module')
+      .addToModuleDecorator('AppModule', 'CoreModule', 'imports');
 
     if (fileContent) {
       tree.overwrite(module, formatTsFile(fileContent.build()));

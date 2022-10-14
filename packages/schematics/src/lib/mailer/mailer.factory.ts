@@ -1,14 +1,15 @@
-import { join, Path } from '@angular-devkit/core';
-import { apply, chain, mergeWith, move, Rule, template, Tree, url } from '@angular-devkit/schematics';
+import { Path } from '@angular-devkit/core';
+import { apply, chain, mergeWith, Rule, template, Tree, url } from '@angular-devkit/schematics';
 import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
-import { mergeFiles } from '../../utils/merge';
-import { existsConfigModule, formatTsFile, installNodePackages } from '../../utils/tree-utils';
-import { packagesVersion } from '../packagesVersion';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-
-interface IMailerOptions {
-  path?: string;
-}
+import { mergeFiles } from '../../utils/merge';
+import {
+  existsConvictConfig,
+  formatTsFile,
+  installNodePackages,
+  stopExecutionIfNotRunningAtRootFolder,
+} from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 
 const defaultMailerValues = `{
   mailOptions: {
@@ -21,119 +22,145 @@ const defaultMailerValues = `{
   },
   emailFrom: 'noreply@example.com',
   hbsOptions: {
-    templatesDir: join(__dirname, '../..', 'templates/views'),
-    partialsDir: join(__dirname, '../..', 'templates/partials'),
+    templatesDir: join(__dirname, '../../..', 'templates/views'),
+    partialsDir: join(__dirname, '../../..', 'templates/partials'),
     helpers: [],
   },
 }`;
 
-function addMailerToCoreModule(path: string, tree: Tree, existsConfig: boolean): void {
+const mailerValuesFromConfig = `{
+  mailOptions: {
+    host: config.mailer.mailOptions.host,
+    port: config.mailer.mailOptions.port,
+    secure: config.mailer.mailOptions.secure,
+    tls: {
+      rejectUnauthorized: config.mailer.mailOptions.tlsRejectUnauthorized,
+    },
+  },
+  emailFrom: config.mailer.emailFrom,
+  hbsOptions: {
+    templatesDir: join(__dirname, '../../..', config.mailer.hbsOptions.templatesDir),
+    partialsDir: join(__dirname, '../../..', config.mailer.hbsOptions.partialsDir),
+    helpers: [],
+  },
+}`;
+
+const mailerConfigType = `{
+  mailOptions: {
+    host: {
+      doc: 'Mail server host URL',
+      default: 'localhost',
+      format: String,
+      env: 'MAILER_HOST',
+    },
+    port: {
+      doc: 'Mail server port',
+      default: 1025,
+      format: 'port',
+      env: 'MAILER_PORT',
+    },
+    secure: {
+      doc: 'Is the mailer server secured?',
+      default: false,
+      format: Boolean,
+      env: 'MAILER_SECURE',
+    },
+    tlsRejectUnauthorized: {
+      doc: 'Reject unauthorized TLS connections?',
+      default: false,
+      format: Boolean,
+      env: 'MAILER_TLS_REJECT_UNAUTHORIZED',
+    },
+  },
+  emailFrom: {
+    doc: 'Email that will be used as sender',
+    default: 'noreply@example.com',
+    format: String,
+    env: 'MAILER_EMAIL_FROM',
+    arg: 'emailFrom',
+  },
+  hbsOptions: {
+    templatesDir: {
+      doc: 'Relative path to handlebars views folder',
+      default: 'templates/views',
+      format: String,
+    },
+    partialsDir: {
+      doc: 'Relative path to handlebars partials folder',
+      default: 'templates/partials',
+      format: String,
+    },
+  },
+}`;
+
+function addMailerToCoreModule(tree: Tree, existsConfig: boolean): void {
   const core = new ModuleFinder(tree).find({
     name: 'core',
-    path: join(path as Path, 'src/app/core') as Path,
+    path: 'src/app/core' as Path,
   });
   if (!core) {
     return;
   }
 
-  let coreContent: ASTFileBuilder | undefined = new ASTFileBuilder(tree.read(core)!.toString());
+  const coreContent: ASTFileBuilder | undefined = new ASTFileBuilder(tree.read(core)!.toString());
 
   if (coreContent.build().includes('MailerModule')) {
     return;
   }
 
-  if (existsConfig) {
-    coreContent = coreContent.addImports('ConfigService', '@devon4node/config').addToModuleDecorator(
+  coreContent
+    .addImports('MailerModule', '@devon4node/mailer')
+    .addImports('join', 'path')
+    .addToModuleDecorator(
       'CoreModule',
-      '@devon4node/mailer',
-      `MailerModule.forRootAsync({
-        imports: [ConfigModule],
-        useFactory: (config: ConfigService<Config>) => {
-          return config.values.mailerConfig;
-        },
-        inject: [ConfigService],
-      })`,
+      'MailerModule.register(' + (existsConfig ? mailerValuesFromConfig : defaultMailerValues) + ')',
       'imports',
-      true,
-    );
-  } else {
-    coreContent = coreContent
-      .addImports('join', 'path')
-      .addToModuleDecorator(
-        'CoreModule',
-        '@devon4node/mailer',
-        'MailerModule.forRoot(' + defaultMailerValues + ')',
-        'imports',
-        true,
-      );
-  }
+    )
+    ?.addToModuleDecorator('CoreModule', 'MailerModule', 'exports');
 
   if (coreContent) {
     tree.overwrite(core, formatTsFile(coreContent.build()));
   }
 }
 
-function updateConfigTypeFile(project: string | undefined, tree: Tree): void {
-  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/model/config/config.model.ts');
+function updateConfigTypeFile(tree: Tree): void {
+  const typesFile: Path = 'src/config.ts' as Path;
 
   const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
-    .addImports('MailerModuleOptions', '@devon4node/mailer')
-    .addImports('IsDefined', 'class-validator')
-    .addImports('IsNotEmptyObject', 'class-validator')
-    .addPropToClass('Config', 'mailerConfig', 'MailerModuleOptions', 'exclamation')
-    .addDecoratorToClassProp('Config', 'mailerConfig', [
-      { name: 'IsDefined', arguments: [] },
-      { name: 'IsNotEmptyObject', arguments: [] },
-    ])
+    .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigType)
     .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
-function updateConfigFiles(project: string | undefined, tree: Tree): void {
-  const configDir: Path = join((project || '.') as Path, 'src/config');
-
-  tree.getDir(configDir).subfiles.forEach(file => {
-    const fileContent = new ASTFileBuilder(tree.read(join(configDir, file))!.toString('utf-8'))
-      .addImports('join', 'path')
-      .addEntryToObjctLiteralVariable('def', 'mailerConfig', defaultMailerValues);
-
-    tree.overwrite(join(configDir, file), formatTsFile(fileContent.build()));
-  });
-}
-
-function addMailerToProject(path: string): Rule {
+function addMailerToProject(): Rule {
   return (tree: Tree): Tree => {
-    const config = existsConfigModule(tree, path || '.');
+    const config = existsConvictConfig(tree);
     if (!config) {
-      addMailerToCoreModule(path, tree, false);
+      addMailerToCoreModule(tree, false);
       return tree;
     }
 
-    addMailerToCoreModule(path, tree, true);
-    updateConfigTypeFile(path, tree);
-    updateConfigFiles(path, tree);
+    addMailerToCoreModule(tree, true);
+    updateConfigTypeFile(tree);
 
     return tree;
   };
 }
 
-export function mailer(options: IMailerOptions): Rule {
+export function mailer(): Rule {
   return (host: Tree): Rule => {
-    const projectPath: string = options.path || '.';
-
     return chain([
+      stopExecutionIfNotRunningAtRootFolder(),
       mergeWith(
         apply(url('./files'), [
           template({
-            path: projectPath,
             packagesVersion,
           }),
-          move(projectPath as Path),
           mergeFiles(host),
         ]),
       ),
-      addMailerToProject(projectPath),
+      addMailerToProject(),
       installNodePackages(),
     ]);
   };

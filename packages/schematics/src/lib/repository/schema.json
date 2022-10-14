@@ -8,11 +8,9 @@
       "type": "string",
       "description": "The repository name. If the entity do not exists, it will also create it. To create crud with name Banana in the module fruits you need to introduce fruits/banana",
       "x-prompt": "Introduce the crud name"
-    },
-    "path": {
-      "type": "string",
-      "description": "Change the application folder where you will create the crud"
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

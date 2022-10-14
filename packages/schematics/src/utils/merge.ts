@@ -49,7 +49,7 @@ export function mergeJsonFile(tree: Tree, fileEntry: FileEntry): FileEntry | nul
 
 export function mergeYmlFile(tree: Tree, fileEntry: FileEntry): FileEntry | null {
   if (tree.exists(fileEntry.path)) {
-    if (extname(fileEntry.path) === '.yml') {
+    if (extname(fileEntry.path) === '.yml' || extname(fileEntry.path) === '.yaml') {
       tree.overwrite(
         fileEntry.path,
         dump(

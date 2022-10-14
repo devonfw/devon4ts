@@ -1,95 +1,52 @@
 /* istanbul ignore file */
-import { ConsoleLogger, Logger, LogLevel } from '@nestjs/common';
-import { join } from 'path';
+import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
+import { INQUIRER } from '@nestjs/core';
 import * as winston from 'winston';
+import { separator, colorize, pid, oneLineStack } from '@devon4node/logform';
 
-export class WinstonLogger extends ConsoleLogger {
-  private static DEFAULT_LOG_LEVEL: 'info' | 'error' | 'warn' | 'http' | 'verbose' | 'debug' | 'silly' = 'info';
-  private console = true;
-  private logger?: winston.Logger;
+const BASE_LOGGER: winston.Logger = winston.createLogger({
+  format: winston.format.combine(winston.format.timestamp(), pid(), oneLineStack(false), colorize(true), separator()),
+  level: 'info',
+  transports: new winston.transports.Console(),
+});
 
-  constructor() {
-    super();
-    const logLevel = WinstonLogger.DEFAULT_LOG_LEVEL;
+@Injectable({ scope: Scope.TRANSIENT })
+export class WinstonLogger implements LoggerService {
+  private logger: winston.Logger;
 
-    this.overrideLogger(WinstonLogger.DEFAULT_LOG_LEVEL);
-
-    this.logger = winston.createLogger({
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-      level: logLevel,
-      transports: [
-        new winston.transports.File({
-          filename: join(__dirname, '../../../../logs/default.log'),
-        }),
-        new winston.transports.File({
-          filename: join(__dirname, '../../../../logs/error.log'),
-          level: 'error',
-        }),
-      ],
-    });
+  constructor(@Inject(INQUIRER) private parent: object | string) {
+    this.logger = BASE_LOGGER.child({});
+    const context = typeof parent === 'string' ? parent : this.parent?.constructor?.name ?? 'main';
+    this.logger.defaultMeta = { context };
   }
 
-  overrideLogger(level: 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'): void {
-    const loggerLevels: LogLevel[] = ['debug', 'verbose', 'log', 'warn', 'error'];
-    let nestLoggerLevel: string = level;
-
-    if (nestLoggerLevel === 'info' || nestLoggerLevel === 'http') {
-      nestLoggerLevel = 'log';
-    }
-
-    if (nestLoggerLevel === 'silly') {
-      nestLoggerLevel = 'debug';
-    }
-
-    const pos = loggerLevels.findIndex(e => e === nestLoggerLevel);
-
-    if (pos !== -1) {
-      Logger.overrideLogger(loggerLevels.slice(pos));
-    }
+  log(message: string, context?: string, ...extras: string[]): void {
+    this.logger.info(message, { context, extras });
   }
 
-  log(message: string, context?: string): void {
-    if (this.console) {
-      super.log(message, context);
+  error(message: string, context?: string, ...extras: string[]): void;
+  error(error: Error, context?: string, ...extras: string[]): void;
+  error(messageOrError: any, context?: string, ...extras: string[]): void {
+    const meta: Record<string, string | string[] | undefined> = { context, extras };
+    let message = messageOrError;
+
+    if (messageOrError instanceof Error) {
+      meta.stack = messageOrError.stack;
+      message = messageOrError.message;
     }
-    if (this.logger) {
-      this.logger.info({ message, context });
-    }
+
+    this.logger.error(message, meta);
   }
 
-  error(message: string, trace: string, context?: string): void {
-    if (this.console) {
-      super.error(message, trace, context);
-    }
-    if (this.logger) {
-      this.logger.error({ message, trace, context });
-    }
+  warn(message: string, context?: string, ...extras: string[]): void {
+    this.logger.warn(message, { context, extras });
   }
 
-  warn(message: string, context?: string): void {
-    if (this.console) {
-      super.warn(message, context);
-    }
-    if (this.logger) {
-      this.logger.warn({ message, context });
-    }
+  debug(message: string, context?: string, ...extras: string[]): void {
+    this.logger.debug(message, { context, extras });
   }
 
-  debug(message: any, context?: string): void {
-    if (this.console) {
-      super.debug(message, context);
-    }
-    if (this.logger) {
-      this.logger.debug({ message, context });
-    }
-  }
-
-  verbose(message: any, context?: string): void {
-    if (this.console) {
-      super.verbose(message, context);
-    }
-    if (this.logger) {
-      this.logger.verbose({ message, context });
-    }
+  verbose(message: any, context?: string, ...extras: any[]): void {
+    this.logger.verbose(message, { context, extras });
   }
 }

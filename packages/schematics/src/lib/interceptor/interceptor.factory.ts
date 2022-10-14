@@ -1,35 +1,14 @@
-import { externalSchematic, chain, move, Rule } from '@angular-devkit/schematics';
-import { join, Path, dirname, strings, basename } from '@angular-devkit/core';
+import { chain, externalSchematic, Rule } from '@angular-devkit/schematics';
+import {
+  BaseNestOptions,
+  stopExecutionIfNotRunningAtRootFolder,
+  transformOptionsToNestJS,
+} from '../../utils/tree-utils';
 
-export interface IInterceptorOptions {
-  name: string;
-  path?: string | Path;
-  language?: string;
-  sourceRoot?: string;
-  spec?: boolean;
-  flat?: boolean;
-}
-
-export function main(options: IInterceptorOptions): Rule {
-  const newOptions = { ...options };
-  newOptions.name = options.name.startsWith('app/') ? options.name : 'app/' + options.name;
-  if (newOptions.path) {
-    newOptions.path = join(options.path as Path, 'src');
-  }
-  newOptions.language = 'ts';
-  const path = newOptions.path || './src';
-  const dir = dirname(newOptions.name as Path);
-  const base = strings.dasherize(basename(newOptions.name as Path));
-
+export function main(options: BaseNestOptions): Rule {
   return chain([
-    externalSchematic('@nestjs/schematics', 'interceptor', newOptions),
-    move(
-      strings.dasherize(join(path as Path, dir, base + '.interceptor.ts')),
-      strings.dasherize(join(path as Path, dir, 'interceptors', base + '.interceptor.ts')),
-    ),
-    move(
-      strings.dasherize(join(path as Path, dir, base + '.interceptor.spec.ts')),
-      strings.dasherize(join(path as Path, dir, 'interceptors', base + '.interceptor.spec.ts')),
-    ),
+    stopExecutionIfNotRunningAtRootFolder(),
+    transformOptionsToNestJS(options, 'interceptors'),
+    externalSchematic('@nestjs/schematics', 'interceptor', options),
   ]);
 }

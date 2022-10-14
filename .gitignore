@@ -67,5 +67,6 @@ template/database.db
 
 testing/
 **/testing/
+**/testing*/
 packages/cli
 samples/todo

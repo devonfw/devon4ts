@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/mailer",
-  "version": "4.0.1",
+  "version": "5.0.0-dev.1",
   "description": "devon4node module that allows you to send emails in a easy way.",
   "main": "dist/index.js",
   "scripts": {
@@ -31,8 +31,8 @@
     "nodemailer": "^6.7.5"
   },
   "peerDependencies": {
-    "@nestjs/common": "^8.0.0",
-    "@nestjs/core": "^8.0.0",
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0",
     "handlebars": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0"
@@ -51,12 +51,15 @@
       "json",
       "ts"
     ],
-    "rootDir": "lib",
+    "roots": [
+      "lib",
+      "test"
+    ],
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage",
+    "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }
 }

@@ -1,5 +1,10 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/common",
+    "packages/logform",
+    "packages/mailer",
+    "packages/schematics"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",

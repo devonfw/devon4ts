@@ -13,23 +13,6 @@
       },
       "x-prompt": "What name would you like to use for the middleware?"
     },
-    "path": {
-      "type": "string",
-      "format": "path",
-      "description": "The path to create the middleware."
-    },
-    "language": {
-      "type": "string",
-      "description": "Nest middleware language (ts/js)."
-    },
-    "sourceRoot": {
-      "type": "string",
-      "description": "Nest middleware source root directory."
-    },
-    "flat": {
-      "default": true,
-      "description": "Flag to indicate if a directory is created."
-    },
     "spec": {
       "default": true,
       "description": "Specifies if a spec file is generated."

@@ -17,25 +17,24 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import * as pluralize from 'pluralize';
-import { formatTsFile, formatTsFiles, installNodePackages } from '../../utils/tree-utils';
+import {
+  BaseNestOptions,
+  formatTsFile,
+  formatTsFiles,
+  installNodePackages,
+  stopExecutionIfNotRunningAtRootFolder,
+  transformOptionsToNestJS,
+} from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
-export interface IResourceOptions {
+export interface IResourceOptions extends BaseNestOptions {
   name: string;
   spec: boolean;
   type: string;
   crud: boolean;
   orm?: string;
 }
-
-const defaultOptions = {
-  orm: 'none',
-  path: 'app',
-  language: 'ts',
-  flat: false,
-  skipImport: false,
-};
 
 function updateDtoImports(content: string, name: string): string {
   const nameSingular = pluralize(name, 1);
@@ -251,33 +250,15 @@ function overrideCrud(options: IResourceOptions): Rule {
   ]);
 
   // TODO: refactor this to include more ORMs
-
-  return noop();
-}
-
-function transform(options: IResourceOptions): IResourceOptions & {
-  path: string;
-  language: string;
-  flat: boolean;
-  skipImport: boolean;
-} {
-  return { ...defaultOptions, ...options, name: dasherize(options.name) };
 }
 
 export function main(options: IResourceOptions): Rule {
-  const normalizedOptions = transform(options);
   return chain([
-    (host: Tree): Tree => {
-      const files = ['/package.json', '/nest-cli.json', '/tsconfig.json'];
-      if (!files.map(file => host.exists(file)).some(exists => exists)) {
-        normalizedOptions.path = '';
-      }
-
-      return host;
-    },
-    externalSchematic('@nestjs/schematics', 'resource', normalizedOptions),
-    moveToDevon4nodePaths(normalizedOptions.name),
-    overrideCrud(normalizedOptions),
+    stopExecutionIfNotRunningAtRootFolder(),
+    transformOptionsToNestJS(options, '.', false),
+    externalSchematic('@nestjs/schematics', 'resource', options),
+    moveToDevon4nodePaths(options.name),
+    overrideCrud(options),
     updatePackageJson(),
     formatTsFiles(),
     installNodePackages(),

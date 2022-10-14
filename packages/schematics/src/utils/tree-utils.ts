@@ -1,7 +1,6 @@
-import { join, Path } from '@angular-devkit/core';
+import { basename, dirname, join, normalize, Path } from '@angular-devkit/core';
 import { FileEntry, forEach, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { ModuleFinder } from '@nestjs/schematics/dist/utils/module.finder';
 import { format, Options } from 'prettier';
 
 const PRETTIER_DEFAULT_OPTS: Options = {
@@ -18,38 +17,11 @@ const PRETTIER_DEFAULT_OPTS: Options = {
   parser: 'typescript',
 };
 
-export function addBarrels(tree: Tree, path: string, barrels: string | string[]): Tree {
-  const exportSentence = 'export * from ';
-  const indexPath = join(path as Path, 'index.ts');
-
-  if (!tree.exists(indexPath)) {
-    tree.create(indexPath, '');
-  }
-
-  let content = tree.read(indexPath)!.toString();
-  let barrelSet: Set<string>;
-
-  if (typeof barrels === 'string') {
-    barrelSet = new Set();
-    barrelSet.add(barrels);
-  } else {
-    barrelSet = new Set(barrels);
-  }
-
-  barrelSet.forEach(elem => {
-    if (!content.includes(elem)) {
-      // prettier-ignore
-      content +=
-        exportSentence
-          .concat('\'./')
-          .concat(elem.replace('.ts', ''))
-          .concat('\';\n');
-    }
-  });
-
-  tree.overwrite(indexPath, content);
-
-  return tree;
+export interface BaseNestOptions {
+  name: string;
+  path?: string;
+  flat?: boolean;
+  language?: string;
 }
 
 export function formatTsFile(content: string): string {
@@ -73,17 +45,44 @@ export function formatTsFiles(): Rule {
   });
 }
 
-export function existsConfigModule(tree: Tree, path: string): boolean {
-  const core = new ModuleFinder(tree).find({
-    name: 'core',
-    path: join('.' as Path, path || '.', 'src/app/core') as Path,
-  });
+export function runningAtRootFolder(tree: Tree): boolean {
+  return ['/package.json', '/nest-cli.json', '/tsconfig.json'].map(file => tree.exists(file)).every(exists => exists);
+}
 
-  if (!core) {
-    return false;
-  }
+export function stopExecutionIfNotRunningAtRootFolder(): Rule {
+  return tree => {
+    if (!runningAtRootFolder(tree)) {
+      throw new Error('You must run the schematic at devon4node project root folder.');
+    }
 
-  return !!tree.read(core)?.toString().includes('ConfigModule');
+    return tree;
+  };
+}
+
+export function transformOptionsToNestJS<T extends BaseNestOptions>(options: T, folder: string, flat = true): Rule {
+  return (host: Tree): Tree => {
+    const isRootFolder = runningAtRootFolder(host);
+
+    options.flat = flat;
+    options.language = 'ts';
+
+    if (options.name.includes('/')) {
+      options.path = dirname(options.name as Path);
+      options.name = basename(options.name as Path);
+    }
+
+    options.path = normalize(join((options.path as Path) ?? '.', folder));
+
+    if (isRootFolder) {
+      options.path = normalize(join('app/' as Path, options.path ?? '.'));
+    }
+
+    return host;
+  };
+}
+
+export function existsConvictConfig(tree: Tree): boolean {
+  return tree.exists('src/config.ts');
 }
 
 export function installNodePackages(): Rule {

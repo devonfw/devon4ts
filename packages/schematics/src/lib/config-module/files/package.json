@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "<%= packagesVersion.devon4nodeConfig.packageName %>": "<%= packagesVersion.devon4nodeConfig.packageVersion %>"
-  },
-  "devDependencies": {
-    "<%= packagesVersion.typeFest.packageName %>": "<%= packagesVersion.typeFest.packageVersion %>"
-  }
-}

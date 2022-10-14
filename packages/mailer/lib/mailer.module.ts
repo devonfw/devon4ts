@@ -1,15 +1,14 @@
-import { DynamicModule, Module, OnModuleDestroy } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
+import { DynamicModule, Module } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { MAILER_TRANSPORT_PROVIDER_NAME, MAILER_OPTIONS_PROVIDER_NAME } from './mailer.constants';
+import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
 import { MailerService } from './mailer.service';
-import { MailerModuleOptions, MailerModuleAsyncOptions } from './mailer.types';
+import { MailerModuleAsyncOptions, MailerModuleOptions } from './mailer.types';
 
 @Module({
   providers: [MailerService],
   exports: [MailerService],
 })
-export class MailerModule implements OnModuleDestroy {
+export class MailerModule {
   private static defaultOptions: MailerModuleOptions = {
     hbsOptions: {
       templatesDir: './templates/views',
@@ -18,9 +17,7 @@ export class MailerModule implements OnModuleDestroy {
     emailFrom: 'noreply@capgemini.com',
   };
 
-  constructor(private readonly moduleRef: ModuleRef) {}
-
-  static forRoot(options?: MailerModuleOptions): DynamicModule {
+  static register(options?: MailerModuleOptions): DynamicModule {
     return {
       module: MailerModule,
       providers: [
@@ -40,7 +37,7 @@ export class MailerModule implements OnModuleDestroy {
     };
   }
 
-  static forRootAsync(options: MailerModuleAsyncOptions): DynamicModule {
+  static registerAsync(options: MailerModuleAsyncOptions): DynamicModule {
     const transportProvider = {
       provide: MAILER_TRANSPORT_PROVIDER_NAME,
       useFactory: (mailerOptions: MailerModuleOptions): nodemailer.Transporter => {
@@ -62,10 +59,5 @@ export class MailerModule implements OnModuleDestroy {
       providers: [transportProvider, optionsProvider],
       exports: [transportProvider],
     };
-  }
-
-  onModuleDestroy(): void {
-    const transport = this.moduleRef.get<nodemailer.Transporter>(MAILER_TRANSPORT_PROVIDER_NAME);
-    transport.close();
   }
 }

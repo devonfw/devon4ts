@@ -1,14 +1,16 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import { readFile } from 'fs/promises';
 import * as path from 'path';
+import { join } from 'path';
 
 describe('Application Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
+  const defaultOptions: Record<string, any> = {
+    name: 'project',
+  };
 
-  it('should manage name only', () => {
-    const options: Record<string, any> = {
-      name: 'project',
-    };
-    runner.runSchematicAsync('application', options).subscribe(tree => {
+  it('should generate all NestJS and devon4node files', done => {
+    runner.runSchematicAsync('application', defaultOptions).subscribe(tree => {
       const files: string[] = tree.files;
       expect(files).toEqual([
         '/project/.prettierrc',
@@ -34,38 +36,69 @@ describe('Application Factory', () => {
         '/project/.vscode/extensions.json',
         '/project/.vscode/settings.json',
       ]);
+      done();
     });
   });
-  it('should manage name to dasherize', () => {
+
+  it('should dasherize the application name', done => {
     const options: Record<string, any> = {
       name: 'dasherizeProject',
     };
     runner.runSchematicAsync('application', options).subscribe(tree => {
       const files: string[] = tree.files;
-      expect(files).toEqual([
-        '/dasherize-project/.prettierrc',
-        '/dasherize-project/README.md',
-        '/dasherize-project/nest-cli.json',
-        '/dasherize-project/package.json',
-        '/dasherize-project/tsconfig.build.json',
-        '/dasherize-project/tsconfig.json',
-        '/dasherize-project/.eslintrc.js',
-        '/dasherize-project/src/main.ts',
-        '/dasherize-project/src/app/app.controller.spec.ts',
-        '/dasherize-project/src/app/app.controller.ts',
-        '/dasherize-project/src/app/app.module.ts',
-        '/dasherize-project/src/app/app.service.ts',
-        '/dasherize-project/src/app/core/core.module.ts',
-        '/dasherize-project/src/app/shared/exceptions/entity-not-found.exception.ts',
-        '/dasherize-project/src/app/shared/filters/entity-not-found.filter.ts',
-        '/dasherize-project/src/app/shared/logger/winston.logger.ts',
-        '/dasherize-project/test/app.e2e-spec.ts',
-        '/dasherize-project/test/jest-e2e.json',
-        '/dasherize-project/.husky/.gitignore',
-        '/dasherize-project/.husky/pre-commit',
-        '/dasherize-project/.vscode/extensions.json',
-        '/dasherize-project/.vscode/settings.json',
-      ]);
+      expect(
+        files.map(elem => elem.startsWith('/dasherize-project/')).reduce((prev, curr) => prev && curr, true),
+      ).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should override .prettierrc content', done => {
+    readFile(join(__dirname, './files/.prettierrc'))
+      .then(buffer => buffer.toString())
+      .then(content => {
+        runner.runSchematicAsync('application', defaultOptions).subscribe(tree => {
+          expect(tree.readContent('/project/.prettierrc').trimEnd()).toStrictEqual(content.trimEnd());
+          done();
+        });
+      });
+  });
+
+  it('should add CoreModule to AppModule imports', done => {
+    runner.runSchematicAsync('application', defaultOptions).subscribe(tree => {
+      const appModuleContent = tree.readContent('/project/src/app/app.module.ts');
+      expect(appModuleContent).toContain("import { CoreModule } from './core/core.module'");
+
+      expect(appModuleContent).toMatch(/[.\n]*imports: \[.*CoreModule.*\][.\n]*/);
+      done();
+    });
+  });
+
+  it('should update main.ts to add versioning, logger and validation pipe', done => {
+    runner.runSchematicAsync('application', defaultOptions).subscribe(tree => {
+      const appModuleContent = tree.readContent('/project/src/main.ts');
+      expect(appModuleContent).toContain("import { WinstonLogger } from './app/shared/logger/winston.logger'");
+      expect(appModuleContent).toContain(
+        "import { EntityNotFoundFilter } from './app/shared/filters/entity-not-found.filter'",
+      );
+      expect(appModuleContent).toMatch(
+        /[.\n]*import {.*(ValidationPipe|VersioningType).*(ValidationPipe|VersioningType).*} from '@nestjs\/common';[.\n]*/,
+      );
+      expect(appModuleContent).toContain('app.enableVersioning');
+      expect(appModuleContent).toContain(`NestFactory.create(AppModule, { bufferLogs: true });
+
+  const logger = await app.resolve(WinstonLogger);
+  app.useLogger(logger);`);
+      expect(appModuleContent).toContain(`app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
+    }),
+  );
+  app.useGlobalFilters(new EntityNotFoundFilter(logger));`);
+      done();
     });
   });
 });

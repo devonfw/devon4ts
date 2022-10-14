@@ -13,27 +13,12 @@
       },
       "x-prompt": "What name would you like to use for the filter?"
     },
-    "path": {
-      "type": "string",
-      "format": "path",
-      "description": "The path to create the filter."
-    },
-    "language": {
-      "type": "string",
-      "description": "Nest filter language (ts/js)."
-    },
-    "sourceRoot": {
-      "type": "string",
-      "description": "Nest filter source root directory."
-    },
-    "flat": {
-      "default": true,
-      "description": "Flag to indicate if a directory is created."
-    },
     "spec": {
       "default": true,
       "description": "Specifies if a spec file is generated."
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

@@ -13,16 +13,13 @@
       },
       "x-prompt": "What name would you like to use for the controller?"
     },
-    "path": {
-      "type": "string",
-      "format": "path",
-      "description": "The path to create the controller."
-    },
     "spec": {
       "default": true,
       "type": "boolean",
       "description": "Specifies if a spec file is generated."
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

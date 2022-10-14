@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Transporter, SentMessageInfo, SendMailOptions } from 'nodemailer';
 import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
 import { MailerModuleOptions, IHandlebarsOptions } from './mailer.types';
@@ -6,7 +6,7 @@ import * as fs from 'fs-extra';
 import { join } from 'path';
 
 @Injectable()
-export class MailerService implements OnModuleInit {
+export class MailerService implements OnModuleInit, OnModuleDestroy {
   private hbsOptions: IHandlebarsOptions = {
     templatesDir: join(__dirname, '../../../../templates/views'),
     extension: '.handlebars',
@@ -18,7 +18,7 @@ export class MailerService implements OnModuleInit {
 
   constructor(
     @Inject(MAILER_TRANSPORT_PROVIDER_NAME)
-    private readonly transporter: Transporter,
+    readonly transporter: Transporter,
     @Inject(MAILER_OPTIONS_PROVIDER_NAME)
     private readonly options: MailerModuleOptions,
   ) {}
@@ -41,6 +41,10 @@ export class MailerService implements OnModuleInit {
 
       this.addTemplates();
     }
+  }
+
+  onModuleDestroy(): void {
+    this.transporter.close();
   }
 
   async sendPlainMail(emailOptions: SendMailOptions): Promise<SentMessageInfo>;
@@ -139,7 +143,7 @@ export class MailerService implements OnModuleInit {
       templates
         .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
         .forEach(element => {
-          this.templates[element.name.substr(0, element.name.indexOf('.'))] = this.hbs.compile(
+          this.templates[element.name.substring(0, element.name.indexOf('.'))] = this.hbs.compile(
             fs.readFileSync(join(this.hbsOptions.templatesDir, element.name)).toString(),
           );
         });
@@ -155,7 +159,7 @@ export class MailerService implements OnModuleInit {
         .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
         .forEach(element => {
           this.hbs.registerPartial(
-            element.name.substr(0, element.name.indexOf('.')),
+            element.name.substring(0, element.name.indexOf('.')),
             fs.readFileSync(join(this.hbsOptions.partialsDir!, element.name)).toString(),
           );
         });
