@@ -36,5 +36,6 @@
   "bugs": {
     "url": "https://github.com/devonfw/devon4node/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4node"
+  "homepage": "https://github.com/devonfw/devon4node",
+  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }

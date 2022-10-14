@@ -62,5 +62,6 @@
   },
   "devDependencies": {
     "@types/logfmt": "^1.2.2"
-  }
+  },
+  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }
