@@ -52,6 +52,12 @@ const defaultSwaggerConfig = `{
     },
   },`;
 
+const defaultSwaggerConfigType = `{
+    title: string;
+    description: string;
+    version: string;
+  }`;
+
 function updatePackageJson(): Rule {
   return (tree: Tree): Tree => {
     const packageJsonPath = 'package.json';
@@ -125,12 +131,23 @@ function updateNestCliJson() {
   };
 }
 
-function updateConfigTypeFile(tree: Tree): void {
+function updateConfigFile(tree: Tree): void {
   const typesFile: Path = 'src/config.ts' as Path;
 
   let typesFileContent = tree.read(typesFile)!.toString('utf-8');
   typesFileContent = new ASTFileBuilder(typesFileContent)
     .addPropertyToObjectLiteralParam('config', 0, 'swagger', defaultSwaggerConfig)
+    .build();
+
+  tree.overwrite(typesFile, formatTsFile(typesFileContent));
+}
+
+function updateConfigTypeFile(tree: Tree): void {
+  const typesFile: Path = 'src/app/shared/app-config.ts' as Path;
+
+  let typesFileContent = tree.read(typesFile)!.toString('utf-8');
+  typesFileContent = new ASTFileBuilder(typesFileContent)
+    .addPropToInterface('AppConfig', 'swagger', defaultSwaggerConfigType)
     .build();
 
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
@@ -149,6 +166,7 @@ function updateMain() {
       main.insertLinesToFunctionBefore('bootstrap', 'app.listen', swaggerTemplate);
     } else {
       main.insertLinesToFunctionBefore('bootstrap', 'app.listen', swaggerTemplateWithConfig);
+      updateConfigFile(tree);
       updateConfigTypeFile(tree);
     }
 

@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-<% if (config) { %>import { CONFIG_PROVIDER, AppConfig } from '../../../../config';<% } %>
+<% if (config) { %>import { AppConfig } from '../../../shared/app-config';
+import { CONFIG_PROVIDER } from '../../../shared/dependency-injection.constants';<% } %>
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

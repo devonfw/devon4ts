@@ -70,7 +70,7 @@ function addConfigToCoreModule(): Rule {
     }
 
     fileContent = fileContent
-      .addImports('CONFIG_PROVIDER', '../../config')
+      .addImports('CONFIG_PROVIDER', '../shared/dependency-injection.constants')
       .addDefaultImports('config', '../../config')
       .addToModuleDecorator(
         'CoreModule',

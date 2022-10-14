@@ -52,6 +52,46 @@ const databaseConvictOptions: Record<string, string> = {
   mongodb: `${printType('mongodb')} ${printDatabase('test')}`,
 };
 
+const databaseConvictTypes: Record<string, string> = {
+  mysql: `type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;`,
+  mariadb: `type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;`,
+  sqlite: `type: string; database: string;`,
+  postgres: `type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;`,
+  cockroachdb: `type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;`,
+  mssql: `type: string;
+    host: string;
+    username: string;
+    password: string;
+    database: string;`,
+  oracle: `type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    sid: string;`,
+  mongodb: `type: string; database: string;`,
+};
+
 const defaultDatabaseConvictOptions = `synchronize: {
       doc: 'Do you want to synchronize database tables with you entities?',
       default: false,
@@ -175,7 +215,7 @@ function addTypeormToCoreModule(): Rule {
   };
 }
 
-function updateConfigTypeFile(tree: Tree, database: string, project?: string): void {
+function updateConfigFile(tree: Tree, database: string, project?: string): void {
   const typesFile: Path = join((project || '.') as Path, 'src/config.ts');
 
   const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8')).addPropertyToObjectLiteralParam(
@@ -191,6 +231,23 @@ function updateConfigTypeFile(tree: Tree, database: string, project?: string): v
   tree.overwrite(typesFile, formatTsFile(typesFileContent.build()));
 }
 
+function updateConfigTypeFile(tree: Tree, database: string, project?: string): void {
+  const typesFile: Path = join((project || '.') as Path, 'src/app/shared/app-config.ts');
+
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8')).addPropToInterface(
+    'AppConfig',
+    'database',
+    `{
+      ${databaseConvictTypes[database]}
+      synchronize: boolean;
+      migrationsRun: boolean;
+      logging: boolean;
+    }`,
+  );
+
+  tree.overwrite(typesFile, formatTsFile(typesFileContent.build()));
+}
+
 function addDatabaseConfiguration(database: string, project?: string): Rule {
   return (tree: Tree): Tree => {
     const config = existsConvictConfig(tree);
@@ -198,6 +255,7 @@ function addDatabaseConfiguration(database: string, project?: string): Rule {
       return tree;
     }
 
+    updateConfigFile(tree, database, project);
     updateConfigTypeFile(tree, database, project);
 
     return tree;

@@ -1,6 +1,8 @@
 import * as convict from 'convict';
+import { existsSync } from 'fs';
+import { AppConfig } from './app/shared/app-config';
 
-const config = convict({
+const config: convict.Config<AppConfig> = convict({
   env: {
     doc: 'The application environment.',
     format: ['production', 'develop', 'test', 'default'],
@@ -49,19 +51,14 @@ const config = convict({
 
 // Load environment dependent configuration
 const env = config.get('env');
-if (env !== 'default' && env !== 'test') {
-  config.loadFile(`./config/${env}.json`);
+const fileName = `./config/${env}.json`;
+if (env !== 'default' && existsSync(fileName)) {
+  config.loadFile(fileName);
 }
 
 // Perform validation
 config.validate({ allowed: 'strict' });
 
-// Infer type from convict
-type GetConfigType<C> = C extends convict.Config<infer X> ? X : never;
-export type AppConfig = GetConfigType<typeof config>;
-
 const APP_CONFIG: AppConfig = config.getProperties();
-
-export const CONFIG_PROVIDER = 'ConfigCustomProvider';
 
 export default APP_CONFIG;

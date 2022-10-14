@@ -40,7 +40,7 @@ function addAuthToCoreModule(): Rule {
   };
 }
 
-function updateConfigTypeFile(tree: Tree): void {
+function updateConfigFile(tree: Tree): void {
   const typesFile: Path = 'src/config.ts' as Path;
 
   const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
@@ -70,8 +70,19 @@ function updateConfigTypeFile(tree: Tree): void {
   tree.overwrite(typesFile, formatTsFile(typesFileContent));
 }
 
+function updateConfigTypeFile(tree: Tree): void {
+  const typesFile: Path = 'src/app/shared/app-config.ts' as Path;
+
+  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
+    .addPropToInterface('AppConfig', 'jwt', `{secret: string; expiration: string;}`)
+    .build();
+
+  tree.overwrite(typesFile, formatTsFile(typesFileContent));
+}
+
 function addJWTConfiguration(): Rule {
   return (tree: Tree): Tree => {
+    updateConfigFile(tree);
     updateConfigTypeFile(tree);
 
     return tree;
