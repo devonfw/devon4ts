@@ -111,7 +111,7 @@
     ora "5.4.1"
     rxjs "6.6.7"
 
-"@angular-devkit/schematics@^14.0.2":
+"@angular-devkit/schematics@14.2.6", "@angular-devkit/schematics@^14.0.2":
   version "14.2.6"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-14.2.6.tgz#6e31b2d1367f35b21e785d1d4d4281d7f045b087"
   integrity sha512-mSFtc4M49mWrYsgJx/P6bA6SzXb8SeZqmppKRMoEQxiXI1bwFdGLNWzAmzEsGvS96h/nPIaOfcX5cKJSp++4FA==
@@ -1940,12 +1940,12 @@
     node-gyp-build "^4.3.0"
 
 "@schematics/angular@^14.0.2":
-  version "14.2.3"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-14.2.3.tgz#18e625d683a7f9f6ac36e7e2110d84f65ff1c2f2"
-  integrity sha512-lHWeeWrhpyMwJRTK4RpFVptWZo5kTdI+bOOd+lZBTjOAs+PM8r9VXHzB6qhE6P2e3HsceXM59PonvekTUdOJtQ==
+  version "14.2.6"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-14.2.6.tgz#dfa9b4525294c7664f2958579fea7575333d0cd9"
+  integrity sha512-oeyMAQr3Q9nvAX+5FRgXcTMX9lqqenElBmAuwfqqdB0qD1jmkJ8TpWRuvYVA/931njpIwhfyLrzmzeNnJb23Sg==
   dependencies:
-    "@angular-devkit/core" "14.2.3"
-    "@angular-devkit/schematics" "14.2.3"
+    "@angular-devkit/core" "14.2.6"
+    "@angular-devkit/schematics" "14.2.6"
     jsonc-parser "3.1.0"
 
 "@sinclair/typebox@^0.24.1":
