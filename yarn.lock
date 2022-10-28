@@ -32,17 +32,6 @@
     rxjs "6.6.7"
     source-map "0.7.4"
 
-"@angular-devkit/core@14.2.6":
-  version "14.2.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.2.6.tgz#308c804b1d591d9072cc7b3c7cfe0623198c395e"
-  integrity sha512-qtRSdRm/h7C3ya04PJTDgQXV6mM8Y4RakANX1GTSXetCf9AVSxg74NJX76DWUgiHT4JiPYnJgJU6Hr/L0H6JOQ==
-  dependencies:
-    ajv "8.11.0"
-    ajv-formats "2.1.1"
-    jsonc-parser "3.1.0"
-    rxjs "6.6.7"
-    source-map "0.7.4"
-
 "@angular-devkit/core@14.2.7", "@angular-devkit/core@^14.0.2":
   version "14.2.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-14.2.7.tgz#ab68caed4eab07ef681d80636d27f59dcb610e73"
@@ -67,12 +56,12 @@
     yargs-parser "21.1.1"
 
 "@angular-devkit/schematics-cli@^14.2.3":
-  version "14.2.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.2.6.tgz#19182fee2cb0b8539f44a480cda49590cf5bd64a"
-  integrity sha512-buYhzP3MrMQIovWITwAMxQTh7ckYPRiox9XjwuujDXVQ69HOwmoBY+bbiaZwLZT1UQF5bkwGEPN+FSw8NurXvA==
+  version "14.2.7"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.2.7.tgz#d4da140928d5cc1c1035bc4a92906ad801b3238a"
+  integrity sha512-DnxRFyfu4V2X6qvAOywmvWvAtZZNTNo45aBjWnoK6cil9Ov0EArW7cGk3Vg8pDYRYJ83vtfh7iEnj5B2h3TBvw==
   dependencies:
-    "@angular-devkit/core" "14.2.6"
-    "@angular-devkit/schematics" "14.2.6"
+    "@angular-devkit/core" "14.2.7"
+    "@angular-devkit/schematics" "14.2.7"
     ansi-colors "4.1.3"
     inquirer "8.2.4"
     symbol-observable "4.0.0"
@@ -95,17 +84,6 @@
   integrity sha512-90hseNg1yQ2AR+lVr/NByZRHnYAlzCL6hr9p9q1KPHxA3Owo04yX6n6dvR/xf27hCopXInXKPsasR59XCx5ZOQ==
   dependencies:
     "@angular-devkit/core" "14.2.2"
-    jsonc-parser "3.1.0"
-    magic-string "0.26.2"
-    ora "5.4.1"
-    rxjs "6.6.7"
-
-"@angular-devkit/schematics@14.2.6":
-  version "14.2.6"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-14.2.6.tgz#6e31b2d1367f35b21e785d1d4d4281d7f045b087"
-  integrity sha512-mSFtc4M49mWrYsgJx/P6bA6SzXb8SeZqmppKRMoEQxiXI1bwFdGLNWzAmzEsGvS96h/nPIaOfcX5cKJSp++4FA==
-  dependencies:
-    "@angular-devkit/core" "14.2.6"
     jsonc-parser "3.1.0"
     magic-string "0.26.2"
     ora "5.4.1"
