@@ -43,6 +43,17 @@
     rxjs "6.6.7"
     source-map "0.7.4"
 
+"@angular-devkit/core@15.0.1":
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-15.0.1.tgz#e69bea69d38f3b3c0332c42c724b591d553c8be0"
+  integrity sha512-Q8sF561Wf53ufdrKWvsqebbD5EjJpdHaPjg5nAHYwPtwD1ciG7oL55cQFs0LYqy9Ux6k34NimodhH3QgXYYPFQ==
+  dependencies:
+    ajv "8.11.0"
+    ajv-formats "2.1.1"
+    jsonc-parser "3.2.0"
+    rxjs "6.6.7"
+    source-map "0.7.4"
+
 "@angular-devkit/schematics-cli@14.2.2":
   version "14.2.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics-cli/-/schematics-cli-14.2.2.tgz#0f3779e1ea066e8bff015208a7dc2a8c2dba9d67"
@@ -89,7 +100,7 @@
     ora "5.4.1"
     rxjs "6.6.7"
 
-"@angular-devkit/schematics@14.2.9", "@angular-devkit/schematics@^14.0.2":
+"@angular-devkit/schematics@14.2.9":
   version "14.2.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-14.2.9.tgz#d91447a1568047f86cb166a1af0d76b0c58ae0cb"
   integrity sha512-E7muTIbDqysjQld5r9AGXiW8vKHadkHaGe+0QONpmr8TMAtTMqBFxBXRG9vajiUzt/GcFL9dbGGEwM/1dc7VPQ==
@@ -97,6 +108,17 @@
     "@angular-devkit/core" "14.2.9"
     jsonc-parser "3.1.0"
     magic-string "0.26.2"
+    ora "5.4.1"
+    rxjs "6.6.7"
+
+"@angular-devkit/schematics@^15.0.1":
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-15.0.1.tgz#e7d94566bdb4f3e87242d3c4c94c153b1c8c1324"
+  integrity sha512-DS9t+xl1lOphYkdz17FwRO0LUs5IYBpyqr3O8SqrXESOhVUXlbcEhVtVeQiYxfeQZVRPWVR64Tf6E6ELXcGLYw==
+  dependencies:
+    "@angular-devkit/core" "15.0.1"
+    jsonc-parser "3.2.0"
+    magic-string "0.26.7"
     ora "5.4.1"
     rxjs "6.6.7"
 
@@ -5740,6 +5762,13 @@ magic-string@0.26.2:
   version "0.26.2"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.2.tgz#5331700e4158cd6befda738bb6b0c7b93c0d4432"
   integrity sha512-NzzlXpclt5zAbmo6h6jNc8zl2gNRGHvmsZW4IvZhTC4W7k4OlLP+S5YLussa/r3ixNT66KOQfNORlXHSOy/X4A==
+  dependencies:
+    sourcemap-codec "^1.4.8"
+
+magic-string@0.26.7:
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.7.tgz#caf7daf61b34e9982f8228c4527474dac8981d6f"
+  integrity sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==
   dependencies:
     sourcemap-codec "^1.4.8"
 
