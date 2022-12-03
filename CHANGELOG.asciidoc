@@ -2,6 +2,36 @@
 
 This file documents all notable changes to https://github.com/devonfw/devon4node[devon4node].
 
+== 5.0
+
+* [BREAKING CHANGE] Upgrade packages to work with NestJS 9.
+* [BREAKING CHANGE] Remove @devon4node/config:
+** @devon4node/config is replaced with https://github.com/mozilla/node-convict[convict]
+* [NEW FEATURE] Add @devon4node/logform:
+** @devon4node/logform contains https://github.com/winstonjs/winston[Winston logger] formatters based on https://github.com/winstonjs/logform[logform] package
+*** **colorize**: apply colors to log output
+*** **logfmt**: transform log output to logfmt format
+*** **oneLineStack**: transform the stack trace to display it in one line.
+*** **pid**: add pid to the log.
+*** **separator**: format the log lines separating each section by using |.
+* [BREAKING CHANGE] Update @devon4node/mailer:
+** Replace method **forRoot** to **register**
+** Replace method **forRootAsync** to **registerAsync**
+** Add tests to library
+* [BREAKING CHANGE] Update @devon4node/schematics:
+** All schematics: now you can only execute schematics at project root folder.
+** Improved schemtics tests.
+** *auth-jwt*: Update schematic in order to generate the convict configuration instead of @devon4node/config configuration, use convict instead.
+** *config-module*: config-module was completly deleted.
+** *convict*: Add convict schematic in order to add convict to your project.
+** *crud*: crud was completly deleted, use resource instead.
+** *application*: Update pre-built winston logger.
+** *entity*: Update entity in order to add the entity to the data source. Now entity is compatible with TypeORM 0.3+.
+** *typeorm*: Add compatibility with TypeORM 0.3+. Update convict configuration instead of @devon4node/config configuration.
+** *swagger*: Update convict configuration instead of @devon4node/config configuration.
+
+
+
 == 4.0
 
 * Upgrade packages to work with NestJS 8.
