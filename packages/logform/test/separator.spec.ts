@@ -15,6 +15,20 @@ describe('separator', () => {
     expect(separator().transform(input)[MESSAGE]).toStrictEqual(expectedInfo);
   });
 
+  it('should log the correlationId if present and skip the pid', () => {
+    const input = {
+      level: 'info',
+      message: 'message',
+      context: 'MyApp',
+      correlationId: 'correlation',
+      pid: 1234,
+      timestamp: '2022-08-09T10:00:00.000Z',
+    };
+    const expectedInfo = 'info | 2022-08-09T10:00:00.000Z | correlation | MyApp | message';
+
+    expect(separator().transform(input)[MESSAGE]).toStrictEqual(expectedInfo);
+  });
+
   it('should use "main" as context if no context is provided', () => {
     const input = {
       level: 'info',

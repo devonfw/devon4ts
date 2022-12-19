@@ -7,7 +7,7 @@ class SeparatorFormatter implements Format {
       timestamp = this.separate(info.timestamp),
       context = this.separate(info.context ?? 'main'),
       message = this.separate(info.message),
-      pid = this.separate(info.pid),
+      pid = this.separate(info.correlationId ?? info.pid),
       stack = this.separate(info.stack);
 
     let extras = '';
