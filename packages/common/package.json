@@ -1,6 +1,6 @@
 {
   "name": "@devon4node/common",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "devon4node common library.",
   "main": "dist/index.js",
   "scripts": {
