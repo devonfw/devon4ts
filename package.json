@@ -3,6 +3,7 @@
   "workspaces": [
     "packages/logform",
     "packages/common",
+    "packages/config",
     "packages/mailer",
     "packages/schematics"
   ],

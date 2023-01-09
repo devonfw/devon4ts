@@ -1,6 +1,7 @@
 {
   "packages": [
     "packages/common",
+    "packages/config",
     "packages/logform",
     "packages/mailer",
     "packages/schematics"
