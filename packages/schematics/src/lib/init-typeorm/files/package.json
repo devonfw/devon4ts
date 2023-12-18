@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "typeorm": "node_modules/.bin/typeorm-ts-node-commonjs",
+    "typeorm:datasource": "node_modules/.bin/typeorm-ts-node-commonjs -d ./src/app/shared/database/main-data-source.ts"
+  },
+  "dependencies": {
+    "<%= packagesVersion.nestjsTypeorm.packageName %>": "<%= packagesVersion.nestjsTypeorm.packageVersion %>",
+    "<%= packagesVersion.typeorm.packageName %>": "<%= packagesVersion.typeorm.packageVersion %>",
+    "<%= packagesVersion[db].packageName %>": "<%= packagesVersion[db].packageVersion %>"
+  }
+}

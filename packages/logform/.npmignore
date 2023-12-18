@@ -1,0 +1,18 @@
+# source
+lib
+test
+tests
+index.ts
+package-lock.json
+yarn.lock
+tslint.json
+tsconfig.json
+tsconfig*.json
+.prettierrc
+.eslintrc.js
+.eslintignore
+
+.vscode/
+
+*.js.map
+**/*.js.map

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "EntitySchematic",
+  "title": "Entity Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The entity name. To create a entity with name Banana in the module fruits you need to introduce fruits/banana",
+      "x-prompt": "Introduce the entity name"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

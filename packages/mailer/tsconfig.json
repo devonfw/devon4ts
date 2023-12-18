@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": false,
+    "noImplicitThis": false,
+    "types": [
+      "node",
+      "jest"
+    ]
+  },
+  "include": [
+    "./lib/**/*",
+    "./test/**/*"
+  ]
+}

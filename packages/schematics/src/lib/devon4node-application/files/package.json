@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "lint": "eslint {src,apps,libs,test}/**/*.ts --fix",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "<%= winston.packageName %>": "<%= winston.packageVersion %>",
+    "<%= classTransformer.packageName %>": "<%= classTransformer.packageVersion %>",
+    "<%= classValidator.packageName %>": "<%= classValidator.packageVersion %>",
+    "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>",
+    "<%= devon4nodeLogform.packageName %>": "<%= devon4nodeLogform.packageVersion %>"
+  },
+  "devDependencies": {
+    "<%= devon4nodeSchematics.packageName %>": "<%= devon4nodeSchematics.packageVersion %>",
+    "<%= husky.packageName %>": "<%= husky.packageVersion %>",
+    "<%= prettyQuick.packageName %>": "<%= prettyQuick.packageVersion %>",
+    "<%= eslintPluginPrettier.packageName %>": "<%= eslintPluginPrettier.packageVersion %>"
+  },
+  "jest": {
+    "coverageDirectory": "../coverage"
+  }
+}

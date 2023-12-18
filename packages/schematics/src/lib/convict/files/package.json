@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "<%= convict.packageName %>": "<%= convict.packageVersion %>"
+  },
+  "devDependencies": {
+    "<%= typesConvict.packageName %>": "<%= typesConvict.packageVersion %>"
+  }
+}

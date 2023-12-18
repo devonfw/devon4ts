@@ -1,0 +1,96 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "extends": "@nestjs/schematics",
+  "schematics": {
+    "application": {
+      "description": "Create a devon4node application.",
+      "factory": "./lib/devon4node-application/devon4node-application.factory#devon4nodeApplication",
+      "schema": "./lib/devon4node-application/schema.json"
+    },
+    "typeorm": {
+      "description": "Initialice typeorm into your current project in a correct way.",
+      "factory": "./lib/init-typeorm/init-typeorm.factory#initTypeorm",
+      "schema": "./lib/init-typeorm/schema.json"
+    },
+    "entity": {
+      "description": "Add a TypeOrm entity to your project",
+      "factory": "./lib/entity/entity.factory#main",
+      "schema": "./lib/entity/schema.json"
+    },
+    "convict": {
+      "description": "Initialize convict to manage the configuration  into the project.",
+      "factory": "./lib/convict/convict.factory#initConvict",
+      "schema": "./lib/convict/schema.json"
+    },
+    "mailer": {
+      "description": "Add @devon4node/mailer module to project.",
+      "factory": "./lib/mailer/mailer.factory#mailer",
+      "schema": "./lib/mailer/schema.json"
+    },
+    "swagger": {
+      "description": "Add swagger module to project.",
+      "factory": "./lib/swagger/swagger.factory#swagger",
+      "schema": "./lib/swagger/schema.json"
+    },
+    "auth-jwt": {
+      "description": "Add the auth JWT module to the project.",
+      "factory": "./lib/auth-jwt/auth.factory#authJWT",
+      "schema": "./lib/auth-jwt/schema.json"
+    },
+    "security": {
+      "description": "Add cors and helmet to your project.",
+      "factory": "./lib/security/security.factory#security",
+      "schema": "./lib/security/schema.json"
+    },
+    "repository": {
+      "factory": "./lib/repository/repository.factory#main",
+      "description": "Create a TypeORM custom repository.",
+      "schema": "./lib/repository/schema.json"
+    },
+    "controller": {
+      "factory": "./lib/controller/controller.factory#main",
+      "description": "Create a Nest controller.",
+      "schema": "./lib/controller/schema.json"
+    },
+    "module": {
+      "factory": "./lib/module/module.factory#main",
+      "description": "Create a Nest module.",
+      "schema": "./lib/module/schema.json"
+    },
+    "service": {
+      "factory": "./lib/service/service.factory#main",
+      "description": "Create a Nest service.",
+      "schema": "./lib/service/schema.json"
+    },
+    "filter": {
+      "factory": "./lib/filter/filter.factory#main",
+      "description": "Create a Nest filter.",
+      "schema": "./lib/filter/schema.json"
+    },
+    "guard": {
+      "factory": "./lib/guard/guard.factory#main",
+      "description": "Create a Nest guard.",
+      "schema": "./lib/guard/schema.json"
+    },
+    "interceptor": {
+      "factory": "./lib/interceptor/interceptor.factory#main",
+      "description": "Create a Nest interceptor.",
+      "schema": "./lib/interceptor/schema.json"
+    },
+    "middleware": {
+      "factory": "./lib/middleware/middleware.factory#main",
+      "description": "Create a Nest middleware.",
+      "schema": "./lib/middleware/schema.json"
+    },
+    "pipe": {
+      "factory": "./lib/pipe/pipe.factory#main",
+      "description": "Create a Nest pipe.",
+      "schema": "./lib/pipe/schema.json"
+    },
+    "resource": {
+      "factory": "./lib/resource/resource.factory#main",
+      "description": "Create a Nest resource.",
+      "schema": "./lib/resource/schema.json"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@devon4node/common",
+  "version": "5.0.1",
+  "description": "devon4node common library.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublish:npm": "npm run build",
+    "publish:npm": "npm publish --access public",
+    "prepublish:next": "npm run build",
+    "publish:next": "npm publish --access public --tag next",
+    "test": "jest --passWithNoTests",
+    "format": "prettier --write \"**/*.ts\"",
+    "lint": "eslint serializer/**/*.ts --fix"
+  },
+  "keywords": [
+    "nestjs",
+    "devon4node",
+    "devonfw"
+  ],
+  "author": {
+    "name": "Capgemini",
+    "url": "https://www.capgemini.com/"
+  },
+  "contributors": [
+    "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
+  ],
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@nestjs/common": "^9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonfw/devon4node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devonfw/devon4node/issues"
+  },
+  "homepage": "https://github.com/devonfw/devon4node",
+  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
+}
