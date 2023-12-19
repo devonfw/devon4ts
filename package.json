@@ -4,12 +4,12 @@
   "license": "Apache-2.0",
   "scripts": {
     "cm": "git-cz",
-    "build": "lerna run build",
-    "prepublish": "npm run build",
-    "build:prod": "lerna run build:prod",
-    "lint": "lerna run lint",
-    "test": "lerna run test",
-    "format": "lerna run format",
+    "build": "nx run-many -t build",
+    "prepublish": "pnpm run build",
+    "build:prod": "nx run-many -t build:prod",
+    "lint": "nx run-many -t lint",
+    "test": "nx run-many -t test",
+    "format": "nx run-many -t format",
     "update-schematic-packages": "node scripts/update-schematics-packages.mjs",
     "prepare": "husky install"
   },
