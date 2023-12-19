@@ -3,9 +3,9 @@
   "extends": "@nestjs/schematics",
   "schematics": {
     "application": {
-      "description": "Create a devon4node application.",
-      "factory": "./lib/devon4node-application/devon4node-application.factory#devon4nodeApplication",
-      "schema": "./lib/devon4node-application/schema.json"
+      "description": "Create a devon4ts_node application.",
+      "factory": "./lib/devon4ts_node-application/devon4ts_node-application.factory#devon4ts_nodeApplication",
+      "schema": "./lib/devon4ts_node-application/schema.json"
     },
     "typeorm": {
       "description": "Initialice typeorm into your current project in a correct way.",
@@ -23,7 +23,7 @@
       "schema": "./lib/convict/schema.json"
     },
     "mailer": {
-      "description": "Add @devon4node/mailer module to project.",
+      "description": "Add @devon4ts_node/mailer module to project.",
       "factory": "./lib/mailer/mailer.factory#mailer",
       "schema": "./lib/mailer/schema.json"
     },

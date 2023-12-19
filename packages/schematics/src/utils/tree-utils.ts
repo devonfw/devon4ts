@@ -52,7 +52,7 @@ export function runningAtRootFolder(tree: Tree): boolean {
 export function stopExecutionIfNotRunningAtRootFolder(): Rule {
   return tree => {
     if (!runningAtRootFolder(tree)) {
-      throw new Error('You must run the schematic at devon4node project root folder.');
+      throw new Error('You must run the schematic at devon4ts_node project root folder.');
     }
 
     return tree;

@@ -1,23 +1,23 @@
 [DEPRECATED] This package is deprecated and will only receive updates to be compatible with the latest NestJS version. For new projects please use convict instead.
 
-# devon4node
+# devon4ts_node
 
 [devonfw](https://www.devonfw.com/) is a platform which provides solutions to building business applications which combine best-in-class frameworks and libraries as well as industry proven practices and code conventions. devonfw is 100% Open Source (Apache License version 2.0) since the beginning of 2018.
 
-devon4node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
+devon4ts_node is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
-![License](https://img.shields.io/npm/l/@devon4node/config)
-![License](https://img.shields.io/npm/v/@devon4node/config)
-![License](https://img.shields.io/librariesio/release/npm/@devon4node/config)
-![License](https://img.shields.io/npm/dt/@devon4node/config)
+![License](https://img.shields.io/npm/l/@devon4ts_node/config)
+![License](https://img.shields.io/npm/v/@devon4ts_node/config)
+![License](https://img.shields.io/librariesio/release/npm/@devon4ts_node/config)
+![License](https://img.shields.io/npm/dt/@devon4ts_node/config)
 
-## devon4node config
+## devon4ts_node config
 
-This package contains the devon4node config module. This module allows you to send emails in your devon4node application in a easy way.
+This package contains the devon4ts_node config module. This module allows you to send emails in your devon4ts_node application in a easy way.
 
 ## Documentation
 
-You can find all documentation in our [wiki](https://github.com/devonfw/devon4node/wiki).
+You can find all documentation in our [wiki](https://github.com/devonfw/devon4ts_node/wiki).
 
 ## Code of conduct
 
@@ -33,7 +33,7 @@ Visit [key principles document](https://github.com/devonfw/.github/blob/master/k
 
 ## Samples
 
-- [Employee example](https://github.com/devonfw-sample/devon4node-samples/tree/develop/employee): simple backend example for a employee management application.
-- [Components example](https://github.com/devonfw-sample/devon4node/tree/develop/components-example): simple backend example which will show you the execution order of the devon4node components.
-- [GraphQL example](https://github.com/devonfw-sample/devon4node/tree/develop/graphql): simple GraphQL example with starter configuration.
+- [Employee example](https://github.com/devonfw-sample/devon4ts_node-samples/tree/develop/employee): simple backend example for a employee management application.
+- [Components example](https://github.com/devonfw-sample/devon4ts_node/tree/develop/components-example): simple backend example which will show you the execution order of the devon4ts_node components.
+- [GraphQL example](https://github.com/devonfw-sample/devon4ts_node/tree/develop/graphql): simple GraphQL example with starter configuration.
 - [My Thai Star](https://github.com/devonfw/my-thai-star/tree/develop/node): realistic example about the management of a restaurant. This example has also a frontend and it is compatible with other devonfw stacks.

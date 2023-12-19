@@ -1,10 +1,10 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { IDevon4nodeApplicationOptions } from '../devon4node-application/devon4node-application.factory';
+import { Idevon4ts_nodeApplicationOptions } from '../devon4ts_node-application/devon4ts_node-application.factory';
 
 describe('Auth Factory', () => {
   const runner = new SchematicTestRunner('.', path.join(process.cwd(), 'src/collection.json'));
-  const appOptions: IDevon4nodeApplicationOptions = {
+  const appOptions: Idevon4ts_nodeApplicationOptions = {
     name: '',
   };
 
@@ -14,7 +14,7 @@ describe('Auth Factory', () => {
         fail();
       },
       error => {
-        expect(error).toStrictEqual(new Error('You must run the schematic at devon4node project root folder.'));
+        expect(error).toStrictEqual(new Error('You must run the schematic at devon4ts_node project root folder.'));
         done();
       },
     );

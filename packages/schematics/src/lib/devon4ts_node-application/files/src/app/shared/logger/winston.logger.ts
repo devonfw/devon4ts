@@ -2,7 +2,7 @@
 import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
 import { INQUIRER } from '@nestjs/core';
 import * as winston from 'winston';
-import { separator, colorize, pid, oneLineStack } from '@devon4node/logform';
+import { separator, colorize, pid, oneLineStack } from '@devon4ts_node/logform';
 
 const BASE_LOGGER: winston.Logger = winston.createLogger({
   format: winston.format.combine(winston.format.timestamp(), pid(), oneLineStack(false), colorize(true), separator()),

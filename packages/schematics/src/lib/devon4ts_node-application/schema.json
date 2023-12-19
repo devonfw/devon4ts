@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Devon4NodeApplicationSchema",
-  "title": "devon4node-application Schema",
+  "$id": "devon4ts_nodeApplicationSchema",
+  "title": "devon4ts_node-application Schema",
   "type": "object",
   "properties": {
     "name": {
@@ -9,5 +9,7 @@
       "x-prompt": "What is the name of your application?"
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

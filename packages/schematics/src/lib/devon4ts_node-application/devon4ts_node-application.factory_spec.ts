@@ -9,7 +9,7 @@ describe('Application Factory', () => {
     name: 'project',
   };
 
-  it('should generate all NestJS and devon4node files', done => {
+  it('should generate all NestJS and devon4ts_node files', done => {
     runner.runSchematicAsync('application', defaultOptions).subscribe(tree => {
       const files: string[] = tree.files;
       expect(files).toEqual([

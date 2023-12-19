@@ -109,7 +109,7 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean): void {
   }
 
   coreContent
-    .addImports('MailerModule', '@devon4node/mailer')
+    .addImports('MailerModule', '@devon4ts_node/mailer')
     .addImports('join', 'path')
     .addToModuleDecorator(
       'CoreModule',

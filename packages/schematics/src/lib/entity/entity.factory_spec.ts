@@ -11,7 +11,7 @@ describe('Entity Factory', () => {
         fail();
       },
       error => {
-        expect(error).toStrictEqual(new Error('You must run the schematic at devon4node project root folder.'));
+        expect(error).toStrictEqual(new Error('You must run the schematic at devon4ts_node project root folder.'));
         done();
       },
     );

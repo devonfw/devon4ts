@@ -1,4 +1,4 @@
-import { GetPage, Page, PageRequest } from '@devon4node/common';
+import { GetPage, Page, PageRequest } from '@devon4ts_node/common';
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { Create<%=classify(nameSingular)%>Dto } from '../model/dtos/create-<%=nameSingular%>.dto';
 import { Update<%=classify(nameSingular)%>Dto } from '../model/dtos/update-<%=nameSingular%>.dto';

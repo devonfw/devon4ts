@@ -26,7 +26,7 @@ describe('Mailer Factory', () => {
     const packageJson = tree.readContent('/package.json');
     const dockerCompose = tree.readContent('/docker-compose.yml');
 
-    expect(packageJson).toContain(packagesVersion.devon4nodeMailer.packageName);
+    expect(packageJson).toContain(packagesVersion.devon4ts_nodeMailer.packageName);
     expect(packageJson).toContain(packagesVersion.handlebars.packageName);
     expect(dockerCompose).toContain(`maildev:
     image: 'djfarrelly/maildev'`);

@@ -16,7 +16,7 @@ import { mergeFiles } from '../../utils/merge';
 import { formatTsFile } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 
-export interface IDevon4nodeApplicationOptions {
+export interface Idevon4ts_nodeApplicationOptions {
   name: string;
 }
 
@@ -93,7 +93,7 @@ function addDeclarationToModule(project: string): Rule {
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
-export function devon4nodeApplication(options: IDevon4nodeApplicationOptions): Rule {
+export function devon4ts_nodeApplication(options: Idevon4ts_nodeApplicationOptions): Rule {
   const formattedOptions = { ...options };
   formattedOptions.name = strings.dasherize(formattedOptions.name);
   const name = formattedOptions.name;

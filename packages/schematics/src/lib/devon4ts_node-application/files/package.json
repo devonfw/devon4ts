@@ -7,11 +7,11 @@
     "<%= winston.packageName %>": "<%= winston.packageVersion %>",
     "<%= classTransformer.packageName %>": "<%= classTransformer.packageVersion %>",
     "<%= classValidator.packageName %>": "<%= classValidator.packageVersion %>",
-    "<%= devon4nodeCommon.packageName %>": "<%= devon4nodeCommon.packageVersion %>",
-    "<%= devon4nodeLogform.packageName %>": "<%= devon4nodeLogform.packageVersion %>"
+    "<%= devon4ts_nodeCommon.packageName %>": "<%= devon4ts_nodeCommon.packageVersion %>",
+    "<%= devon4ts_nodeLogform.packageName %>": "<%= devon4ts_nodeLogform.packageVersion %>"
   },
   "devDependencies": {
-    "<%= devon4nodeSchematics.packageName %>": "<%= devon4nodeSchematics.packageVersion %>",
+    "<%= devon4ts_nodeSchematics.packageName %>": "<%= devon4ts_nodeSchematics.packageVersion %>",
     "<%= husky.packageName %>": "<%= husky.packageVersion %>",
     "<%= prettyQuick.packageName %>": "<%= prettyQuick.packageVersion %>",
     "<%= eslintPluginPrettier.packageName %>": "<%= eslintPluginPrettier.packageVersion %>"

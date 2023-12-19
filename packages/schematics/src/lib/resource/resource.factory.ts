@@ -152,7 +152,7 @@ function updateModule(fileEntry: FileEntry, name: string): FileEntry {
   };
 }
 
-function moveToDevon4nodePaths(name: string): Rule {
+function moveTodevon4ts_nodePaths(name: string): Rule {
   return forEach((fileEntry: FileEntry) => {
     if (!fileEntry.path.startsWith('/src/app/' + name) && !fileEntry.path.startsWith('/' + name)) {
       return fileEntry;
@@ -257,7 +257,7 @@ export function main(options: IResourceOptions): Rule {
     stopExecutionIfNotRunningAtRootFolder(),
     transformOptionsToNestJS(options, '.', false),
     externalSchematic('@nestjs/schematics', 'resource', options),
-    moveToDevon4nodePaths(options.name),
+    moveTodevon4ts_nodePaths(options.name),
     overrideCrud(options),
     updatePackageJson(),
     formatTsFiles(),

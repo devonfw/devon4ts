@@ -1,4 +1,4 @@
-import { Page, PageRequest } from '@devon4node/common';
+import { Page, PageRequest } from '@devon4ts_node/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';

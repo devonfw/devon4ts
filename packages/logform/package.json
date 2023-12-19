@@ -1,7 +1,7 @@
 {
-  "name": "@devon4node/logform",
+  "name": "@devon4ts_node/logform",
   "version": "5.0.1",
-  "description": "devon4node Winston Logger formatters.",
+  "description": "devon4ts_node Winston Logger formatters.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
@@ -16,7 +16,7 @@
   },
   "keywords": [
     "nestjs",
-    "devon4node",
+    "devon4ts_node",
     "devonfw"
   ],
   "author": {
@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devonfw/devon4node.git"
+    "url": "git+https://github.com/devonfw/devon4ts_node.git"
   },
   "bugs": {
-    "url": "https://github.com/devonfw/devon4node/issues"
+    "url": "https://github.com/devonfw/devon4ts_node/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4node",
+  "homepage": "https://github.com/devonfw/devon4ts_node",
   "jest": {
     "moduleFileExtensions": [
       "js",
