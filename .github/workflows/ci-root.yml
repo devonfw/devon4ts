@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies with YARN
-        run: yarn install
+      - name: Install dependencies with PNPM
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build the app
-        run: yarn run build
+        run: pnpm run build

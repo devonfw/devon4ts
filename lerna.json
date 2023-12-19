@@ -6,7 +6,7 @@
     "packages/mailer",
     "packages/schematics"
   ],
-  "npmClient": "yarn",
+  "npmClient": "pnpm",
   "useWorkspaces": true,
   "version": "independent",
   "command": {

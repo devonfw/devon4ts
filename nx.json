@@ -1,0 +1,63 @@
+{
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "prepublish:npm": {
+      "dependsOn": [
+        "^prepublish:npm"
+      ]
+    },
+    "publish:npm": {
+      "dependsOn": [
+        "^publish:npm"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ],
+      "cache": true
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ],
+      "cache": true
+    },
+    "prepublish": {
+      "dependsOn": [
+        "^prepublish"
+      ]
+    },
+    "prepare": {
+      "dependsOn": [
+        "^prepare"
+      ]
+    }
+  },
+  "affected": {
+    "defaultBase": "develop"
+  },
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "sharedGlobals": [],
+    "production": [
+      "default"
+    ]
+  }
+}

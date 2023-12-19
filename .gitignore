@@ -70,3 +70,6 @@ testing/
 **/testing*/
 packages/cli
 samples/todo
+
+
+.nx/cache

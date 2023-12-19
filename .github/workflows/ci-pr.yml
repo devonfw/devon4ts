@@ -41,8 +41,8 @@ jobs:
       - name: build
         run: |
           cd packages/common
-          yarn install
-          yarn run build
+          pnpm install --no-frozen-lockfile
+          pnpm run build
 
   # JOB to build config code
   config:
@@ -55,8 +55,8 @@ jobs:
       - name: build
         run: |
           cd packages/config
-          yarn install
-          yarn run build
+          pnpm install --no-frozen-lockfile
+          pnpm run build
 
   # JOB to build mailer code
   mailer:
@@ -69,8 +69,8 @@ jobs:
       - name: build
         run: |
           cd packages/mailer
-          yarn install
-          yarn run build
+          pnpm install --no-frozen-lockfile
+          pnpm run build
 
   # JOB to build schematics code
   schematics:
@@ -83,5 +83,5 @@ jobs:
       - name: build
         run: |
           cd packages/schematics
-          yarn install
-          yarn run build
+          pnpm install --no-frozen-lockfile
+          pnpm run build
