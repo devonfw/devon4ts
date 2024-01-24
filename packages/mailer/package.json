@@ -1,23 +1,6 @@
 {
   "name": "@devon4ts_node/mailer",
-  "version": "5.0.1",
-  "description": "devon4ts_node module that allows you to send emails in a easy way.",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepublish:npm": "npm run build",
-    "publish:npm": "npm publish --access public",
-    "prepublish:next": "npm run build",
-    "publish:next": "npm publish --access public --tag next",
-    "test": "jest",
-    "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint lib/**/*.ts --fix"
-  },
-  "keywords": [
-    "nestjs",
-    "devon4ts_node",
-    "devonfw"
-  ],
+  "version": "6.0.0",
   "author": {
     "name": "Capgemini",
     "url": "https://www.capgemini.com/"
@@ -25,17 +8,25 @@
   "contributors": [
     "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
   ],
+  "keywords": [
+    "nestjs",
+    "devon4ts_node",
+    "devonfw"
+  ],
+  "description": "devon4ts_node module that allows you to send emails in a easy way.",
+  "main": "./dist/index.js",
   "license": "Apache-2.0",
   "dependencies": {
-    "fs-extra": "^10.1.0",
-    "nodemailer": "^6.7.5"
+    "fs-extra": "^11.2.0",
+    "nodemailer": "^6.9.8",
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.0.0",
-    "@nestjs/core": "^9.0.0",
-    "handlebars": "^4.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.0.0"
+    "@nestjs/common": "^10.3.1",
+    "@nestjs/core": "^10.3.1",
+    "handlebars": "^4.7.8",
+    "reflect-metadata": "^0.1.14",
+    "rxjs": "^7.8.1"
   },
   "repository": {
     "type": "git",
@@ -62,5 +53,9 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   },
-  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
+  "type": "commonjs",
+  "typings": "./src/index.d.ts",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4"
+  }
 }
