@@ -1,10 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": false,
+    "noImplicitThis": false,
+    "types": ["node", "jest"]
   },
   "files": [],
-  "include": [],
+  "include": ["./lib/**/*", "./test/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"
