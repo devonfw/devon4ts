@@ -1,25 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "rootDir": "src/",
     "outDir": "./src/",
     "baseUrl": "./",
     "sourceMap": true,
     "incremental": false,
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"]
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/lib/**/files/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/lib/**/files/**/*"]
 }
