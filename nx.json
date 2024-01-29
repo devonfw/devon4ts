@@ -1,4 +1,6 @@
 {
+  "npmScope": "@devon4ts_node",
+  "plugins": ["@devon4ts_node/mailer"],
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
