@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "AuthJwt",
-  "title": "",
+  "$id": "AuthSchematic",
+  "title": "Auth JWT Schema",
   "type": "object",
   "properties": {
     "name": {

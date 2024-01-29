@@ -1,18 +1,25 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Controller",
-  "title": "",
+  "$id": "ControllerSchema",
+  "title": "Controller Schema",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "The name of the controller.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use for the controller?"
+    },
+    "spec": {
+      "default": true,
+      "type": "boolean",
+      "description": "Specifies if a spec file is generated."
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

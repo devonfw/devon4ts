@@ -1,16 +1,25 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "lib": ["es2018", "dom"],
+    "rootDir": "src/",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "sourceMap": false,
+    "incremental": false,
+    "noImplicitThis": false,
+    "types": ["jest", "node"],
   },
-  "files": [],
-  "include": [],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/lib/**/files/**/*"],
   "references": [
     {
-      "path": "./tsconfig.lib.json"
+      "path": "./tsconfig.lib.json",
     },
     {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+      "path": "./tsconfig.spec.json",
+    },
+  ],
 }
