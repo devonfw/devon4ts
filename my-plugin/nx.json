@@ -1,32 +1,19 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
+      "cache": true,
       "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"],
-      "cache": true
-    },
-    "prepublish:npm": {
-      "dependsOn": ["^prepublish:npm"]
-    },
-    "publish:npm": {
-      "dependsOn": ["^publish:npm"]
-    },
-    "test": {
-      "dependsOn": ["^test"],
-      "cache": true
-    },
-    "format": {
-      "dependsOn": ["^format"]
+      "inputs": ["production", "^production"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
-      "cache": true
-    },
-    "prepublish": {
-      "dependsOn": ["^prepublish"]
-    },
-    "prepare": {
-      "dependsOn": ["^prepare"]
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.js"
+      ]
     },
     "@nx/jest:jest": {
       "cache": true,
@@ -42,19 +29,19 @@
       }
     }
   },
-  "affected": {
-    "defaultBase": "develop"
-  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
     "production": [
       "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
-    ]
-  }
+    ],
+    "sharedGlobals": []
+  },
+  "nxCloudAccessToken": "YzY4MGQ3MzItNGU2Ny00MzQwLTg4MzgtODhlYTZjZmEyZTMwfHJlYWQtd3JpdGU="
 }

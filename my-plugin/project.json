@@ -1,0 +1,67 @@
+{
+  "name": "my-plugin",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/my-plugin",
+        "main": "./src/index.ts",
+        "tsConfig": "./tsconfig.lib.json",
+        "assets": [
+          "*.md",
+          {
+            "input": "./src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": ".",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs my-plugin {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "local-registry": {
+      "executor": "@nx/js:verdaccio",
+      "options": {
+        "port": 4873,
+        "config": ".verdaccio/config.yml",
+        "storage": "tmp/local-registry/storage"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./src", "{projectRoot}/package.json", "./package.json"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "options": {
+        "jestConfig": "jest.config.lib.ts"
+      }
+    }
+  },
+  "tags": []
+}

@@ -18,12 +18,10 @@
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"],
+    "paths": {
+      "@devon4ts_node/common": ["packages/common/src/index.ts"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

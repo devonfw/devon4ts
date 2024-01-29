@@ -1,15 +1,24 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "noImplicitAny": true,
+    "module": "commonjs",
     "sourceMap": false,
-    "incremental": false,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "incremental": false,
+    "noImplicitThis": false,
+    "types": ["node", "jest"],
+    "noImplicitAny": true,
+
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "./**/*.spec.ts"
+  "files": [],
+  "include": ["./decorators/**/*", "./pagination/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
   ]
 }

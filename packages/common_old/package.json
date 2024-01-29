@@ -1,7 +1,6 @@
 {
   "name": "@devon4ts_node/common",
   "version": "5.0.1",
-  "type": "commonjs",
   "description": "devon4ts_node common library.",
   "main": "dist/index.js",
   "scripts": {
@@ -13,9 +12,6 @@
     "test": "jest --passWithNoTests",
     "format": "prettier --write \"**/*.ts\"",
     "lint": "eslint serializer/**/*.ts --fix"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
   },
   "keywords": [
     "nestjs",
