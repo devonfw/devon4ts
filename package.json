@@ -19,6 +19,7 @@
     "@nx/devkit": "17.2.8",
     "@nx/plugin": "^17.2.8",
     "@swc/helpers": "~0.5.2",
+    "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.7.1",
     "triple-beam": "^1.4.1",
