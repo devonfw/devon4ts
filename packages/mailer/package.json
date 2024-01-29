@@ -14,7 +14,7 @@
     "devonfw"
   ],
   "description": "devon4ts_node module that allows you to send emails in an easy way.",
-  "main": "./src/index.js",
+  "main": "./src/lib/index.js",
   "license": "Apache-2.0",
   "dependencies": {
     "fs-extra": "^11.2.0",

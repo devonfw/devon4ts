@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/mailer",
-        "main": "packages/mailer/src/index.ts",
+        "main": "packages/mailer/src/lib/index.ts",
         "tsConfig": "packages/mailer/tsconfig.lib.json",
         "assets": [
           "packages/mailer/*.md",

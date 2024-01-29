@@ -20,7 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
     "paths": {
-      "@devon4ts_node/mailer": ["packages/mailer/src/index.ts"]
+      "@devon4ts_node/mailer": ["packages/mailer/src/lib/index.ts"]
     }
   },
   "exclude": ["node_modules", "dist"]

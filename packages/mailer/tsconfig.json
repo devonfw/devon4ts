@@ -7,7 +7,7 @@
     "noImplicitThis": false,
     "types": ["node", "jest"]
   },
-  "include": ["./lib/**/*", "./test/**/*"],
+  "include": ["./src/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"
