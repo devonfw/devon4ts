@@ -8,15 +8,15 @@ describe('Controller Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', join(process.cwd(), 'src/collection.json'));
 
   it('should throw an error if not executed at project root folder', done => {
-    runner.runSchematic('controller', { name: 'controller' }).then(
-      () => {
+    runner
+      .runSchematic('controller', { name: 'controller' })
+      .then(() => {
         fail();
-      },
-      error => {
+      })
+      .catch(error => {
         expect(error).toStrictEqual(new Error('You must run the schematic at devon4ts_node project root folder.'));
         done();
-      },
-    );
+      });
   });
 
   it('should generate the controller files the current app', async () => {

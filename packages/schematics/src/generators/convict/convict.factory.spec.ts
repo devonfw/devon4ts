@@ -5,15 +5,15 @@ describe('Convict Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', join(process.cwd(), 'src/collection.json'));
 
   it('should throw an error if not executed at project root folder', done => {
-    runner.runSchematic('convict', {}).then(
-      () => {
+    runner
+      .runSchematic('convict', {})
+      .then(() => {
         fail();
-      },
-      error => {
+      })
+      .catch(error => {
         expect(error).toStrictEqual(new Error('You must run the schematic at devon4ts_node project root folder.'));
         done();
-      },
-    );
+      });
   });
 
   it('should generate all files to configure convict in the project', async () => {

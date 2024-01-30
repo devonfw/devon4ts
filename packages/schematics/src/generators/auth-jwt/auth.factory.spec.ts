@@ -1,6 +1,6 @@
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { Idevon4ts_nodeApplicationOptions } from '../devon4ts-node-application/devon4ts-node-application.factory';
+import { Idevon4ts_nodeApplicationOptions } from '../devon4ts_node-application/devon4ts_node-application.factory';
 import { describe, it } from 'node:test';
 
 describe('Auth Factory', () => {
