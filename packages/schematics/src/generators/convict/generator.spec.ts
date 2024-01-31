@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { convictGenerator } from './generator';
 import { ConvictGeneratorSchema } from './schema';
 

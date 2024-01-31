@@ -60,7 +60,7 @@ describe('UserService', () => {
         username: 'user3',
         password: 'user3',
       };
-      await expect(service.registerUser(userToAdd)).rejects.toThrowError('User already exists');
+      await expect(service.registerUser(userToAdd)).rejects.toThrow('User already exists');
     });
   });
 });

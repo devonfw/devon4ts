@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { guardGenerator } from './generator';
 import { GuardGeneratorSchema } from './schema';
 

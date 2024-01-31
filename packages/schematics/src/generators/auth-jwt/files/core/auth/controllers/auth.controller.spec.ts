@@ -44,9 +44,9 @@ describe('Auth Controller', () => {
       };
       const value = await controller.login(user, mockResponse);
       expect(value).toBeUndefined();
-      expect(mockResponse.status).toBeCalledWith(200);
-      expect(sendMock.send).toBeCalledWith();
-      expect(mockResponse.setHeader).toBeCalledWith('Authorization', 'Bearer THISISNOTAJWTTOKEN');
+      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(sendMock.send).toHaveBeenCalledWith();
+      expect(mockResponse.setHeader).toHaveBeenCalledWith('Authorization', 'Bearer THISISNOTAJWTTOKEN');
     });
     it('should throw an error when the username or password are not correct', async () => {
       await expect(

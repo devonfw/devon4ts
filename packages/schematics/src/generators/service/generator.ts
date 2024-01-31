@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { ServiceGeneratorSchema } from './schema';
 
-export async function serviceGenerator(tree: Tree, options: ServiceGeneratorSchema) {
+export async function serviceGenerator(tree: Tree, options: ServiceGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

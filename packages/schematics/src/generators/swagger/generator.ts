@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { SwaggerGeneratorSchema } from './schema';
 
-export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema) {
+export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

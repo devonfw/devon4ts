@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { ControllerGeneratorSchema } from './schema';
 
-export async function controllerGenerator(tree: Tree, options: ControllerGeneratorSchema) {
+export async function controllerGenerator(tree: Tree, options: ControllerGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

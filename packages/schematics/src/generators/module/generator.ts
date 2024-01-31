@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { ModuleGeneratorSchema } from './schema';
 
-export async function moduleGenerator(tree: Tree, options: ModuleGeneratorSchema) {
+export async function moduleGenerator(tree: Tree, options: ModuleGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { MailerGeneratorSchema } from './schema';
 
-export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema) {
+export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { SecurityGeneratorSchema } from './schema';
 
-export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema) {
+export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

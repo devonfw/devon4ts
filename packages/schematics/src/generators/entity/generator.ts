@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { EntityGeneratorSchema } from './schema';
 
-export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema) {
+export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

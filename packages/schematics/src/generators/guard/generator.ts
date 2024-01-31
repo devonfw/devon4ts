@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { GuardGeneratorSchema } from './schema';
 
-export async function guardGenerator(tree: Tree, options: GuardGeneratorSchema) {
+export async function guardGenerator(tree: Tree, options: GuardGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

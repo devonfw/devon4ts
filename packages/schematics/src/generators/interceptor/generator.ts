@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { InterceptorGeneratorSchema } from './schema';
 
-export async function interceptorGenerator(tree: Tree, options: InterceptorGeneratorSchema) {
+export async function interceptorGenerator(tree: Tree, options: InterceptorGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

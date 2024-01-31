@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { PipeGeneratorSchema } from './schema';
 
-export async function pipeGenerator(tree: Tree, options: PipeGeneratorSchema) {
+export async function pipeGenerator(tree: Tree, options: PipeGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

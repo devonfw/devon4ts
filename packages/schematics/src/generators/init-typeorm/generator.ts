@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { InitTypeormGeneratorSchema } from './schema';
 
-export async function initTypeormGenerator(tree: Tree, options: InitTypeormGeneratorSchema) {
+export async function initTypeormGenerator(tree: Tree, options: InitTypeormGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

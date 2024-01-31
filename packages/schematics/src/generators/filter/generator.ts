@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { FilterGeneratorSchema } from './schema';
 
-export async function filterGenerator(tree: Tree, options: FilterGeneratorSchema) {
+export async function filterGenerator(tree: Tree, options: FilterGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

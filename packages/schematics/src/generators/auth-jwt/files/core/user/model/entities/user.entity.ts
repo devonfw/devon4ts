@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity } from 'typeorm';
-
 import { BaseEntity } from '../../../../../../init-typeorm/files/src/app/shared/model/entities/base.entity';
 import { roles } from '../../../auth/model/roles.enum';
 

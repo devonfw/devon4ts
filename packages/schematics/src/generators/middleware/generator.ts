@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { MiddlewareGeneratorSchema } from './schema';
 
-export async function middlewareGenerator(tree: Tree, options: MiddlewareGeneratorSchema) {
+export async function middlewareGenerator(tree: Tree, options: MiddlewareGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

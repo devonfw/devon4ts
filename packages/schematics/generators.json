@@ -1,4 +1,7 @@
 {
+  "$schema": "http://json-schema.org/schema",
+  "name": "@devon4ts_node/schematics",
+  "version": "5.0.1",
   "generators": {
     "controller": {
       "factory": "./src/generators/controller/generator",

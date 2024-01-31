@@ -2,7 +2,7 @@ import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/d
 import * as path from 'path';
 import { RepositoryGeneratorSchema } from './schema';
 
-export async function repositoryGenerator(tree: Tree, options: RepositoryGeneratorSchema) {
+export async function repositoryGenerator(tree: Tree, options: RepositoryGeneratorSchema): Promise<void> {
   const projectRoot = `libs/${options.name}`;
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

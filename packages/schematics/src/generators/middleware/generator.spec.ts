@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { middlewareGenerator } from './generator';
 import { MiddlewareGeneratorSchema } from './schema';
 
