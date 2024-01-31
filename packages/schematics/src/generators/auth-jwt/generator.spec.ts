@@ -6,7 +6,7 @@ import { AuthJwtGeneratorSchema } from './schema';
 
 describe('auth-jwt generator', () => {
   let tree: Tree;
-  const options: AuthJwtGeneratorSchema = { name: 'test' };
+  const options: AuthJwtGeneratorSchema = { name: 'test', description: 'description' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();

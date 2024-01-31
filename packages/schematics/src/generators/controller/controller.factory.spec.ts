@@ -2,7 +2,6 @@ import { normalize } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 import { IControllerOptions } from './controller.factory';
-import { describe, it } from 'node:test';
 
 describe('Controller Factory', () => {
   const runner: SchematicTestRunner = new SchematicTestRunner('.', join(process.cwd(), 'src/collection.json'));

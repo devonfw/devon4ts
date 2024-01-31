@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { UserRepositoryMock } from '../../../test/user/user.repository.mock';
 import { plainToClass } from 'class-transformer';
 import { User } from '../model/entities/user.entity';
-import { describe, it } from 'node:test';
 
 describe('UserService', () => {
   let service: UserService;

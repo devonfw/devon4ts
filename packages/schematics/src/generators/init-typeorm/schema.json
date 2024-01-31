@@ -1,18 +1,25 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "InitTypeorm",
-  "title": "",
+  "$id": "InitTypeormSchematic",
+  "title": "Init Typeorm Schema",
   "type": "object",
   "properties": {
-    "name": {
+    "db": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?"
+      "enum": [
+        "postgres",
+        "cockroachdb",
+        "mariadb",
+        "mysql",
+        "sqlite",
+        "oracle",
+        "mssql",
+        "mongodb"
+      ],
+      "x-prompt": "What kind of database do you want to use?"
     }
   },
-  "required": ["name"]
+  "required": [
+    "db"
+  ]
 }

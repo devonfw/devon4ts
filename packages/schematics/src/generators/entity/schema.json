@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Entity",
-  "title": "",
+  "$id": "EntitySchematic",
+  "title": "Entity Schema",
   "type": "object",
   "properties": {
     "name": {

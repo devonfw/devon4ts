@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { pipeGenerator } from './generator';
 import { PipeGeneratorSchema } from './schema';
 

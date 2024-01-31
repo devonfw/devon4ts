@@ -1,18 +1,16 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Repository",
-  "title": "",
+  "$id": "RespositorySchematic",
+  "title": "Respository Schema",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?"
+      "description": "The repository name. If the entity do not exists, it will also create it. To create crud with name Banana in the module fruits you need to introduce fruits/banana",
+      "x-prompt": "Introduce the crud name"
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

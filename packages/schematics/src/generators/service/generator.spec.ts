@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { serviceGenerator } from './generator';
 import { ServiceGeneratorSchema } from './schema';
 
