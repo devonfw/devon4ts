@@ -5,7 +5,7 @@ import { ServiceGeneratorSchema } from './schema';
 
 describe('service generator', () => {
   let tree: Tree;
-  const options: ServiceGeneratorSchema = { name: 'test' };
+  const options: ServiceGeneratorSchema = { name: 'test', project: 'test' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();

@@ -1,16 +1,16 @@
-import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/devkit';
+import { formatFiles, generateFiles, Tree } from '@nx/devkit';
 import * as path from 'path';
 import { ServiceGeneratorSchema } from './schema';
 
 export async function serviceGenerator(tree: Tree, options: ServiceGeneratorSchema): Promise<void> {
-  const projectRoot = `libs/${options.name}`;
-  addProjectConfiguration(tree, options.name, {
-    root: projectRoot,
-    projectType: 'library',
-    sourceRoot: `${projectRoot}/src`,
-    targets: {},
+  function classify(val: string): string {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
+  const projectRoot = `apps/${options.project}/src/app/${options.name}`;
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    classify,
+    ...options,
   });
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
 }
 

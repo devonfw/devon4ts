@@ -6,19 +6,22 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the service.",
+      "description": "name fo the service",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use for the service?"
+      "x-prompt": "What name would you like to use?"
     },
-    "spec": {
-      "default": true,
-      "description": "Specifies if a spec file is generated."
+    "project": {
+      "type": "string",
+      "description": "Target application where the service is going to be created",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name", "project"]
 }
