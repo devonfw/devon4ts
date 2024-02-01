@@ -15,12 +15,12 @@
     },
     "project": {
       "type": "string",
-      "description": "Target application where the service is going to be created",
+      "description": "Target application where the service is going to be created.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What application would you like to modify?"
     }
   },
   "required": ["name", "project"]
