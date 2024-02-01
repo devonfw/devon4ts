@@ -1,16 +1,14 @@
-import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/devkit';
+import { formatFiles, generateFiles, Tree } from '@nx/devkit';
 import * as path from 'path';
 import { ControllerGeneratorSchema } from './schema';
+import { classify } from '../../utils/index';
 
 export async function controllerGenerator(tree: Tree, options: ControllerGeneratorSchema): Promise<void> {
-  const projectRoot = `libs/${options.name}`;
-  addProjectConfiguration(tree, options.name, {
-    root: projectRoot,
-    projectType: 'library',
-    sourceRoot: `${projectRoot}/src`,
-    targets: {},
+  const projectRoot = `apps/${options.project}/src/app/${options.name}`;
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    classify,
+    ...options,
   });
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
 }
 

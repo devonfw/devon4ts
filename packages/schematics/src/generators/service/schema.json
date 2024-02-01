@@ -6,12 +6,12 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "name fo the service",
+      "description": "The name of the service.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use for the service?"
     },
     "project": {
       "type": "string",

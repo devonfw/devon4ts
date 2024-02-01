@@ -5,7 +5,7 @@ import { ControllerGeneratorSchema } from './schema';
 
 describe('controller generator', () => {
   let tree: Tree;
-  const options: ControllerGeneratorSchema = { name: 'test' };
+  const options: ControllerGeneratorSchema = { name: 'test', project: 'test' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
