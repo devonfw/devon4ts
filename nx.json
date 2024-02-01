@@ -1,36 +1,62 @@
 {
+  "npmScope": "@devon4ts_node",
+  "plugins": [
+    "@devon4ts_node/common"
+  ],
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
       "cache": true
     },
     "prepublish:npm": {
-      "dependsOn": ["^prepublish:npm"]
+      "dependsOn": [
+        "^prepublish:npm"
+      ]
     },
     "publish:npm": {
-      "dependsOn": ["^publish:npm"]
+      "dependsOn": [
+        "^publish:npm"
+      ]
     },
     "test": {
-      "dependsOn": ["^test"],
+      "dependsOn": [
+        "^test"
+      ],
       "cache": true
     },
     "format": {
-      "dependsOn": ["^format"]
+      "dependsOn": [
+        "^format"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"],
+      "dependsOn": [
+        "^lint"
+      ],
       "cache": true
     },
     "prepublish": {
-      "dependsOn": ["^prepublish"]
+      "dependsOn": [
+        "^prepublish"
+      ]
     },
     "prepare": {
-      "dependsOn": ["^prepare"]
+      "dependsOn": [
+        "^prepare"
+      ]
     },
     "@nx/jest:jest": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ],
       "options": {
         "passWithNoTests": true
       },
@@ -46,7 +72,10 @@
     "defaultBase": "develop"
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "sharedGlobals": [],
     "production": [
       "default",
