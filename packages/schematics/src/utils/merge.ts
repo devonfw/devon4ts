@@ -1,5 +1,6 @@
 import { extname } from '@angular-devkit/core';
-import { FileEntry, forEach, Tree, Rule } from '@angular-devkit/schematics';
+import { FileEntry, forEach, Rule } from '@angular-devkit/schematics';
+import { Tree } from '@nx/devkit';
 import { dump, load } from 'js-yaml';
 import { cloneDeep, defaultsDeep, isPlainObject } from 'lodash';
 import { basename } from 'path';
@@ -28,7 +29,7 @@ function assignDeep(target: any, ...args: any[]): any {
 export function mergeJsonFile(tree: Tree, fileEntry: FileEntry): FileEntry | null {
   if (tree.exists(fileEntry.path)) {
     if (extname(fileEntry.path) === '.json' || basename(fileEntry.path) === '.prettierrc') {
-      tree.overwrite(
+      tree.write(
         fileEntry.path,
         JSON.stringify(
           assignDeep(
@@ -50,7 +51,7 @@ export function mergeJsonFile(tree: Tree, fileEntry: FileEntry): FileEntry | nul
 export function mergeYmlFile(tree: Tree, fileEntry: FileEntry): FileEntry | null {
   if (tree.exists(fileEntry.path)) {
     if (extname(fileEntry.path) === '.yml' || extname(fileEntry.path) === '.yaml') {
-      tree.overwrite(
+      tree.write(
         fileEntry.path,
         dump(
           defaultsDeep(load(fileEntry.content.toString('utf-8')), load(tree.read(fileEntry.path)!.toString('utf-8'))),

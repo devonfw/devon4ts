@@ -24,26 +24,26 @@ export interface BaseNestOptions {
   language?: string;
 }
 
-export function formatTsFile(content: string): string {
-  return format(content, PRETTIER_DEFAULT_OPTS);
-}
+// export function formatTsFile(content: string): string {
+//   return format(content, PRETTIER_DEFAULT_OPTS);
+// }
 
-export function formatTsFiles(): Rule {
-  return forEach((fileEntry: FileEntry) => {
-    if (
-      !fileEntry.path.startsWith('/node_modules') &&
-      !fileEntry.path.startsWith('/dist') &&
-      fileEntry.path.endsWith('.ts')
-    ) {
-      return {
-        path: fileEntry.path,
-        content: Buffer.from(formatTsFile(fileEntry.content.toString())),
-      };
-    }
+// export function formatTsFiles(): Rule {
+//   return forEach((fileEntry: FileEntry) => {
+//     if (
+//       !fileEntry.path.startsWith('/node_modules') &&
+//       !fileEntry.path.startsWith('/dist') &&
+//       fileEntry.path.endsWith('.ts')
+//     ) {
+//       return {
+//         path: fileEntry.path,
+//         content: Buffer.from(formatTsFile(fileEntry.content.toString())),
+//       };
+//     }
 
-    return fileEntry;
-  });
-}
+//     return fileEntry;
+//   });
+// }
 
 export function runningAtRootFolder(tree: Tree): boolean {
   return ['/package.json', '/nest-cli.json', '/tsconfig.json'].map(file => tree.exists(file)).every(exists => exists);
