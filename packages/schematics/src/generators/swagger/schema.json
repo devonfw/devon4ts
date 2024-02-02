@@ -3,5 +3,16 @@
   "$id": "SwaggerSchematic",
   "title": "Swagger Schema",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Target application where Swagger config is going to be created.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What application would you like to modify?"
+    }
+  },
+  "required": ["project"]
 }

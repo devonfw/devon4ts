@@ -1,3 +1,3 @@
 export interface SwaggerGeneratorSchema {
-  name: string;
+  project: string;
 }
