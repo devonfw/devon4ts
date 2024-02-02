@@ -18,7 +18,7 @@ export async function serviceGenerator(tree: Tree, options: ServiceGeneratorSche
   let servicePath = `./${options.name}.service`;
   if (!tree.exists(modulePath)) {
     modulePath = `apps/${options.project}/src/app/app.module.ts`;
-    servicePath = `./dogs/${options.name}.service`;
+    servicePath = `./${options.name}/${options.name}.service`;
   }
   let moduleFile = tree.read(modulePath)!.toString('utf-8');
 
