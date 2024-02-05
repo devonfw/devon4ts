@@ -5,7 +5,7 @@ import { SecurityGeneratorSchema } from './schema';
 
 describe('Security Generator', () => {
   let tree: Tree;
-  const options: SecurityGeneratorSchema = { project: 'test' };
+  const options: SecurityGeneratorSchema = { projectName: 'test' };
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
@@ -23,7 +23,7 @@ describe('Security Generator', () => {
   });
 
   it('should add CORS and helmet to main.ts', async () => {
-    const fileContent = tree.read(`./apps/${options.project}/src/main.ts`)?.toString('utf-8');
+    const fileContent = tree.read(`./apps/${options.projectName}/src/main.ts`)?.toString('utf-8');
     expect(fileContent).toContain('app.enableCors');
     expect(fileContent).toContain(`import helmet from 'helmet'`);
   });

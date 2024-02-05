@@ -4,7 +4,7 @@
   "title": "",
   "type": "object",
   "properties": {
-    "project": {
+    "projectName": {
       "type": "string",
       "description": "",
       "$default": {
@@ -14,5 +14,5 @@
       "x-prompt": "In which project would you like to add security?"
     }
   },
-  "required": ["project"]
+  "required": ["projectName"]
 }
