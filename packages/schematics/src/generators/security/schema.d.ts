@@ -1,3 +1,3 @@
 export interface SecurityGeneratorSchema {
-  name: string;
+  project: string;
 }
