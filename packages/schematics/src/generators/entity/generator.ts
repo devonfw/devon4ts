@@ -1,16 +1,16 @@
-import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/devkit';
+import { addDependenciesToPackageJson, formatFiles, generateFiles, installPackagesTask, Tree } from '@nx/devkit';
 import * as path from 'path';
 import { EntityGeneratorSchema } from './schema';
+import { classify, pluralize } from '../../utils';
 
 export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<void> {
-  const projectRoot = `libs/${options.name}`;
-  addProjectConfiguration(tree, options.name, {
-    root: projectRoot,
-    projectType: 'library',
-    sourceRoot: `${projectRoot}/src`,
-    targets: {},
+  addDependenciesToPackageJson(tree, { 'typeorm': 'latest', '@nestjs/typeorm': 'latest', 'mysql2': 'latest' }, {});
+  const projectRoot = `apps/${options.projectName}/src/app/${pluralize(options.name)}`;
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    classify,
+    ...options,
   });
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+  installPackagesTask(tree, false, '', 'pnpm');
   await formatFiles(tree);
 }
 
