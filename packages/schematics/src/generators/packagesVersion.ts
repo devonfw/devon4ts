@@ -6,7 +6,7 @@ export const packagesVersion: { [k: string]: { packageName: string; packageVersi
   convict: { packageName: 'convict', packageVersion: '^6.2.4' },
   devon4ts_nodeCommon: { packageName: '@devon4ts_node/common', packageVersion: '^5.0.1' },
   devon4ts_nodeLogform: { packageName: '@devon4ts_node/logform', packageVersion: '^5.0.1' },
-  devon4ts_nodeMailer: { packageName: '@devon4ts_node/mailer', packageVersion: '^5.0.1' },
+  devon4ts_nodeMailer: { packageName: '@devon4ts_node/mailer', packageVersion: 'latest' },
   devon4ts_nodeSchematics: { packageName: '@devon4ts_node/schematics', packageVersion: '^5.0.1' },
   eslintPluginPrettier: { packageName: 'eslint-plugin-prettier', packageVersion: '^5.1.3' },
   handlebars: { packageName: 'handlebars', packageVersion: '^4.7.8' },
