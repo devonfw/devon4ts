@@ -9,8 +9,8 @@ export const defaultMailerValues = `{
   },
   emailFrom: 'noreply@example.com',
   hbsOptions: {
-    templatesDir: join(__dirname, '../../..', 'templates/views'),
-    partialsDir: join(__dirname, '../../..', 'templates/partials'),
+    templatesDir: join(__dirname, '../..', 'templates/views'),
+    partialsDir: join(__dirname, '../..', 'templates/partials'),
     helpers: [],
   },
 }`;
@@ -26,8 +26,8 @@ export const mailerValuesFromConfig = `{
   },
   emailFrom: config.mailer.emailFrom,
   hbsOptions: {
-    templatesDir: join(__dirname, '../../..', config.mailer.hbsOptions.templatesDir),
-    partialsDir: join(__dirname, '../../..', config.mailer.hbsOptions.partialsDir),
+    templatesDir: join(__dirname, '../..', config.mailer.hbsOptions.templatesDir),
+    partialsDir: join(__dirname, '../..', config.mailer.hbsOptions.partialsDir),
     helpers: [],
   },
 }`;

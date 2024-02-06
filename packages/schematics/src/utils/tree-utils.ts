@@ -1,4 +1,3 @@
-import { Path } from '@angular-devkit/core';
 import { Tree } from '@nx/devkit';
 
 // const PRETTIER_DEFAULT_OPTS: Options = {
@@ -20,18 +19,6 @@ export interface BaseNestOptions {
   path?: string;
   flat?: boolean;
   language?: string;
-}
-
-export interface FindOptions {
-  name?: string;
-  path: Path;
-  kind?: string;
-}
-export declare class ModuleFinder {
-  private tree;
-  constructor(tree: Tree);
-  find(options: FindOptions): Path | null;
-  private findIn;
 }
 
 // export function formatTsFile(content: string): string {
