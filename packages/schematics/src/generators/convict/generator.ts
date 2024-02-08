@@ -28,15 +28,14 @@ function addConvictToMain(tree: Tree, projectRoot: string): void {
 
   content = content.replace('await app.listen(3000);', 'await app.listen(config.port);');
   content = content.replace("defaultVersion: '1',", 'defaultVersion: config.defaultVersion,');
-
   content = new ASTFileBuilder(content).addDefaultImports('config', './config').build();
 
   if (content) {
-    tree.write('/src/main.ts', content);
+    tree.write(mainPath, content);
   }
 }
 
-function updateLogger(tree: Tree, projectRoot: string) {
+function updateLogger(tree: Tree, projectRoot: string): void {
   const loggerPath = path.join(projectRoot, 'app/shared/logger/winston.logger.ts');
   let content = tree.read(loggerPath)?.toString('utf-8');
 
