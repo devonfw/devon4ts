@@ -1,3 +1,3 @@
 export interface ConvictGeneratorSchema {
-  name: string;
+  projectName: string;
 }

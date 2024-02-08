@@ -3,11 +3,6 @@
   "name": "@devon4ts_node/schematics",
   "version": "5.0.1",
   "generators": {
-    "controller": {
-      "factory": "./src/generators/controller/generator",
-      "schema": "./src/generators/controller/schema.json",
-      "description": "controller generator"
-    },
     "convict": {
       "factory": "./src/generators/convict/generator",
       "schema": "./src/generators/convict/schema.json",
@@ -23,51 +18,19 @@
       "schema": "./src/generators/entity/schema.json",
       "description": "entity generator"
     },
-    "filter": {
-      "factory": "./src/generators/filter/generator",
-      "schema": "./src/generators/filter/schema.json",
-      "description": "filter generator"
-    },
-    "guard": {
-      "factory": "./src/generators/guard/generator",
-      "schema": "./src/generators/guard/schema.json",
-      "description": "guard generator"
-    },
+
     "init-typeorm": {
       "factory": "./src/generators/init-typeorm/generator",
       "schema": "./src/generators/init-typeorm/schema.json",
       "description": "init-typeorm generator"
     },
-    "interceptor": {
-      "factory": "./src/generators/interceptor/generator",
-      "schema": "./src/generators/interceptor/schema.json",
-      "description": "interceptor generator"
-    },
+
     "mailer": {
       "factory": "./src/generators/mailer/generator",
       "schema": "./src/generators/mailer/schema.json",
       "description": "mailer generator"
     },
-    "middleware": {
-      "factory": "./src/generators/middleware/generator",
-      "schema": "./src/generators/middleware/schema.json",
-      "description": "middleware generator"
-    },
-    "module": {
-      "factory": "./src/generators/module/generator",
-      "schema": "./src/generators/module/schema.json",
-      "description": "module generator"
-    },
-    "pipe": {
-      "factory": "./src/generators/pipe/generator",
-      "schema": "./src/generators/pipe/schema.json",
-      "description": "pipe generator"
-    },
-    "repository": {
-      "factory": "./src/generators/repository/generator",
-      "schema": "./src/generators/repository/schema.json",
-      "description": "repository generator"
-    },
+
     "resource": {
       "factory": "./src/generators/resource/generator",
       "schema": "./src/generators/resource/schema.json",
@@ -77,11 +40,6 @@
       "factory": "./src/generators/security/generator",
       "schema": "./src/generators/security/schema.json",
       "description": "security generator"
-    },
-    "service": {
-      "factory": "./src/generators/service/generator",
-      "schema": "./src/generators/service/schema.json",
-      "description": "service generator"
     },
     "swagger": {
       "factory": "./src/generators/swagger/generator",
