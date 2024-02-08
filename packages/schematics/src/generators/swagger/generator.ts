@@ -10,24 +10,26 @@ import {
   swaggerTemplateWithConfig,
 } from './configvalue';
 
-export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<void> {
+export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<() => void> {
   addDependenciesToPackageJson(tree, { '@nestjs/swagger': 'latest' }, {});
   const projectRoot = `apps/${options.projectName}/src`;
   addSwaggerToMain(tree, projectRoot, options);
   updateBaseEntity(tree, projectRoot);
 
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
-  installPackagesTask(tree, true, '', 'pnpm');
   await formatFiles(tree);
+  return () => {
+    installPackagesTask(tree, false, '', 'pnpm');
+  };
 }
 
 export default swaggerGenerator;
 
-function addSwaggerToMain(tree: Tree, projectRoot: string, options: SwaggerGeneratorSchema) {
+function addSwaggerToMain(tree: Tree, projectRoot: string, options: SwaggerGeneratorSchema): void {
   const mainPath = path.join(projectRoot, 'main.ts');
 
   const content = new ASTFileBuilder(tree.read(mainPath)!.toString('utf-8')).addDefaultImports(
-    '{SwaggerModule, DocumentBuilder}',
+    '{ SwaggerModule, DocumentBuilder }',
     '@nestjs/swagger',
   );
   if (existsConvictConfig(tree, options.projectName)) {
@@ -67,7 +69,7 @@ function updateConfigTypeFile(tree: Tree, projectRoot: string): void {
   tree.write(typesFile, typesFileContent);
 }
 
-function updateBaseEntity(tree: Tree, projectRoot: string) {
+function updateBaseEntity(tree: Tree, projectRoot: string): void {
   const baseEntityPath = path.join(projectRoot, 'app/shared/model/entities/base.entity.ts');
 
   if (!tree.exists(baseEntityPath)) {
