@@ -2,7 +2,7 @@ import { addDependenciesToPackageJson, formatFiles, installPackagesTask, Tree } 
 import { SecurityGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 
-export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<void> {
+export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<() => void> {
   addDependenciesToPackageJson(tree, { helmet: 'latest' }, {});
   const projectRoot = `apps/${options.projectName}/src/main.ts`;
   const content = new ASTFileBuilder(tree.read(projectRoot)!.toString('utf-8'))
@@ -18,8 +18,10 @@ export async function securityGenerator(tree: Tree, options: SecurityGeneratorSc
   if (content) {
     tree.write(projectRoot, content);
   }
-  installPackagesTask(tree, false, '', 'pnpm');
   await formatFiles(tree);
+  return () => {
+    installPackagesTask(tree, false, '', 'pnpm');
+  };
 }
 
 export default securityGenerator;

@@ -1,4 +1,4 @@
-import { addDependenciesToPackageJson, generateFiles, installPackagesTask, Tree } from '@nx/devkit';
+import { addDependenciesToPackageJson, installPackagesTask, Tree, generateFiles } from '@nx/devkit';
 import * as path from 'path';
 import { MailerGeneratorSchema } from './schema';
 import { existsConvictConfig } from '../../utils/tree-utils';
@@ -6,12 +6,14 @@ import { Path } from '@angular-devkit/core';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
 
-export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<void> {
+export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
   addDependenciesToPackageJson(tree, { '@devon4ts_node/mailer': 'latest' }, {});
   const projectRoot = `apps/${options.projectName}/src`;
   addMailerToProject(tree, options, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
-  installPackagesTask(tree, false, '', 'pnpm');
+  return () => {
+    installPackagesTask(tree, false, '', 'pnpm');
+  };
 }
 
 export default mailerGenerator;
@@ -22,7 +24,7 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean, projectRoot: s
     return;
   }
 
-  let coreContent = new ASTFileBuilder(tree.read(corePath)!.toString());
+  const coreContent = new ASTFileBuilder(tree.read(corePath)!.toString());
 
   if (coreContent.build().includes('MailerModule')) {
     return;
