@@ -1,3 +1,4 @@
 export interface InitTypeormGeneratorSchema {
-  name: string;
+  projectName: string;
+  db: string;
 }
