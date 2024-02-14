@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
 import { INQUIRER } from '@nestjs/core';
 import * as winston from 'winston';

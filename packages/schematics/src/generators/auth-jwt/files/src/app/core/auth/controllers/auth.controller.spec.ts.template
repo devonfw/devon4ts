@@ -39,14 +39,17 @@ describe('Auth Controller', () => {
       };
       const mockResponse: any = {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        status: jest.fn().mockImplementation(_x => sendMock),
+        status: jest.fn().mockImplementation((_x) => sendMock),
         setHeader: jest.fn(),
       };
       const value = await controller.login(user, mockResponse);
       expect(value).toBeUndefined();
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(sendMock.send).toHaveBeenCalledWith();
-      expect(mockResponse.setHeader).toHaveBeenCalledWith('Authorization', 'Bearer THISISNOTAJWTTOKEN');
+      expect(mockResponse.setHeader).toHaveBeenCalledWith(
+        'Authorization',
+        'Bearer THISISNOTAJWTTOKEN'
+      );
     });
     it('should throw an error when the username or password are not correct', async () => {
       await expect(
@@ -56,8 +59,8 @@ describe('Auth Controller', () => {
             password: 'user1',
           },
           // response not needed
-          {} as any,
-        ),
+          {} as any
+        )
       ).rejects.toThrow(UnauthorizedException);
     });
   });
@@ -69,7 +72,7 @@ describe('Auth Controller', () => {
           username: 'user2',
           password: 'user2',
           role: 1,
-        } as any),
+        } as any)
       ).resolves.toEqual({ username: 'user2', role: 1 });
     });
     it('should throw an error when user already exists', async () => {
@@ -78,7 +81,7 @@ describe('Auth Controller', () => {
           username: 'user1',
           password: 'user1',
           role: 1,
-        } as any),
+        } as any)
       ).rejects.toThrow(BadRequestException);
     });
   });

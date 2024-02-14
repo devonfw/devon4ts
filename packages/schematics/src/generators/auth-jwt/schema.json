@@ -1,10 +1,10 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "$id": "AuthSchematic",
-  "title": "Auth JWT Schema",
+  "$schema": "https://json-schema.org/schema",
+  "$id": "AuthJwt",
+  "title": "",
   "type": "object",
   "properties": {
-    "name": {
+    "projectName": {
       "type": "string",
       "description": "",
       "$default": {
@@ -14,5 +14,5 @@
       "x-prompt": "What name would you like to use?"
     }
   },
-  "required": ["name"]
+  "required": ["projectName"]
 }

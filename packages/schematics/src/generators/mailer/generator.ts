@@ -7,7 +7,7 @@ import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { '@devon4ts_node/mailer': 'latest' }, {});
+  addDependenciesToPackageJson(tree, { '@devon4ts_node/mailer': 'latest', 'handlebars': '^4.7.8' }, {});
   const projectRoot = `apps/${options.projectName}/src`;
   addMailerToProject(tree, options, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);

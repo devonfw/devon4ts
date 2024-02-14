@@ -1,4 +1,4 @@
-import { User } from '../../core/user/model/entities/user.entity';
+import { User } from '../../src/app/core/user/model/entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 export class AuthServiceMock {
   private user: Partial<User> = {

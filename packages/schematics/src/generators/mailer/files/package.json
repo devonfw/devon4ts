@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "<%= packagesVersion.devon4ts_nodeMailer.packageName %>": "<%= packagesVersion.devon4ts_nodeMailer.packageVersion %>",
-    "<%= packagesVersion.handlebars.packageName %>": "<%= packagesVersion.handlebars.packageVersion %>"
-  }
-}

@@ -25,7 +25,7 @@ describe('RolesGuard', () => {
     let guard: RolesGuard;
     beforeEach(async () => {
       const reflector = new Reflector();
-      // tslint:disable-next-line: variable-name
+      //lint:disable-next-line: variable-name
       jest
         .spyOn(reflector, 'get')
         .mockImplementationOnce(() => [roles.USER])
@@ -35,19 +35,25 @@ describe('RolesGuard', () => {
       guard = new RolesGuard(reflector);
     });
     it('should return true when the role of the user is in the roles array reflected by the handler or class', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(roles.USER);
+      const mockExecutionContext: any = generateMockExecutionContext(
+        roles.USER
+      );
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(false);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
     });
     it('should return false when the role of the user is not in the roles array reflected by the handler or class', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(roles.ADMIN);
+      const mockExecutionContext: any = generateMockExecutionContext(
+        roles.ADMIN
+      );
       expect(guard.canActivate(mockExecutionContext as any)).toBe(false);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
       expect(guard.canActivate(mockExecutionContext as any)).toBe(true);
     });
     it('should return true if no role metadata is defined', () => {
-      const mockExecutionContext: any = generateMockExecutionContext(roles.ADMIN);
+      const mockExecutionContext: any = generateMockExecutionContext(
+        roles.ADMIN
+      );
       guard.canActivate(mockExecutionContext as any);
       guard.canActivate(mockExecutionContext as any);
       guard.canActivate(mockExecutionContext as any);

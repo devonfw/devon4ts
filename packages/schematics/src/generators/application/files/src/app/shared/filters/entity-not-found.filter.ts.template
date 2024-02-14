@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, Optional } from '@nestjs/common';
 import { Response } from 'express';
-import { EntityNotFound } from '../exceptions/entity-not-found.exception.ts';
-import { WinstonLogger } from '../logger/winston.logger.ts';
+import { EntityNotFound } from '../exceptions/entity-not-found.exception';
+import { WinstonLogger } from '../logger/winston.logger';
 
 @Catch(EntityNotFound)
 export class EntityNotFoundFilter implements ExceptionFilter {
