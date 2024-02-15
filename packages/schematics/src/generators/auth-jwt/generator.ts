@@ -10,27 +10,27 @@ import * as path from 'path';
 import { AuthJwtGeneratorSchema } from './schema';
 import { existsConvictConfig } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { packagesVersion } from '../packagesVersion';
 
 export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSchema): Promise<() => void> {
   const projectRoot = `apps/${options.projectName}`;
   addDependenciesToPackageJson(
     tree,
     {
-      'typeorm': 'latest',
-      'bcrypt': 'latest',
-      '@nestjs/typeorm': 'latest',
-      '@nestjs/jwt': 'latest',
-      '@nestjs/passport': 'latest',
-      '@nestjs/swagger': 'latest',
-      'lodash': 'latest',
-      'passport': 'latest',
-      'passport-jwt': 'latest',
+      [packagesVersion['typeorm'].name]: packagesVersion['typeorm'].version,
+      [packagesVersion['bcrypt'].name]: packagesVersion['bcrypt'].version,
+      [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
+      [packagesVersion['nestjsPassport'].name]: packagesVersion['nestjsPassport'].version,
+      [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version,
+      [packagesVersion['lodash'].name]: packagesVersion['lodash'].version,
+      [packagesVersion['passport'].name]: packagesVersion['passport'].version,
+      [packagesVersion['passportJwt'].name]: packagesVersion['passportJwt'].version,
     },
     {
-      '@types/bcrypt': 'latest',
-      '@types/lodash': 'latest',
-      '@types/passport': 'latest',
-      '@types/passport-jwt': 'latest',
+      [packagesVersion['typesBcrypt'].name]: packagesVersion['typesBcrypt'].version,
+      [packagesVersion['typesLodash'].name]: packagesVersion['typesLodash'].version,
+      [packagesVersion['typesPassport'].name]: packagesVersion['typesPassport'].version,
+      [packagesVersion['typesPassportJwt'].name]: packagesVersion['typesPassportJwt'].version,
     },
   );
   const config: boolean = existsConvictConfig(tree, options.projectName);
