@@ -13,7 +13,7 @@ import { execSync } from 'child_process';
 import { stdout } from 'process';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
-  const projectRoot = `./apps/${options.projectName}/`;
+  const projectRoot = `./apps/${options.projectName}`;
   if (tree.exists(projectRoot)) {
     throw new Error('Application already exists');
   }
