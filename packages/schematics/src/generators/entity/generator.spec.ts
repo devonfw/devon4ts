@@ -3,7 +3,7 @@ import { Tree, readProjectConfiguration } from '@nx/devkit';
 
 import { entityGenerator } from './generator';
 import { EntityGeneratorSchema } from './schema';
-import { pluralize } from '../../utils';
+import pluralize from 'pluralize';
 
 describe('entity generator', () => {
   let tree: Tree;

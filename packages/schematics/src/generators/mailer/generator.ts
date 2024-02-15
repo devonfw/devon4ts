@@ -2,7 +2,6 @@ import { addDependenciesToPackageJson, installPackagesTask, Tree, generateFiles 
 import * as path from 'path';
 import { MailerGeneratorSchema } from './schema';
 import { existsConvictConfig } from '../../utils/tree-utils';
-import { Path } from '@angular-devkit/core';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
 
@@ -54,7 +53,7 @@ function addMailerToProject(tree: Tree, options: MailerGeneratorSchema, projectR
   }
 
   addMailerToCoreModule(tree, true, projectRoot);
-  const typesFile: Path = `${projectRoot}/config.ts` as Path;
+  const typesFile = `${projectRoot}/config.ts`;
 
   const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
     .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigType)
