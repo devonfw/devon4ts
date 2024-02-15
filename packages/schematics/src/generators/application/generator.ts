@@ -14,7 +14,7 @@ import { stdout } from 'process';
 import { packagesVersion } from '../packagesVersion';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
-  const projectRoot = `./apps/${options.projectName}/`;
+  const projectRoot = `./apps/${options.projectName}`;
   if (tree.exists(projectRoot)) {
     throw new Error('Application already exists');
   }
