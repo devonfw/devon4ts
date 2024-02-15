@@ -11,7 +11,7 @@
       "schema": "./generators/entity/schema.json"
     },
     "convict": {
-      "description": "Initialize convict to manage the configuration  into the project.",
+      "description": "Initialize convict to manage the configuration into the project.",
       "factory": "./generators/convict/generator",
       "schema": "./generators/convict/schema.json"
     },
@@ -35,15 +35,10 @@
       "factory": "./generators/security/generator",
       "schema": "./generators/security/schema.json"
     },
-    "resource": {
-      "factory": "./generators/resource/generator",
-      "description": "Create a Nest resource.",
-      "schema": "./generators/resource/schema.json"
-    },
     "application": {
       "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",
-      "description": "application generator"
+      "description": "Generates a basic NestJS application using Devonfw Architecture"
     }
   }
 }

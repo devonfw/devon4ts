@@ -13,7 +13,7 @@
     "types": ["jest", "node"],
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/lib/**/files/**/*"],
+  "exclude": ["node_modules", "src/generators/**/files/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json",

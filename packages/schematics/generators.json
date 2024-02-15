@@ -1,55 +1,47 @@
 {
   "$schema": "http://json-schema.org/schema",
   "name": "@devon4ts_node/schematics",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "generators": {
-    "convict": {
-      "factory": "./src/generators/convict/generator",
-      "schema": "./src/generators/convict/schema.json",
-      "description": "convict generator"
-    },
-    "devon4ts_node-application": {
-      "factory": "./src/generators/devon4ts-node-application/generator",
-      "schema": "./src/generators/devon4ts-node-application/schema.json",
-      "description": "devon4ts_node-application generator"
+    "typeorm": {
+      "description": "Initialice typeorm into your current project in a correct way.",
+      "factory": "./src/generators/init-typeorm/generator",
+      "schema": "./src/generators/init-typeorm/schema.json"
     },
     "entity": {
+      "description": "Add a TypeOrm entity to your project",
       "factory": "./src/generators/entity/generator",
-      "schema": "./src/generators/entity/schema.json",
-      "description": "entity generator"
+      "schema": "./src/generators/entity/schema.json"
     },
-
-    "init-typeorm": {
-      "factory": "./src/generators/init-typeorm/generator",
-      "schema": "./src/generators/init-typeorm/schema.json",
-      "description": "init-typeorm generator"
+    "convict": {
+      "description": "Initialize convict to manage the configuration  into the project.",
+      "factory": "./src/generators/convict/generator",
+      "schema": "./src/generators/convict/schema.json"
     },
-
     "mailer": {
+      "description": "Add @devon4ts_node/mailer module to project.",
       "factory": "./src/generators/mailer/generator",
-      "schema": "./src/generators/mailer/schema.json",
-      "description": "mailer generator"
-    },
-
-    "resource": {
-      "factory": "./src/generators/resource/generator",
-      "schema": "./src/generators/resource/schema.json",
-      "description": "resource generator"
-    },
-    "security": {
-      "factory": "./src/generators/security/generator",
-      "schema": "./src/generators/security/schema.json",
-      "description": "security generator"
+      "schema": "./src/generators/mailer/schema.json"
     },
     "swagger": {
+      "description": "Add swagger module to project.",
       "factory": "./src/generators/swagger/generator",
-      "schema": "./src/generators/swagger/schema.json",
-      "description": "swagger generator"
+      "schema": "./src/generators/swagger/schema.json"
     },
     "auth-jwt": {
+      "description": "Add the auth JWT module to the project.",
       "factory": "./src/generators/auth-jwt/generator",
-      "schema": "./src/generators/auth-jwt/schema.json",
-      "description": "auth-jwt generator"
+      "schema": "./src/generators/auth-jwt/schema.json"
+    },
+    "security": {
+      "description": "Add cors and helmet to your project.",
+      "factory": "./src/generators/security/generator",
+      "schema": "./src/generators/security/schema.json"
+    },
+    "application": {
+      "description": "Generates a basic NestJS application using Devonfw Architecture",
+      "factory": "./src/generators/application/generator",
+      "schema": "./src/generators/application/schema.json"
     }
   }
 }
