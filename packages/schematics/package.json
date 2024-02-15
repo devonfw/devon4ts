@@ -37,21 +37,5 @@
     "ts-morph": "^21.0.1",
     "typescript": "^5.3.3"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "src"
-    ],
-    "testRegex": "_spec.ts$",
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
-  },
   "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }
