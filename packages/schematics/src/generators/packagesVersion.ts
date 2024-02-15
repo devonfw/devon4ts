@@ -32,7 +32,6 @@ export const packagesVersion: { [k: string]: { packageName: string; packageVersi
   typeorm: { packageName: 'typeorm', packageVersion: '^0.3.20' },
   typesBcrypt: { packageName: '@types/bcrypt', packageVersion: '^5.0.2' },
   typesConvict: { packageName: '@types/convict', packageVersion: '^6.1.6' },
-  // typesHelmet: { packageName: '@types/helmet', packageVersion: '^4.0.0' }, // DEPRECATED: helmet uses its own types
   typesLodash: { packageName: '@types/lodash', packageVersion: '^4.14.202' },
   typesPassportJwt: { packageName: '@types/passport-jwt', packageVersion: '^4.0.1' },
   winston: { packageName: 'winston', packageVersion: '^3.11.0' },

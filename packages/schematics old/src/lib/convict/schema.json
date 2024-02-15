@@ -1,7 +1,0 @@
-{
-  "$schema": "http://json-schema.org/schema",
-  "$id": "ConvictConfigSchematic",
-  "title": "Convict Configuration Schema",
-  "type": "object",
-  "properties": {}
-}
