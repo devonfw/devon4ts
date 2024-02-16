@@ -3,9 +3,18 @@ import * as path from 'path';
 import { EntityGeneratorSchema } from './schema';
 import { classify } from '../../utils';
 import pluralize from 'pluralize';
+import { packagesVersion } from '../packagesVersion';
 
 export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { 'typeorm': 'latest', '@nestjs/typeorm': 'latest', 'mysql2': 'latest' }, {});
+  addDependenciesToPackageJson(
+    tree,
+    {
+      [packagesVersion['typeorm'].name]: packagesVersion['typeorm'].version,
+      [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
+      [packagesVersion['mysql2'].name]: packagesVersion['mysql2'].version,
+    },
+    {},
+  );
   const projectRoot = `apps/${options.projectName}/src/app/${pluralize(options.name)}`;
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
     classify,

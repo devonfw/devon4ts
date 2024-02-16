@@ -1,9 +1,10 @@
 import { addDependenciesToPackageJson, formatFiles, installPackagesTask, Tree } from '@nx/devkit';
 import { SecurityGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { packagesVersion } from '../packagesVersion';
 
 export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { helmet: 'latest' }, {});
+  addDependenciesToPackageJson(tree, { [packagesVersion['helmet'].name]: packagesVersion['helmet'].version }, {});
   const projectRoot = `apps/${options.projectName}/src/main.ts`;
   const content = new ASTFileBuilder(tree.read(projectRoot)!.toString('utf-8'))
     .addDefaultImports('helmet', 'helmet')

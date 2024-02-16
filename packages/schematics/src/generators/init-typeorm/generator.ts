@@ -11,14 +11,16 @@ import { InitTypeormGeneratorSchema } from './schema';
 import { existsConvictConfig } from '../../utils/tree-utils';
 import { databaseConvictOptions, databaseConvictTypes, defaultDatabaseConvictOptions } from './convictOptions';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { packagesVersion } from '../packagesVersion';
 
 export async function initTypeormGenerator(tree: Tree, options: InitTypeormGeneratorSchema): Promise<() => void> {
   addDependenciesToPackageJson(
     tree,
     {
-      'typeorm': 'latest',
-      '@nestjs/typeorm': 'latest',
-      'class-transformer': 'latest',
+      [packagesVersion['typeorm'].name]: packagesVersion['typeorm'].version,
+      [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
+      [packagesVersion['classTransformer'].name]: packagesVersion['classTransformer'].version,
+      [packagesVersion['classValidator'].name]: packagesVersion['classValidator'].version,
     },
     {},
   );

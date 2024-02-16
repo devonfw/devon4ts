@@ -9,9 +9,14 @@ import {
   swaggerTemplate,
   swaggerTemplateWithConfig,
 } from './configvalue';
+import { packagesVersion } from '../packagesVersion';
 
 export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { '@nestjs/swagger': 'latest' }, {});
+  addDependenciesToPackageJson(
+    tree,
+    { [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version },
+    {},
+  );
   const projectRoot = `apps/${options.projectName}/src`;
   addSwaggerToMain(tree, projectRoot, options);
   updateBaseEntity(tree, projectRoot);

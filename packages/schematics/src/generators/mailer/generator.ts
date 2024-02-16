@@ -4,9 +4,17 @@ import { MailerGeneratorSchema } from './schema';
 import { existsConvictConfig } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
+import { packagesVersion } from '../packagesVersion';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { '@devon4ts_node/mailer': 'latest', 'handlebars': '^4.7.8' }, {});
+  addDependenciesToPackageJson(
+    tree,
+    {
+      [packagesVersion['devon4ts_nodeMailer'].name]: packagesVersion['devon4ts_nodeMailer'].version,
+      [packagesVersion['handlebars'].name]: packagesVersion['handlebars'].version,
+    },
+    {},
+  );
   const projectRoot = `apps/${options.projectName}/src`;
   addMailerToProject(tree, options, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);

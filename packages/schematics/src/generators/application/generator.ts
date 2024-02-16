@@ -11,6 +11,7 @@ import { ApplicationGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { execSync } from 'child_process';
 import { stdout } from 'process';
+import { packagesVersion } from '../packagesVersion';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
   const projectRoot = `./apps/${options.projectName}`;
@@ -27,16 +28,17 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
   addDependenciesToPackageJson(
     tree,
     {
-      'express': 'latest',
-      'type-fest': 'latest',
-      'winston': 'latest',
-      'class-transformer': 'latest',
-      'class-validator': 'latest',
+      [packagesVersion['express'].name]: packagesVersion['express'].version,
+      [packagesVersion['typeFest'].name]: packagesVersion['typeFest'].version,
+      [packagesVersion['winston'].name]: packagesVersion['winston'].version,
+      [packagesVersion['classTransformer'].name]: packagesVersion['classTransformer'].version,
+      [packagesVersion['classValidator'].name]: packagesVersion['classValidator'].version,
     },
     {
-      'husky': 'latest',
-      'pretty-quick': 'latest',
-      'eslint-plugin-prettier': 'latest',
+      [packagesVersion['husky'].name]: packagesVersion['husky'].version,
+      [packagesVersion['prettyQuick'].name]: packagesVersion['prettyQuick'].version,
+      [packagesVersion['typesExpress'].name]: packagesVersion['typesExpress'].version,
+      [packagesVersion['eslintPluginPrettier'].name]: packagesVersion['eslintPluginPrettier'].version,
     },
   );
   // Update scripts from package.json at root directory
@@ -44,7 +46,7 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
     // if scripts is undefined, set it to an empty object
     pkgJson.scripts = pkgJson.scripts ?? {};
     pkgJson.scripts.lint = 'eslint {apps,packages}/{src,apps,libs,test}/**/*.ts --fix';
-    pkgJson.scripts.prepare = 'husky install';
+    pkgJson.scripts.prepare = 'husky';
     // if jest is undefined, set it to an empty object
     pkgJson.jest = pkgJson.jest ?? {};
     pkgJson.jest.coverageDirectory = `./apps/${options.projectName}/coverage`;

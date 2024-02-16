@@ -2,9 +2,14 @@ import { addDependenciesToPackageJson, formatFiles, generateFiles, installPackag
 import * as path from 'path';
 import { ConvictGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { packagesVersion } from '../packagesVersion';
 
 export async function convictGenerator(tree: Tree, options: ConvictGeneratorSchema): Promise<() => void> {
-  addDependenciesToPackageJson(tree, { convict: 'latest' }, { '@types/convict': 'latest' });
+  addDependenciesToPackageJson(
+    tree,
+    { [packagesVersion['convict'].name]: packagesVersion['convict'].version },
+    { [packagesVersion['typesConvict'].name]: packagesVersion['typesConvict'].version },
+  );
   const projectRoot = `apps/${options.projectName}/src`;
   addConvictToMain(tree, projectRoot);
   updateLogger(tree, projectRoot);
