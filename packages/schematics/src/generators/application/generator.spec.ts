@@ -1,19 +1,20 @@
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readJsonFile, readProjectConfiguration } from '@nx/devkit';
-import { applicationGenerator } from './generator';
 import { ApplicationGeneratorSchema } from './schema';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import appicationGenerator from './generator';
 
 describe('application generator', () => {
   let tree: Tree;
   const options: ApplicationGeneratorSchema = { projectName: 'test' };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
-    await applicationGenerator(tree, options);
+    // runNxCommand(`g @devon4ts_node/schematics:application --projectName ${options.projectName}`, {});
   });
 
   it('should run successfully', async () => {
-    const config = readProjectConfiguration(tree, 'test');
+    await appicationGenerator(tree, options);
+    const config = readProjectConfiguration(tree, options.projectName);
     expect(config).toBeDefined();
   });
 
@@ -75,5 +76,9 @@ describe('application generator', () => {
   it('should add core module declaration to app module', async () => {
     const fileContent = tree.read(`./apps/${options.projectName}/src/app/app.module.ts`)?.toString('utf-8');
     expect(fileContent).toContain('CoreModule');
+  });
+
+  afterAll(async () => {
+    tree.delete(`./apps/${options.projectName}`);
   });
 });

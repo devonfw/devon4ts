@@ -1,5 +1,6 @@
 import {
   addDependenciesToPackageJson,
+  addProjectConfiguration,
   formatFiles,
   generateFiles,
   installPackagesTask,
@@ -14,12 +15,18 @@ import { stdout } from 'process';
 import { packagesVersion } from '../packagesVersion';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
-  const projectRoot = `./apps/${options.projectName}`;
+  const projectRoot = `apps/${options.projectName}`;
   if (tree.exists(projectRoot)) {
-    throw new Error('Application already exists');
+    throw new Error(`Application with name "${options.projectName}" already exists`);
   }
+  addProjectConfiguration(tree, options.projectName, {
+    root: projectRoot,
+    projectType: 'application',
+    sourceRoot: `${projectRoot}/src`,
+    targets: {},
+  });
   execSync(
-    `nx generate @nx/nest:application ${options.projectName} --strict --projectNameAndRootFormat="derived"`,
+    `nx generate @nx/nest:application ${options.projectName} --strict --directory="apps"`,
     { stdio: 'inherit' }, // Print output directly to console
   );
   if (tree.exists(path.join(projectRoot, '.eslintrc.json'))) {

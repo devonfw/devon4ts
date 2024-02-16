@@ -16,6 +16,7 @@ describe('swagger generator', () => {
     const config = readProjectConfiguration(tree, 'test');
     expect(config).toBeDefined();
   });
+
   it('should add dependencies to package.json', async () => {
     const fileContent = tree.read('package.json')?.toString('utf-8');
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/swagger":/g);
@@ -35,6 +36,7 @@ describe('swagger generator', () => {
     const fileContent = tree.read(`./apps/${options.projectName}/src/main.ts`)?.toString('utf-8');
     expect(fileContent).toContain('SwaggerModule.setup');
   });
+
   it('should update BaseEntity.ts configuration', async () => {
     const filePath = `./apps/${options.projectName}/src/app/shared/model/entities/base.entity.ts`;
     if (tree.exists(filePath)) {
