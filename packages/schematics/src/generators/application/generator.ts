@@ -10,9 +10,9 @@ import {
 import * as path from 'path';
 import { ApplicationGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { execSync } from 'child_process';
 import { stdout } from 'process';
 import { packagesVersion } from '../packagesVersion';
+import { applicationGenerator as nestApplicationGenerator } from '@nx/nest';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
   const projectRoot = `apps/${options.projectName}`;
@@ -25,10 +25,13 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
     sourceRoot: `${projectRoot}/src`,
     targets: {},
   });
-  execSync(
-    `nx generate @nx/nest:application ${options.projectName} --strict --directory="apps"`,
-    { stdio: 'inherit' }, // Print output directly to console
-  );
+  try {
+    await nestApplicationGenerator(tree, {
+      name: options.projectName,
+    });
+  } catch (error) {
+    throw new Error(`An error ocurred while trying to create the app.`);
+  }
   if (tree.exists(path.join(projectRoot, '.eslintrc.json'))) {
     tree.delete(path.join(projectRoot, '.eslintrc.json'));
   }
@@ -48,36 +51,8 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
       [packagesVersion['eslintPluginPrettier'].name]: packagesVersion['eslintPluginPrettier'].version,
     },
   );
-  // Update scripts from package.json at root directory
-  updateJson(tree, 'package.json', pkgJson => {
-    // if scripts is undefined, set it to an empty object
-    pkgJson.scripts = pkgJson.scripts ?? {};
-    pkgJson.scripts.lint = 'eslint {apps,packages}/{src,apps,libs,test}/**/*.ts --fix';
-    pkgJson.scripts.prepare = 'husky';
-    // if jest is undefined, set it to an empty object
-    pkgJson.jest = pkgJson.jest ?? {};
-    pkgJson.jest.coverageDirectory = `./apps/${options.projectName}/coverage`;
-    // return modified JSON object
-    return pkgJson;
-  });
-  // Update compilerOptions from tsconfig.json at application directory
-  updateJson(tree, `${projectRoot}/tsconfig.json`, tsconfigJson => {
-    // if compilerOptions is undefined, set it to an empty object
-    tsconfigJson.compilerOptions = {
-      strictNullChecks: true,
-      noImplicitAny: true,
-      strictBindCallApply: true,
-      forceConsistentCasingInFileNames: true,
-      noFallthroughCasesInSwitch: true,
-      strict: true,
-      skipDefaultLibCheck: true,
-      noUnusedLocals: true,
-      noUnusedParameters: true,
-      skipLibCheck: true,
-      allowSyntheticDefaultImports: true,
-    };
-    return tsconfigJson;
-  });
+  updatePackageJson(tree, options.projectName);
+  updateTsconfigJson(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   updateMain(tree, projectRoot);
   addDeclarationToModule(tree, projectRoot);
@@ -89,6 +64,48 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
 }
 
 export default applicationGenerator;
+
+function updatePackageJson(tree: Tree, projectName: string): void {
+  // Update scripts from package.json at root directory
+  if (tree.exists('package.json')) {
+    updateJson(tree, 'package.json', pkgJson => {
+      // if scripts is undefined, set it to an empty object
+      pkgJson.scripts = pkgJson.scripts ?? {};
+      pkgJson.scripts.lint = 'eslint {apps,packages}/{src,apps,libs,test}/**/*.ts --fix';
+      pkgJson.scripts.prepare = 'husky';
+      // if jest is undefined, set it to an empty object
+      pkgJson.jest = pkgJson.jest ?? {};
+      pkgJson.jest.coverageDirectory = `./apps/${projectName}/coverage`;
+      // return modified JSON object
+      return pkgJson;
+    });
+  } else {
+    stdout.write('File named package.json at root directory was not found. Skipping task.');
+  }
+}
+function updateTsconfigJson(tree: Tree, projectRoot: string): void {
+  // Update compilerOptions from tsconfig.json at application directory
+  if (tree.exists(`${projectRoot}/tsconfig.json`)) {
+    updateJson(tree, `${projectRoot}/tsconfig.json`, tsconfigJson => {
+      tsconfigJson.compilerOptions = {
+        strictNullChecks: true,
+        noImplicitAny: true,
+        strictBindCallApply: true,
+        forceConsistentCasingInFileNames: true,
+        noFallthroughCasesInSwitch: true,
+        strict: true,
+        skipDefaultLibCheck: true,
+        noUnusedLocals: true,
+        noUnusedParameters: true,
+        skipLibCheck: true,
+        allowSyntheticDefaultImports: true,
+      };
+      return tsconfigJson;
+    });
+  } else {
+    stdout.write(`File at ${projectRoot}/tsconfig.json was not found. Skipping task.`);
+  }
+}
 
 function updateMain(tree: Tree, projectRoot: string): void {
   const mainPath = path.join(projectRoot, 'src/main.ts');

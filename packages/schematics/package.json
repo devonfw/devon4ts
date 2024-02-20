@@ -25,10 +25,10 @@
   "schematics": "./src/collection.json",
   "dependencies": {
     "@nx/devkit": "17.2.8",
-    "@nestjs/schematics": "^10.1.0",
+    "@nestjs/schematics": "^10.1.1",
     "lodash": "^4.17.21",
     "pluralize": "^8.0.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "ts-morph": "^21.0.1",
     "typescript": "^5.3.3"
   },
