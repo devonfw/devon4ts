@@ -25,6 +25,7 @@
   "schematics": "./src/collection.json",
   "dependencies": {
     "@nx/devkit": "17.2.8",
+    "@nx/nest": "17.2.8",
     "@nestjs/schematics": "^10.1.1",
     "lodash": "^4.17.21",
     "pluralize": "^8.0.0",

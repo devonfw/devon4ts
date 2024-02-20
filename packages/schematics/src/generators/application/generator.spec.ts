@@ -5,14 +5,15 @@ import applicationGenerator from './generator';
 
 describe('application generator', () => {
   let tree: Tree;
-  const options: ApplicationGeneratorSchema = { projectName: 'test' };
+  const options: ApplicationGeneratorSchema = { projectName: 'test2' };
 
-  beforeAll(() => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-  });
+    await applicationGenerator(tree, options);
+    jest.clearAllMocks();
+  }, 15000);
 
   it('should run successfully', async () => {
-    await applicationGenerator(tree, options);
     const config = readProjectConfiguration(tree, options.projectName);
     expect(config).toBeDefined();
   });

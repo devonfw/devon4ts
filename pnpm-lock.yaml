@@ -256,6 +256,9 @@ importers:
       '@nx/devkit':
         specifier: 17.2.8
         version: 17.2.8(nx@17.2.8)
+      '@nx/nest':
+        specifier: 17.2.8
+        version: 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -299,7 +302,6 @@ packages:
       jsonc-parser: 3.2.0
       rxjs: 7.8.1
       source-map: 0.7.4
-    dev: true
 
   /@angular-devkit/core@17.0.9(chokidar@3.6.0):
     resolution: {integrity: sha512-r5jqwpWOgowqe9KSDqJ3iSbmsEt2XPjSvRG4DSI2T9s31bReoMtreo8b7wkRa2B3hbcDnstFbn8q27VvJDqRaQ==}
@@ -363,7 +365,6 @@ packages:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - chokidar
-    dev: true
 
   /@angular-devkit/schematics@17.0.9(chokidar@3.6.0):
     resolution: {integrity: sha512-5ti7g45F2KjDJS0DbgnOGI1GyKxGpn4XsKTYJFJrSAWj6VpuvPy/DINRrXNuRVo09VPEkqA+IW7QwaG9icptQg==}
@@ -3215,7 +3216,6 @@ packages:
       typescript: 5.3.3
     transitivePeerDependencies:
       - chokidar
-    dev: true
 
   /@nestjs/swagger@7.3.0(@nestjs/common@10.3.3)(@nestjs/core@10.3.3)(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.1.14):
     resolution: {integrity: sha512-zLkfKZ+ioYsIZ3dfv7Bj8YHnZMNAGWFUmx2ZDuLp/fBE4P8BSjB7hldzDueFXsmwaPL90v7lgyd82P+s7KME1Q==}
@@ -3574,6 +3574,29 @@ packages:
       - verdaccio
     dev: true
 
+  /@nrwl/nest@17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
+    resolution: {integrity: sha512-pj2UNE7XM/7JdKlGhywXOVaCXZE3Fpd7eoZNZc8fBq+pcxvX3ylh4KLmnCwcSaKlcqFsYkWbmj6xDBJx8xSGoA==}
+    dependencies:
+      '@nx/nest': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - chokidar
+      - debug
+      - eslint
+      - js-yaml
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: false
+
   /@nrwl/nest@17.3.2(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
     resolution: {integrity: sha512-aNbiuUvX1BuKMvLDFK7yik/sAhholMfBBRhLXUKjfERwyUGSn5CueIwUc3747Pkyxw6UXtZeP/iKGmPwkcXHag==}
     dependencies:
@@ -3595,6 +3618,28 @@ packages:
       - typescript
       - verdaccio
     dev: true
+
+  /@nrwl/node@17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
+    resolution: {integrity: sha512-DGwPAasjDgSrNJcB2qcCA7y02licJFCNyiGhEnIhLEUCWOyPCrAsuPmBy4/QYFoiEP6YOsIpJac/1p+9QWeJ7Q==}
+    dependencies:
+      '@nx/node': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - debug
+      - eslint
+      - js-yaml
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: false
 
   /@nrwl/node@17.3.2(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
     resolution: {integrity: sha512-3JdmhyS7rcw68aLgIyx3T8mLAnOJ55BNHRCDUGUW9tn+BS4JTOjpUr3DpJCHCB78SYtz7t5MWA9ocsMCmlUHkg==}
@@ -4133,6 +4178,36 @@ packages:
       - verdaccio
     dev: true
 
+  /@nx/nest@17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
+    resolution: {integrity: sha512-VZ84VBWACcABjU4djWHHVxY83g3VTkg13AjAeZWyvPAMkNqS05e2jj3CpPVd4EAbwqXX3/CLM/bLKRuGWpYCWg==}
+    dependencies:
+      '@nestjs/schematics': 9.2.0(typescript@5.3.3)
+      '@nrwl/nest': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+      '@nx/devkit': 17.2.8(nx@17.2.8)
+      '@nx/eslint': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)
+      '@nx/js': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(typescript@5.3.3)
+      '@nx/node': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+      '@phenomnomnominal/tsquery': 5.0.1(typescript@5.3.3)
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - chokidar
+      - debug
+      - eslint
+      - js-yaml
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: false
+
   /@nx/nest@17.3.2(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
     resolution: {integrity: sha512-uc2Bkvwo9Le2PiCq4n1B5BmlKgcfHS0/nh0vwpyvekEuBpUVJZjCA/lB96lMrQW0K5oa7XzcFIV0pr3w51oxYQ==}
     dependencies:
@@ -4161,6 +4236,33 @@ packages:
       - typescript
       - verdaccio
     dev: true
+
+  /@nx/node@17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
+    resolution: {integrity: sha512-MxvJ2MlbpHeB5ZnlSAbSvBXAYoxCre4fsAwwCpysz1OWkf9dDGYzvlV4ovnu6jET7/ZQzzDvaKD9CvVSDk/amg==}
+    dependencies:
+      '@nrwl/node': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+      '@nx/devkit': 17.2.8(nx@17.2.8)
+      '@nx/eslint': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(eslint@8.56.0)(nx@17.2.8)
+      '@nx/jest': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3)
+      '@nx/js': 17.2.8(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(typescript@5.3.3)
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+      - debug
+      - eslint
+      - js-yaml
+      - node-notifier
+      - nx
+      - supports-color
+      - ts-node
+      - typescript
+      - verdaccio
+    dev: false
 
   /@nx/node@17.3.2(@swc-node/register@1.6.8)(@swc/core@1.3.106)(@types/node@20.11.19)(nx@17.2.8)(ts-node@10.9.2)(typescript@5.3.3):
     resolution: {integrity: sha512-njABdd0wVGKVgsP458d1c+fILBT+xXWfsZUBOdC5T08AQI4xY5vZRxj+pDE9rJ9N8rkG71SiFwX4Wt6roSblUQ==}
@@ -9610,7 +9712,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
 
   /magic-string@0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
