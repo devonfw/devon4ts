@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-    "noImplicitThis": true,
+    "noImplicitThis": true
   },
   "extends": "./tsconfig.json",
-  "exclude": [
-    "node_modules",
-    "dist",
-    "./**/*.spec.ts",
-    "test"
-  ]
+  "exclude": ["node_modules", "dist", "./**/*.spec.ts", "test"]
 }
