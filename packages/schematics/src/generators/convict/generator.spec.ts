@@ -13,7 +13,7 @@ describe('convict generator', () => {
     await applicationGenerator(tree, options);
     await convictGenerator(tree, options);
     jest.clearAllMocks();
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');

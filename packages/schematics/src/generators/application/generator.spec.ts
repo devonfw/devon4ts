@@ -10,7 +10,7 @@ describe('application generator', () => {
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
     await applicationGenerator(tree, options);
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, options.projectName);

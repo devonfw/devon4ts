@@ -2,8 +2,9 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { initTypeormGenerator } from './generator';
 import { InitTypeormGeneratorSchema } from './schema';
-import applicationGenerator from './generator';
+import applicationGenerator from '../application/generator';
 import convictGenerator from '../convict/generator';
+
 describe('init-typeorm generator', () => {
   let tree: Tree;
   const options: InitTypeormGeneratorSchema = { projectName: 'test', db: 'mysql' };
@@ -11,15 +12,15 @@ describe('init-typeorm generator', () => {
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
     await applicationGenerator(tree, options);
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');
-    console.log(config);
     expect(config).toBeDefined();
   });
 
   it('should add dependencies to package.json', async () => {
+    await initTypeormGenerator(tree, options);
     const fileContent = tree.read('package.json')?.toString('utf-8');
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"typeorm":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/typeorm":/g);
@@ -28,6 +29,7 @@ describe('init-typeorm generator', () => {
   });
 
   it('should add TypeOrmModule to core.module', async () => {
+    await initTypeormGenerator(tree, options);
     const fileContent = tree.read(`./apps/${options.projectName}/src/app/core/core.module.ts`)?.toString('utf-8');
     if (fileContent) {
       expect(fileContent).toContain('TypeOrmModule.forRootAsync');

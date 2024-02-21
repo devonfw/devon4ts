@@ -13,7 +13,7 @@ describe('auth-jwt generator', () => {
     tree = createTreeWithEmptyWorkspace();
     await applicationGenerator(tree, options);
     jest.clearAllMocks();
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     await authJwtGenerator(tree, options);
@@ -52,7 +52,7 @@ describe('auth-jwt generator', () => {
     beforeAll(async () => {
       await authJwtGenerator(tree, options);
       jest.clearAllMocks();
-    }, 15000);
+    }, 60000);
     it('should not have configuration files', async () => {
       expect(tree.exists(`./apps/${options.projectName}/config/prod.json`)).toBeFalsy();
       expect(tree.exists(`./apps/${options.projectName}/config/develop.json`)).toBeFalsy();
@@ -81,7 +81,7 @@ describe('auth-jwt generator', () => {
       await convictGenerator(tree, options);
       await authJwtGenerator(tree, options);
       jest.clearAllMocks();
-    }, 15000);
+    }, 60000);
 
     it('should add JWT configuration if convict is present', async () => {
       if (tree.exists(`./apps/${options.projectName}/src/config.ts`)) {

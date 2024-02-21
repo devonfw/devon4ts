@@ -20,7 +20,6 @@ export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSche
   const projectRoot = `apps/${options.projectName}/src`;
   addSwaggerToMain(tree, projectRoot, options);
   updateBaseEntity(tree, projectRoot);
-
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
   return () => {
@@ -33,10 +32,9 @@ export default swaggerGenerator;
 function addSwaggerToMain(tree: Tree, projectRoot: string, options: SwaggerGeneratorSchema): void {
   const mainPath = path.join(projectRoot, 'main.ts');
 
-  const content = new ASTFileBuilder(tree.read(mainPath)!.toString('utf-8')).addDefaultImports(
-    '{ SwaggerModule, DocumentBuilder }',
-    '@nestjs/swagger',
-  );
+  const content = new ASTFileBuilder(tree.read(mainPath)!.toString('utf-8'))
+    .addImports('DocumentBuilder', '@nestjs/swagger')
+    .addImports('SwaggerModule', '@nestjs/swagger');
   if (existsConvictConfig(tree, options.projectName)) {
     updateConfigTypeFile(tree, projectRoot);
     updateConfigFile(tree, projectRoot);

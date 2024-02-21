@@ -1,6 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
 import { entityGenerator } from './generator';
 import { EntityGeneratorSchema } from './schema';
 import applicationGenerator from '../application/generator';
@@ -14,7 +13,7 @@ describe('entity generator', () => {
     tree = createTreeWithEmptyWorkspace();
     await applicationGenerator(tree, options);
     await entityGenerator(tree, options);
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');

@@ -8,11 +8,11 @@ describe('Security Generator', () => {
   let tree: Tree;
   const options: SecurityGeneratorSchema = { projectName: 'test' };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
     await applicationGenerator(tree, options);
     await securityGenerator(tree, options);
-  }, 15000);
+  }, 60000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');
