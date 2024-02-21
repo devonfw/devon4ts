@@ -24,32 +24,14 @@
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^14.0.2",
-    "@angular-devkit/schematics": "^14.0.2",
-    "@nestjs/schematics": "^9.0.0",
-    "@schematics/angular": "^14.0.2",
-    "js-yaml": "^4.1.0",
+    "@nx/devkit": "17.2.8",
+    "@nx/nest": "17.2.8",
+    "@nestjs/schematics": "^10.1.1",
     "lodash": "^4.17.21",
     "pluralize": "^8.0.0",
-    "prettier": "^2.7.1",
-    "ts-morph": "^15.1.0",
-    "typescript": "^4.7.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "src"
-    ],
-    "testRegex": "_spec.ts$",
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
+    "prettier": "^3.2.5",
+    "ts-morph": "^21.0.1",
+    "typescript": "^5.3.3"
   },
   "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }

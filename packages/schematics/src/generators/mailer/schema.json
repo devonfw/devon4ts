@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "MailerSchematic",
+  "title": "Mailer Schema",
+  "type": "object",
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+
+      "x-prompt": "In which project would you like to add the mailer?"
+    }
+  },
+  "required": ["projectName"]
+}
