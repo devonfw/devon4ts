@@ -1,7 +1,7 @@
 import { Tree } from '@nx/devkit';
 
 export function runningAtRootFolder(tree: Tree): boolean {
-  return ['/package.json', '/nx.json', '/tsconfig.json'].map(file => tree.exists(file)).every(exists => exists);
+  return ['/package.json', '/nx.json'].map(file => tree.exists(file)).every(exists => exists);
 }
 
 export function stopExecutionIfNotRunningAtRootFolder(tree: Tree): Tree {

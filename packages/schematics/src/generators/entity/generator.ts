@@ -4,8 +4,10 @@ import { EntityGeneratorSchema } from './schema';
 import { classify } from '../../utils';
 import { plural } from 'pluralize';
 import { packagesVersion } from '../packagesVersion';
+import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(
     tree,
     {

@@ -8,12 +8,13 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { InitTypeormGeneratorSchema } from './schema';
-import { existsConvictConfig } from '../../utils/tree-utils';
+import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { databaseConvictOptions, databaseConvictTypes, defaultDatabaseConvictOptions } from './convictOptions';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
 
 export async function initTypeormGenerator(tree: Tree, options: InitTypeormGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(
     tree,
     {

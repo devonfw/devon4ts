@@ -2,8 +2,10 @@ import { addDependenciesToPackageJson, formatFiles, installPackagesTask, Tree } 
 import { SecurityGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
+import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(tree, { [packagesVersion['helmet'].name]: packagesVersion['helmet'].version }, {});
   const projectRoot = `apps/${options.projectName}/src/main.ts`;
   const content = new ASTFileBuilder(tree.read(projectRoot)!.toString('utf-8'))

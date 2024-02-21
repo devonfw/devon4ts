@@ -3,8 +3,10 @@ import * as path from 'path';
 import { ConvictGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
+import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 export async function convictGenerator(tree: Tree, options: ConvictGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(
     tree,
     { [packagesVersion['convict'].name]: packagesVersion['convict'].version },

@@ -1,12 +1,13 @@
 import { addDependenciesToPackageJson, installPackagesTask, Tree, generateFiles } from '@nx/devkit';
 import * as path from 'path';
 import { MailerGeneratorSchema } from './schema';
-import { existsConvictConfig } from '../../utils/tree-utils';
+import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
 import { packagesVersion } from '../packagesVersion';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(
     tree,
     {

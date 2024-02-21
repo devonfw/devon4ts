@@ -8,11 +8,12 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { AuthJwtGeneratorSchema } from './schema';
-import { existsConvictConfig } from '../../utils/tree-utils';
+import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
 
 export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   const projectRoot = `apps/${options.projectName}`;
   addDependenciesToPackageJson(
     tree,

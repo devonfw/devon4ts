@@ -2,7 +2,7 @@ import { formatFiles, generateFiles, Tree, addDependenciesToPackageJson, install
 import * as path from 'path';
 import { SwaggerGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { existsConvictConfig } from '../../utils/tree-utils';
+import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import {
   defaultSwaggerConfig,
   defaultSwaggerConfigType,
@@ -12,6 +12,7 @@ import {
 import { packagesVersion } from '../packagesVersion';
 
 export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   addDependenciesToPackageJson(
     tree,
     { [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version },

@@ -12,8 +12,10 @@ import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { stdout } from 'process';
 import { packagesVersion } from '../packagesVersion';
 import { applicationGenerator as nestApplicationGenerator } from '@nx/nest';
+import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 
 export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
+  stopExecutionIfNotRunningAtRootFolder(tree);
   const projectRoot = `apps/${options.projectName}`;
   if (tree.exists(projectRoot)) {
     throw new Error(`Application with name "${options.projectName}" already exists`);
