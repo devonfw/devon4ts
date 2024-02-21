@@ -26,12 +26,6 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
   } catch (error) {
     throw new Error(`An error ocurred while trying to create the app.`);
   }
-  // addProjectConfiguration(tree, options.projectName, {
-  //   root: projectRoot,
-  //   projectType: 'application',
-  //   sourceRoot: `${projectRoot}/src`,
-  //   targets: {},
-  // });
   if (tree.exists(path.join(projectRoot, '.eslintrc.json'))) {
     tree.delete(path.join(projectRoot, '.eslintrc.json'));
   }
