@@ -2,6 +2,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { securityGenerator } from './generator';
 import { SecurityGeneratorSchema } from './schema';
+import applicationGenerator from '../application/generator';
 
 describe('Security Generator', () => {
   let tree: Tree;
@@ -9,8 +10,9 @@ describe('Security Generator', () => {
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    await applicationGenerator(tree, options);
     await securityGenerator(tree, options);
-  });
+  }, 15000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');

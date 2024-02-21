@@ -55,8 +55,8 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
 export default authJwtGenerator;
 
 function updateConfigFiles(tree: Tree, projectRoot: string): void {
-  const prodPath = path.join(projectRoot, 'config/prod.json');
-  const developPath = path.join(projectRoot, 'config/develop.json');
+  const prodPath = path.join(projectRoot, 'src/config/prod.json');
+  const developPath = path.join(projectRoot, 'src/config/develop.json');
 
   updateJson(tree, prodPath, content => {
     content.jwt = {
@@ -76,8 +76,14 @@ function updateConfigFiles(tree: Tree, projectRoot: string): void {
 }
 
 function deleteConfigFiles(tree: Tree, projectRoot: string): void {
-  tree.delete(`${projectRoot}/config/develop.json`);
-  tree.delete(`${projectRoot}/config/prod.json`);
+  const prodPath = path.join(projectRoot, 'src/config/prod.json');
+  const developPath = path.join(projectRoot, 'src/config/develop.json');
+  if (tree.exists(prodPath)) {
+    tree.delete(prodPath);
+  }
+  if (tree.exists(developPath)) {
+    tree.delete(developPath);
+  }
 }
 
 function addAuthToCoreModule(tree: Tree, projectRoot: string): void {

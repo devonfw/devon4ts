@@ -2,6 +2,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { swaggerGenerator } from './generator';
 import { SwaggerGeneratorSchema } from './schema';
+import applicationGenerator from '../application/generator';
 
 describe('swagger generator', () => {
   let tree: Tree;
@@ -9,8 +10,9 @@ describe('swagger generator', () => {
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    await applicationGenerator(tree, options);
     await swaggerGenerator(tree, options);
-  });
+  }, 15000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');

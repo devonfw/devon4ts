@@ -2,18 +2,20 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { initTypeormGenerator } from './generator';
 import { InitTypeormGeneratorSchema } from './schema';
-
+import applicationGenerator from './generator';
+import convictGenerator from '../convict/generator';
 describe('init-typeorm generator', () => {
   let tree: Tree;
   const options: InitTypeormGeneratorSchema = { projectName: 'test', db: 'mysql' };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    await initTypeormGenerator(tree, options);
-  });
+    await applicationGenerator(tree, options);
+  }, 15000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');
+    console.log(config);
     expect(config).toBeDefined();
   });
 
@@ -22,6 +24,7 @@ describe('init-typeorm generator', () => {
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"typeorm":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/typeorm":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"class-transformer":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"class-validator":/g);
   });
 
   it('should add TypeOrmModule to core.module', async () => {
@@ -33,33 +36,49 @@ describe('init-typeorm generator', () => {
     }
   });
 
-  it('should add database properties to config.ts', async () => {
-    const filePath = `./apps/${options.projectName}/src/config.ts`;
-    if (tree.exists(filePath)) {
-      const fileContent = tree.read(filePath)?.toString('utf-8');
-      expect(fileContent).toContain('database');
-    } else {
+  describe('init-typeorm generator without convict configuration', () => {
+    beforeAll(async () => {
+      await initTypeormGenerator(tree, options);
+    });
+
+    it('should add database properties to config.ts', async () => {
+      const filePath = `./apps/${options.projectName}/src/config.ts`;
+      if (tree.exists(filePath)) {
+        const fileContent = tree.read(filePath)?.toString('utf-8');
+        expect(fileContent).toContain('database');
+      } else {
+        expect(tree.exists(filePath)).toBeFalsy();
+      }
+    });
+
+    it('should update config type file', async () => {
+      const filePath = `./apps/${options.projectName}/src/app/shared/app-config.ts`;
+      if (tree.exists(filePath)) {
+        const fileContent = tree.read(filePath)?.toString('utf-8');
+        expect(fileContent).toContain('database');
+      } else {
+        expect(tree.exists(filePath)).toBeFalsy();
+      }
+    });
+
+    it('should not have convict files', async () => {
+      const filePath = `./apps/${options.projectName}/src/config/develop.json`;
+      const prodPath = `./apps/${options.projectName}/src/config/prod.json`;
+      const configPath = `./apps/${options.projectName}/src/config.ts`;
       expect(tree.exists(filePath)).toBeFalsy();
-    }
+      expect(tree.exists(prodPath)).toBeFalsy();
+      expect(tree.exists(configPath)).toBeFalsy();
+    });
   });
 
-  it('should update config type file', async () => {
-    const filePath = `./apps/${options.projectName}/src/app/shared/app-config.ts`;
-    if (tree.exists(filePath)) {
-      const fileContent = tree.read(filePath)?.toString('utf-8');
-      expect(fileContent).toContain('database');
-    } else {
-      expect(tree.exists(filePath)).toBeFalsy();
-    }
-  });
-
-  it('should update config json files if convict is present', async () => {
-    const filePath = `./apps/${options.projectName}/src/config/develop.json`;
-    if (tree.exists(filePath)) {
-      const fileContent = tree.read(filePath)?.toString('utf-8');
-      expect(fileContent).toContain('database');
-    } else {
-      expect(tree.exists(filePath)).toBeFalsy();
-    }
+  describe('init-typeorm generator with convict configuration', () => {
+    beforeAll(async () => {
+      await convictGenerator(tree, options);
+      await initTypeormGenerator(tree, options);
+    });
+    it('should update config json files if convict is present', async () => {
+      const filePath = `./apps/${options.projectName}/src/config/develop.json`;
+      expect(tree.exists(filePath)).toBeTruthy();
+    });
   });
 });

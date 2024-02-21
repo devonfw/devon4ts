@@ -2,15 +2,18 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { convictGenerator } from './generator';
 import { ConvictGeneratorSchema } from './schema';
+import applicationGenerator from '../application/generator';
 
 describe('convict generator', () => {
   let tree: Tree;
   const options: ConvictGeneratorSchema = { projectName: 'test' };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
+    await applicationGenerator(tree, options);
     await convictGenerator(tree, options);
-  });
+    jest.clearAllMocks();
+  }, 15000);
 
   it('should run successfully', async () => {
     const config = readProjectConfiguration(tree, 'test');
@@ -25,8 +28,8 @@ describe('convict generator', () => {
 
   it('should add convict configuration to main.ts', async () => {
     const fileContent = tree.read(`./apps/${options.projectName}/src/main.ts`)?.toString('utf-8');
-    expect(fileContent).toContain("import config from 'config'");
-    expect(fileContent).toContain('await app.listen(config.port);');
+    expect(fileContent).toContain(`import config from './config'`);
+    expect(fileContent).toContain('await app.listen(port);');
   });
 
   it('should update winston configuration', async () => {

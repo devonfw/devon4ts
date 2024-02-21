@@ -2,7 +2,7 @@ import { addDependenciesToPackageJson, formatFiles, generateFiles, installPackag
 import * as path from 'path';
 import { EntityGeneratorSchema } from './schema';
 import { classify } from '../../utils';
-import pluralize from 'pluralize';
+import { plural } from 'pluralize';
 import { packagesVersion } from '../packagesVersion';
 
 export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<() => void> {
@@ -15,7 +15,7 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
     },
     {},
   );
-  const projectRoot = `apps/${options.projectName}/src/app/${pluralize(options.name)}`;
+  const projectRoot = `apps/${options.projectName}/src/app/${plural(options.name)}/entities`;
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
     classify,
     ...options,
