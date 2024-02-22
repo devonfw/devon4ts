@@ -3,9 +3,5 @@
   "compilerOptions": {
     "sourceMap": false
   },
-  "exclude": [
-    "node_modules",
-    "src/lib/**/files/**/*",
-    "**/*_spec.ts"
-  ]
+  "exclude": ["node_modules", "src/generators/**/files/**/*", "**/*_spec.ts", "test"]
 }

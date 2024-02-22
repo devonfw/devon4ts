@@ -6,6 +6,7 @@ src/**/*.js
 !src/**/.eslintrc.js
 src/**/*.js.map
 src/**/*.d.ts
+!src/generators/**/schema.d.ts
 
 # IDEs
 .idea/

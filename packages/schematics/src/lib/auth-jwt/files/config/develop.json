@@ -1,6 +1,0 @@
-{
-  "jwt": {
-    "secret": "SECRET",
-    "expiration": "24h"
-  }
-}
