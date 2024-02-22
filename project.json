@@ -1,0 +1,9 @@
+{
+  "name": "@devon4ts/source",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "test": {
+      "command": "echo 'todo ok'"
+    }
+  }
+}

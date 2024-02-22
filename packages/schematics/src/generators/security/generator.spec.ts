@@ -1,8 +1,8 @@
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import applicationGenerator from '../application/generator';
 import { securityGenerator } from './generator';
 import { SecurityGeneratorSchema } from './schema';
-import applicationGenerator from '../application/generator';
 
 describe('Security Generator', () => {
   let tree: Tree;
@@ -10,7 +10,11 @@ describe('Security Generator', () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    await applicationGenerator(tree, options);
+    await applicationGenerator(tree, {
+      name: options.projectName,
+      projectNameAndRootFormat: 'as-provided',
+      directory: 'apps/test',
+    });
     await securityGenerator(tree, options);
   }, 60000);
 
@@ -25,7 +29,7 @@ describe('Security Generator', () => {
   });
 
   it('should add CORS and helmet to main.ts', async () => {
-    const fileContent = tree.read(`./apps/${options.projectName}/src/main.ts`)?.toString('utf-8');
+    const fileContent = tree.read(`./packages/schematics/apps/${options.projectName}/src/main.ts`)?.toString('utf-8');
     expect(fileContent).toContain('app.enableCors');
     expect(fileContent).toContain(`import helmet from 'helmet'`);
   });

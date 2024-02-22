@@ -1,3 +1,4 @@
+node_modules
 src/lib/**/files/**/*
 **/src/lib/**/files/**/*
 *.d.ts
