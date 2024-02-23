@@ -1,13 +1,19 @@
-import { addDependenciesToPackageJson, installPackagesTask, Tree, generateFiles } from '@nx/devkit';
+import {
+  Tree,
+  addDependenciesToPackageJson,
+  generateFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+} from '@nx/devkit';
 import * as path from 'path';
-import { MailerGeneratorSchema } from './schema';
-import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
+import { existsConvictConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
+import { MailerGeneratorSchema } from './schema';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     {
@@ -16,8 +22,8 @@ export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema
     },
     {},
   );
-  const projectRoot = `apps/${options.projectName}/src`;
-  addMailerToProject(tree, options, projectRoot);
+  const projectRoot = appConfig.sourceRoot ?? 'src/';
+  addMailerToProject(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   return () => {
     installPackagesTask(tree, false, '', 'pnpm');
@@ -53,8 +59,8 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean, projectRoot: s
   }
 }
 
-function addMailerToProject(tree: Tree, options: MailerGeneratorSchema, projectRoot: string): Tree {
-  const config = existsConvictConfig(tree, options.projectName);
+function addMailerToProject(tree: Tree, projectRoot: string): Tree {
+  const config = existsConvictConfig(tree, projectRoot);
 
   if (!config) {
     addMailerToCoreModule(tree, false, projectRoot);

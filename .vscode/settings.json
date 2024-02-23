@@ -1,8 +1,21 @@
 {
-  "java.home": "C:/devonfw-ide-scripts-2020.08.001/software/java",
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.quoteStyle": "single",
   "editor.formatOnSave": true,
   "asciidoc.antora.enableAntoraSupport": true,
-  "eslint.validate": ["json"]
+  "eslint.validate": ["json"],
+  "CodeGPT.apiKey": "Ollama",
+  "jest.virtualFolders": [
+    {
+      "name": "logform",
+      "rootPath": "packages/logform",
+      "jestCommandLine": "npx jest --config jest.config.ts"
+    },
+    {
+      "name": "schematics",
+      "rootPath": "packages/schematics",
+      "jestCommandLine": "npx jest --config jest.config.ts"
+    },
+    { "name": "mailer", "rootPath": "packages/mailer", "jestCommandLine": "npx jest --config jest.config.ts" }
+  ]
 }

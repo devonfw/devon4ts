@@ -11,6 +11,9 @@ export function stopExecutionIfNotRunningAtRootFolder(tree: Tree): Tree {
   return tree;
 }
 
-export function existsConvictConfig(tree: Tree, projectName: string): boolean {
-  return tree.exists(`apps/${projectName}/src/config.ts`);
+export function existsConvictConfig(tree: Tree, projectRoot: string): boolean {
+  if (projectRoot.endsWith('/src')) {
+    return tree.exists(`${projectRoot}/config.ts`);
+  }
+  return tree.exists(`${projectRoot}/src/config.ts`);
 }

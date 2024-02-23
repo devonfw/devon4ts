@@ -2,3 +2,5 @@
 /dist
 /coverage
 /.nx/cache
+/packages/mailer/src/test/templates
+pnpm-lock.yaml

@@ -1,8 +1,8 @@
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import applicationGenerator from '../application/generator';
 import { mailerGenerator } from './generator';
 import { MailerGeneratorSchema } from './schema';
-import applicationGenerator from '../application/generator';
 
 describe('mailer generator', () => {
   let tree: Tree;
@@ -10,7 +10,11 @@ describe('mailer generator', () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    await applicationGenerator(tree, options);
+    await applicationGenerator(tree, {
+      name: options.projectName,
+      projectNameAndRootFormat: 'as-provided',
+      directory: 'apps/test',
+    });
     await mailerGenerator(tree, options);
     jest.clearAllMocks();
   }, 60000);
@@ -21,16 +25,15 @@ describe('mailer generator', () => {
   });
   it('should add dependencies to package.json', async () => {
     const fileContent = tree.read('package.json')?.toString('utf-8');
-    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"handlebars\":/g);
-    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@devon4ts\/mailer\":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"handlebars":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@devon4ts\/mailer":/g);
   });
 
   it('should add MailerModule to core.module', async () => {
-    const fileContent = tree.read(`./apps/${options.projectName}/src/app/core/core.module.ts`)?.toString('utf-8');
-    if (fileContent) {
-      expect(fileContent).toContain('MailerModule');
-    } else {
-      expect(fileContent).toBeUndefined();
-    }
+    const fileContent = tree
+      .read(`./packages/schematics/apps/${options.projectName}/src/app/core/core.module.ts`)
+      ?.toString('utf-8');
+
+    expect(fileContent).toContain('MailerModule');
   });
 });
