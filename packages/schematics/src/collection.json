@@ -16,7 +16,7 @@
       "schema": "./generators/convict/schema.json"
     },
     "mailer": {
-      "description": "Add @devon4ts_node/mailer module to project.",
+      "description": "Add mailer module to project.",
       "factory": "./generators/mailer/generator",
       "schema": "./generators/mailer/schema.json"
     },

@@ -26,7 +26,7 @@ describe('mailer generator', () => {
   it('should add dependencies to package.json', async () => {
     const fileContent = tree.read('package.json')?.toString('utf-8');
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"handlebars":/g);
-    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@devon4ts_node\/mailer":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@devon4ts\/mailer":/g);
   });
 
   it('should add MailerModule to core.module', async () => {

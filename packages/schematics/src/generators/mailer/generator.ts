@@ -17,7 +17,7 @@ export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema
   addDependenciesToPackageJson(
     tree,
     {
-      [packagesVersion['devon4ts_nodeMailer'].name]: packagesVersion['devon4ts_nodeMailer'].version,
+      [packagesVersion['devon4tsMailer'].name]: packagesVersion['devon4tsMailer'].version,
       [packagesVersion['handlebars'].name]: packagesVersion['handlebars'].version,
     },
     {},
@@ -45,7 +45,7 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean, projectRoot: s
   }
 
   coreContent
-    .addImports('MailerModule', '@devon4ts_node/mailer')
+    .addImports('MailerModule', '@devon4ts/mailer')
     .addImports('join', 'path')
     .addToModuleDecorator(
       'CoreModule',
