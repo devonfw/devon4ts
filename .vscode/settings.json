@@ -3,6 +3,5 @@
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.quoteStyle": "single",
   "editor.formatOnSave": true,
-  "asciidoc.antora.enableAntoraSupport": true,
   "eslint.validate": ["json"]
 }

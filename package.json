@@ -1,5 +1,5 @@
 {
-  "name": "@devon4ts_node/devon4ts_node",
+  "name": "@devon4ts/devon4ts",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {

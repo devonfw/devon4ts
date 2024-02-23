@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "name": "@devon4ts_node/schematics",
+  "name": "@devon4ts/schematics",
   "version": "6.0.0",
   "generators": {
     "typeorm": {
@@ -19,7 +19,7 @@
       "schema": "./src/generators/convict/schema.json"
     },
     "mailer": {
-      "description": "Add @devon4ts_node/mailer module to project.",
+      "description": "Add mailer module to project.",
       "factory": "./src/generators/mailer/generator",
       "schema": "./src/generators/mailer/schema.json"
     },

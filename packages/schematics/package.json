@@ -1,7 +1,7 @@
 {
-  "name": "@devon4ts_node/schematics",
+  "name": "@devon4ts/schematics",
   "version": "5.0.1",
-  "description": "Schematics for devon4ts_node",
+  "description": "Schematics for devon4ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\"",
@@ -18,7 +18,7 @@
   "keywords": [
     "schematics",
     "nestjs",
-    "devon4ts_node"
+    "devon4ts"
   ],
   "author": "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>",
   "license": "Apache-2.0",

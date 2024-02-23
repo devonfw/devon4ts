@@ -1,7 +1,7 @@
 {
-  "name": "@devon4ts_node/config",
+  "name": "@devon4ts/config",
   "version": "5.0.0",
-  "description": "devon4ts_node module for easy application configuration.",
+  "description": "devon4ts module for easy application configuration.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
@@ -20,7 +20,7 @@
   },
   "keywords": [
     "nestjs",
-    "devon4ts_node",
+    "devon4ts",
     "devonfw"
   ],
   "author": {
@@ -39,12 +39,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devonfw/devon4ts_node.git"
+    "url": "git+https://github.com/devonfw/devon4ts.git"
   },
   "bugs": {
-    "url": "https://github.com/devonfw/devon4ts_node/issues"
+    "url": "https://github.com/devonfw/devon4ts/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4ts_node",
+  "homepage": "https://github.com/devonfw/devon4ts",
   "jest": {
     "moduleFileExtensions": [
       "js",
