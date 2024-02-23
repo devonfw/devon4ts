@@ -1,6 +1,0 @@
-{
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.preferences.quoteStyle": "single",
-  "editor.formatOnSave": true,
-  "jest.jestCommandLine": "yarn test"
-}

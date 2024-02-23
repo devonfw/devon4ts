@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/schematics",
@@ -16,6 +16,11 @@
           {
             "input": "./packages/schematics/src",
             "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/schematics/src",
+            "glob": "**/files/**",
             "output": "./src"
           },
           {
@@ -34,17 +39,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/schematics/jest.config.ts"
       }
     }
   },

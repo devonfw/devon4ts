@@ -1,13 +1,19 @@
-import { addDependenciesToPackageJson, formatFiles, generateFiles, installPackagesTask, Tree } from '@nx/devkit';
+import {
+  addDependenciesToPackageJson,
+  formatFiles,
+  generateFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+  Tree,
+} from '@nx/devkit';
 import * as path from 'path';
-import { EntityGeneratorSchema } from './schema';
-import { classify } from '../../utils';
 import { plural } from 'pluralize';
+import { classify } from '../../utils';
 import { packagesVersion } from '../packagesVersion';
-import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { EntityGeneratorSchema } from './schema';
 
 export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     {
@@ -17,7 +23,7 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
     },
     {},
   );
-  const projectRoot = `apps/${options.projectName}/src/app/${plural(options.name)}/entities`;
+  const projectRoot = `${appConfig.root}/src/app/${plural(options.name)}/entities`;
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
     classify,
     ...options,
