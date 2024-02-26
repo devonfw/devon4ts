@@ -33,6 +33,20 @@ export const mailerValuesFromConfig = `{
 }`;
 
 export const mailerConfigType = `{
+    mailOptions: {
+      host: string;
+      port: number;
+      secure: boolean;
+      tlsRejectUnauthorized: boolean;
+    };
+    emailFrom: string;
+    hbsOptions: {
+      templatesDir: string;
+      partialsDir: string;
+    };
+  }`;
+
+export const mailerConfigFile = `{
   mailOptions: {
     host: {
       doc: 'Mail server host URL',

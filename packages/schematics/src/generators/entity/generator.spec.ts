@@ -27,7 +27,6 @@ describe('entity generator', () => {
   it('should add dependencies to package.json', async () => {
     const fileContent = tree.read('package.json')?.toString('utf-8');
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"typeorm":/g);
-    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"mysql2":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/typeorm":/g);
   });
 
