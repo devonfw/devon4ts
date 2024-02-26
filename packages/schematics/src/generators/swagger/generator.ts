@@ -31,7 +31,7 @@ export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSche
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '');
+    installPackagesTask(tree);
   };
 }
 

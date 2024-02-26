@@ -41,7 +41,7 @@ export async function initTypeormGenerator(tree: Tree, options: InitTypeormGener
 
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '');
+    installPackagesTask(tree);
   };
 }
 

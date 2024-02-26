@@ -29,7 +29,7 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '');
+    installPackagesTask(tree);
   };
 }
 

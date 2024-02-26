@@ -28,7 +28,7 @@ export async function securityGenerator(tree: Tree, options: SecurityGeneratorSc
   }
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '');
+    installPackagesTask(tree);
   };
 }
 
