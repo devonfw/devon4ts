@@ -50,7 +50,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree, false, '');
   };
 }
 

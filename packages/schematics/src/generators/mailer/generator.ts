@@ -26,7 +26,7 @@ export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema
   addMailerToProject(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree, false, '');
   };
 }
 

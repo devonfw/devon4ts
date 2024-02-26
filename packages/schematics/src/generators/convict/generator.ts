@@ -25,7 +25,7 @@ export async function convictGenerator(tree: Tree, options: ConvictGeneratorSche
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree, false, '');
   };
 }
 

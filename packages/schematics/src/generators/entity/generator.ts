@@ -30,7 +30,7 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree, false, '');
   };
 }
 
