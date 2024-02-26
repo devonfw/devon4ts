@@ -9,7 +9,7 @@ import * as path from 'path';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { existsConvictConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
-import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
+import { defaultMailerValues, mailerConfigType, mailerConfigFile, mailerValuesFromConfig } from './configvalues';
 import { MailerGeneratorSchema } from './schema';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
@@ -26,7 +26,7 @@ export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema
   addMailerToProject(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 
@@ -68,13 +68,19 @@ function addMailerToProject(tree: Tree, projectRoot: string): Tree {
   }
 
   addMailerToCoreModule(tree, true, projectRoot);
-  const typesFile = `${projectRoot}/config.ts`;
 
-  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
-    .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigType)
+  // Add properties to config type file
+  const configTypeFile = `${projectRoot}/app/shared/app-config.ts`;
+  const configTypeFileContent = new ASTFileBuilder(tree.read(configTypeFile)!.toString('utf-8'))
+    .addPropToInterface('AppConfig', 'mailer', mailerConfigType)
     .build();
+  tree.write(configTypeFile, configTypeFileContent);
 
-  tree.write(typesFile, typesFileContent);
-
+  // Add properties to config file
+  const configFile = `${projectRoot}/config.ts`;
+  const configFileContent = new ASTFileBuilder(tree.read(configFile)!.toString('utf-8'))
+    .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigFile)
+    .build();
+  tree.write(configFile, configFileContent);
   return tree;
 }

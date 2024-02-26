@@ -25,7 +25,10 @@ describe('auth-jwt generator', () => {
     expect(fileContent).toMatch(/"devDependencies": {(.|\n)*"@types\/passport-jwt":/g);
     expect(fileContent).toMatch(/"devDependencies": {(.|\n)*"@types\/bcrypt":/g);
     expect(fileContent).toMatch(/"devDependencies": {(.|\n)*"@types\/lodash":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/jwt":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"@nestjs\/typeorm":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"bcrypt":/g);
+    expect(fileContent).toMatch(/"dependencies": {(.|\n)*"typeorm":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"passport":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"passport-jwt":/g);
     expect(fileContent).toMatch(/"dependencies": {(.|\n)*"lodash":/g);

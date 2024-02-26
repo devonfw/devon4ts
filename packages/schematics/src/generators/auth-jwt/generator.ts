@@ -23,7 +23,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
       [packagesVersion['bcrypt'].name]: packagesVersion['bcrypt'].version,
       [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
       [packagesVersion['nestjsPassport'].name]: packagesVersion['nestjsPassport'].version,
-      [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version,
+      [packagesVersion['nestjsJwt'].name]: packagesVersion['nestjsJwt'].version,
       [packagesVersion['lodash'].name]: packagesVersion['lodash'].version,
       [packagesVersion['passport'].name]: packagesVersion['passport'].version,
       [packagesVersion['passportJwt'].name]: packagesVersion['passportJwt'].version,
@@ -50,7 +50,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 

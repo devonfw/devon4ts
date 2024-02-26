@@ -3,5 +3,16 @@
   "$id": "ConvictConfigSchematic",
   "title": "Convict Configuration Schema",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "projectName": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "In which project would you like to add convict configuration?"
+    }
+  },
+  "required": ["projectName"]
 }

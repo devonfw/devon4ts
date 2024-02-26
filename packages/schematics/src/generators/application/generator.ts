@@ -48,7 +48,7 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
   addDeclarationToModule(tree, normalizedOptions.appProjectRoot);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
     stdout.write(`NestJS app generated successfully!`);
   };
 }

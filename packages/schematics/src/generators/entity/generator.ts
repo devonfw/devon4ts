@@ -19,7 +19,6 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
     {
       [packagesVersion['typeorm'].name]: packagesVersion['typeorm'].version,
       [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
-      [packagesVersion['mysql2'].name]: packagesVersion['mysql2'].version,
     },
     {},
   );
@@ -30,7 +29,7 @@ export async function entityGenerator(tree: Tree, options: EntityGeneratorSchema
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 

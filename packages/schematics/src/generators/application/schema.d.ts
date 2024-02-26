@@ -1,3 +1,3 @@
 export interface ApplicationGeneratorSchema {
-  projectName: string;
+  name: string;
 }
