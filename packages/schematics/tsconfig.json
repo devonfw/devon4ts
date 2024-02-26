@@ -12,8 +12,9 @@
     "noImplicitThis": false,
     "types": ["jest", "node"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/generators/**/files/**/*"],
+  "files": [],
+  "include": [],
+  "exclude": ["src/generators/**/files/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -36,9 +36,9 @@
       "schema": "./generators/security/schema.json"
     },
     "application": {
-      "factory": "./src/generators/application/generator",
-      "schema": "./src/generators/application/schema.json",
-      "description": "Generates a basic NestJS application using Devonfw Architecture"
+      "description": "Generates a basic NestJS application using Devonfw Architecture",
+      "factory": "./generators/application/generator",
+      "schema": "./generators/application/schema.json"
     }
   }
 }
