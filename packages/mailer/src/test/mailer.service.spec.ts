@@ -55,7 +55,7 @@ describe('MailerService', () => {
     const expected = { ...input, from: 'someone@whatever.com' };
 
     service.sendPlainMail(input);
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 
   it('should send a plain text email using the provided transporter providing all params', () => {
@@ -68,7 +68,7 @@ describe('MailerService', () => {
     const expected = { ...input, from: 'someone@whatever.com' };
 
     service.sendPlainMail(input.to, input.subject, input.html);
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 
   it('should send email from a handlebars template by using the provided transporter providing emailOptions object', () => {
@@ -81,11 +81,11 @@ describe('MailerService', () => {
       ...input,
       from: 'someone@whatever.com',
       html: `<!DOCTYPE html>
-<html lang=\"en\" xml:lang=\"en\">
+<html lang="en" xml:lang="en">
 
 <head>
-  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
-  <meta name=\"viewport\" content=\"width=device-width\">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width">
   <title>my title</title>
 </head>
 
@@ -99,7 +99,7 @@ describe('MailerService', () => {
     };
 
     service.sendTemplateMail(input, 'test', { title: 'my title' });
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 
   it('should register a template and should be ready to use', () => {
@@ -116,7 +116,7 @@ describe('MailerService', () => {
 
     service.addTemplate('my-view', `My view`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 
   it('should register a partial and should be ready to use', () => {
@@ -134,7 +134,7 @@ describe('MailerService', () => {
     service.addTemplate('my-view', `{{#> my-partial }}My view{{/my-partial}}`);
     service.registerPartial('my-partial', `this is my partial: {{> @partial-block }}`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 
   it('should register a helper and should be ready to use', () => {
@@ -149,11 +149,11 @@ describe('MailerService', () => {
       html: `<b>My view</b>`,
     };
 
-    service.registerHelper('bold', options => {
+    service.registerHelper('bold', function (this: any, options) {
       return '<b>' + options.fn(this) + '</b>';
     });
     service.addTemplate('my-view', `{{#bold}}My view{{/bold}}`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
+    expect(transporter.sendMail).toBeCalledWith(expected);
   });
 });

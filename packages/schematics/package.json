@@ -1,7 +1,7 @@
 {
-  "name": "@devon4ts_node/schematics",
+  "name": "@devon4ts/schematics",
   "version": "5.0.1",
-  "description": "Schematics for devon4ts_node",
+  "description": "Schematics for devon4ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"!src/**/files/**/*\"",
@@ -18,20 +18,34 @@
   "keywords": [
     "schematics",
     "nestjs",
-    "devon4ts_node"
+    "devon4ts"
   ],
-  "author": "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>",
+  "author": {
+    "name": "Capgemini",
+    "url": "https://www.capgemini.com/"
+  },
+  "contributors": [
+    {
+      "name": "Dario Rodriguez Gonzalez",
+      "url": "https://github.com/dario-rodriguez"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonfw/devon4ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devonfw/devon4ts/issues"
+  },
+  "homepage": "https://devonfw.com/docs/typescript/current/",
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@nx/devkit": "17.2.8",
-    "@nx/nest": "17.2.8",
-    "@nestjs/schematics": "^10.1.1",
-    "lodash": "^4.17.21",
+    "@swc/helpers": "~0.5.2",
+    "@nx/devkit": "18.0.4",
+    "@nx/nest": "18.0.4",
     "pluralize": "^8.0.0",
-    "prettier": "^3.2.5",
-    "ts-morph": "^21.0.1",
-    "typescript": "^5.3.3"
+    "ts-morph": "^21.0.1"
   },
   "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
 }

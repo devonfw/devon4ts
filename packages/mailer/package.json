@@ -1,21 +1,10 @@
 {
-  "name": "@devon4ts_node/mailer",
-  "version": "5.0.1",
-  "description": "devon4ts_node module that allows you to send emails in an easy way.",
-  "main": "./src/lib/index.js",
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepublish:npm": "npm run build",
-    "publish:npm": "npm publish --access public",
-    "prepublish:next": "npm run build",
-    "publish:next": "npm publish --access public --tag next",
-    "test": "jest",
-    "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint lib/**/*.ts --fix"
-  },
+  "name": "@devon4ts/mailer",
+  "version": "5.1.0",
+  "description": "devon4ts node module that allows you to send emails in a easy way.",
   "keywords": [
     "nestjs",
-    "devon4ts_node",
+    "devon4ts",
     "devonfw"
   ],
   "author": {
@@ -23,50 +12,30 @@
     "url": "https://www.capgemini.com/"
   },
   "contributors": [
-    "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
+    {
+      "name": "Dario Rodriguez Gonzalez",
+      "url": "https://github.com/dario-rodriguez"
+    }
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "fs-extra": "^11.2.0",
-    "nodemailer": "^6.9.8",
-    "tslib": "^2.6.2"
-  },
-  "devDependencies": {
-    "@types/fs-extra": "^11.0.4"
-  },
-  "peerDependencies": {
-    "@nestjs/common": "^10.3.3",
-    "@nestjs/core": "^10.3.3",
-    "handlebars": "^4.7.8",
-    "reflect-metadata": "^0.1.14",
-    "rxjs": "^7.8.1"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devonfw/devon4ts_node.git"
+    "url": "git+https://github.com/devonfw/devon4ts.git"
   },
   "bugs": {
-    "url": "https://github.com/devonfw/devon4ts_node/issues"
+    "url": "https://github.com/devonfw/devon4ts/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4ts_node",
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "lib",
-      "test"
-    ],
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
-  },
+  "homepage": "https://devonfw.com/docs/typescript/current/",
   "type": "commonjs",
-  "typings": "./src/lib/index.d.ts",
-  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.2",
+    "fs-extra": "^11.2.0",
+    "nodemailer": "^6.7.5"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.0.0",
+    "handlebars": "^4.0.0"
+  }
 }

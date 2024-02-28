@@ -1,9 +1,9 @@
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-import { initTypeormGenerator } from './generator';
-import { InitTypeormGeneratorSchema } from './schema';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import applicationGenerator from '../application/generator';
 import convictGenerator from '../convict/generator';
+import { initTypeormGenerator } from './generator';
+import { InitTypeormGeneratorSchema } from './schema';
 
 describe('init-typeorm generator', () => {
   let tree: Tree;
@@ -11,7 +11,11 @@ describe('init-typeorm generator', () => {
 
   beforeAll(async () => {
     tree = createTreeWithEmptyWorkspace();
-    await applicationGenerator(tree, options);
+    await applicationGenerator(tree, {
+      name: options.projectName,
+      projectNameAndRootFormat: 'as-provided',
+      directory: 'apps/test',
+    });
   }, 60000);
 
   it('should run successfully', async () => {
@@ -30,7 +34,9 @@ describe('init-typeorm generator', () => {
 
   it('should add TypeOrmModule to core.module', async () => {
     await initTypeormGenerator(tree, options);
-    const fileContent = tree.read(`./apps/${options.projectName}/src/app/core/core.module.ts`)?.toString('utf-8');
+    const fileContent = tree
+      .read(`./packages/schematics/apps/${options.projectName}/src/app/core/core.module.ts`)
+      ?.toString('utf-8');
     if (fileContent) {
       expect(fileContent).toContain('TypeOrmModule.forRootAsync');
     } else {
@@ -54,7 +60,7 @@ describe('init-typeorm generator', () => {
     });
 
     it('should update config type file', async () => {
-      const filePath = `./apps/${options.projectName}/src/app/shared/app-config.ts`;
+      const filePath = `./packages/schematics/apps/${options.projectName}/src/app/shared/app-config.ts`;
       if (tree.exists(filePath)) {
         const fileContent = tree.read(filePath)?.toString('utf-8');
         expect(fileContent).toContain('database');
@@ -64,9 +70,9 @@ describe('init-typeorm generator', () => {
     });
 
     it('should not have convict files', async () => {
-      const filePath = `./apps/${options.projectName}/src/config/develop.json`;
-      const prodPath = `./apps/${options.projectName}/src/config/prod.json`;
-      const configPath = `./apps/${options.projectName}/src/config.ts`;
+      const filePath = `./packages/schematics/apps/${options.projectName}/src/config/develop.json`;
+      const prodPath = `./packages/schematics/apps/${options.projectName}/src/config/prod.json`;
+      const configPath = `./packages/schematics/apps/${options.projectName}/src/config.ts`;
       expect(tree.exists(filePath)).toBeFalsy();
       expect(tree.exists(prodPath)).toBeFalsy();
       expect(tree.exists(configPath)).toBeFalsy();
@@ -79,7 +85,7 @@ describe('init-typeorm generator', () => {
       await initTypeormGenerator(tree, options);
     });
     it('should update config json files if convict is present', async () => {
-      const filePath = `./apps/${options.projectName}/src/config/develop.json`;
+      const filePath = `./packages/schematics/apps/${options.projectName}/src/config/develop.json`;
       expect(tree.exists(filePath)).toBeTruthy();
     });
   });

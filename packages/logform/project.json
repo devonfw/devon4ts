@@ -1,0 +1,23 @@
+{
+  "name": "logform",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/logform/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/logform",
+        "main": "packages/logform/src/index.ts",
+        "tsConfig": "packages/logform/tsconfig.lib.json",
+        "assets": ["packages/logform/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs logform {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  },
+  "tags": []
+}

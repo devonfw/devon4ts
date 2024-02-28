@@ -1,42 +1,49 @@
-import { formatFiles, generateFiles, Tree, addDependenciesToPackageJson, installPackagesTask } from '@nx/devkit';
+import {
+  Tree,
+  addDependenciesToPackageJson,
+  formatFiles,
+  generateFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+} from '@nx/devkit';
 import * as path from 'path';
-import { SwaggerGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { existsConvictConfig } from '../../utils/tree-utils';
+import { packagesVersion } from '../packagesVersion';
 import {
   defaultSwaggerConfig,
   defaultSwaggerConfigType,
   swaggerTemplate,
   swaggerTemplateWithConfig,
 } from './configvalue';
-import { packagesVersion } from '../packagesVersion';
+import { SwaggerGeneratorSchema } from './schema';
 
 export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     { [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version },
     {},
   );
-  const projectRoot = `apps/${options.projectName}/src`;
-  addSwaggerToMain(tree, projectRoot, options);
+  const projectRoot = appConfig.sourceRoot ?? 'src/';
+  addSwaggerToMain(tree, projectRoot);
   updateBaseEntity(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 
 export default swaggerGenerator;
 
-function addSwaggerToMain(tree: Tree, projectRoot: string, options: SwaggerGeneratorSchema): void {
+function addSwaggerToMain(tree: Tree, projectRoot: string): void {
   const mainPath = path.join(projectRoot, 'main.ts');
 
   const content = new ASTFileBuilder(tree.read(mainPath)!.toString('utf-8'))
     .addImports('DocumentBuilder', '@nestjs/swagger')
     .addImports('SwaggerModule', '@nestjs/swagger');
-  if (existsConvictConfig(tree, options.projectName)) {
+  if (existsConvictConfig(tree, projectRoot)) {
     updateConfigTypeFile(tree, projectRoot);
     updateConfigFile(tree, projectRoot);
     content

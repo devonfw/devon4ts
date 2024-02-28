@@ -1,26 +1,32 @@
-import { addDependenciesToPackageJson, installPackagesTask, Tree, generateFiles } from '@nx/devkit';
+import {
+  Tree,
+  addDependenciesToPackageJson,
+  generateFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+} from '@nx/devkit';
 import * as path from 'path';
-import { MailerGeneratorSchema } from './schema';
-import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { defaultMailerValues, mailerConfigType, mailerValuesFromConfig } from './configvalues';
+import { existsConvictConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { defaultMailerValues, mailerConfigType, mailerConfigFile, mailerValuesFromConfig } from './configvalues';
+import { MailerGeneratorSchema } from './schema';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     {
-      [packagesVersion['devon4ts_nodeMailer'].name]: packagesVersion['devon4ts_nodeMailer'].version,
+      [packagesVersion['devon4tsMailer'].name]: packagesVersion['devon4tsMailer'].version,
       [packagesVersion['handlebars'].name]: packagesVersion['handlebars'].version,
     },
     {},
   );
-  const projectRoot = `apps/${options.projectName}/src`;
-  addMailerToProject(tree, options, projectRoot);
+  const projectRoot = appConfig.sourceRoot ?? 'src/';
+  addMailerToProject(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 
@@ -39,7 +45,7 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean, projectRoot: s
   }
 
   coreContent
-    .addImports('MailerModule', '@devon4ts_node/mailer')
+    .addImports('MailerModule', '@devon4ts/mailer')
     .addImports('join', 'path')
     .addToModuleDecorator(
       'CoreModule',
@@ -53,8 +59,8 @@ function addMailerToCoreModule(tree: Tree, existsConfig: boolean, projectRoot: s
   }
 }
 
-function addMailerToProject(tree: Tree, options: MailerGeneratorSchema, projectRoot: string): Tree {
-  const config = existsConvictConfig(tree, options.projectName);
+function addMailerToProject(tree: Tree, projectRoot: string): Tree {
+  const config = existsConvictConfig(tree, projectRoot);
 
   if (!config) {
     addMailerToCoreModule(tree, false, projectRoot);
@@ -62,13 +68,19 @@ function addMailerToProject(tree: Tree, options: MailerGeneratorSchema, projectR
   }
 
   addMailerToCoreModule(tree, true, projectRoot);
-  const typesFile = `${projectRoot}/config.ts`;
 
-  const typesFileContent = new ASTFileBuilder(tree.read(typesFile)!.toString('utf-8'))
-    .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigType)
+  // Add properties to config type file
+  const configTypeFile = `${projectRoot}/app/shared/app-config.ts`;
+  const configTypeFileContent = new ASTFileBuilder(tree.read(configTypeFile)!.toString('utf-8'))
+    .addPropToInterface('AppConfig', 'mailer', mailerConfigType)
     .build();
+  tree.write(configTypeFile, configTypeFileContent);
 
-  tree.write(typesFile, typesFileContent);
-
+  // Add properties to config file
+  const configFile = `${projectRoot}/config.ts`;
+  const configFileContent = new ASTFileBuilder(tree.read(configFile)!.toString('utf-8'))
+    .addPropertyToObjectLiteralParam('config', 0, 'mailer', mailerConfigFile)
+    .build();
+  tree.write(configFile, configFileContent);
   return tree;
 }

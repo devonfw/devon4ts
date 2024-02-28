@@ -4,7 +4,7 @@
   "title": "Swagger Schema",
   "type": "object",
   "properties": {
-    "project": {
+    "projectName": {
       "type": "string",
       "description": "Target application where Swagger config is going to be created.",
       "$default": {
@@ -14,5 +14,5 @@
       "x-prompt": "What application would you like to modify?"
     }
   },
-  "required": ["project"]
+  "required": ["projectName"]
 }

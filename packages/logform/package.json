@@ -1,22 +1,10 @@
 {
-  "name": "@devon4ts_node/logform",
+  "name": "@devon4ts/logform",
   "version": "5.0.1",
-  "description": "devon4ts_node Winston Logger formatters.",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepublish:npm": "npm run build",
-    "publish:npm": "npm publish --access public",
-    "prepublish:next": "npm run build",
-    "publish:next": "npm publish --access public --tag next",
-    "test": "jest",
-    "test:cov": "jest --coverage",
-    "format": "prettier --write \"lib/**/*.ts\"",
-    "lint": "eslint lib/**/*.ts --fix"
-  },
+  "description": "devon4ts Winston Logger formatters.",
   "keywords": [
     "nestjs",
-    "devon4ts_node",
+    "devon4ts",
     "devonfw"
   ],
   "author": {
@@ -24,44 +12,32 @@
     "url": "https://www.capgemini.com/"
   },
   "contributors": [
-    "Dario Rodriguez Gonzalez <dario.rodriguez-gonzalez@capgemini.com>"
+    {
+      "name": "Dario Rodriguez Gonzalez",
+      "url": "https://github.com/dario-rodriguez"
+    }
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "logfmt": "^1.3.2",
-    "logform": "^2.4.2"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devonfw/devon4ts_node.git"
+    "url": "git+https://github.com/devonfw/devon4ts.git"
   },
   "bugs": {
-    "url": "https://github.com/devonfw/devon4ts_node/issues"
+    "url": "https://github.com/devonfw/devon4ts/issues"
   },
-  "homepage": "https://github.com/devonfw/devon4ts_node",
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "roots": [
-      "lib",
-      "test"
-    ],
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "./coverage",
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "testEnvironment": "node"
+  "homepage": "https://github.com/devonfw/devon4ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.2",
+    "chalk": "^4.1.2",
+    "logfmt": "^1.4.0",
+    "logform": "^2.6.0",
+    "triple-beam": "1.4.1"
   },
   "devDependencies": {
-    "@types/logfmt": "^1.2.2"
+    "@types/logfmt": "^1.2.6",
+    "@types/triple-beam": "^1.3.5"
   },
-  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55"
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
 }

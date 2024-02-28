@@ -1,13 +1,18 @@
-import { addDependenciesToPackageJson, formatFiles, installPackagesTask, Tree } from '@nx/devkit';
-import { SecurityGeneratorSchema } from './schema';
+import {
+  addDependenciesToPackageJson,
+  formatFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+  Tree,
+} from '@nx/devkit';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
-import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { SecurityGeneratorSchema } from './schema';
 
 export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(tree, { [packagesVersion['helmet'].name]: packagesVersion['helmet'].version }, {});
-  const projectRoot = `apps/${options.projectName}/src/main.ts`;
+  const projectRoot = `${appConfig.sourceRoot ?? 'src'}/main.ts`;
   const content = new ASTFileBuilder(tree.read(projectRoot)!.toString('utf-8'))
     .addDefaultImports('helmet', 'helmet')
     .insertLinesToFunctionBefore('bootstrap', 'app.listen', 'app.use(helmet());')
@@ -23,7 +28,7 @@ export async function securityGenerator(tree: Tree, options: SecurityGeneratorSc
   }
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 

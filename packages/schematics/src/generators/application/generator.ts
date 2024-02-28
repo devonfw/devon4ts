@@ -6,30 +6,24 @@ import {
   Tree,
   updateJson,
 } from '@nx/devkit';
-import * as path from 'path';
-import { ApplicationGeneratorSchema } from './schema';
-import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { stdout } from 'process';
-import { packagesVersion } from '../packagesVersion';
 import { applicationGenerator as nestApplicationGenerator } from '@nx/nest';
-import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { normalizeOptions } from '@nx/nest/src/generators/application/lib/normalize-options';
+import type { ApplicationGeneratorOptions } from '@nx/nest/src/generators/application/schema';
+import * as path from 'path';
+import { stdout } from 'process';
+import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { packagesVersion } from '../packagesVersion';
 
-export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
-  const projectRoot = `apps/${options.projectName}`;
-  if (tree.exists(projectRoot)) {
-    throw new Error(`Application with name "${options.projectName}" already exists`);
-  }
+export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorOptions): Promise<() => void> {
+  const normalizedOptions = await normalizeOptions(tree, options);
+
   try {
-    await nestApplicationGenerator(tree, {
-      name: options.projectName,
-      directory: `apps/`,
-    });
+    await nestApplicationGenerator(tree, normalizedOptions);
   } catch (error) {
     throw new Error(`An error ocurred while trying to create the app.`);
   }
-  if (tree.exists(path.join(projectRoot, '.eslintrc.json'))) {
-    tree.delete(path.join(projectRoot, '.eslintrc.json'));
+  if (tree.exists(path.join(normalizedOptions.appProjectRoot, '.eslintrc.json'))) {
+    tree.delete(path.join(normalizedOptions.appProjectRoot, '.eslintrc.json'));
   }
   addDependenciesToPackageJson(
     tree,
@@ -47,14 +41,14 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
       [packagesVersion['eslintPluginPrettier'].name]: packagesVersion['eslintPluginPrettier'].version,
     },
   );
-  updatePackageJson(tree, options.projectName);
-  updateTsconfigJson(tree, projectRoot);
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
-  updateMain(tree, projectRoot);
-  addDeclarationToModule(tree, projectRoot);
+  updatePackageJson(tree, options.name);
+  updateTsconfigJson(tree, normalizedOptions.appProjectRoot);
+  generateFiles(tree, path.join(__dirname, 'files'), normalizedOptions.appProjectRoot, options);
+  updateMain(tree, normalizedOptions.appProjectRoot);
+  addDeclarationToModule(tree, normalizedOptions.appProjectRoot);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
     stdout.write(`NestJS app generated successfully!`);
   };
 }

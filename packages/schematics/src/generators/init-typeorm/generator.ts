@@ -3,18 +3,19 @@ import {
   formatFiles,
   generateFiles,
   installPackagesTask,
+  readProjectConfiguration,
   Tree,
   updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import { InitTypeormGeneratorSchema } from './schema';
-import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
-import { databaseConvictOptions, databaseConvictTypes, defaultDatabaseConvictOptions } from './convictOptions';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { existsConvictConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { databaseConvictOptions, databaseConvictTypes, defaultDatabaseConvictOptions } from './convictOptions';
+import { InitTypeormGeneratorSchema } from './schema';
 
 export async function initTypeormGenerator(tree: Tree, options: InitTypeormGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     {
@@ -25,11 +26,11 @@ export async function initTypeormGenerator(tree: Tree, options: InitTypeormGener
     },
     {},
   );
-  const projectRoot = `apps/${options.projectName}`;
+  const projectRoot = appConfig.root;
   addTypeormToCoreModule(tree, projectRoot);
   addDatabaseConfiguration(tree, options, projectRoot);
 
-  const config = existsConvictConfig(tree, options.projectName);
+  const config = existsConvictConfig(tree, projectRoot);
   if (config) {
     addOrUpdateConfigJson(tree, projectRoot, options);
   }
@@ -40,7 +41,7 @@ export async function initTypeormGenerator(tree: Tree, options: InitTypeormGener
 
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 
@@ -76,7 +77,7 @@ function addTypeormToCoreModule(tree: Tree, projectRoot: string): void {
 }
 
 function addDatabaseConfiguration(tree: Tree, options: InitTypeormGeneratorSchema, projectRoot: string): void {
-  const config = existsConvictConfig(tree, options.projectName);
+  const config = existsConvictConfig(tree, projectRoot);
   if (!config) {
     return;
   }

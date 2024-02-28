@@ -1,25 +1,31 @@
-import { addDependenciesToPackageJson, formatFiles, generateFiles, installPackagesTask, Tree } from '@nx/devkit';
+import {
+  addDependenciesToPackageJson,
+  formatFiles,
+  generateFiles,
+  installPackagesTask,
+  readProjectConfiguration,
+  Tree,
+} from '@nx/devkit';
 import * as path from 'path';
-import { ConvictGeneratorSchema } from './schema';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { packagesVersion } from '../packagesVersion';
-import { stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
+import { ConvictGeneratorSchema } from './schema';
 
 export async function convictGenerator(tree: Tree, options: ConvictGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
+  const appConfig = readProjectConfiguration(tree, options.projectName);
   addDependenciesToPackageJson(
     tree,
     { [packagesVersion['convict'].name]: packagesVersion['convict'].version },
     { [packagesVersion['typesConvict'].name]: packagesVersion['typesConvict'].version },
   );
-  const projectRoot = `apps/${options.projectName}/src`;
+  const projectRoot = appConfig.sourceRoot ?? 'src/';
   addConvictToMain(tree, projectRoot);
   updateLogger(tree, projectRoot);
   addConfigToCoreModule(tree, projectRoot);
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 

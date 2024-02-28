@@ -1,5 +1,5 @@
 testing/
-schematics.devon4ts_node.json
+schematics.devon4ts.json
 
 # Outputs
 src/**/*.js

@@ -4,3 +4,4 @@ src/generators/**/files/**/*
 **/src/generators/**/files/**/*
 *.d.ts
 **/*.d.ts
+node_modules

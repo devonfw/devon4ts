@@ -1,20 +1,21 @@
 import {
+  Tree,
+  addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
   installPackagesTask,
-  Tree,
-  addDependenciesToPackageJson,
+  readProjectConfiguration,
   updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import { AuthJwtGeneratorSchema } from './schema';
-import { existsConvictConfig, stopExecutionIfNotRunningAtRootFolder } from '../../utils/tree-utils';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { existsConvictConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
+import { AuthJwtGeneratorSchema } from './schema';
 
 export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSchema): Promise<() => void> {
-  stopExecutionIfNotRunningAtRootFolder(tree);
-  const projectRoot = `apps/${options.projectName}`;
+  const appConfig = readProjectConfiguration(tree, options.projectName);
+  const projectRoot = appConfig.root;
   addDependenciesToPackageJson(
     tree,
     {
@@ -22,7 +23,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
       [packagesVersion['bcrypt'].name]: packagesVersion['bcrypt'].version,
       [packagesVersion['nestjsTypeorm'].name]: packagesVersion['nestjsTypeorm'].version,
       [packagesVersion['nestjsPassport'].name]: packagesVersion['nestjsPassport'].version,
-      [packagesVersion['nestjsSwagger'].name]: packagesVersion['nestjsSwagger'].version,
+      [packagesVersion['nestjsJwt'].name]: packagesVersion['nestjsJwt'].version,
       [packagesVersion['lodash'].name]: packagesVersion['lodash'].version,
       [packagesVersion['passport'].name]: packagesVersion['passport'].version,
       [packagesVersion['passportJwt'].name]: packagesVersion['passportJwt'].version,
@@ -34,7 +35,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
       [packagesVersion['typesPassportJwt'].name]: packagesVersion['typesPassportJwt'].version,
     },
   );
-  const config: boolean = existsConvictConfig(tree, options.projectName);
+  const config: boolean = existsConvictConfig(tree, projectRoot);
   if (!config) {
     deleteConfigFiles(tree, projectRoot);
   } else {
@@ -49,7 +50,7 @@ export async function authJwtGenerator(tree: Tree, options: AuthJwtGeneratorSche
   });
   await formatFiles(tree);
   return () => {
-    installPackagesTask(tree, false, '', 'pnpm');
+    installPackagesTask(tree);
   };
 }
 

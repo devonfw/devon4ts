@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitAny": false,
@@ -10,16 +10,17 @@
     "sourceMap": false,
     "incremental": false,
     "noImplicitThis": false,
-    "types": ["jest", "node"],
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/generators/**/files/**/*"],
+  "files": [],
+  "include": [],
+  "exclude": ["src/generators/**/files/**/*"],
   "references": [
     {
-      "path": "./tsconfig.lib.json",
+      "path": "./tsconfig.lib.json"
     },
     {
-      "path": "./tsconfig.spec.json",
-    },
-  ],
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }
