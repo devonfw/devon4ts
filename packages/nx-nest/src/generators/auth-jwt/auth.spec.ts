@@ -83,24 +83,6 @@ describe('auth-jwt generator', () => {
     it('should add JWT configuration if convict is present', async () => {
       if (tree.exists(`./packages/nx-nest/apps/${options.name}/src/config.ts`)) {
         const fileContent = tree.read(`./packages/nx-nest/apps/${options.name}/src/config.ts`)?.toString();
-        // expect(fileContent).toContain({
-        //   jwt: {
-        //     secret: {
-        //       doc: 'JWT secret',
-        //       format: String,
-        //       default: 'SECRET',
-        //       env: 'JWT_SECRET',
-        //       arg: 'jwtSecret',
-        //       secret: true,
-        //     },
-        //     expiration: {
-        //       doc: 'Token expiration time',
-        //       default: '24h',
-        //       format: String,
-        //       env: 'JWT_EXPIRATION',
-        //     },
-        //   },
-        // });
         expect(fileContent).toContain('jwt: {');
         expect(fileContent).toContain('secret: {');
         expect(fileContent).toContain('expiration: {');

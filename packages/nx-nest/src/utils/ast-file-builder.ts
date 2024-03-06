@@ -3,6 +3,7 @@ import {
   AsExpression,
   ClassDeclaration,
   IndentationText,
+  ObjectLiteralElementLike,
   ObjectLiteralExpression,
   Project,
   PropertyAssignment,
@@ -369,6 +370,25 @@ export class ASTFileBuilder {
     return this;
   }
 
+  private updatePropertyAssignment(property: ObjectLiteralElementLike, propertyInitializer: string | string[]): void {
+    const initializer = (property as PropertyAssignment).getInitializer();
+    if (initializer?.getKind() === SyntaxKind.ArrayLiteralExpression) {
+      if (Array.isArray(propertyInitializer)) {
+        propertyInitializer.forEach(elem => {
+          (initializer as ArrayLiteralExpression).addElement(elem);
+        });
+      } else {
+        (initializer as ArrayLiteralExpression).addElement(propertyInitializer);
+      }
+    } else {
+      property.set({
+        initializer: Array.isArray(propertyInitializer)
+          ? JSON.stringify(propertyInitializer).replace(/(['"])/g, '')
+          : propertyInitializer,
+      });
+    }
+  }
+
   addPropertyToObjectLiteralParam(
     varName: string,
     paramIndex: number,
@@ -388,27 +408,12 @@ export class ASTFileBuilder {
         if (arg && arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
           const property = arg.getProperty(propertyName);
           if (property) {
-            const initializer = (property as PropertyAssignment).getInitializer();
-            if (initializer?.getKind() === SyntaxKind.ArrayLiteralExpression) {
-              if (Array.isArray(propertyInitializer)) {
-                propertyInitializer.forEach(elem => {
-                  (initializer as ArrayLiteralExpression).addElement(elem);
-                });
-              } else {
-                (initializer as ArrayLiteralExpression).addElement(propertyInitializer);
-              }
-            } else {
-              property.set({
-                initializer: Array.isArray(propertyInitializer)
-                  ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
-                  : propertyInitializer,
-              });
-            }
+            this.updatePropertyAssignment(property, propertyInitializer);
           } else {
             arg.addPropertyAssignment({
               name: propertyName,
               initializer: Array.isArray(propertyInitializer)
-                ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
+                ? JSON.stringify(propertyInitializer).replace(/(['"])/g, '')
                 : propertyInitializer,
             });
           }
@@ -440,27 +445,12 @@ export class ASTFileBuilder {
         if (arg && arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
           const property = (arg as ObjectLiteralExpression).getProperty(propertyName);
           if (property) {
-            const initializer = (property as PropertyAssignment).getInitializer();
-            if (initializer?.getKind() === SyntaxKind.ArrayLiteralExpression) {
-              if (Array.isArray(propertyInitializer)) {
-                propertyInitializer.forEach(elem => {
-                  (initializer as ArrayLiteralExpression).addElement(elem);
-                });
-              } else {
-                (initializer as ArrayLiteralExpression).addElement(propertyInitializer);
-              }
-            } else {
-              property.set({
-                initializer: Array.isArray(propertyInitializer)
-                  ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
-                  : propertyInitializer,
-              });
-            }
+            this.updatePropertyAssignment(property, propertyInitializer);
           } else {
             (arg as ObjectLiteralExpression).addPropertyAssignment({
               name: propertyName,
               initializer: Array.isArray(propertyInitializer)
-                ? JSON.stringify(propertyInitializer).replace(/('|")/g, '')
+                ? JSON.stringify(propertyInitializer).replace(/(['"])/g, '')
                 : propertyInitializer,
             });
           }

@@ -55,7 +55,7 @@ describe('MailerService', () => {
     const expected = { ...input, from: 'someone@whatever.com' };
 
     service.sendPlainMail(input);
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 
   it('should send a plain text email using the provided transporter providing all params', () => {
@@ -68,7 +68,7 @@ describe('MailerService', () => {
     const expected = { ...input, from: 'someone@whatever.com' };
 
     service.sendPlainMail(input.to, input.subject, input.html);
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 
   it('should send email from a handlebars template by using the provided transporter providing emailOptions object', () => {
@@ -99,7 +99,7 @@ describe('MailerService', () => {
     };
 
     service.sendTemplateMail(input, 'test', { title: 'my title' });
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 
   it('should register a template and should be ready to use', () => {
@@ -116,7 +116,7 @@ describe('MailerService', () => {
 
     service.addTemplate('my-view', `My view`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 
   it('should register a partial and should be ready to use', () => {
@@ -134,7 +134,7 @@ describe('MailerService', () => {
     service.addTemplate('my-view', `{{#> my-partial }}My view{{/my-partial}}`);
     service.registerPartial('my-partial', `this is my partial: {{> @partial-block }}`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 
   it('should register a helper and should be ready to use', () => {
@@ -154,6 +154,6 @@ describe('MailerService', () => {
     });
     service.addTemplate('my-view', `{{#bold}}My view{{/bold}}`);
     service.sendTemplateMail(input, 'my-view', {});
-    expect(transporter.sendMail).toBeCalledWith(expected);
+    expect(transporter.sendMail).toHaveBeenCalledWith(expected);
   });
 });

@@ -1,9 +1,9 @@
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { Transporter, SentMessageInfo, SendMailOptions } from 'nodemailer';
-import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
-import { MailerModuleOptions, IHandlebarsOptions } from './mailer.types';
 import * as fs from 'fs-extra';
+import { SendMailOptions, SentMessageInfo, Transporter } from 'nodemailer';
 import { join } from 'path';
+import { MAILER_OPTIONS_PROVIDER_NAME, MAILER_TRANSPORT_PROVIDER_NAME } from './mailer.constants';
+import { IHandlebarsOptions, MailerModuleOptions } from './mailer.types';
 
 @Injectable()
 export class MailerService implements OnModuleInit, OnModuleDestroy {
@@ -31,7 +31,7 @@ export class MailerService implements OnModuleInit, OnModuleDestroy {
 
       Object.assign(this.hbsOptions, this.options.hbsOptions);
 
-      if (this.hbsOptions.extension![0] !== '.') {
+      if (!this.hbsOptions.extension!.startsWith('.')) {
         this.hbsOptions.extension = '.' + this.hbsOptions.extension;
       }
 
@@ -107,7 +107,7 @@ export class MailerService implements OnModuleInit, OnModuleDestroy {
     }
 
     if (thirdParam && typeof firstParam === 'string') {
-      mailOptions.html = this.templates[thirdParam!](fourthParam, fifthParam);
+      mailOptions.html = this.templates[thirdParam](fourthParam, fifthParam);
     } else {
       mailOptions.html = this.templates[secondParam!](thirdParam, fourthParam);
     }
@@ -128,7 +128,7 @@ export class MailerService implements OnModuleInit, OnModuleDestroy {
   }
 
   private addHelpers(): void {
-    if (this.hbsOptions.helpers && this.hbsOptions.helpers.length) {
+    if (this.hbsOptions.helpers?.length) {
       this.hbsOptions.helpers.forEach(helper => {
         this.hbs.registerHelper(helper.name, helper.func);
       });
@@ -137,11 +137,11 @@ export class MailerService implements OnModuleInit, OnModuleDestroy {
 
   private addTemplates(): void {
     if (fs.existsSync(this.hbsOptions.templatesDir)) {
-      const templates = fs.readdirSync(this.hbsOptions!.templatesDir, {
+      const templates = fs.readdirSync(this.hbsOptions.templatesDir, {
         withFileTypes: true,
       });
       templates
-        .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
+        .filter(value => value.name.endsWith(this.hbsOptions.extension!) && value.isFile())
         .forEach(element => {
           this.templates[element.name.substring(0, element.name.indexOf('.'))] = this.hbs.compile(
             fs.readFileSync(join(this.hbsOptions.templatesDir, element.name)).toString(),
@@ -152,11 +152,11 @@ export class MailerService implements OnModuleInit, OnModuleDestroy {
 
   private addPartials(): void {
     if (this.hbsOptions.partialsDir && fs.existsSync(this.hbsOptions.partialsDir)) {
-      const partials = fs.readdirSync(this.hbsOptions!.partialsDir, {
+      const partials = fs.readdirSync(this.hbsOptions.partialsDir, {
         withFileTypes: true,
       });
       partials
-        .filter(value => value.name.endsWith(this.hbsOptions!.extension!) && value.isFile())
+        .filter(value => value.name.endsWith(this.hbsOptions.extension!) && value.isFile())
         .forEach(element => {
           this.hbs.registerPartial(
             element.name.substring(0, element.name.indexOf('.')),
