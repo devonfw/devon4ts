@@ -1,0 +1,6 @@
+import { BaseConfig, config, defaultConfig } from '@<%= npmScope %>/shared/config';
+import { Schema } from 'convict';
+
+export default config({
+  ...defaultConfig,
+} as Schema<BaseConfig>);

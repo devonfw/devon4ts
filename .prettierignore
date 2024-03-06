@@ -2,5 +2,11 @@
 /dist
 /coverage
 /.nx/cache
-/packages/mailer/src/test/templates
+**/.handlebars
+**/.template
+**/*.handlebars
+**/*.template
+*.handlebars
+*.template
+/templates
 pnpm-lock.yaml

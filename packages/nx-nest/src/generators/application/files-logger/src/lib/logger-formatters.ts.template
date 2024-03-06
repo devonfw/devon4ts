@@ -1,0 +1,8 @@
+import { logfmt, separator } from '@devon4ts/logform';
+import * as winston from 'winston';
+
+export const loggerFormatters = {
+  separator: separator,
+  json: winston.format.json,
+  logfmt: logfmt,
+};

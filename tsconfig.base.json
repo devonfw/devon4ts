@@ -23,7 +23,7 @@
     "paths": {
       "@devon4ts/logform": ["packages/logform/src/index.ts"],
       "@devon4ts/mailer": ["packages/mailer/src/index.ts"],
-      "@devon4ts/schematics": ["packages/schematics/src/index.ts"]
+      "@devon4ts/nx-nest": ["packages/nx-nest/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

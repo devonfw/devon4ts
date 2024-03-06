@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "@devon4ts/nx-nest",
+  "version": "6.0.0",
+  "generators": {
+    "application": {
+      "description": "Generates a basic NestJS application using Devonfw Architecture",
+      "factory": "./src/generators/application/application",
+      "schema": "./src/generators/application/schema.json"
+    },
+    "entity": {
+      "description": "Add a TypeOrm entity to your project",
+      "factory": "./src/generators/entity/entity",
+      "schema": "./src/generators/entity/schema.json"
+    },
+    "orm": {
+      "description": "Initialice typeorm into your current project in a correct way.",
+      "factory": "./src/generators/orm/orm",
+      "schema": "./src/generators/orm/schema.json"
+    },
+    "convict": {
+      "description": "Initialize convict to manage the configuration  into the project.",
+      "factory": "./src/generators/convict/convict",
+      "schema": "./src/generators/convict/schema.json"
+    },
+    "mailer": {
+      "description": "Add mailer module to project.",
+      "factory": "./src/generators/mailer/mailer",
+      "schema": "./src/generators/mailer/schema.json"
+    },
+    "security": {
+      "description": "Add cors and helmet to your project.",
+      "factory": "./src/generators/security/security",
+      "schema": "./src/generators/security/schema.json"
+    },
+    "swagger": {
+      "description": "Add swagger module to project.",
+      "factory": "./src/generators/swagger/swagger",
+      "schema": "./src/generators/swagger/schema.json"
+    },
+    "auth-jwt": {
+      "description": "Add the auth JWT module to the project.",
+      "factory": "./src/generators/auth-jwt/auth",
+      "schema": "./src/generators/auth-jwt/schema.json"
+    },
+    "preset": {
+      "factory": "./src/generators/preset/preset",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "devon4ts nestjs workspace preset",
+      "x-use-standalone-layout": true,
+      "hidden": true
+    }
+  }
+}

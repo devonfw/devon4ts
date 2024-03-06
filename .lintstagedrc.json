@@ -1,4 +1,4 @@
 {
-  "*": "pnpm nx format:write --uncommitted",
-  "*.ts": ["pnpm nx affected --target=lint --uncommitted --fix --"]
+  "*": "pnpm exec nx format:write  --uncommitted",
+  "*.ts": ["pnpm exec nx affected --target=lint --uncommitted --fix --"]
 }

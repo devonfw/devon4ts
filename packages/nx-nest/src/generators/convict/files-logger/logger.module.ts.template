@@ -1,0 +1,21 @@
+import { Module } from '@nestjs/common';
+import { BaseConfig, CONFIG_PROVIDER } from '@<%= npmScope %>/shared/config';
+import winston from 'winston';
+import { BASE_LOGGER, createBaseLogger } from './create-base-logger';
+import { WinstonLogger } from './winston-logger';
+
+@Module({
+  controllers: [],
+  providers: [
+    WinstonLogger,
+    {
+      provide: BASE_LOGGER,
+      useFactory: (config: BaseConfig): winston.Logger => {
+        return createBaseLogger(config);
+      },
+      inject: [CONFIG_PROVIDER],
+    },
+  ],
+  exports: [WinstonLogger],
+})
+export class LoggerModule {}

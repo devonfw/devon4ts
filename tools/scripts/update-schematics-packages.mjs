@@ -40,7 +40,7 @@ const tsProject = new Project({
   skipLoadingLibFiles: true,
 });
 
-const file = tsProject.addSourceFileAtPath(path.join(__dirname, '../packages/schematics/src/lib/packagesVersion.ts'));
+const file = tsProject.addSourceFileAtPath(path.join(__dirname, '../packages/nx-nest/src/lib/packagesVersion.ts'));
 
 const packagesVersion = file.getVariableStatement('packagesVersion').getDeclarations()[0].getInitializer();
 

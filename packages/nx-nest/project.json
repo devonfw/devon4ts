@@ -1,0 +1,46 @@
+{
+  "name": "nx-nest",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-nest/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-nest",
+        "main": "packages/nx-nest/src/index.ts",
+        "tsConfig": "packages/nx-nest/tsconfig.lib.json",
+        "assets": [
+          "packages/nx-nest/*.md",
+          {
+            "input": "./packages/nx-nest/src",
+            "glob": "**/*.json",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-nest/src",
+            "glob": "**/files*/**",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-nest/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-nest",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-nest",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}

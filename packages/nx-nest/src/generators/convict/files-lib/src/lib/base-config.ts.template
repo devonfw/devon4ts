@@ -1,0 +1,15 @@
+export const CONFIG_PROVIDER = 'ConfigProvider';
+
+export interface BaseConfig {
+  env: string;
+  isDev: boolean;
+  port: number;
+  globalPrefix: string;
+  defaultVersion: string;
+  logger: {
+    loggerLevel: string;
+    color: boolean;
+    oneLineStack: boolean;
+    formatter: 'logfmt' | 'separator' | 'json';
+  };
+}

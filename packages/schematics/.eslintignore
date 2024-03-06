@@ -1,7 +1,0 @@
-src/lib/**/files/**/*
-**/src/lib/**/files/**/*
-src/generators/**/files/**/*
-**/src/generators/**/files/**/*
-*.d.ts
-**/*.d.ts
-node_modules

@@ -1,7 +1,0 @@
-{
-  "swagger": {
-    "title": "NestJS Application",
-    "description": "API Documentation",
-    "version": "0.0.1"
-  }
-}

@@ -1,0 +1,58 @@
+import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common';
+import { INQUIRER } from '@nestjs/core';
+import * as winston from 'winston';
+import { BASE_LOGGER } from './create-base-logger';
+
+@Injectable({ scope: Scope.TRANSIENT })
+export class WinstonLogger implements LoggerService {
+  private logger: winston.Logger;
+  private context: string;
+
+  constructor(
+    @Inject(INQUIRER) private readonly parent: object | string,
+    @Inject(BASE_LOGGER) private readonly baseLogger: winston.Logger,
+  ) {
+    this.logger = this.baseLogger.child({});
+    const context = typeof parent === 'string' ? parent : this.parent?.constructor?.name ?? 'main';
+    this.context = context;
+    this.logger.defaultMeta = { context };
+  }
+
+  log(message: string, context?: string, ...extras: string[]): void {
+    this.logger.info(message, { context: context ?? this.context, extras });
+  }
+
+  error(message: string, context?: string, ...extras: string[]): void;
+  error(error: Error, context?: string, ...extras: string[]): void;
+  error(error: unknown, context?: string, ...extras: string[]): void;
+  error(messageOrError: string | Error | unknown, context?: string, ...extras: string[]): void {
+    const meta: Record<string, string | string[] | undefined> = {
+      context: context ?? this.context,
+      extras,
+    };
+    let message: string;
+
+    if (messageOrError instanceof Error) {
+      meta['stack'] = messageOrError.stack;
+      message = messageOrError.message;
+    } else if (typeof messageOrError === 'string') {
+      message = messageOrError;
+    } else {
+      return;
+    }
+
+    this.logger.error(message, meta);
+  }
+
+  warn(message: string, context?: string, ...extras: string[]): void {
+    this.logger.warn(message, { context: context ?? this.context, extras });
+  }
+
+  debug(message: string, context?: string, ...extras: string[]): void {
+    this.logger.debug(message, { context: context ?? this.context, extras });
+  }
+
+  verbose(message: string, context?: string, ...extras: string[]): void {
+    this.logger.verbose(message, { context: context ?? this.context, extras });
+  }
+}
