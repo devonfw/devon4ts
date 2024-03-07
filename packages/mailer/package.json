@@ -1,6 +1,6 @@
 {
   "name": "@devon4ts/mailer",
-  "version": "5.1.0",
+  "version": "6.0.0-0",
   "description": "devon4ts node module that allows you to send emails in a easy way.",
   "keywords": [
     "nestjs",

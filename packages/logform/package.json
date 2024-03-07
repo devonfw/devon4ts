@@ -1,6 +1,6 @@
 {
   "name": "@devon4ts/logform",
-  "version": "5.0.1",
+  "version": "6.0.0-0",
   "description": "devon4ts Winston Logger formatters.",
   "keywords": [
     "nestjs",
