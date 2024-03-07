@@ -94,3 +94,4 @@ samples/todo
 
 
 .nx/cache
+sonar-project.properties

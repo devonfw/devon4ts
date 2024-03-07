@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`entity generator application should generate the entity 1`] = `
+"import { CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from 'typeorm';
+
+@Entity()
+export class Testo {
+  @PrimaryGeneratedColumn('increment')
+  id!: number;
+
+  @VersionColumn({ default: 1 })
+  version!: number;
+
+  @CreateDateColumn()
+  createdAt!: string;
+
+  @UpdateDateColumn()
+  updatedAt!: string;
+}
+"
+`;
+
+exports[`entity generator application should update the library module if no other module is specified 1`] = `
+"import { Module } from '@nestjs/common';
+import { CoreModule } from './core/core.module';
+import { Testo } from './testo.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Testo]), CoreModule],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+"
+`;
+
+exports[`entity generator application should update the specified module 1`] = `undefined`;
+
+exports[`entity generator library should generate the entity 1`] = `
+"import {
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
+
+@Entity()
+export class Testo {
+  @PrimaryGeneratedColumn('increment')
+  id!: number;
+
+  @VersionColumn({ default: 1 })
+  version!: number;
+
+  @CreateDateColumn()
+  createdAt!: string;
+
+  @UpdateDateColumn()
+  updatedAt!: string;
+}
+"
+`;
+
+exports[`entity generator library should update the library module if no other module is specified 1`] = `
+"import { Module } from '@nestjs/common';
+import { Testo } from './testo.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  controllers: [],
+  providers: [],
+  exports: [],
+  imports: [TypeOrmModule.forFeature([Testo])],
+})
+export class TestModule {}
+"
+`;
+
+exports[`entity generator library should update the specified module 1`] = `
+"import { Module } from '@nestjs/common';
+import { Testo } from './testo.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Testo])],
+})
+export class ModuleroModule {}
+"
+`;

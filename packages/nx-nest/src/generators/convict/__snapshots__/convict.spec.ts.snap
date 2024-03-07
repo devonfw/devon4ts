@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`convict generator application files should add config provider as global in core.module 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CONFIG_PROVIDER } from '@proj/shared/config';
+import config from '../../config';
+
+@Global()
+@Module({
+  imports: [LoggerModule],
+  controllers: [],
+  providers: [
+    {
+      provide: CONFIG_PROVIDER,
+      useValue: config,
+    },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+  ],
+  exports: [CONFIG_PROVIDER, LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`convict generator application files should add convict configuration to main.ts 1`] = `
+"/**
+ * This is not a production server yet!
+ * This is only a minimal backend to get started.
+ */
+
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from './app/app.module';
+import { WinstonLogger } from '@proj/shared/logger';
+import { CONFIG_PROVIDER, BaseConfig } from '@proj/shared/config';
+
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const config: BaseConfig = app.get(CONFIG_PROVIDER);
+
+  const logger = await app.resolve(WinstonLogger);
+  app.useLogger(logger);
+
+  const globalPrefix = config.globalPrefix;
+  app.setGlobalPrefix(globalPrefix);
+  const port = config.port ?? 3000;
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
+    }),
+  );
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: config.defaultVersion,
+  });
+  await app.listen(port);
+  Logger.log(\`🚀 Application is running on: http://localhost:\${port}/\${globalPrefix}/v\${config.defaultVersion}\`);
+}
+
+bootstrap();
+"
+`;
+
+exports[`convict generator application files should generate config.ts file 1`] = `
+"import { BaseConfig, config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+
+export default config({
+  ...defaultConfig,
+} as Schema<BaseConfig>);
+"
+`;
+
+exports[`convict generator convict library should generate convict library files 1`] = `
+"export * from './lib/base-config';
+export * from './lib/config';
+export * from './lib/default-config';
+"
+`;
+
+exports[`convict generator logger library should update logger configuration 1`] = `
+"/* istanbul ignore file */
+import { BaseConfig } from '@proj/shared/config';
+import { colorize, oneLineStack, pid } from '@devon4ts/logform';
+import * as winston from 'winston';
+import { loggerFormatters } from './logger-formatters';
+
+export const BASE_LOGGER = 'BaseLoggerProvider';
+
+export function createBaseLogger(config: BaseConfig): winston.Logger {
+  return winston.createLogger({
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      pid(),
+      oneLineStack(config.logger.oneLineStack),
+      colorize(config.logger.color),
+      loggerFormatters[config.logger.formatter](),
+    ),
+    level: config.logger.loggerLevel,
+    transports: new winston.transports.Console(),
+  });
+}
+"
+`;
+
+exports[`convict generator logger library should update logger configuration 2`] = `
+"import { Module } from '@nestjs/common';
+import { BaseConfig, CONFIG_PROVIDER } from '@proj/shared/config';
+import winston from 'winston';
+import { BASE_LOGGER, createBaseLogger } from './create-base-logger';
+import { WinstonLogger } from './winston-logger';
+
+@Module({
+  controllers: [],
+  providers: [
+    WinstonLogger,
+    {
+      provide: BASE_LOGGER,
+      useFactory: (config: BaseConfig): winston.Logger => {
+        return createBaseLogger(config);
+      },
+      inject: [CONFIG_PROVIDER],
+    },
+  ],
+  exports: [WinstonLogger],
+})
+export class LoggerModule {}
+"
+`;
+
+exports[`convict generator root files should update tsconfig.base.json 1`] = `
+"{
+  "compilerOptions": {
+    "paths": {
+      "@proj/shared/config": ["packages/nx-nest/libs/shared/config/src/index.ts"],
+      "@proj/shared/logger": ["packages/nx-nest/libs/shared/logger/src/index.ts"]
+    },
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
+"
+`;

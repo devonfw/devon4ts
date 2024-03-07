@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mailer generator mailer generator with convict should add MailerModule to core.module 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CONFIG_PROVIDER } from '@proj/shared/config';
+import config from '../../config';
+import { MailerModule } from '@devon4ts/mailer';
+import { join } from 'path';
+
+@Global()
+@Module({
+  imports: [ MailerModule.register({
+      mailOptions: {
+        host: config.mailer.mailOptions.host,
+        port: config.mailer.mailOptions.port,
+        secure: config.mailer.mailOptions.secure,
+        tls: {
+          rejectUnauthorized: config.mailer.mailOptions.tlsRejectUnauthorized,
+        },
+      },
+      emailFrom: config.mailer.emailFrom,
+      hbsOptions: {
+        templatesDir: join(__dirname, '../..', config.mailer.hbsOptions.templatesDir),
+        partialsDir: join(__dirname, '../..', config.mailer.hbsOptions.partialsDir),
+        helpers: [],
+      },
+    }),LoggerModule],
+  controllers: [],
+  providers: [
+    {
+      provide: CONFIG_PROVIDER,
+      useValue: config,
+    },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+  ],
+  exports: [ MailerModule,CONFIG_PROVIDER, LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`mailer generator mailer generator with convict should add mailer configuration src/app/shared/app-config.ts 1`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  mailer: {
+        mailOptions: {
+          host: string;
+          port: number;
+          secure: boolean;
+          tlsRejectUnauthorized: boolean;
+        };
+        emailFrom: string;
+        hbsOptions: {
+          templatesDir: string;
+          partialsDir: string;
+        };
+      };
+}
+"
+`;
+
+exports[`mailer generator mailer generator with convict should add mailer configuration src/config.ts 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  mailer: {
+      mailOptions: {
+        host: {
+          doc: 'Mail server host URL',
+          default: 'localhost',
+          format: String,
+          env: 'MAILER_HOST',
+        },
+        port: {
+          doc: 'Mail server port',
+          default: 1025,
+          format: 'port',
+          env: 'MAILER_PORT',
+        },
+        secure: {
+          doc: 'Is the mailer server secured?',
+          default: false,
+          format: Boolean,
+          env: 'MAILER_SECURE',
+        },
+        tlsRejectUnauthorized: {
+          doc: 'Reject unauthorized TLS connections?',
+          default: false,
+          format: Boolean,
+          env: 'MAILER_TLS_REJECT_UNAUTHORIZED',
+        },
+      },
+      emailFrom: {
+        doc: 'Email that will be used as sender',
+        default: 'noreply@example.com',
+        format: String,
+        env: 'MAILER_EMAIL_FROM',
+        arg: 'emailFrom',
+      },
+      hbsOptions: {
+        templatesDir: {
+          doc: 'Relative path to handlebars views folder',
+          default: 'assets/templates/views',
+          format: String,
+        },
+        partialsDir: {
+          doc: 'Relative path to handlebars partials folder',
+          default: 'assets/templates/partials',
+          format: String,
+        },
+      },
+    }
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`mailer generator mailer generator with convict should merge the docker-compose.yaml 1`] = `
+"version: '3'
+services:
+  test:
+    image: test
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - '1025:25'
+      - '1080:80'
+"
+`;
+
+exports[`mailer generator mailer generator without convict should add MailerModule to core.module 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MailerModule } from '@devon4ts/mailer';
+import { join } from 'path';
+
+@Global()
+@Module({
+  imports: [ MailerModule.register({
+      mailOptions: {
+        host: 'localhost',
+        port: 1025,
+        secure: false,
+        tls: {
+          rejectUnauthorized: false,
+        },
+      },
+      emailFrom: 'noreply@example.com',
+      hbsOptions: {
+        templatesDir: join(__dirname, '../..', 'assets/templates/views'),
+        partialsDir: join(__dirname, '../..', 'assets/templates/partials'),
+        helpers: [],
+      },
+    }),LoggerModule],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [ MailerModule,LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`mailer generator mailer generator without convict should merge the docker-compose.yaml 1`] = `
+"version: '3'
+services:
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - '1025:25'
+      - '1080:80'
+"
+`;

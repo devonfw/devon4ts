@@ -1,0 +1,66 @@
+import { Schema } from 'convict';
+import { BaseConfig } from './base-config';
+
+export const defaultConfig: Schema<BaseConfig> = {
+  env: {
+    doc: 'The application environment.',
+    format: ['production', 'develop', 'development', 'test', 'default'],
+    default: 'default',
+    env: 'NODE_ENV',
+    nullable: false,
+  },
+  isDev: {
+    doc: 'Is this a development environment?',
+    format: Boolean,
+    default: true,
+    env: 'IS_DEV',
+    nullable: false,
+  },
+  port: {
+    doc: 'Application port',
+    format: 'port',
+    default: 3000,
+    env: 'PORT',
+    nullable: false,
+  },
+  globalPrefix: {
+    doc: 'API Global Prefix',
+    format: String,
+    default: 'api',
+    env: 'GLOBAL_PREFIX',
+    nullable: false,
+  },
+  defaultVersion: {
+    doc: 'Application default version',
+    format: String,
+    default: '1',
+    env: 'DEFAULT_VERSION',
+    nullable: false,
+  },
+  logger: {
+    loggerLevel: {
+      doc: 'Minimum logger level that you want to show',
+      format: ['info', 'warn', 'error', 'debug', 'verbose'],
+      default: 'debug',
+      env: 'LOGGER_LEVEL',
+    },
+    color: {
+      doc: 'Do you want to show log messages with color?',
+      format: Boolean,
+      default: true,
+      env: 'LOGGER_COLOR',
+    },
+    oneLineStack: {
+      doc: 'Do you want to show error stack traces in one line?',
+      format: Boolean,
+      default: false,
+      env: 'LOGGER_STACK',
+    },
+    formatter: {
+      doc: 'Choose the formatter',
+      format: ['logfmt', 'json', 'separator'],
+      default: 'separator',
+      env: 'LOGGER_FORMATTER',
+    },
+  },
+};

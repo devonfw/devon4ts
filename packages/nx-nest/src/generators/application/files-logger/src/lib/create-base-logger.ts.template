@@ -1,0 +1,20 @@
+/* istanbul ignore file */
+import { colorize, oneLineStack, pid } from '@devon4ts/logform';
+import * as winston from 'winston';
+import { loggerFormatters } from './logger-formatters';
+
+export const BASE_LOGGER = 'BaseLoggerProvider';
+
+export function createBaseLogger(): winston.Logger {
+  return winston.createLogger({
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      pid(),
+      oneLineStack(true),
+      colorize(true),
+      loggerFormatters['separator'](),
+    ),
+    level: 'info',
+    transports: new winston.transports.Console(),
+  });
+}

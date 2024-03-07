@@ -1,0 +1,21 @@
+/* istanbul ignore file */
+import { BaseConfig } from '@<%= npmScope %>/shared/config';
+import { colorize, oneLineStack, pid } from '@devon4ts/logform';
+import * as winston from 'winston';
+import { loggerFormatters } from './logger-formatters';
+
+export const BASE_LOGGER = 'BaseLoggerProvider';
+
+export function createBaseLogger(config: BaseConfig): winston.Logger {
+  return winston.createLogger({
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      pid(),
+      oneLineStack(config.logger.oneLineStack),
+      colorize(config.logger.color),
+      loggerFormatters[config.logger.formatter](),
+    ),
+    level: config.logger.loggerLevel,
+    transports: new winston.transports.Console(),
+  });
+}

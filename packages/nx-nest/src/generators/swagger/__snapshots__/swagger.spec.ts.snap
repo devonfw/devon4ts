@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`swagger generator common swagger generator tasks should add Swagger configuration to main.ts 1`] = `
+"/**
+ * This is not a production server yet!
+ * This is only a minimal backend to get started.
+ */
+
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from './app/app.module';
+import { WinstonLogger } from '@proj/shared/logger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
+  const logger = await app.resolve(WinstonLogger);
+  app.useLogger(logger);
+
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
+  const port = process.env.PORT ?? 3000;
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
+    }),
+  );
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
+  if (process.env.NODE_ENV !== 'production') {
+    const options = new DocumentBuilder()
+      .setTitle('NestJS application')
+      .setDescription('')
+      .setVersion('0.0.1')
+      .addBearerAuth()
+      .build();
+
+    const swaggerDoc = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup(globalPrefix + '/v1/openapi', app, swaggerDoc);
+    Logger.log(\`🍪 OpenAPI is running on http://localhost:\${port}/\${globalPrefix}/v1/openapi\`);
+  }
+  await app.listen(port);
+  Logger.log(\`🚀 Application is running on: http://localhost:\${port}/\${globalPrefix}\`);
+}
+
+bootstrap();
+"
+`;
+
+exports[`swagger generator swagger generator with convict should add Swagger properties to config.ts 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  swagger: {
+    title: {
+      doc: 'Swagger documentation title',
+      default: 'NestJS Application',
+      format: String,
+    },
+    description: {
+      doc: 'Swagger documentation description',
+      default: 'API Documentation',
+      format: String,
+    },
+    version: {
+      doc: 'Swagger documentation version',
+      default: '0.0.1',
+      format: String,
+    },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`swagger generator swagger generator with convict should add Swagger types at app-config 1`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  swagger: {
+    title: string;
+    description: string;
+    version: string;
+  };
+}
+"
+`;

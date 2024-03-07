@@ -1,0 +1,12 @@
+import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@<%= npmScope %>/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+
+@Global()
+@Module({
+  imports: [LoggerModule],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}

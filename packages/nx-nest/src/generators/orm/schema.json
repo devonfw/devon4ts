@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "InitTypeormSchematic",
+  "title": "Init Typeorm Schema",
+  "type": "object",
+  "properties": {
+    "orm": {
+      "type": "string",
+      "enum": ["typeorm"],
+      "default": "typeorm"
+    },
+    "db": {
+      "type": "string",
+      "enum": ["postgres", "cockroachdb", "mariadb", "mysql", "sqlite", "oracle", "mssql", "mongodb"],
+      "default": "sqlite"
+    },
+    "projectName": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "In which project would you like to add typeorm configuration?"
+    }
+  },
+  "required": ["projectName"]
+}

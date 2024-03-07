@@ -1,0 +1,1042 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init-typeorm generator merge the docker compose should merge the cockroachdb docker compose 1`] = `
+"version: '3'
+services:
+  cockroachdb:
+    image: cockroachdb/cockroach:v22.1.6
+    command: start --insecure
+    ports:
+      - '26257:26257'
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the mariadb docker compose 1`] = `
+"version: '3'
+services:
+  mariadb:
+    image: mariadb:10.8.4
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: test
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the mongodb docker compose 1`] = `
+"version: '3'
+services:
+  mongodb:
+    image: mongo:5.0.12
+    container_name: typeorm-mongodb
+    ports:
+      - '27017:27017'
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the mssql docker compose 1`] = `
+"version: '3'
+services:
+  mssql:
+    image: microsoft/mssql-server-linux:rc2
+    ports:
+      - '1433:1433'
+    environment:
+      SA_PASSWORD: Admin12345
+      ACCEPT_EULA: 'Y'
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the mysql docker compose 1`] = `
+"version: '3'
+services:
+  mysql:
+    image: mysql:8.0.30
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: test
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the oracle docker compose 1`] = `
+"{}
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the postgres docker compose 1`] = `
+"version: '3'
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+"
+`;
+
+exports[`init-typeorm generator merge the docker compose should merge the sqlite docker compose 1`] = `
+"version: '3'
+services: null
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with cockroachdb configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+          type: {
+        doc: 'Database provider type',
+        default: 'cockroachdb',
+        format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+        env: 'DATABASE_TYPE',
+        arg: 'databaseType',
+      },
+        host: {
+        doc: 'Database host URL',
+        default: 'localhost',
+        format: String,
+        env: 'DATABASE_HOST',
+        arg: 'databaseHost',
+      },
+        port: {
+        doc: 'Database port',
+        default: 2625,
+        format: 'port',
+        env: 'DATABASE_PORT',
+        arg: 'databasePort',
+      },,
+        username: {
+        doc: 'Database connection username',
+        default: 'root',
+        format: String,
+        env: 'DATABASE_USERNAME',
+        arg: 'databaseUsername',
+      },
+        password: {
+        doc: 'Database connection password',
+        default: '',
+        format: String,
+        secret: true,
+        env: 'DATABASE_PASSWORD',
+        arg: 'databasePassword',
+      },
+        database: {
+        doc: 'Database connection schema',
+        default: 'defaultdb',
+        format: String,
+        env: 'DATABASE_DATABASE',
+        arg: 'databaseDatabase',
+      },
+          synchronize: {
+        doc: 'Do you want to synchronize database tables with you entities?',
+        default: false,
+        format: Boolean,
+      },
+      migrationsRun: {
+        doc: 'Do you want to execute the migrations at application start?',
+        default: true,
+        format: Boolean,
+      },
+      logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+        },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with cockroachdb configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mariadb configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'mariadb',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    port: {
+      doc: 'Database port',
+      default: 3306,
+      format: 'port',
+      env: 'DATABASE_PORT',
+      arg: 'databasePort',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: 'test',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mariadb configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mongodb configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'mongodb',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mongodb configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mssql configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'mssql',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'sa',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: 'Admin12345',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'tempdb',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mssql configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mysql configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'mysql',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    port: {
+      doc: 'Database port',
+      default: 3306,
+      format: 'port',
+      env: 'DATABASE_PORT',
+      arg: 'databasePort',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: 'test',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with mysql configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with oracle configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'oracle',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    port: {
+      doc: 'Database port',
+      default: 1521,
+      format: 'port',
+      env: 'DATABASE_PORT',
+      arg: 'databasePort',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'system',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: 'oracle',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    sid: {
+      doc: 'Database connection SID',
+      default: 'xe.oracle.docker',
+      format: String,
+      env: 'DATABASE_SID',
+      arg: 'databaseSid',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with oracle configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with postgres configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'postgres',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    port: {
+      doc: 'Database port',
+      default: 5432,
+      format: 'port',
+      env: 'DATABASE_PORT',
+      arg: 'databasePort',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: 'test',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'test',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with postgres configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with sqlite configuration 1`] = `
+"import { config, defaultConfig } from '@proj/shared/config';
+import { Schema } from 'convict';
+import { AppConfig } from './app/app-config';
+
+export default config({
+  ...defaultConfig,
+  database: {
+    type: {
+      doc: 'Database provider type',
+      default: 'sqlite',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: ':memory:',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
+} as Schema<AppConfig>);
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the config files with sqlite configuration 2`] = `
+"import { BaseConfig } from '@proj/shared/config';
+
+export interface AppConfig extends BaseConfig {
+  database: {
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+    synchronize: boolean;
+    migrationsRun: boolean;
+    logging: boolean;
+  };
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm with convict should update the core.module with async typeorm configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CONFIG_PROVIDER } from '@proj/shared/config';
+import config from '../../config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useFactory: (config: AppConfig) => ({ ...config.database, entities: [], migrations: [], subscribers: [] }),
+      inject: [CONFIG_PROVIDER],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [
+    {
+      provide: CONFIG_PROVIDER,
+      useValue: config,
+    },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+  ],
+  exports: [CONFIG_PROVIDER, LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update package.json dependencies 1`] = `
+"{
+  "name": "@proj/source",
+  "dependencies": {
+    "@devon4ts/logform": "^5.0.1",
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/core": "^10.0.2",
+    "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/typeorm": "10.0.1",
+    "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "mysql2": "^3.9.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0",
+    "typeorm": "^0.3.20",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@devon4ts/nx-nest": "^5.0.1",
+    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/testing": "^10.0.2",
+    "@nx/eslint": "18.0.7",
+    "@nx/eslint-plugin": "18.0.7",
+    "@nx/jest": "18.0.7",
+    "@nx/js": "18.0.7",
+    "@nx/nest": "18.0.7",
+    "@nx/node": "18.0.7",
+    "@nx/web": "18.0.7",
+    "@nx/webpack": "18.0.7",
+    "@swc-node/register": "~1.8.0",
+    "@swc/core": "~1.3.85",
+    "@swc/helpers": "~0.5.2",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "~8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^9.0.9",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "lint-staged": "^15.2.2",
+    "prettier": "^2.6.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.3.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
+}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with cockroachdb configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'cockroachdb',
+      host: 'localhost',
+      port: 26257,
+      username: 'root',
+      password: '',
+      database: 'defaultdb',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with mariadb configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mariadb',
+      host: 'localhost',
+      port: 3306,
+      username: 'test',
+      password: 'test',
+      database: 'test',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with mongodb configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      database: 'test',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with mssql configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mssql',
+      host: 'localhost',
+      username: 'sa',
+      password: 'Admin12345',
+      database: 'tempdb',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with mysql configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'test',
+      password: 'test',
+      database: 'test',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with oracle configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'oracle',
+      host: 'localhost',
+      port: 1521,
+      username: 'system',
+      password: 'oracle',
+      sid: 'xe.oracle.docker',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with postgres configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'test',
+      password: 'test',
+      database: 'test',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`init-typeorm generator typeorm without convict should update the core.module with sqlite configuration 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppConfig } from '../app-config';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: ':memory:',
+      entities: [],
+      migrations: [],
+      subscribers: [],
+    }),
+    LoggerModule,
+  ],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;

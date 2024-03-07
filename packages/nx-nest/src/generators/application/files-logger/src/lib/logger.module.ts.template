@@ -1,0 +1,19 @@
+import { Module } from '@nestjs/common';
+import * as winston from 'winston';
+import { BASE_LOGGER, createBaseLogger } from './create-base-logger';
+import { WinstonLogger } from './winston-logger';
+
+@Module({
+  controllers: [],
+  providers: [
+    WinstonLogger,
+    {
+      provide: BASE_LOGGER,
+      useFactory: (): winston.Logger => {
+        return createBaseLogger();
+      },
+    },
+  ],
+  exports: [WinstonLogger],
+})
+export class LoggerModule {}

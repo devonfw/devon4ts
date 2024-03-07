@@ -1,0 +1,11 @@
+import convict from 'convict';
+import { BaseConfig } from './base-config';
+
+export function config<T extends BaseConfig>(appConfig: convict.Schema<T>): T {
+  const convictConfig: convict.Config<T> = convict(appConfig);
+
+  // Perform validation
+  convictConfig.validate({ allowed: 'strict' });
+
+  return convictConfig.getProperties();
+}

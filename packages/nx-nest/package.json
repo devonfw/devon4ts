@@ -1,0 +1,50 @@
+{
+  "name": "@devon4ts/nx-nest",
+  "version": "5.0.35",
+  "description": "NX plugin for NestJS using devon4ts",
+  "scripts": {
+    "build": "nx build",
+    "format": "nx format:write",
+    "lint": "nx lint",
+    "test": "nx test"
+  },
+  "keywords": [
+    "nx plugin",
+    "nestjs",
+    "devon4ts"
+  ],
+  "author": {
+    "name": "Capgemini",
+    "url": "https://www.capgemini.com/"
+  },
+  "contributors": [
+    {
+      "name": "Dario Rodriguez Gonzalez",
+      "url": "https://github.com/dario-rodriguez"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonfw/devon4ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devonfw/devon4ts/issues"
+  },
+  "homepage": "https://devonfw.com/docs/typescript/current/",
+  "license": "Apache-2.0",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/devkit": "18.0.7",
+    "@nx/eslint": "18.0.7",
+    "@nx/nest": "18.0.7",
+    "@swc/helpers": "~0.5.2",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "ts-morph": "^21.0.1"
+  },
+  "gitHead": "1f351bcc0fbad70f9c25fa73a398a538ca0c8e55",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/lodash": "^4.14.202"
+  }
+}

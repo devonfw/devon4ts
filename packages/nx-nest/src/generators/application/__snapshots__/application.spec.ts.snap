@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`application generator application should add core module declaration to app module 1`] = `
+"import { Module } from '@nestjs/common';
+import { CoreModule } from './core/core.module';
+
+@Module({
+  imports: [CoreModule],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+"
+`;
+
+exports[`application generator application should generate core module 1`] = `
+"import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
+import { LoggerModule } from '@proj/shared/logger';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+
+@Global()
+@Module({
+  imports: [LoggerModule],
+  controllers: [],
+  providers: [{ provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor }],
+  exports: [LoggerModule],
+})
+export class CoreModule {}
+"
+`;
+
+exports[`application generator application should update main.ts properly 1`] = `
+"/**
+ * This is not a production server yet!
+ * This is only a minimal backend to get started.
+ */
+
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from './app/app.module';
+import { WinstonLogger } from '@proj/shared/logger';
+
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
+  const logger = await app.resolve(WinstonLogger);
+  app.useLogger(logger);
+
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
+  const port = process.env.PORT ?? 3000;
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        excludeExtraneousValues: true,
+      },
+    }),
+  );
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
+  await app.listen(port);
+  Logger.log(\`🚀 Application is running on: http://localhost:\${port}/\${globalPrefix}\`);
+}
+
+bootstrap();
+"
+`;
+
+exports[`application generator global files should add dependencies to package.json 1`] = `
+"{
+  "name": "@proj/source",
+  "dependencies": {
+    "@devon4ts/logform": "^5.0.1",
+    "@nestjs/common": "^10.0.2",
+    "@nestjs/core": "^10.0.2",
+    "@nestjs/platform-express": "^10.0.2",
+    "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@devon4ts/nx-nest": "^5.0.1",
+    "@nestjs/schematics": "^10.0.1",
+    "@nestjs/testing": "^10.0.2",
+    "@nx/eslint": "18.0.7",
+    "@nx/eslint-plugin": "18.0.7",
+    "@nx/jest": "18.0.7",
+    "@nx/js": "18.0.7",
+    "@nx/nest": "18.0.7",
+    "@nx/node": "18.0.7",
+    "@nx/web": "18.0.7",
+    "@nx/webpack": "18.0.7",
+    "@swc-node/register": "~1.8.0",
+    "@swc/core": "~1.3.85",
+    "@swc/helpers": "~0.5.2",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "~8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^9.0.9",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "lint-staged": "^15.2.2",
+    "prettier": "^2.6.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.3.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
+}
+"
+`;
+
+exports[`application generator global files should update the ESLint global configuration 1`] = `
+"{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "no-console": "error",
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "sort-imports": [
+          "error",
+          {
+            "allowSeparatedGroups": false,
+            "ignoreDeclarationSort": true,
+            "ignoreMemberSort": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {}
+    }
+  ]
+}
+"
+`;
+
+exports[`application generator global files should update the global prettier configuration 1`] = `
+"{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "semi": true,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "quoteProps": "consistent",
+  "useTabs": false
+}
+"
+`;
+
+exports[`application generator global files should update the global prettier configuration 2`] = `
+"# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.nx/cache
+**/templates
+"
+`;
+
+exports[`application generator global files should update tsconfig.base.json 1`] = `
+"{
+  "compilerOptions": {
+    "paths": {
+      "@proj/shared/logger": ["packages/nx-nest/libs/shared/logger/src/index.ts"]
+    },
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
+"
+`;
+
+exports[`application generator should run successfully 1`] = `
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "something",
+  "projectType": "application",
+  "root": "packages/nx-nest/apps/something",
+  "sourceRoot": "packages/nx-nest/apps/something/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "configurations": {
+        "development": {
+          "buildTarget": "something:build:development",
+        },
+        "production": {
+          "buildTarget": "something:build:production",
+        },
+      },
+      "defaultConfiguration": "development",
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "something:build",
+      },
+    },
+  },
+}
+`;
+
+exports[`application generator should run successfully 2`] = `
+{
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "shared-logger",
+  "projectType": "library",
+  "root": "packages/nx-nest/libs/shared/logger",
+  "sourceRoot": "packages/nx-nest/libs/shared/logger/src",
+  "tags": [],
+  "targets": {},
+}
+`;

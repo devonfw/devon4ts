@@ -1,0 +1,4 @@
+import { BaseConfig } from '@<%= npmScope %>/shared/config';
+
+export interface AppConfig extends BaseConfig {
+}
