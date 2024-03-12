@@ -4,18 +4,116 @@
 
 devon4ts is the NodeJS stack of devonfw. It allows you to build business applications (backends) using NodeJS technology in standardized way based on established best-practices.
 
-![License](https://img.shields.io/npm/l/@devon4ts/mailer)
-![License](https://img.shields.io/npm/v/@devon4ts/mailer)
-![License](https://img.shields.io/librariesio/release/npm/@devon4ts/mailer)
-![License](https://img.shields.io/npm/dt/@devon4ts/mailer)
+![License](https://img.shields.io/npm/l/@devon4ts/logform)
+![License](https://img.shields.io/npm/v/@devon4ts/logform)
+![License](https://img.shields.io/librariesio/release/npm/@devon4ts/logform)
+![License](https://img.shields.io/npm/dt/@devon4ts/logform)
 
 ## devon4ts logform
 
-This package contains the devon4ts mailer module. This module allows you to send emails in your devon4ts application in a easy way.
+A set of formats for logform
 
-## Documentation
+### Formats
 
-You can find all documentation in our [wiki](https://github.com/devonfw/devon4ts/wiki).
+#### colorize
+
+The `colorize` format adds a set of predefined colours to log messages.
+
+Options:
+
+- **enabled**: flag to enable/disable this feature. Optional.
+
+```typecript
+import { colorize } from '@devon4ts/logform';
+
+const colorizeFormat = colorize();
+
+const info = colorizeFormat.transform({
+  level: 'info',
+  message: 'message',
+  context: 'MyApp',
+});
+
+// {
+//   level: '\x1B[32minfo\x1B[39m',
+//   message: 'message',
+//   context: '\x1B[33mMyApp\x1B[39m'
+// }
+```
+
+#### logfmt
+
+The `logfmt` prints the log using the logfmt pattern.
+
+```typecript
+import { logfmt } from '@devon4ts/logform';
+
+const logfmtFormat = logfmt();
+
+const info = logfmtFormat.transform({
+  level: 'info',
+  message: 'message',
+});
+
+// level=info message=message context=main
+```
+
+#### separator
+
+The `separator` prints the log using the separator pattern.
+
+```typecript
+import { separator } from '@devon4ts/logform';
+
+const separatorFormat = separator();
+
+const info = separatorFormat.transform({
+  level: 'info',
+  message: 'message',
+});
+
+// info | 2022-08-09T21:04:45.764Z | 19493 | main | message
+```
+
+#### oneLineStack
+
+The `oneLineStack` removes the new line (if enabled) in stack traces.
+
+Options:
+
+- **enabled**: flag to enable/disable this feature. Optional.
+
+```typecript
+import { oneLineStack } from '@devon4ts/logform';
+
+const oneLineStackFormatDisabled = oneLineStack(false);
+
+const info = oneLineStackFormatDisabled.transform({
+  level: 'info',
+  message: 'error message',
+  stack: 'error message \n at main.ts'
+});
+
+// {
+//   level: 'info',
+//   message: 'error message',
+//   stack: 'error \n at main.ts'
+// }
+
+const oneLineStackFormatEnabled = oneLineStack();
+
+const info = oneLineStackFormatEnabled.transform({
+  level: 'info',
+  message: 'error message',
+  stack: 'error message \n at main.ts'
+});
+
+// {
+//   level: 'info',
+//   message: 'error message',
+//   stack: 'error message  \\  at main.ts'
+// }
+```
 
 ## Code of conduct
 
