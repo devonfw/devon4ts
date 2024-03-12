@@ -29,6 +29,7 @@ export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSche
   const projectRoot = appConfig.sourceRoot ?? 'src/';
   const existsConvict = existsConvictConfig(tree, projectRoot);
   addSwaggerToMain(tree, projectRoot, existsConvict);
+  updateWebpack(tree, path.join(projectRoot, '..'));
   if (existsConvict) {
     ensureConfigFile(tree, appConfig.root, getNpmScope(tree));
     updateConfigTypeFile(tree, appConfig.root);
@@ -79,4 +80,24 @@ function updateConfigTypeFile(tree: Tree, projectRoot: string): void {
     .build();
 
   tree.write(typesFile, typesFileContent);
+}
+
+function updateWebpack(tree: Tree, projectRoot: string): void {
+  const webpackFile = path.join(projectRoot, 'webpack.config.js');
+
+  let webpackFileContent = tree.read(webpackFile)!.toString('utf-8');
+  webpackFileContent = webpackFileContent.replace(
+    `target: 'node',`,
+    `target: 'node',
+      transformers: [
+        {
+          name: '@nestjs/swagger/plugin',
+          options: {
+            introspectComments: true,
+          },
+        },
+      ],`,
+  );
+
+  tree.write(webpackFile, webpackFileContent);
 }

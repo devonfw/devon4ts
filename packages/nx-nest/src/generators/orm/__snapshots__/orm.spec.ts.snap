@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`init-typeorm generator merge the docker compose should merge the cockroachdb docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the cockroachdb docker compose 1`] = `
 "version: '3'
 services:
   cockroachdb:
@@ -11,7 +11,7 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the mariadb docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the mariadb docker compose 1`] = `
 "version: '3'
 services:
   mariadb:
@@ -26,7 +26,7 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the mongodb docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the mongodb docker compose 1`] = `
 "version: '3'
 services:
   mongodb:
@@ -37,7 +37,7 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the mssql docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the mssql docker compose 1`] = `
 "version: '3'
 services:
   mssql:
@@ -50,7 +50,7 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the mysql docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the mysql docker compose 1`] = `
 "version: '3'
 services:
   mysql:
@@ -65,12 +65,12 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the oracle docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the oracle docker compose 1`] = `
 "{}
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the postgres docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the postgres docker compose 1`] = `
 "version: '3'
 services:
   postgres:
@@ -84,13 +84,13 @@ services:
 "
 `;
 
-exports[`init-typeorm generator merge the docker compose should merge the sqlite docker compose 1`] = `
+exports[`init-orm generator merge the docker compose should merge the sqlite docker compose 1`] = `
 "version: '3'
 services: null
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with cockroachdb configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with cockroachdb configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -98,66 +98,66 @@ import { AppConfig } from './app/app-config';
 export default config({
   ...defaultConfig,
   database: {
-          type: {
-        doc: 'Database provider type',
-        default: 'cockroachdb',
-        format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
-        env: 'DATABASE_TYPE',
-        arg: 'databaseType',
-      },
-        host: {
-        doc: 'Database host URL',
-        default: 'localhost',
-        format: String,
-        env: 'DATABASE_HOST',
-        arg: 'databaseHost',
-      },
-        port: {
-        doc: 'Database port',
-        default: 2625,
-        format: 'port',
-        env: 'DATABASE_PORT',
-        arg: 'databasePort',
-      },,
-        username: {
-        doc: 'Database connection username',
-        default: 'root',
-        format: String,
-        env: 'DATABASE_USERNAME',
-        arg: 'databaseUsername',
-      },
-        password: {
-        doc: 'Database connection password',
-        default: '',
-        format: String,
-        secret: true,
-        env: 'DATABASE_PASSWORD',
-        arg: 'databasePassword',
-      },
-        database: {
-        doc: 'Database connection schema',
-        default: 'defaultdb',
-        format: String,
-        env: 'DATABASE_DATABASE',
-        arg: 'databaseDatabase',
-      },
-          synchronize: {
-        doc: 'Do you want to synchronize database tables with you entities?',
-        default: false,
-        format: Boolean,
-      },
-      migrationsRun: {
-        doc: 'Do you want to execute the migrations at application start?',
-        default: true,
-        format: Boolean,
-      },
-      logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
-        },
+    type: {
+      doc: 'Database provider type',
+      default: 'cockroachdb',
+      format: ['postgres', 'cockroachdb', 'mariadb', 'mysql', 'sqlite', 'oracle', 'mssql', 'mongodb'],
+      env: 'DATABASE_TYPE',
+      arg: 'databaseType',
+    },
+    host: {
+      doc: 'Database host URL',
+      default: 'localhost',
+      format: String,
+      env: 'DATABASE_HOST',
+      arg: 'databaseHost',
+    },
+    port: {
+      doc: 'Database port',
+      default: 2625,
+      format: 'port',
+      env: 'DATABASE_PORT',
+      arg: 'databasePort',
+    },
+    username: {
+      doc: 'Database connection username',
+      default: 'root',
+      format: String,
+      env: 'DATABASE_USERNAME',
+      arg: 'databaseUsername',
+    },
+    password: {
+      doc: 'Database connection password',
+      default: '',
+      format: String,
+      secret: true,
+      env: 'DATABASE_PASSWORD',
+      arg: 'databasePassword',
+    },
+    database: {
+      doc: 'Database connection schema',
+      default: 'defaultdb',
+      format: String,
+      env: 'DATABASE_DATABASE',
+      arg: 'databaseDatabase',
+    },
+    synchronize: {
+      doc: 'Do you want to synchronize database tables with you entities?',
+      default: false,
+      format: Boolean,
+    },
+    migrationsRun: {
+      doc: 'Do you want to execute the migrations at application start?',
+      default: true,
+      format: Boolean,
+    },
+    logging: { doc: 'Do you want to log all database queries?', default: true, format: Boolean },
+  },
 } as Schema<AppConfig>);
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with cockroachdb configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with cockroachdb configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -176,7 +176,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mariadb configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mariadb configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -243,7 +243,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mariadb configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mariadb configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -262,7 +262,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mongodb configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mongodb configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -300,7 +300,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mongodb configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mongodb configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -319,7 +319,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mssql configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mssql configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -379,7 +379,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mssql configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mssql configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -398,7 +398,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mysql configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mysql configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -465,7 +465,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with mysql configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with mysql configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -484,7 +484,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with oracle configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with oracle configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -551,7 +551,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with oracle configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with oracle configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -570,7 +570,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with postgres configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with postgres configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -637,7 +637,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with postgres configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with postgres configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -656,7 +656,7 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with sqlite configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the config files with sqlite configuration 1`] = `
 "import { config, defaultConfig } from '@proj/shared/config';
 import { Schema } from 'convict';
 import { AppConfig } from './app/app-config';
@@ -694,7 +694,7 @@ export default config({
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the config files with sqlite configuration 2`] = `
+exports[`init-orm generator typeorm with convict should update the config files with sqlite configuration 2`] = `
 "import { BaseConfig } from '@proj/shared/config';
 
 export interface AppConfig extends BaseConfig {
@@ -713,20 +713,21 @@ export interface AppConfig extends BaseConfig {
 "
 `;
 
-exports[`init-typeorm generator typeorm with convict should update the core.module with async typeorm configuration 1`] = `
+exports[`init-orm generator typeorm with convict should update the core.module with async typeorm configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CONFIG_PROVIDER } from '@proj/shared/config';
 import config from '../../config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppConfig } from '../app-config';
 
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: (config: AppConfig) => ({ ...config.database, entities: [], migrations: [], subscribers: [] }),
+      useFactory: (config: AppConfig) =>
+        ({ ...config.database, entities: [], migrations: [], subscribers: [] } as TypeOrmModuleOptions),
       inject: [CONFIG_PROVIDER],
     }),
     LoggerModule,
@@ -745,11 +746,11 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update package.json dependencies 1`] = `
+exports[`init-orm generator typeorm without convict should update package.json dependencies 1`] = `
 "{
   "name": "@proj/source",
   "dependencies": {
-    "@devon4ts/logform": "^5.0.1",
+    "@devon4ts/logform": "6.0.0-0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -765,7 +766,7 @@ exports[`init-typeorm generator typeorm without convict should update package.js
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@devon4ts/nx-nest": "^5.0.1",
+    "@devon4ts/nx-nest": "6.0.0-1",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/eslint": "18.0.7",
@@ -802,7 +803,7 @@ exports[`init-typeorm generator typeorm without convict should update package.js
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with cockroachdb configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with cockroachdb configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -833,7 +834,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with mariadb configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with mariadb configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -864,7 +865,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with mongodb configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with mongodb configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -891,7 +892,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with mssql configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with mssql configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -921,7 +922,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with mysql configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with mysql configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -952,7 +953,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with oracle configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with oracle configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -983,7 +984,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with postgres configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with postgres configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -1014,7 +1015,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`init-typeorm generator typeorm without convict should update the core.module with sqlite configuration 1`] = `
+exports[`init-orm generator typeorm without convict should update the core.module with sqlite configuration 1`] = `
 "import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { LoggerModule } from '@proj/shared/logger';
 import { APP_INTERCEPTOR } from '@nestjs/core';

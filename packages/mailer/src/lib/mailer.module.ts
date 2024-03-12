@@ -14,7 +14,7 @@ export class MailerModule {
       templatesDir: './templates/views',
     },
     mailOptions: { streamTransport: true, newline: 'windows' },
-    emailFrom: 'noreply@capgemini.com',
+    emailFrom: 'noreply@example.com',
   };
 
   static register(options?: MailerModuleOptions): DynamicModule {
@@ -23,7 +23,7 @@ export class MailerModule {
       providers: [
         {
           provide: MAILER_OPTIONS_PROVIDER_NAME,
-          useValue: options || this.defaultOptions,
+          useValue: options ?? this.defaultOptions,
         },
         {
           provide: MAILER_TRANSPORT_PROVIDER_NAME,
@@ -50,7 +50,7 @@ export class MailerModule {
     const optionsProvider = {
       provide: MAILER_OPTIONS_PROVIDER_NAME,
       useFactory: options.useFactory,
-      inject: options.inject || [],
+      inject: options.inject ?? [],
     };
 
     return {

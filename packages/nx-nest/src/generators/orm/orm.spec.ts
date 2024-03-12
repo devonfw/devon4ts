@@ -5,7 +5,7 @@ import convictGenerator from '../convict/convict';
 import initOrmGenerator from './orm';
 import { InitTypeormGeneratorSchema } from './schema';
 
-describe('init-typeorm generator', () => {
+describe('init-orm generator', () => {
   describe('not typeorm orm', () => {
     let tree: Tree;
     const options: InitTypeormGeneratorSchema = { projectName: 'test', db: 'mysql', orm: 'prisma' };
