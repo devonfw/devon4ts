@@ -20,7 +20,7 @@ export const databaseConvictOptions: Record<string, string> = {
     ${printDatabase('test')}`,
   cockroachdb: `${printType('cockroachdb')}
     ${printHost('localhost')}
-    ${printPort(2625)},
+    ${printPort(2625)}
     ${printUsername('root')}
     ${printPassword('')}
     ${printDatabase('defaultdb')}`,

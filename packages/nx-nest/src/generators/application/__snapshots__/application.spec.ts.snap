@@ -74,7 +74,7 @@ exports[`application generator global files should add dependencies to package.j
 "{
   "name": "@proj/source",
   "dependencies": {
-    "@devon4ts/logform": "^5.0.1",
+    "@devon4ts/logform": "6.0.0-0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -87,7 +87,7 @@ exports[`application generator global files should add dependencies to package.j
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@devon4ts/nx-nest": "^5.0.1",
+    "@devon4ts/nx-nest": "6.0.0-1",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/eslint": "18.0.7",

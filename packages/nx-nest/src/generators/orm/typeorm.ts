@@ -95,14 +95,16 @@ function addTypeormToCoreModule(tree: Tree, projectRoot: string, database: strin
   fileContent = fileContent.addImports('TypeOrmModule', '@nestjs/typeorm').addImports('AppConfig', '../app-config');
 
   if (existsConvictConfig(tree, projectRoot)) {
-    fileContent.addToModuleDecorator(
-      'CoreModule',
-      `TypeOrmModule.forRootAsync({
-        useFactory: (config: AppConfig) => ({...config.database, entities: [], migrations: [], subscribers: [],}),
+    fileContent
+      .addToModuleDecorator(
+        'CoreModule',
+        `TypeOrmModule.forRootAsync({
+        useFactory: (config: AppConfig) => ({...config.database, entities: [], migrations: [], subscribers: []} as TypeOrmModuleOptions),
         inject: [CONFIG_PROVIDER],
       })`,
-      'imports',
-    );
+        'imports',
+      )
+      ?.addImports('TypeOrmModuleOptions', '@nestjs/typeorm');
   } else {
     fileContent.addToModuleDecorator(
       'CoreModule',
