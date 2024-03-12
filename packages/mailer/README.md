@@ -13,9 +13,96 @@ devon4ts is the NodeJS stack of devonfw. It allows you to build business applica
 
 This package contains the devon4ts mailer module. This module allows you to send emails in your devon4ts application in a easy way.
 
-## Documentation
+## Usage
 
-You can find all documentation in our [wiki](https://github.com/devonfw/devon4ts/wiki).
+### Installation
+
+To start using `@devon4ts/mailer` you just need to import the `MailerModule`:
+
+```typescript
+@Module({
+  imports: [
+    MailerModule.register({
+      mailOptions: {
+        host: 'localhost',
+        port: 1025,
+        secure: false,
+        tls: {
+          rejectUnauthorized: false,
+        },
+      },
+      emailFrom: 'noreply@example.com',
+      hbsOptions: {
+        templatesDir: join(__dirname, '../..', 'assets/templates/views'),
+        partialsDir: join(__dirname, '../..', 'assets/templates/partials'),
+        helpers: [],
+      },
+    }),
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+```
+
+You can also use the asynchronous configuration:
+
+```typescript
+@Module({
+  imports: [
+    MailerModule.registerAsync({
+      useFactory: (config: AppConfig) => config.mailer,
+      inject: [AppConfig],
+    }),
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+```
+
+### Usage
+
+Frist, inject the MailerService:
+
+```typescript
+@Injectable()
+export class AppService {
+  constructor(mailer: MailerService) {}
+}
+```
+
+And then use the `MailerService` methods:
+
+Send a plain email:
+
+```typescript
+mailer.sendPlainMail(to, subject, mailContent);
+```
+
+Send a mail based on a template:
+
+```typescript
+mailer.sendTemplateMail(to, subject, templateName, emailData, hbsOptions);
+```
+
+Add an handlebars template:
+
+```typescript
+mailer.addTemplate(name, template, options);
+```
+
+Register an handlebars partial:
+
+```typescript
+mailer.registerPartial(name, partial);
+```
+
+Register an handlebars helper:
+
+```typescript
+mailer.registerHelper(name, helper);
+```
 
 ## Code of conduct
 
