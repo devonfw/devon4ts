@@ -1,4 +1,4 @@
-import { Tree, readJson } from '@nx/devkit';
+import { ProjectConfiguration, Tree, readJson } from '@nx/devkit';
 import { join } from 'path';
 
 export function existsConvictConfig(tree: Tree, projectRoot: string): boolean {
@@ -28,4 +28,10 @@ export function updateJestConfig(tree: Tree, projectRoot: string): void {
 
 export function findModuleFile(tree: Tree, modulePath: string): string | undefined {
   return tree.children(modulePath).find(m => m.endsWith('.module.ts'));
+}
+
+export function ensureProjectIsAnApplication(config: ProjectConfiguration): void {
+  if (config.projectType === 'library') {
+    throw new Error('This generator can be only used in an application.');
+  }
 }

@@ -8,11 +8,15 @@ import {
   Tree,
 } from '@nx/devkit';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
+import { ensureProjectIsAnApplication } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 import { SecurityGeneratorSchema } from './schema';
 
 export async function securityGenerator(tree: Tree, options: SecurityGeneratorSchema): Promise<GeneratorCallback> {
   const appConfig = readProjectConfiguration(tree, options.projectName);
+
+  ensureProjectIsAnApplication(appConfig);
+
   const mainPath = `${appConfig.sourceRoot ?? 'src'}/main.ts`;
   const tasks = addDependenciesToPackageJson(
     tree,

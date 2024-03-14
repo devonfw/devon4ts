@@ -1,5 +1,6 @@
-import { formatFiles, installPackagesTask, readProjectConfiguration, Tree } from '@nx/devkit';
+import { formatFiles, installPackagesTask, output, readProjectConfiguration, Tree } from '@nx/devkit';
 import { mergeDockerCompose } from '../../utils/merge';
+import { ensureProjectIsAnApplication } from '../../utils/tree-utils';
 import { dbType, InitTypeormGeneratorSchema } from './schema';
 import { generateTypeormConfiguration } from './typeorm';
 
@@ -75,8 +76,12 @@ export async function initOrmGenerator(tree: Tree, options: InitTypeormGenerator
   const appConfig = readProjectConfiguration(tree, options.projectName);
   const projectRoot = appConfig.root;
 
+  ensureProjectIsAnApplication(appConfig);
+
   if (options.orm === 'typeorm') {
     generateTypeormConfiguration(tree, options, projectRoot);
+  } else {
+    output.error({ title: `ORM ${options.orm} not implemented yet` });
   }
   mergeDockerCompose(tree, compose[options.db]);
 
