@@ -8,7 +8,7 @@ import {
 import * as path from 'path';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { ensureConfigFile } from '../../utils/config/config-defaults';
-import { existsConvictConfig, getNpmScope } from '../../utils/tree-utils';
+import { ensureProjectIsAnApplication, existsConvictConfig, getNpmScope } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 import {
   defaultSwaggerConfig,
@@ -20,6 +20,8 @@ import { SwaggerGeneratorSchema } from './schema';
 
 export async function swaggerGenerator(tree: Tree, options: SwaggerGeneratorSchema): Promise<() => void> {
   const appConfig = readProjectConfiguration(tree, options.projectName);
+
+  ensureProjectIsAnApplication(appConfig);
 
   addDependenciesToPackageJson(
     tree,

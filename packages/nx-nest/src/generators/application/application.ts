@@ -56,7 +56,9 @@ export async function applicationGenerator(
 
   const appTasks = await nestApplicationGenerator(tree, normalizedOptions);
   const libTasks = await generateLoggerLibrary(tree, libraryOptions);
-  updatePackageJson(tree);
+  if (!options.skipPackageJson) {
+    updatePackageJson(tree);
+  }
   updateTsconfigJson(tree);
   updatePrettier(tree);
   updateESLint(tree);
@@ -71,7 +73,9 @@ export async function applicationGenerator(
   updateMain(tree, normalizedOptions.appProjectRoot, npmScope);
   addDeclarationToModule(tree, normalizedOptions.appProjectRoot);
 
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
   return runTasksInSerial(
     ...[
       appTasks,

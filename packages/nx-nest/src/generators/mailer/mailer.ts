@@ -10,13 +10,16 @@ import * as path from 'path';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
 import { ensureConfigFile } from '../../utils/config/config-defaults';
 import { mergeDockerCompose } from '../../utils/merge';
-import { existsConvictConfig, getNpmScope } from '../../utils/tree-utils';
+import { ensureProjectIsAnApplication, existsConvictConfig, getNpmScope } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 import { defaultMailerValues, mailerConfigFile, mailerConfigType, mailerValuesFromConfig } from './configvalues';
 import { MailerGeneratorSchema } from './schema';
 
 export async function mailerGenerator(tree: Tree, options: MailerGeneratorSchema): Promise<() => void> {
   const appConfig = readProjectConfiguration(tree, options.projectName);
+
+  ensureProjectIsAnApplication(appConfig);
+
   addDependenciesToPackageJson(
     tree,
     {

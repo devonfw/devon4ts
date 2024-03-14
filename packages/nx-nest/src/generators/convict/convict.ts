@@ -14,12 +14,15 @@ import { libraryGenerator } from '@nx/nest/src/generators/library/library';
 import { NormalizedOptions } from '@nx/nest/src/generators/library/schema';
 import * as path from 'path';
 import { ASTFileBuilder } from '../../utils/ast-file-builder';
-import { getNpmScope, updateJestConfig } from '../../utils/tree-utils';
+import { ensureProjectIsAnApplication, getNpmScope, updateJestConfig } from '../../utils/tree-utils';
 import { packagesVersion } from '../packagesVersion';
 import { ConvictGeneratorSchema } from './schema';
 
 export async function convictGenerator(tree: Tree, options: ConvictGeneratorSchema): Promise<GeneratorCallback> {
   const appConfig = readProjectConfiguration(tree, options.projectName);
+
+  ensureProjectIsAnApplication(appConfig);
+
   const npmScope = getNpmScope(tree);
   const projectRoot = appConfig.root;
   const libraryOptions = await normalizeLibraryOptions(tree, {

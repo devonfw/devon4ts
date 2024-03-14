@@ -6,13 +6,23 @@
   "properties": {
     "orm": {
       "type": "string",
-      "enum": ["typeorm"],
-      "default": "typeorm"
+      "enum": ["typeorm", "prisma", "drizzle"],
+      "default": "typeorm",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "Which ORM do you want to use?"
     },
     "db": {
       "type": "string",
       "enum": ["postgres", "cockroachdb", "mariadb", "mysql", "sqlite", "oracle", "mssql", "mongodb"],
-      "default": "sqlite"
+      "default": "sqlite",
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      },
+      "x-prompt": "Which database engine do you want to use?"
     },
     "projectName": {
       "type": "string",
@@ -21,7 +31,7 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "In which project would you like to add typeorm configuration?"
+      "x-prompt": "In which project would you like to initialize the ORM?"
     }
   },
   "required": ["projectName"]
