@@ -1,3 +1,18 @@
+## 6.0.0-1 (2024-03-18)
+
+### 🚀 Features
+
+- **nx-nest:** swagger generator now updates webpack config to add @nest/swagger plugin ([837277d](https://github.com/dario-rodriguez/devon4node-1/commit/837277d))
+- **nx-nest:** throw an error if generators are not executed in an application ([5a473cf](https://github.com/dario-rodriguez/devon4node-1/commit/5a473cf))
+
+### 🩹 Fixes
+
+- **nx-nest:** update docker compose file name to compose.yaml ([2b27f0d](https://github.com/dario-rodriguez/devon4node-1/commit/2b27f0d))
+
+### ❤️ Thank You
+
+- Dario Rodriguez Gonzalez
+
 ## 6.0.0-0 (2024-03-07)
 
 ### 🚀 Features

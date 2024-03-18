@@ -750,7 +750,7 @@ exports[`init-orm generator typeorm without convict should update package.json d
 "{
   "name": "@proj/source",
   "dependencies": {
-    "@devon4ts/logform": "6.0.0-0",
+    "@devon4ts/logform": "6.0.0-1",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -766,7 +766,7 @@ exports[`init-orm generator typeorm without convict should update package.json d
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@devon4ts/nx-nest": "6.0.0-1",
+    "@devon4ts/nx-nest": "6.0.0-2",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/eslint": "18.0.7",

@@ -1,6 +1,6 @@
 {
   "name": "@devon4ts/source",
-  "version": "6.0.0-0",
+  "version": "6.0.0-1",
   "scripts": {
     "build": "nx run-many -t build",
     "prepublish": "pnpm run build",
