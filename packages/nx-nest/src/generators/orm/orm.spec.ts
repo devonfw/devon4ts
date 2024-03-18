@@ -235,42 +235,42 @@ describe('init-orm generator', () => {
 
     it('should merge the mysql docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'mysql' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the mariadb docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'mariadb' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the cockroachdb docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'cockroachdb' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the mongodb docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'mongodb' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the mssql docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'mssql' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the oracle docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'oracle' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the postgres docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'postgres' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
 
     it('should merge the sqlite docker compose', async () => {
       await initOrmGenerator(tree, { ...options, db: 'sqlite' });
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
   });
 });

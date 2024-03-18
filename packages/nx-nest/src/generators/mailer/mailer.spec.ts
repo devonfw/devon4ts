@@ -42,8 +42,8 @@ describe('mailer generator', () => {
       expect(fileContent).toMatchSnapshot();
     });
 
-    it('should merge the docker-compose.yaml', () => {
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+    it('should merge the compose.yaml', () => {
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
   });
 
@@ -58,7 +58,7 @@ describe('mailer generator', () => {
         directory: 'apps/test',
       });
       tree.write(
-        'docker-compose.yml',
+        'compose.yaml',
         `version: '3'
 services:
   test:
@@ -105,8 +105,8 @@ services:
       expect(fileContent).toMatchSnapshot();
     });
 
-    it('should merge the docker-compose.yaml', () => {
-      expect(tree.read('docker-compose.yml')?.toString('utf-8')).toMatchSnapshot();
+    it('should merge the compose.yaml', () => {
+      expect(tree.read('compose.yaml')?.toString('utf-8')).toMatchSnapshot();
     });
   });
 });
