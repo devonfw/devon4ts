@@ -7,7 +7,7 @@ export function mergeYmlFile(content1: string, content2: string): string {
 }
 
 export function mergeDockerCompose(tree: Tree, content: string): void {
-  const dockerComposePath = 'docker-compose.yml';
+  const dockerComposePath = 'compose.yaml';
   const dockerComposeYml = tree.read(dockerComposePath)?.toString('utf-8') ?? '';
 
   tree.write(dockerComposePath, mergeYmlFile(dockerComposeYml, content));

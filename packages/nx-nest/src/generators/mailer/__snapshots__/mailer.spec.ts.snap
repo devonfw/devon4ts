@@ -120,7 +120,7 @@ export default config({
 "
 `;
 
-exports[`mailer generator mailer generator with convict should merge the docker-compose.yaml 1`] = `
+exports[`mailer generator mailer generator with convict should merge the compose.yaml 1`] = `
 "version: '3'
 services:
   test:
@@ -166,7 +166,7 @@ export class CoreModule {}
 "
 `;
 
-exports[`mailer generator mailer generator without convict should merge the docker-compose.yaml 1`] = `
+exports[`mailer generator mailer generator without convict should merge the compose.yaml 1`] = `
 "version: '3'
 services:
   maildev:
